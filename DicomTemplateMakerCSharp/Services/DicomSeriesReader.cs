@@ -16,6 +16,11 @@ namespace DicomTemplateMakerCSharp.Services
         ImageSeriesReader series_reader;
         Image dicomImage;
         string loaded_series_instace_uid;
+        Dictionary<string, DicomTag> dicom_tags_dict = new Dictionary<string, DicomTag>() { { "0008|0020", DicomTag.StudyDate } ,
+            { "0008|0030", DicomTag.StudyTime } , { "0008|0050", DicomTag.AccessionNumber },
+            { "0008|0090", DicomTag.ReferringPhysicianName}, { "0008|1030", DicomTag.StudyDescription} , { "0010|0010", DicomTag.PatientName },
+            { "0010|0020", DicomTag.PatientID}, { "0010|0030", DicomTag.PatientBirthDate}, { "0010|0040", DicomTag.PatientSex} ,
+            { "0020|000d", DicomTag.StudyInstanceUID}, { "0020|0010", DicomTag.StudyID}, { "0020|0052", DicomTag.FrameOfReferenceUID} };
         public DicomSeriesReader()
         {
             dicomParser = new DicomParser();
@@ -33,18 +38,20 @@ namespace DicomTemplateMakerCSharp.Services
         }
         public void load_DICOM(string series_instance_uid)
         {
-            string image_uid;
+            string image_uid, value;
             VectorString dicom_filenames = dicomParser.series_instance_uids_dict[series_instance_uid];
             series_reader.SetFileNames(dicom_filenames);
-            dicomImage = series_reader.Execute();
-            uint test = 0;
-            series_reader.GetMetaDataKeys(test);
-            dicomImage.GetMetaData("0020|000e");
-            image_uid = series_reader.GetMetaData(0, "0020|000e");
+            update_template();
         }
-        public void update_tags()
+        public void update_template()
         {
-
+            foreach (string key in dicom_tags_dict.Keys)
+            {
+                if (series_reader.HasMetaDataKey(0, key))
+                {
+                    RT_file.Dataset.AddOrUpdate(dicom_tags_dict[key], series_reader.GetMetaData(0, key));
+                }
+            }
         }
     }
 }
