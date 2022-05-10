@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BMAnderson.Util.DicomFolderParser" Version="1.1.0" />
     <PackageReference Include="fo-dicom" Version="5.0.2" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
 ﻿using System;
-using FellowOakDicom;
+using DicomTemplateMakerCSharp.Services;
 
 namespace DicomTemplateMakerCSharp
 {
@@ -8,9 +8,15 @@ namespace DicomTemplateMakerCSharp
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            string dicom_file = @"C:\Users\b5anderson\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
-            var file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
-            string modality = file.Dataset.GetString(DicomTag.Modality);
+            string temp_folder = @"C:\Users\b5anderson\Modular_Projects\Temp_Patient";
+            DicomSeriesReader reader = new DicomSeriesReader();
+            reader.parse_folder(temp_folder);
+            foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
+            {
+                reader.load_DICOM(uid);
+                reader.update_tags();
+            }
+            
         }
     }
 }
