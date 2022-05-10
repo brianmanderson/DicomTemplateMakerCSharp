@@ -23,6 +23,8 @@ namespace DicomTemplateMakerCSharp.Services
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             series_reader = new ImageSeriesReader();
             series_reader.LoadPrivateTagsOn();
+            series_reader.MetaDataDictionaryArrayUpdateOn();
+            series_reader.SetOutputPixelType(PixelIDValueEnum.sitkFloat32);
             loaded_series_instace_uid = "";
         }
         public void parse_folder(string directory)
@@ -35,6 +37,9 @@ namespace DicomTemplateMakerCSharp.Services
             VectorString dicom_filenames = dicomParser.series_instance_uids_dict[series_instance_uid];
             series_reader.SetFileNames(dicom_filenames);
             dicomImage = series_reader.Execute();
+            uint test = 0;
+            series_reader.GetMetaDataKeys(test);
+            dicomImage.GetMetaData("0020|000e");
             image_uid = series_reader.GetMetaData(0, "0020|000e");
         }
         public void update_tags()
