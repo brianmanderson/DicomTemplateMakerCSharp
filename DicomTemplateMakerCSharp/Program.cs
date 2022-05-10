@@ -14,7 +14,6 @@ namespace DicomTemplateMakerCSharp
             foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
             {
                 reader.load_DICOM(uid);
-                reader.update_tags();
             }
             
         }

@@ -16,11 +16,14 @@ namespace DicomTemplateMakerCSharp.Services
         ImageSeriesReader series_reader;
         Image dicomImage;
         string loaded_series_instace_uid;
-        Dictionary<string, DicomTag> dicom_tags_dict = new Dictionary<string, DicomTag>() { { "0008|0020", DicomTag.StudyDate } ,
-            { "0008|0030", DicomTag.StudyTime } , { "0008|0050", DicomTag.AccessionNumber },
-            { "0008|0090", DicomTag.ReferringPhysicianName}, { "0008|1030", DicomTag.StudyDescription} , { "0010|0010", DicomTag.PatientName },
-            { "0010|0020", DicomTag.PatientID}, { "0010|0030", DicomTag.PatientBirthDate}, { "0010|0040", DicomTag.PatientSex} ,
-            { "0020|000d", DicomTag.StudyInstanceUID}, { "0020|0010", DicomTag.StudyID}, { "0020|0052", DicomTag.FrameOfReferenceUID} };
+        Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} ,
+            { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"},
+            { DicomTag.ReferringPhysicianName, "0008|0090"}, { DicomTag.StudyDescription, "0008|1030" } , {DicomTag.PatientName, "0010|0010" },
+            { DicomTag.PatientID, "0010|0020" }, { DicomTag.PatientBirthDate, "0010|0030" }, { DicomTag.PatientSex, "0010|0040" } ,
+            { DicomTag.StudyInstanceUID, "0020|000d" }, { DicomTag.StudyID, "0020|0010" }, { DicomTag.FrameOfReferenceUID, "0020|0052" }, { DicomTag.SOPInstanceUID, "0008|0018"} };
+        List<DicomTag> change_tags = new List<DicomTag> { DicomTag.StudyDate, DicomTag.StudyTime, DicomTag.AccessionNumber, DicomTag.ReferringPhysicianName,
+            DicomTag.StudyDescription, DicomTag.PatientName, DicomTag.PatientID, DicomTag.PatientBirthDate, DicomTag.PatientSex, DicomTag.StudyInstanceUID,
+            DicomTag.StudyID, DicomTag.FrameOfReferenceUID };
         public DicomSeriesReader()
         {
             dicomParser = new DicomParser();
@@ -41,17 +44,51 @@ namespace DicomTemplateMakerCSharp.Services
             string image_uid, value;
             VectorString dicom_filenames = dicomParser.series_instance_uids_dict[series_instance_uid];
             series_reader.SetFileNames(dicom_filenames);
+            dicomImage = series_reader.Execute();
             update_template();
         }
         public void update_template()
         {
-            foreach (string key in dicom_tags_dict.Keys)
+            foreach (DicomTag key in change_tags)
             {
-                if (series_reader.HasMetaDataKey(0, key))
+                if (series_reader.HasMetaDataKey(0, dicom_tags_dict[key]))
                 {
-                    RT_file.Dataset.AddOrUpdate(dicom_tags_dict[key], series_reader.GetMetaData(0, key));
+                    RT_file.Dataset.AddOrUpdate(key, series_reader.GetMetaData(0, dicom_tags_dict[key]));
                 }
             }
+            DicomDataset refFrameofRefSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ReferencedFrameOfReferenceSequence).Items[0];
+            refFrameofRefSequence.AddOrUpdate(DicomTag.FrameOfReferenceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.FrameOfReferenceUID]));
+
+            DicomDataset rtRefStudySequence = refFrameofRefSequence.GetDicomItem<DicomSequence>(DicomTag.RTReferencedStudySequence).Items[0];
+            rtRefStudySequence.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.StudyInstanceUID]));
+
+            DicomDataset rTReferencedSeriesSequence = rtRefStudySequence.GetDicomItem<DicomSequence>(DicomTag.RTReferencedSeriesSequence).Items[0];
+            rTReferencedSeriesSequence.AddOrUpdate(DicomTag.SeriesInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SeriesInstanceUID]));
+
+            DicomSequence contourImageSequence = rTReferencedSeriesSequence.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
+            DicomDataset fill_segment_base = new DicomDataset(contourImageSequence.Items[0]);
+            int total = contourImageSequence.Items.Count;
+            for (int i = 0; i < total; i++)
+            {
+                contourImageSequence.Items.RemoveAt(0);
+            }
+            for (uint i = 0; i < dicomImage.GetSize()[2]; i++)
+            {
+                DicomDataset fill_segment = new DicomDataset(fill_segment_base);
+                fill_segment.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(i, dicom_tags_dict[DicomTag.SOPInstanceUID]));
+                contourImageSequence.Items.Add(fill_segment);
+            }
+            rTReferencedSeriesSequence.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
+            rTReferencedSeriesSequence.AddOrUpdate<DicomSequence>(DicomTag.ContourImageSequence);
+            //rTReferencedSeriesSequence.AddOrUpdate(DicomTag.ContourImageSequence, newcontourImageSequence);
+            rtRefStudySequence.AddOrUpdate(DicomTag.RTReferencedSeriesSequence, rTReferencedSeriesSequence);
+            refFrameofRefSequence.AddOrUpdate(DicomTag.RTReferencedStudySequence, rtRefStudySequence);
+            int x = 5;
+        }
+        public void add_RTs()
+        {
+            Dictionary<string, string> name_color_dict = new Dictionary<string, string>() { { "Parotid_R", "Blue" } };
+
         }
     }
 }
