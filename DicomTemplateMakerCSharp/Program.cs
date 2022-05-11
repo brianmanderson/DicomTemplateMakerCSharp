@@ -8,7 +8,7 @@ namespace DicomTemplateMakerCSharp
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            string temp_folder = @"C:\Users\b5anderson\Modular_Projects\Temp_Patient";
+            string temp_folder = @"O:\BMAnderson\BMA_Export";
             DicomSeriesReader reader = new DicomSeriesReader();
             reader.parse_folder(temp_folder);
             foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
