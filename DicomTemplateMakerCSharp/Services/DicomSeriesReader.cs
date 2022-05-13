@@ -28,6 +28,7 @@ namespace DicomTemplateMakerCSharp.Services
         {
             dicomParser = new DicomParser();
             string dicom_file = @"C:\Users\b5anderson\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
+            dicom_file = @"\\ucsdhc-varis2\radonc$\BMAnderson\BMA_Export\newtest.dcm";
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             series_reader = new ImageSeriesReader();
             series_reader.LoadPrivateTagsOn();
@@ -45,9 +46,8 @@ namespace DicomTemplateMakerCSharp.Services
             VectorString dicom_filenames = dicomParser.series_instance_uids_dict[series_instance_uid];
             series_reader.SetFileNames(dicom_filenames);
             dicomImage = series_reader.Execute();
-            update_template();
         }
-        public void update_template()
+        public void update_template(bool delete_contours)
         {
             foreach (DicomTag key in change_tags)
             {
@@ -56,37 +56,48 @@ namespace DicomTemplateMakerCSharp.Services
                     RT_file.Dataset.AddOrUpdate(key, series_reader.GetMetaData(0, dicom_tags_dict[key]));
                 }
             }
+            if (delete_contours)
+            {
+                /// Delete the previous ContourSequence
+                DicomSequence roiContourSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
+                foreach (DicomDataset roiContour in roiContourSequence.Items)
+                {
+                    roiContour.Remove(DicomTag.ContourSequence);
+                }
+                RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
+                RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
+                // Make a new SeriesInstanceUID!!!
+            }
+            /// Update the SOP Instance UIDS
             DicomSequence refFrameofRefSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ReferencedFrameOfReferenceSequence);
-            DicomDataset refFrameofRef = refFrameofRefSequence.Items[0];
-            refFrameofRef.AddOrUpdate(DicomTag.FrameOfReferenceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.FrameOfReferenceUID]));
-
-            DicomSequence rtRefStudySequence = refFrameofRef.GetDicomItem<DicomSequence>(DicomTag.RTReferencedStudySequence);
-            DicomDataset rtRefStudy = rtRefStudySequence.Items[0];
-            rtRefStudy.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.StudyInstanceUID]));
-
-            DicomSequence rTReferencedSeriesSequence = rtRefStudy.GetDicomItem<DicomSequence>(DicomTag.RTReferencedSeriesSequence);
-            DicomDataset rTReferencedSeries = rTReferencedSeriesSequence.Items[0];
-            rTReferencedSeries.AddOrUpdate(DicomTag.SeriesInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SeriesInstanceUID]));
-
-            DicomSequence contourImageSequence = rTReferencedSeries.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
-            DicomDataset fill_segment_base = new DicomDataset(contourImageSequence.Items[0]);
-            int total = contourImageSequence.Items.Count;
-            for (int i = 0; i < total; i++)
+            foreach (DicomDataset refFrameofRef in refFrameofRefSequence.Items)
             {
-                contourImageSequence.Items.RemoveAt(0);
+                refFrameofRef.AddOrUpdate(DicomTag.FrameOfReferenceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.FrameOfReferenceUID]));
+                DicomSequence rtRefStudySequence = refFrameofRef.GetDicomItem<DicomSequence>(DicomTag.RTReferencedStudySequence);
+                foreach (DicomDataset rtRefStudy in rtRefStudySequence)
+                {
+                    rtRefStudy.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.StudyInstanceUID]));
+                    DicomSequence rTReferencedSeriesSequence = rtRefStudy.GetDicomItem<DicomSequence>(DicomTag.RTReferencedSeriesSequence);
+                    foreach (DicomDataset rTReferencedSeries in rTReferencedSeriesSequence)
+                    {
+                        rTReferencedSeries.AddOrUpdate(DicomTag.SeriesInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SeriesInstanceUID]));
+                        DicomSequence contourImageSequence = rTReferencedSeries.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
+                        DicomDataset fill_segment_base = new DicomDataset(contourImageSequence.Items[0]);
+                        int total = contourImageSequence.Items.Count;
+                        for (int i = 0; i < total; i++)
+                        {
+                            contourImageSequence.Items.RemoveAt(0);
+                        }
+                        for (uint i = 0; i < dicomImage.GetSize()[2]; i++)
+                        {
+                            DicomDataset fill_segment = new DicomDataset(fill_segment_base);
+                            fill_segment.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(i, dicom_tags_dict[DicomTag.SOPInstanceUID]));
+                            contourImageSequence.Items.Add(fill_segment);
+                        }
+                    }
+                }
             }
-            for (uint i = 0; i < dicomImage.GetSize()[2]; i++)
-            {
-                DicomDataset fill_segment = new DicomDataset(fill_segment_base);
-                fill_segment.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(i, dicom_tags_dict[DicomTag.SOPInstanceUID]));
-                contourImageSequence.Items.Add(fill_segment);
-            }
-            rTReferencedSeriesSequence.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
-            rTReferencedSeriesSequence.AddOrUpdate<DicomSequence>(DicomTag.ContourImageSequence);
-            //rTReferencedSeriesSequence.AddOrUpdate(DicomTag.ContourImageSequence, newcontourImageSequence);
-            rtRefStudySequence.AddOrUpdate(DicomTag.RTReferencedSeriesSequence, rTReferencedSeriesSequence);
-            refFrameofRefSequence.AddOrUpdate(DicomTag.RTReferencedStudySequence, rtRefStudySequence);
-            int x = 5;
+            RT_file.Save(@"\\ucsdhc-varis2\radonc$\BMAnderson\TT\test.dcm");
         }
         public void add_RTs()
         {
