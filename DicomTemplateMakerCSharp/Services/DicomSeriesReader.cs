@@ -27,8 +27,7 @@ namespace DicomTemplateMakerCSharp.Services
         public DicomSeriesReader()
         {
             dicomParser = new DicomParser();
-            string dicom_file = @"C:\Users\b5anderson\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
-            dicom_file = @"\\ucsdhc-varis2\radonc$\BMAnderson\BMA_Export\newtest.dcm";
+            string dicom_file = @"C:\Users\markb\Modular_Projects\Example_Data\Data\Image_Data\T1\Post1\001\Base.dcm";
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             series_reader = new ImageSeriesReader();
             series_reader.LoadPrivateTagsOn();
@@ -66,7 +65,6 @@ namespace DicomTemplateMakerCSharp.Services
                 }
                 RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
                 RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
-                // Make a new SeriesInstanceUID!!!
             }
             /// Update the SOP Instance UIDS
             DicomSequence refFrameofRefSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ReferencedFrameOfReferenceSequence);
@@ -97,7 +95,7 @@ namespace DicomTemplateMakerCSharp.Services
                     }
                 }
             }
-            RT_file.Save(@"\\ucsdhc-varis2\radonc$\BMAnderson\TT\test.dcm");
+            RT_file.Save(@"C:\Users\markb\Modular_Projects\Example_Data\Data\Image_Data\T1\Post1\001\test.dcm");
         }
         public void add_RTs()
         {
