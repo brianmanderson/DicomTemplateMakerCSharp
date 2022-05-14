@@ -12,8 +12,8 @@ namespace DicomTemplateMakerCSharp
         {
             string roiname, color, interperter;
             Console.WriteLine("Hello World!");
-            string[] templates = Directory.GetFiles(@".", "*Template*.txt", SearchOption.AllDirectories);
             DicomSeriesReader reader = new DicomSeriesReader();
+            string[] templates = Directory.GetFiles(@".", "*Template*.txt", SearchOption.AllDirectories);
             foreach (string template_file in templates)
             {
                 List<ROIClass> rois = new List<ROIClass>();
@@ -30,6 +30,10 @@ namespace DicomTemplateMakerCSharp
                     roiname = instructions[0];
                     color = instructions[1];
                     interperter = instructions[2];
+                    rois.Add(new ROIClass(color, roiname, interperter));
+                    instructions.RemoveAt(0);
+                    instructions.RemoveAt(1);
+                    instructions.RemoveAt(2);
                 }
                 reader.parse_folder(temp_folder);
                 foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
