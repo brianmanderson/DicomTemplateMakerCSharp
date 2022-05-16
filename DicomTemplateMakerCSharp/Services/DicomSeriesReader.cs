@@ -16,6 +16,8 @@ namespace DicomTemplateMakerCSharp.Services
         ImageSeriesReader series_reader;
         Image dicomImage;
         string loaded_series_instace_uid;
+        private DicomDataset rt_contour, rt_observation, rt_structure_set;
+        List<int> referenced_roi_number_list, observation_number_list;
         Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} ,
             { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"},
             { DicomTag.ReferringPhysicianName, "0008|0090"}, { DicomTag.StudyDescription, "0008|1030" } , {DicomTag.PatientName, "0010|0010" },
@@ -57,6 +59,50 @@ namespace DicomTemplateMakerCSharp.Services
             RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
             RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
         }
+        public void capture_temp()
+        {
+            rt_structure_set = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0];
+            rt_observation = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0];
+            rt_contour = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0];
+        }
+        public void build_reference_numbers()
+        {
+            referenced_roi_number_list = new List<int>();
+            observation_number_list = new List<int>();
+            foreach (DicomDataset rt_structure_set in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence))
+            {
+                int roi_number = rt_structure_set.GetSingleValue<int>(DicomTag.ROINumber);
+                if (!referenced_roi_number_list.Contains(roi_number))
+                {
+                    referenced_roi_number_list.Add(roi_number);
+                }
+            }
+            foreach (DicomDataset roi_contour_set in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
+            {
+                int roi_number = roi_contour_set.GetSingleValue<int>(DicomTag.ReferencedROINumber);
+                if (!referenced_roi_number_list.Contains(roi_number))
+                {
+                    referenced_roi_number_list.Add(roi_number);
+                }
+            }
+            foreach (DicomDataset roi_observation_set in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence))
+            {
+                int roi_number = roi_observation_set.GetSingleValue<int>(DicomTag.ReferencedROINumber);
+                if (!referenced_roi_number_list.Contains(roi_number))
+                {
+                    referenced_roi_number_list.Add(roi_number);
+                }
+                int observation_label = roi_observation_set.GetSingleValue<int>(DicomTag.ObservationNumber);
+                if (!observation_number_list.Contains(observation_label))
+                {
+                    observation_number_list.Add(observation_label);
+                }
+            }
+        }
+        public void add_roi(ROIClass roi_class)
+        {
+
+        }
         public void update_template(bool delete_contours)
         {
             foreach (DicomTag key in change_tags)
@@ -70,6 +116,7 @@ namespace DicomTemplateMakerCSharp.Services
             {
                 delete_all_contours();
             }
+            build_reference_numbers();
             /// Update the SOP Instance UIDS
             DicomSequence refFrameofRefSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ReferencedFrameOfReferenceSequence);
             foreach (DicomDataset refFrameofRef in refFrameofRefSequence.Items)
@@ -99,7 +146,6 @@ namespace DicomTemplateMakerCSharp.Services
                     }
                 }
             }
-            
         }
         public void save_RT(string file_name)
         {
