@@ -27,7 +27,7 @@ namespace DicomTemplateMakerCSharp.Services
         public DicomSeriesReader()
         {
             dicomParser = new DicomParser();
-            string dicom_file = @"C:\Users\markb\Modular_Projects\Example_Data\Data\Image_Data\T1\Post1\001\Base.dcm";
+            string dicom_file = @"C:\Users\b5anderson\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             series_reader = new ImageSeriesReader();
             series_reader.LoadPrivateTagsOn();
@@ -46,6 +46,17 @@ namespace DicomTemplateMakerCSharp.Services
             series_reader.SetFileNames(dicom_filenames);
             dicomImage = series_reader.Execute();
         }
+        public void delete_all_contours()
+        {
+            /// Delete the previous ContourSequence
+            DicomSequence roiContourSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
+            foreach (DicomDataset roiContour in roiContourSequence.Items)
+            {
+                roiContour.Remove(DicomTag.ContourSequence);
+            }
+            RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
+            RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
+        }
         public void update_template(bool delete_contours)
         {
             foreach (DicomTag key in change_tags)
@@ -57,14 +68,7 @@ namespace DicomTemplateMakerCSharp.Services
             }
             if (delete_contours)
             {
-                /// Delete the previous ContourSequence
-                DicomSequence roiContourSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
-                foreach (DicomDataset roiContour in roiContourSequence.Items)
-                {
-                    roiContour.Remove(DicomTag.ContourSequence);
-                }
-                RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
-                RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
+                delete_all_contours();
             }
             /// Update the SOP Instance UIDS
             DicomSequence refFrameofRefSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ReferencedFrameOfReferenceSequence);
@@ -95,7 +99,11 @@ namespace DicomTemplateMakerCSharp.Services
                     }
                 }
             }
-            RT_file.Save(@"C:\Users\markb\Modular_Projects\Example_Data\Data\Image_Data\T1\Post1\001\test.dcm");
+            
+        }
+        public void save_RT(string file_name)
+        {
+            RT_file.Save(file_name);
         }
         public void add_RTs()
         {
