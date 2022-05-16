@@ -28,7 +28,7 @@ namespace DicomTemplateMakerCSharp.Services
                     if (Directory.Exists(Path.Join(template_directory, "ROIs")))
                     {
                         List<ROIClass> rois = new List<ROIClass>();
-                        foreach (string roi_file in Directory.GetFiles(Path.Join(template_directory, "ROIs", "*.txt")))
+                        foreach (string roi_file in Directory.GetFiles(Path.Join(template_directory, "ROIs"), "*.txt"))
                         {
                             roiname = Path.GetFileName(roi_file).Split(".txt")[0];
                             string[] instructions = File.ReadAllLines(roi_file);
@@ -49,10 +49,14 @@ namespace DicomTemplateMakerCSharp.Services
         {
             foreach (string path in template_dictionary.Keys)
             {
+                if (!Directory.Exists(path))
+                {
+                    continue;
+                }
                 string[] all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
                 foreach (string directory in all_directories)
                 {
-                    string[] dicom_files = Directory.GetFiles(path, "*.dcm");
+                    string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
                     if (dicom_files.Length > 0)
                     {
                         reader.parse_folder(directory);

@@ -1,0 +1,7 @@
+C:\Users\markb\Modular_Projects\Template_Folder\HN_Folder
+Parotid_R
+255,255,255
+PTV
+Parotid_L
+255,255,255
+CTV
