@@ -15,8 +15,8 @@ namespace DicomTemplateMakerCSharp.Services
         DicomFile RT_file;
         ImageSeriesReader series_reader;
         Image dicomImage;
-        string loaded_series_instace_uid;
         private DicomDataset rt_contour, rt_observation, rt_structure_set;
+        string loaded_series_instance_uid;
         List<int> referenced_roi_number_list, observation_number_list;
         Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} ,
             { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"},
@@ -35,7 +35,7 @@ namespace DicomTemplateMakerCSharp.Services
             series_reader.LoadPrivateTagsOn();
             series_reader.MetaDataDictionaryArrayUpdateOn();
             series_reader.SetOutputPixelType(PixelIDValueEnum.sitkFloat32);
-            loaded_series_instace_uid = "";
+            loaded_series_instance_uid = "";
         }
         public void parse_folder(string directory)
         {
@@ -64,6 +64,9 @@ namespace DicomTemplateMakerCSharp.Services
             rt_structure_set = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0];
             rt_observation = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0];
             rt_contour = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0];
+        }
+        public void make_reference()
+        {
         }
         public void build_reference_numbers()
         {
@@ -101,6 +104,10 @@ namespace DicomTemplateMakerCSharp.Services
         }
         public void add_roi(ROIClass roi_class)
         {
+            DicomDataset rt_structure_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0]);
+            DicomDataset roi_contour_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0]);
+            DicomDataset roi_observation_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0]);
+            int i = 0;
 
         }
         public void update_template(bool delete_contours)
