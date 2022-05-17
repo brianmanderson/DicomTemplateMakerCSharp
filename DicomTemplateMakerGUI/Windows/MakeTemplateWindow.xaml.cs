@@ -17,7 +17,8 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
-using System.Threading.Tasks;
+using DicomTemplateMakerGUI.Services;
+
 namespace DicomTemplateMakerGUI.Windows
 {
     /// <summary>
@@ -39,10 +40,12 @@ namespace DicomTemplateMakerGUI.Windows
             dialog.InitialDirectory = ".";
             dialog.IsFolderPicker = false;
             file_selected = false;
+            OutPath_Button.IsEnabled = false;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
+                OutPath_Button.IsEnabled = true;
                 file_selected = true;
             }
             check_status();
@@ -50,19 +53,15 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            TemplateMaker template_maker = new TemplateMaker(dicom_file, out_path);
+            template_maker.make_template();
         }
         private void check_status()
         {
             BuildButton.IsEnabled = false;
-            OutPath_Button.IsEnabled = false;
-            if (file_selected)
+            if (file_selected & folder_selected)
             {
-                OutPath_Button.IsEnabled = true;
-                if (folder_selected)
-                {
-                    BuildButton.IsEnabled = true;
-                }
+                BuildButton.IsEnabled = true;
             }
         }
         private void Select_Folder_Click(object sender, RoutedEventArgs e)
@@ -74,7 +73,7 @@ namespace DicomTemplateMakerGUI.Windows
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 out_path = dialog.FileName;
-                FileLocationLabel.Content = dicom_file;
+                FolderLocationLabel.Content = out_path;
                 BuildButton.IsEnabled = true;
                 folder_selected = true;
             }
