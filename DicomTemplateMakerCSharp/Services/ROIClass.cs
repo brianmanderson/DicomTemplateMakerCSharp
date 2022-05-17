@@ -8,10 +8,10 @@ namespace DicomTemplateMakerCSharp.Services
 {
     class ROIClass
     {
-        string name;
-        string color;
+        public string name;
+        public string color;
         int reference_roi_number, observation_number;
-        string roi_interpreted_type;
+        public string roi_interpreted_type;
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
         public ROIClass(string color, string name, string roi_interpreted_type)
