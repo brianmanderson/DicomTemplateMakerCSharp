@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
@@ -28,9 +27,10 @@ namespace DicomTemplateMakerGUI.Windows
     {
         string dicom_file;
         string out_path;
-        bool file_selected, folder_selected;
-        public MakeTemplateWindow()
+        bool file_selected;
+        public MakeTemplateWindow(string folder)
         {
+            out_path = folder;
             InitializeComponent();
         }
 
@@ -40,12 +40,10 @@ namespace DicomTemplateMakerGUI.Windows
             dialog.InitialDirectory = ".";
             dialog.IsFolderPicker = false;
             file_selected = false;
-            OutPath_Button.IsEnabled = false;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
-                OutPath_Button.IsEnabled = true;
                 file_selected = true;
             }
             check_status();
@@ -53,30 +51,24 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
-            TemplateMaker template_maker = new TemplateMaker(dicom_file, out_path);
+            TemplateMaker template_maker = new TemplateMaker(dicom_file, Path.Combine(out_path, TemplateTextBox.Text));
             template_maker.make_template();
+            TemplateTextBox.Text = "Finished!";
+            file_selected = false;
+            FileLocationLabel.Content = "";
+            check_status();
         }
         private void check_status()
         {
             BuildButton.IsEnabled = false;
-            if (file_selected & folder_selected)
+            if (file_selected & TemplateTextBox.Text != "")
             {
                 BuildButton.IsEnabled = true;
             }
         }
-        private void Select_Folder_Click(object sender, RoutedEventArgs e)
+
+        private void TemplateNameChanged(object sender, TextChangedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = true;
-            folder_selected = false;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                out_path = dialog.FileName;
-                FolderLocationLabel.Content = out_path;
-                BuildButton.IsEnabled = true;
-                folder_selected = true;
-            }
             check_status();
         }
     }

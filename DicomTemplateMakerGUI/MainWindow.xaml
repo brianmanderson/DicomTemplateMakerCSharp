@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="GoButton" Content="Build from existing RT Structure" HorizontalAlignment="Left" Height="39" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" Click="Click_Build"/>
+        <Button x:Name="BuildFromRTButton" Content="Build from existing RT Structure" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
+        <Button x:Name="OutPath_Button" Content="Select template path" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Click="Select_Folder_Click" Height="51" Width="221"/>
+        <Label Name="FolderLocationLabel" Content="" HorizontalAlignment="Left" Height="51" Margin="249,10,0,0" VerticalAlignment="Top" Width="533"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,121,0,0">
+            <StackPanel Margin="23,27,41,88" x:Name="TemplateStackPanel">
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
