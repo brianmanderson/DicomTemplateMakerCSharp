@@ -29,7 +29,7 @@ namespace DicomTemplateMakerCSharp.Services
         public DicomSeriesReader()
         {
             dicomParser = new DicomParser();
-            string dicom_file = @"C:\Users\markb\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
+            string dicom_file = @"C:\Users\b5anderson\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             series_reader = new ImageSeriesReader();
             series_reader.LoadPrivateTagsOn();

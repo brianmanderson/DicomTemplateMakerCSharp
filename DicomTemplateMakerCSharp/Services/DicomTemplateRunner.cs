@@ -10,7 +10,7 @@ namespace DicomTemplateMakerCSharp.Services
     class DicomTemplateRunner
     {
         DicomSeriesReader reader;
-        string template_folder = @"C:\Users\markb\Modular_Projects\Template_Folder";
+        string template_folder = @"C:\Users\b5anderson\Modular_Projects\Template_Folder";
         string roiname, color, interperter;
         Dictionary<string, List<ROIClass>> template_dictionary;
         public DicomTemplateRunner()
@@ -33,7 +33,11 @@ namespace DicomTemplateMakerCSharp.Services
                             roiname = Path.GetFileName(roi_file).Split(".txt")[0];
                             string[] instructions = File.ReadAllLines(roi_file);
                             color = instructions[0];
-                            interperter = instructions[1];
+                            interperter = "";
+                            if (instructions.Length == 2)
+                            {
+                                interperter = instructions[1];
+                            }
                             rois.Add(new ROIClass(color, roiname, interperter));
                         }
                         string[] paths = File.ReadAllLines(Path.Join(template_directory, "Paths.txt"));
@@ -59,12 +63,17 @@ namespace DicomTemplateMakerCSharp.Services
                     string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
                     if (dicom_files.Length > 0)
                     {
+                        reader.dicomParser.__reset__();
                         reader.parse_folder(directory);
                         foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
                         {
                             reader.load_DICOM(uid);
                             reader.update_template(delete_contours: true);
-                            reader.save_RT(@"C:\Users\markb\Modular_Projects\Example_Data\Data\Image_Data\T1\Post1\001\test.dcm");
+                            foreach (ROIClass roi in template_dictionary[path])
+                            {
+                                reader.add_roi(roi);
+                            }
+                            reader.save_RT(Path.Join(directory, "test.dcm"));
                         }
                     }
                 }
