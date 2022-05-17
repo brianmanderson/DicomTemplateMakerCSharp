@@ -26,6 +26,8 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class MakeTemplateWindow : Window
     {
         string dicom_file;
+        string out_path;
+        bool file_selected, folder_selected;
         public MakeTemplateWindow()
         {
             InitializeComponent();
@@ -35,18 +37,48 @@ namespace DicomTemplateMakerGUI.Windows
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = true;
+            dialog.IsFolderPicker = false;
+            file_selected = false;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
-                BuildButton.IsEnabled = true;
+                file_selected = true;
             }
+            check_status();
         }
 
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void check_status()
+        {
+            BuildButton.IsEnabled = false;
+            OutPath_Button.IsEnabled = false;
+            if (file_selected)
+            {
+                OutPath_Button.IsEnabled = true;
+                if (folder_selected)
+                {
+                    BuildButton.IsEnabled = true;
+                }
+            }
+        }
+        private void Select_Folder_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = ".";
+            dialog.IsFolderPicker = true;
+            folder_selected = false;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                out_path = dialog.FileName;
+                FileLocationLabel.Content = dicom_file;
+                BuildButton.IsEnabled = true;
+                folder_selected = true;
+            }
+            check_status();
         }
     }
 }

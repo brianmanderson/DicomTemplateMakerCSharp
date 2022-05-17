@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DicomTemplateMakerGUI.Windows;
 
 namespace DicomTemplateMakerGUI
 {
@@ -23,6 +24,12 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Click_Build(object sender, RoutedEventArgs e)
+        {
+            MakeTemplateWindow template_window = new MakeTemplateWindow();
+            template_window.ShowDialog();
         }
     }
 }

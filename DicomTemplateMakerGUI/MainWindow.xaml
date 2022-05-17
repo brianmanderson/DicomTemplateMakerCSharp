@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="GoButton" Content="Build from existing RT Structure" HorizontalAlignment="Left" Height="39" Margin="572,10,0,0" VerticalAlignment="Top" Width="210" Click="Click_Build" IsEnabled="False"/>
+        <Button x:Name="GoButton" Content="Build from existing RT Structure" HorizontalAlignment="Left" Height="39" Margin="10,10,0,0" VerticalAlignment="Top" Width="210" Click="Click_Build"/>
     </Grid>
 </Window>
