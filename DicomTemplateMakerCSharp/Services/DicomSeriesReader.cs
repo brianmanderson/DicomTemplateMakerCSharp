@@ -29,7 +29,7 @@ namespace DicomTemplateMakerCSharp.Services
         public DicomSeriesReader()
         {
             dicomParser = new DicomParser();
-            string dicom_file = @"C:\Users\b5anderson\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
+            string dicom_file = @"C:\Users\markb\Modular_Projects\Dicom_RT_and_Images_to_Mask\src\DicomRTTool\template_RS.dcm";
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             series_reader = new ImageSeriesReader();
             series_reader.LoadPrivateTagsOn();
@@ -59,15 +59,6 @@ namespace DicomTemplateMakerCSharp.Services
             RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
             RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
         }
-        public void capture_temp()
-        {
-            rt_structure_set = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0];
-            rt_observation = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0];
-            rt_contour = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0];
-        }
-        public void make_reference()
-        {
-        }
         public void build_reference_numbers()
         {
             referenced_roi_number_list = new List<int>();
@@ -83,6 +74,7 @@ namespace DicomTemplateMakerCSharp.Services
             foreach (DicomDataset roi_contour_set in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
             {
                 int roi_number = roi_contour_set.GetSingleValue<int>(DicomTag.ReferencedROINumber);
+                var roi_color = roi_contour_set.GetValues<Tuple<int, int, int>>(DicomTag.ROIDisplayColor);
                 if (!referenced_roi_number_list.Contains(roi_number))
                 {
                     referenced_roi_number_list.Add(roi_number);
@@ -104,11 +96,29 @@ namespace DicomTemplateMakerCSharp.Services
         }
         public void add_roi(ROIClass roi_class)
         {
-            DicomDataset rt_structure_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0]);
-            DicomDataset roi_contour_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0]);
-            DicomDataset roi_observation_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0]);
-            int i = 0;
-
+            DicomSequence rt_structure_set_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence);
+            DicomDataset rt_structure_set = new DicomDataset(rt_structure_set_sequence.Items[0]);
+            DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
+            DicomDataset roi_contour_set = new DicomDataset(roi_contour_sequence.Items[0]);
+            DicomSequence roi_observation_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence);
+            DicomDataset roi_observation_set = new DicomDataset(roi_observation_sequence.Items[0]);
+            int roi_number = 1;
+            while (referenced_roi_number_list.Contains(roi_number))
+            {
+                roi_number++;
+            }
+            referenced_roi_number_list.Add(roi_number);
+            int roi_observation_number = 1;
+            while (observation_number_list.Contains(roi_observation_number))
+            {
+                roi_observation_number++;
+            }
+            observation_number_list.Add(roi_observation_number);
+            rt_structure_set.AddOrUpdate(DicomTag.ROINumber, roi_number);
+            roi_contour_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
+            roi_observation_set.AddOrUpdate(DicomTag.ObservationNumber, roi_observation_number);
+            roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
+            var roi_color = roi_contour_set.GetSingleValue<int>(DicomTag.ROIDisplayColor);
         }
         public void update_template(bool delete_contours)
         {
