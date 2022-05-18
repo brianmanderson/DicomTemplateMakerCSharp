@@ -22,6 +22,9 @@ namespace DicomTemplateMakerGUI.Services
         {
             this.output = output;
             ROIs = new List<ROIClass>();
+            color_dict = new Dictionary<int, string>();
+            interp_dict = new Dictionary<int, string>();
+            name_dict = new Dictionary<int, string>();
             if (!Directory.Exists(Path.Combine(output, "ROIs")))
             {
                 Directory.CreateDirectory(Path.Combine(output, "ROIs"));
@@ -30,9 +33,6 @@ namespace DicomTemplateMakerGUI.Services
         public void interpret_RT(string dicom_file)
         {
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
-            color_dict = new Dictionary<int, string>();
-            interp_dict = new Dictionary<int, string>();
-            name_dict = new Dictionary<int, string>();
             foreach (DicomDataset rt_contour in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
             {
                 int roi_number = rt_contour.GetSingleValue<int>(DicomTag.ReferencedROINumber);
@@ -58,7 +58,6 @@ namespace DicomTemplateMakerGUI.Services
                     if (name_dict.ContainsKey(key))
                     {
                         ROIs.Add(new ROIClass(color_dict[key], name_dict[key], interp_dict[key]));
-                        File.WriteAllText(Path.Combine(output, "ROIs", $"{name_dict[key]}.txt"), $"{color_dict[key]}\n{interp_dict[key]}");
                     }
                 }
             }

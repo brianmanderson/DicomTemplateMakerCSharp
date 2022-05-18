@@ -12,5 +12,9 @@
         <Label Name="TemplateNameLabel" Content="Template Name:" HorizontalAlignment="Left" Height="37" Margin="59,112,0,0" VerticalAlignment="Top" Width="101"/>
         <TextBox x:Name="TemplateTextBox" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="165,108,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="357"/>
         <Button x:Name="BuildButton" Content="Build!" HorizontalAlignment="Left" Height="39" Margin="275,154,0,0" VerticalAlignment="Top" Width="137" Click="Build_Button_Click" IsEnabled="False"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,193,0,0">
+            <StackPanel Margin="23,27,41,88" x:Name="ROIStackPanel">
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
