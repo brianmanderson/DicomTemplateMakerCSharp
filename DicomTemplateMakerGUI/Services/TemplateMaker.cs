@@ -9,20 +9,27 @@ namespace DicomTemplateMakerGUI.Services
 {
     class TemplateMaker
     {
+        public string template_name;
+        string rois_present;
+        public string path;
+        public string color, interperter;
+        public bool is_template;
+        public List<ROIClass> ROIs;
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict;
         DicomFile RT_file;
-        public TemplateMaker(string dicom_file, string output)
+        public TemplateMaker(string output)
         {
             this.output = output;
+            ROIs = new List<ROIClass>();
             if (!Directory.Exists(Path.Combine(output, "ROIs")))
             {
                 Directory.CreateDirectory(Path.Combine(output, "ROIs"));
             }
-            RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
         }
-        public void make_template()
+        public void interpret_RT(string dicom_file)
         {
+            RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             color_dict = new Dictionary<int, string>();
             interp_dict = new Dictionary<int, string>();
             name_dict = new Dictionary<int, string>();
@@ -50,9 +57,17 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     if (name_dict.ContainsKey(key))
                     {
+                        ROIs.Add(new ROIClass(color_dict[key], name_dict[key], interp_dict[key]));
                         File.WriteAllText(Path.Combine(output, "ROIs", $"{name_dict[key]}.txt"), $"{color_dict[key]}\n{interp_dict[key]}");
                     }
                 }
+            }
+        }
+        public void make_template()
+        {
+            foreach (ROIClass roi in ROIs)
+            {
+                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.color}\n{roi.roi_interpreted_type}");
             }
         }
     }

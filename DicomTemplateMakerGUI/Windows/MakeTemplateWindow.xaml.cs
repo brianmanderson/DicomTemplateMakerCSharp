@@ -51,7 +51,8 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
-            TemplateMaker template_maker = new TemplateMaker(dicom_file, Path.Combine(out_path, TemplateTextBox.Text));
+            TemplateMaker template_maker = new TemplateMaker(Path.Combine(out_path, TemplateTextBox.Text));
+            template_maker.interpret_RT(dicom_file);
             template_maker.make_template();
             TemplateTextBox.Text = "Finished!";
             file_selected = false;
