@@ -64,6 +64,10 @@ namespace DicomTemplateMakerGUI.Services
             {
                 Directory.CreateDirectory(Path.Combine(output, "ROIs"));
             }
+            foreach (string file in Directory.GetFiles(Path.Combine(output, "ROIs")))
+            {
+                File.Delete(file);
+            }
             foreach (ROIClass roi in ROIs)
             {
                 File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.roi_interpreted_type}");

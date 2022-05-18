@@ -43,8 +43,10 @@ namespace DicomTemplateMakerGUI.Windows
             dialog.InitialDirectory = ".";
             dialog.IsFolderPicker = false;
             file_selected = false;
+            FileLocationLabel.Content = "";
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                BuildButton.Content = "Bulid!";
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
                 file_selected = true;
@@ -64,10 +66,9 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
+            UpdateButton.IsEnabled = true;
             template_maker.make_template(Path.Combine(out_path, TemplateTextBox.Text));
-            TemplateTextBox.Text = "Finished!";
-            file_selected = false;
-            FileLocationLabel.Content = "";
+            BuildButton.Content = "Finished!";
             check_status();
         }
         private void check_status()
@@ -81,6 +82,14 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void TemplateNameChanged(object sender, TextChangedEventArgs e)
         {
+            BuildButton.Content = "Build!";
+            UpdateButton.IsEnabled = false;
+            check_status();
+        }
+
+        private void Save_Changes_Click(object sender, RoutedEventArgs e)
+        {
+            template_maker.make_template(Path.Combine(out_path, TemplateTextBox.Text));
             check_status();
         }
     }

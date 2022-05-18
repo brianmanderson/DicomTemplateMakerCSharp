@@ -20,13 +20,16 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     class AddROIRow : StackPanel
     {
         Button color_button;
+        private ROIClass roi;
+        private TextBox roi_name_textbox;
         public AddROIRow(ROIClass roi)
         {
+            this.roi = roi;
             Orientation = Orientation.Horizontal;
-            Label roi_name_label = new Label();
-            roi_name_label.Width = 200;
-            roi_name_label.Content = roi.name;
-            Children.Add(roi_name_label);
+            roi_name_textbox = new TextBox();
+            roi_name_textbox.Text = roi.name;
+            roi_name_textbox.Width = 200;
+            Children.Add(roi_name_textbox);
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", "", "PLEASE SELECT"};
             ComboBox roi_interp_combobox = new ComboBox();
@@ -42,7 +45,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             roi_interp_combobox.Width = 200;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
-            Brush brush = new SolidColorBrush(Color.FromRgb(roi.R, roi.B, roi.G));
+            Brush brush = new SolidColorBrush(Color.FromRgb(roi.RGB[0], roi.RGB[1], roi.RGB[2]));
             color_button.Background = brush;
             color_button.Width = 200;
             color_button.Click += color_button_Click;
@@ -55,8 +58,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 var new_color = MyDialog.Color;
                 Brush brush = new SolidColorBrush(Color.FromRgb(new_color.R, new_color.G, new_color.B));
+                roi.R = new_color.R;
+                roi.G = new_color.G;
+                roi.B = new_color.B;
                 color_button.Background = brush;
             }
+        }
+        private void ROINameChanged(object sender, TextChangedEventArgs e)
+        {
+            roi.name = roi_name_textbox.Text;
         }
     }
 }
