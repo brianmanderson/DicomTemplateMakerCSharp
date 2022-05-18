@@ -42,8 +42,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             roi_interp_combobox.Width = 200;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
-            string[] color_values = roi.color.Split('\\');
-            Brush brush = new SolidColorBrush(Color.FromRgb(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2])));
+            Brush brush = new SolidColorBrush(Color.FromRgb(roi.R, roi.B, roi.G));
             color_button.Background = brush;
             color_button.Width = 200;
             color_button.Click += color_button_Click;
