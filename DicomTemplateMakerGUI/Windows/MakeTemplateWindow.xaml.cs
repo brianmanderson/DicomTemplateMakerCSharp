@@ -16,6 +16,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.Windows
@@ -27,10 +28,12 @@ namespace DicomTemplateMakerGUI.Windows
     {
         string dicom_file;
         string out_path;
+        TemplateMaker template_maker;
         bool file_selected;
         public MakeTemplateWindow(string folder)
         {
             out_path = folder;
+            template_maker = new TemplateMaker();
             InitializeComponent();
         }
 
@@ -45,15 +48,23 @@ namespace DicomTemplateMakerGUI.Windows
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
                 file_selected = true;
+                template_maker.interpret_RT(dicom_file);
+                add_roi_rows();
             }
             check_status();
         }
-
+        private void add_roi_rows()
+        {
+            ROIStackPanel.Children.Clear();
+            foreach (ROIClass roi in template_maker.ROIs)
+            {
+                AddROIRow new_row = new AddROIRow(roi);
+                ROIStackPanel.Children.Add(new_row);
+            }
+        }
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
-            TemplateMaker template_maker = new TemplateMaker(Path.Combine(out_path, TemplateTextBox.Text));
-            template_maker.interpret_RT(dicom_file);
-            template_maker.make_template();
+            template_maker.make_template(Path.Combine(out_path, TemplateTextBox.Text));
             TemplateTextBox.Text = "Finished!";
             file_selected = false;
             FileLocationLabel.Content = "";

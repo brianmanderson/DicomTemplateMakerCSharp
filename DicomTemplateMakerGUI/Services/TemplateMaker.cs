@@ -18,20 +18,15 @@ namespace DicomTemplateMakerGUI.Services
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict;
         DicomFile RT_file;
-        public TemplateMaker(string output)
+        public TemplateMaker()
         {
-            this.output = output;
+        }
+        public void interpret_RT(string dicom_file)
+        {
             ROIs = new List<ROIClass>();
             color_dict = new Dictionary<int, string>();
             interp_dict = new Dictionary<int, string>();
             name_dict = new Dictionary<int, string>();
-            if (!Directory.Exists(Path.Combine(output, "ROIs")))
-            {
-                Directory.CreateDirectory(Path.Combine(output, "ROIs"));
-            }
-        }
-        public void interpret_RT(string dicom_file)
-        {
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             foreach (DicomDataset rt_contour in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
             {
@@ -57,16 +52,21 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     if (name_dict.ContainsKey(key))
                     {
-                        ROIs.Add(new ROIClass(color_dict[key], name_dict[key], interp_dict[key]));
+                        string[] colors = color_dict[key].Split('\\');
+                        ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key]));
                     }
                 }
             }
         }
-        public void make_template()
+        public void make_template(string output)
         {
+            if (!Directory.Exists(Path.Combine(output, "ROIs")))
+            {
+                Directory.CreateDirectory(Path.Combine(output, "ROIs"));
+            }
             foreach (ROIClass roi in ROIs)
             {
-                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.color}\n{roi.roi_interpreted_type}");
+                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\\\n{roi.roi_interpreted_type}");
             }
         }
     }

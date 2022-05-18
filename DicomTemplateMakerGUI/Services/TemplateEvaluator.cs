@@ -35,12 +35,13 @@ namespace DicomTemplateMakerGUI.Services
                     string roiname = Path.GetFileName(roi_file).Replace(".txt", "");
                     string[] instructions = File.ReadAllLines(roi_file);
                     color = instructions[0];
+                    string[] color_values = color.Split('\\');
                     interperter = "";
                     if (instructions.Length == 2)
                     {
                         interperter = instructions[1];
                     }
-                    ROIs.Add(new ROIClass(color, roiname, interperter));
+                    ROIs.Add(new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter));
                 }
             }
         }

@@ -19,9 +19,12 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
 {
     class AddROIRow : StackPanel
     {
+        Button color_button;
         public AddROIRow(ROIClass roi)
         {
+            Orientation = Orientation.Horizontal;
             Label roi_name_label = new Label();
+            roi_name_label.Width = 200;
             roi_name_label.Content = roi.name;
             Children.Add(roi_name_label);
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
@@ -36,11 +39,25 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi_interp_combobox.SelectedItem = "PLEASE SELECT";
             }
-
-            Button color_button = new Button();
-            Brush brush = new SolidColorBrush(Color.FromRgb(0, 255, 255));
+            roi_interp_combobox.Width = 200;
+            Children.Add(roi_interp_combobox);
+            color_button = new Button();
+            string[] color_values = roi.color.Split('\\');
+            Brush brush = new SolidColorBrush(Color.FromRgb(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2])));
             color_button.Background = brush;
+            color_button.Width = 200;
+            color_button.Click += color_button_Click;
             Children.Add(color_button);
+        }
+        private void color_button_Click(object sender, System.EventArgs e)
+        {
+            System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
+            if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var new_color = MyDialog.Color;
+                Brush brush = new SolidColorBrush(Color.FromRgb(new_color.R, new_color.G, new_color.B));
+                color_button.Background = brush;
+            }
         }
     }
 }
