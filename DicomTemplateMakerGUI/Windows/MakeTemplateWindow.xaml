@@ -5,17 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="MakeTemplateWindow" Height="450" Width="800">
+        Title="MakeTemplateWindow" Height="537.353" Width="800">
     <Grid>
-        <Button Content="Select RT Structure" HorizontalAlignment="Left" Margin="23,40,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="137"/>
-        <Label Name="FileLocationLabel" Content="" HorizontalAlignment="Left" Height="37" Margin="165,40,0,0" VerticalAlignment="Top" Width="587"/>
-        <Label Name="TemplateNameLabel" Content="Template Name:" HorizontalAlignment="Left" Height="37" Margin="41,95,0,0" VerticalAlignment="Top" Width="101"/>
+        <Button Content="Build from RT Structure" HorizontalAlignment="Left" Margin="23,40,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246"/>
+        <Label Name="FileLocationLabel" Content="" HorizontalAlignment="Left" Height="37" Margin="287,40,0,0" VerticalAlignment="Top" Width="481"/>
+        <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,95,0,0" VerticalAlignment="Top" Width="137"/>
+        <Label Name="ROINameLabel" Content="Add ROI:" HorizontalAlignment="Left" Height="37" Margin="23,150,0,0" VerticalAlignment="Top" Width="71"/>
         <TextBox x:Name="TemplateTextBox" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="165,91,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="379"/>
-        <Button x:Name="BuildButton" Content="Build!" HorizontalAlignment="Left" Height="39" Margin="563,92,0,0" VerticalAlignment="Top" Width="137" Click="Build_Button_Click" IsEnabled="False"/>
-        <Button x:Name="UpdateButton" Content="Save Changes" HorizontalAlignment="Left" Height="39" Margin="314,154,0,0" VerticalAlignment="Top" Width="137" Click="Save_Changes_Click" IsEnabled="False"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,198,0,0">
+        <TextBox x:Name="ROITextBox" TextChanged="ROINameChanged" HorizontalAlignment="Left" Height="45" Margin="99,142,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
+        <Button x:Name="BuildButton" Content="Build!" HorizontalAlignment="Left" Height="34" Margin="585,91,0,0" VerticalAlignment="Top" Width="137" Click="Build_Button_Click" IsEnabled="False"/>
+        <Button x:Name="AddROIButton" Content="Add ROI" HorizontalAlignment="Left" Height="45" Margin="585,142,0,0" VerticalAlignment="Top" Width="137" Click="AddROI_Click" IsEnabled="False"/>
+        <Button x:Name="ColorButton" Content="" HorizontalAlignment="Left" Height="45" Margin="500,142,0,0" VerticalAlignment="Top" Width="80" Click="ChangeColor_Click"/>
+        <Button x:Name="UpdateButton" Content="Save Changes" HorizontalAlignment="Left" Height="34" Margin="315,204,0,0" VerticalAlignment="Top" Width="137" Click="Save_Changes_Click" IsEnabled="False"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,243,0,0">
             <StackPanel Margin="23,27,41,88" x:Name="ROIStackPanel">
             </StackPanel>
         </ScrollViewer>
+        <ComboBox Name="InterpComboBox" HorizontalAlignment="Left" Height="45" Margin="287,142,0,0" VerticalAlignment="Top" Width="208" SelectionChanged="OnSelectionChanged"/>
     </Grid>
 </Window>

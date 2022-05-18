@@ -20,10 +20,10 @@ namespace DicomTemplateMakerGUI.Services
         DicomFile RT_file;
         public TemplateMaker()
         {
+            ROIs = new List<ROIClass>();
         }
         public void interpret_RT(string dicom_file)
         {
-            ROIs = new List<ROIClass>();
             color_dict = new Dictionary<int, string>();
             interp_dict = new Dictionary<int, string>();
             name_dict = new Dictionary<int, string>();
