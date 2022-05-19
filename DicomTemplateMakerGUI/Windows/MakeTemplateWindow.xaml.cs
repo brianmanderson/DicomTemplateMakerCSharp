@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
+using System;
 using System.Windows;
 using System.IO;
 using System.Windows.Data;
@@ -28,6 +29,7 @@ namespace DicomTemplateMakerGUI.Windows
     {
         string dicom_file;
         string out_path;
+        private string write_path;
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
@@ -50,6 +52,10 @@ namespace DicomTemplateMakerGUI.Windows
                 // This means we are editing a folder, not making a new one
                 TemplateTextBox.Text = Path.GetFileName(folder);
                 TemplateTextBox.IsEnabled = false;
+                add_roi_rows();
+                UpdateButton.IsEnabled = true;
+                Update_and_ExitButton.IsEnabled = true;
+                write_path = folder;
             }
         }
 
@@ -68,6 +74,7 @@ namespace DicomTemplateMakerGUI.Windows
                 file_selected = true;
                 template_maker.interpret_RT(dicom_file);
                 add_roi_rows();
+                file_selected = true;
             }
             check_status();
         }
@@ -83,6 +90,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton.IsEnabled = true;
+            Update_and_ExitButton.IsEnabled = true;
             template_maker.make_template(Path.Combine(out_path, TemplateTextBox.Text));
             BuildButton.Content = "Finished!";
             check_status();
@@ -104,14 +112,18 @@ namespace DicomTemplateMakerGUI.Windows
         private void TemplateNameChanged(object sender, TextChangedEventArgs e)
         {
             BuildButton.Content = "Build!";
+            write_path = Path.Combine(out_path, TemplateTextBox.Text);
             UpdateButton.IsEnabled = false;
+            Update_and_ExitButton.IsEnabled = false;
             check_status();
         }
 
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
-            template_maker.make_template(Path.Combine(out_path, TemplateTextBox.Text));
+            UpdateButton.Content = "Saving...";
+            template_maker.make_template(write_path);
             check_status();
+            UpdateButton.Content = "Save Changes";
         }
 
         private void ROINameChanged(object sender, TextChangedEventArgs e)
@@ -122,6 +134,12 @@ namespace DicomTemplateMakerGUI.Windows
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             check_status();
+        }
+
+        private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Save_Changes_Click(sender, e);
+            this.Close();
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)

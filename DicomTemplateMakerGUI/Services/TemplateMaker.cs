@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using FellowOakDicom;
+using System.IO;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace DicomTemplateMakerGUI.Services
 {

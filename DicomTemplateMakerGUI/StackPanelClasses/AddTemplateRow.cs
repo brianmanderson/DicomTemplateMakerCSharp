@@ -20,30 +20,29 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     class AddTemplateRow : StackPanel
     {
         private string folder_location;
+        private Label rois_present_label;
         private TemplateMaker template_maker;
-        public AddTemplateRow(TemplateMaker template_evaluator)
+        public AddTemplateRow(TemplateMaker template_maker)
         {
-            template_maker = template_evaluator;
+            this.template_maker = template_maker;
             Label template_label = new Label();
-            template_label.Content = template_evaluator.template_name;
+            template_label.Content = template_maker.template_name;
             Children.Add(template_label);
 
-            Label rois_present_label = new Label();
-            rois_present_label.Content = $"{template_evaluator.ROIs.Count} ROIs present in template";
+            rois_present_label = new Label();
+            rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
             Children.Add(rois_present_label);
 
             Button edit_rois_button = new Button();
             edit_rois_button.Content = "Edit ROIs";
             edit_rois_button.Click += EditROIButton_Click;
             Children.Add(edit_rois_button);
-
-            Label folder_location_label = new Label();
-            folder_location_label.Content = $"{template_evaluator.path}";
-            Children.Add(folder_location_label);
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
-
+            MakeTemplateWindow template_window = new MakeTemplateWindow(template_maker.path, template_maker);
+            template_window.ShowDialog();
+            rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
         }
     }
 }
