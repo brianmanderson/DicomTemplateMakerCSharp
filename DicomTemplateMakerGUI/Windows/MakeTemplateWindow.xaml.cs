@@ -51,6 +51,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 // This means we are editing a folder, not making a new one
                 TemplateTextBox.Text = Path.GetFileName(folder);
+                template_maker.define_output(folder);
                 TemplateTextBox.IsEnabled = false;
                 add_roi_rows();
                 UpdateButton.IsEnabled = true;
@@ -69,7 +70,6 @@ namespace DicomTemplateMakerGUI.Windows
             FileLocationLabel.Content = "";
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                BuildButton.Content = "Build!";
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
                 file_selected = true;
@@ -92,6 +92,9 @@ namespace DicomTemplateMakerGUI.Windows
         {
             UpdateButton.IsEnabled = true;
             pathsButton.IsEnabled = true;
+            TemplateTextBox.IsEnabled = false;
+            BuildButton.Content = "Finished Building!";
+            BuildButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = true;
             template_maker.define_output(Path.Combine(out_path, TemplateTextBox.Text));
             template_maker.make_template();
@@ -101,7 +104,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void check_status()
         {
             BuildButton.IsEnabled = false;
-            if (file_selected & TemplateTextBox.Text != "")
+            if (template_maker.ROIs.Count > 0 & TemplateTextBox.Text != "" & TemplateTextBox.IsEnabled)
             {
                 BuildButton.IsEnabled = true;
             }
@@ -114,7 +117,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void TemplateNameChanged(object sender, TextChangedEventArgs e)
         {
-            BuildButton.Content = "Build!";
+            check_status();
             write_path = Path.Combine(out_path, TemplateTextBox.Text);
             template_maker.define_output(write_path);
             UpdateButton.IsEnabled = false;

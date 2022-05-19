@@ -35,7 +35,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Children.Add(rois_present_label);
 
             Button edit_rois_button = new Button();
-            edit_rois_button.Content = "Edit ROIs";
+            edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
             edit_rois_button.Click += EditROIButton_Click;
             Children.Add(edit_rois_button);
 
