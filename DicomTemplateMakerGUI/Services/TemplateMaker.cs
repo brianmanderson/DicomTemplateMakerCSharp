@@ -62,16 +62,20 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
         }
+        public void clear_folder(string output)
+        {
+            foreach (string file in Directory.GetFiles(Path.Combine(output, "ROIs")))
+            {
+                File.Delete(file);
+            }
+        }
         public void make_template(string output)
         {
             if (!Directory.Exists(Path.Combine(output, "ROIs")))
             {
                 Directory.CreateDirectory(Path.Combine(output, "ROIs"));
             }
-            foreach (string file in Directory.GetFiles(Path.Combine(output, "ROIs")))
-            {
-                File.Delete(file);
-            }
+            clear_folder(output);
             foreach (ROIClass roi in ROIs)
             {
                 File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.roi_interpreted_type}");

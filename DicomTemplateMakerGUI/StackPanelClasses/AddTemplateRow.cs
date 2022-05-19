@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.Windows;
 
@@ -22,6 +21,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private string folder_location;
         private Label rois_present_label;
         private TemplateMaker template_maker;
+        private Button DeleteButton;
+        private CheckBox DeleteCheckBox;
         public AddTemplateRow(TemplateMaker template_maker)
         {
             this.template_maker = template_maker;
@@ -37,12 +38,59 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             edit_rois_button.Content = "Edit ROIs";
             edit_rois_button.Click += EditROIButton_Click;
             Children.Add(edit_rois_button);
+
+            StackPanel delete_panel = new StackPanel();
+            delete_panel.Orientation = Orientation.Horizontal;
+            Label delete_label = new Label();
+            delete_label.Content = "Delete?";
+            delete_label.Width = 100;
+            delete_panel.Children.Add(delete_label);
+
+            DeleteCheckBox = new CheckBox();
+            DeleteCheckBox.Checked += CheckBox_DataContextChanged;
+            DeleteCheckBox.Unchecked += CheckBox_DataContextChanged;
+            delete_panel.Children.Add(DeleteCheckBox);
+
+            Label padding_label = new Label();
+            delete_label.Width = 100;
+            delete_panel.Children.Add(padding_label);
+
+            DeleteButton = new Button();
+            DeleteButton.IsEnabled = false;
+            DeleteButton.Width = 100;
+            DeleteButton.Click += DeleteButton_Click;
+            DeleteButton.Content = "Delete";
+            delete_panel.Children.Add(DeleteButton);
+            Children.Add(delete_panel);
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
             MakeTemplateWindow template_window = new MakeTemplateWindow(template_maker.path, template_maker);
             template_window.ShowDialog();
             rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
+        }
+        private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
+        {
+            bool delete_checked = DeleteCheckBox.IsChecked ?? false;
+            DeleteButton.IsEnabled = false;
+            if (delete_checked)
+            {
+                DeleteButton.IsEnabled = true;
+            }
+        }
+        private void DeleteButton_Click(object sender, System.EventArgs e)
+        {
+            template_maker.clear_folder(template_maker.path);
+            foreach (string path in Directory.GetFiles(template_maker.path))
+            {
+                File.Delete(path);
+            }
+            if (Directory.Exists(Path.Combine(template_maker.path, "ROIs")))
+            {
+                Directory.Delete(Path.Combine(template_maker.path, "ROIs"));
+            }
+            Directory.Delete(template_maker.path);
+            Children.Clear();
         }
     }
 }
