@@ -19,12 +19,14 @@ namespace DicomTemplateMakerGUI.Services
         public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
+        public List<string> Paths;
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict;
         DicomFile RT_file;
         public TemplateMaker()
         {
             ROIs = new List<ROIClass>();
+            Paths = new List<string>();
         }
         public void interpret_RT(string dicom_file)
         {
@@ -80,12 +82,22 @@ namespace DicomTemplateMakerGUI.Services
             {
                 File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.roi_interpreted_type}");
             }
+            File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
         }
         public void categorize_folder(string path)
         {
             ROIs = new List<ROIClass>();
+            Paths = new List<string>();
             this.path = path;
             is_template = false;
+            if (File.Exists(Path.Combine(path, "Paths.txt")))
+            {
+                string[] file_paths = File.ReadAllLines(Path.Combine(path, "Paths.txt"));
+                foreach (string file_path in file_paths)
+                {
+                    Paths.Add(file_path);
+                }
+            }
             if (Directory.Exists(Path.Combine(path, "ROIs")))
             {
                 is_template = true;

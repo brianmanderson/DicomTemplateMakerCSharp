@@ -68,7 +68,7 @@ namespace DicomTemplateMakerGUI.Windows
             FileLocationLabel.Content = "";
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                BuildButton.Content = "Bulid!";
+                BuildButton.Content = "Build!";
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
                 file_selected = true;
