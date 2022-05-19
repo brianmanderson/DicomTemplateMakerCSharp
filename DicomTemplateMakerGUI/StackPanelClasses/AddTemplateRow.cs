@@ -80,7 +80,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
-            template_maker.clear_folder(template_maker.path);
+            template_maker.define_output(template_maker.path);
+            template_maker.clear_folder();
             foreach (string path in Directory.GetFiles(template_maker.path))
             {
                 File.Delete(path);

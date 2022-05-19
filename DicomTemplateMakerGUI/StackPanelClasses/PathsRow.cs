@@ -24,15 +24,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             this.template_maker = template_maker;
             this.path = path;
-            Orientation = Orientation.Horizontal;
+            //Orientation = Orientation.Horizontal;
             Label path_label = new Label();
-            path_label.Width = 100;
             path_label.Content = path;
             Children.Add(path_label);
 
             Button Delete_button = new Button();
             Delete_button.Content = "Delete";
             Delete_button.Click += Click_Delete;
+            Children.Add(Delete_button);
         }
         private void Click_Delete(object sender, RoutedEventArgs e)
         {

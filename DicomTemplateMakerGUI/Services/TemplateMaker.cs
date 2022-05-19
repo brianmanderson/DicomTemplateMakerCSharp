@@ -64,14 +64,18 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
         }
-        public void clear_folder(string output)
+        public void clear_folder()
         {
             foreach (string file in Directory.GetFiles(Path.Combine(output, "ROIs")))
             {
                 File.Delete(file);
             }
         }
-        public void make_template(string output)
+        public void define_output(string output)
+        {
+            this.output = output;
+        }
+        public void make_template()
         {
             if (!Directory.Exists(Path.Combine(output, "ROIs")))
             {

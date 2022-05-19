@@ -32,8 +32,16 @@ namespace DicomTemplateMakerGUI.Windows
         {
             InitializeComponent();
             this.template_maker = template_maker;
+            write_paths();
         }
-
+        public void write_paths()
+        {
+            foreach (string path in template_maker.Paths)
+            {
+                PathsRow new_row = new PathsRow(template_maker, path);
+                PathsStackPanel.Children.Add(new_row);
+            }
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
@@ -41,7 +49,16 @@ namespace DicomTemplateMakerGUI.Windows
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                template_maker.Paths.Add(dialog.FileName);
+                PathsRow new_row = new PathsRow(template_maker, dialog.FileName);
+                PathsStackPanel.Children.Add(new_row);
             }
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            template_maker.make_template();
+            Close();
         }
     }
 }

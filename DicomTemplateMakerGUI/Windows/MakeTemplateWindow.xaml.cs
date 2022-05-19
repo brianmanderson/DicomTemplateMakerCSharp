@@ -33,7 +33,7 @@ namespace DicomTemplateMakerGUI.Windows
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
-        List<string> interpreters = new List<string> {"PLEASE SELECT", "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
+        List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
         public MakeTemplateWindow(string folder, TemplateMaker template_maker)
         {
@@ -54,6 +54,7 @@ namespace DicomTemplateMakerGUI.Windows
                 TemplateTextBox.IsEnabled = false;
                 add_roi_rows();
                 UpdateButton.IsEnabled = true;
+                pathsButton.IsEnabled = true;
                 Update_and_ExitButton.IsEnabled = true;
                 write_path = folder;
             }
@@ -90,8 +91,10 @@ namespace DicomTemplateMakerGUI.Windows
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton.IsEnabled = true;
+            pathsButton.IsEnabled = true;
             Update_and_ExitButton.IsEnabled = true;
-            template_maker.make_template(Path.Combine(out_path, TemplateTextBox.Text));
+            template_maker.define_output(Path.Combine(out_path, TemplateTextBox.Text));
+            template_maker.make_template();
             BuildButton.Content = "Finished!";
             check_status();
         }
@@ -103,7 +106,7 @@ namespace DicomTemplateMakerGUI.Windows
                 BuildButton.IsEnabled = true;
             }
             AddROIButton.IsEnabled = false;
-            if (ROITextBox.Text != "" & InterpComboBox.SelectedIndex != 0)
+            if (ROITextBox.Text != "")
             {
                 AddROIButton.IsEnabled = true;
             }
@@ -113,7 +116,9 @@ namespace DicomTemplateMakerGUI.Windows
         {
             BuildButton.Content = "Build!";
             write_path = Path.Combine(out_path, TemplateTextBox.Text);
+            template_maker.define_output(write_path);
             UpdateButton.IsEnabled = false;
+            pathsButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = false;
             check_status();
         }
@@ -121,7 +126,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton.Content = "Saving...";
-            template_maker.make_template(write_path);
+            template_maker.make_template();
             check_status();
             UpdateButton.Content = "Save Changes";
         }
@@ -140,6 +145,12 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Save_Changes_Click(sender, e);
             this.Close();
+        }
+
+        private void PathsButtonClick(object sender, RoutedEventArgs e)
+        {
+            EditPathsWindow paths_window = new EditPathsWindow(template_maker);
+            paths_window.ShowDialog();
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)
