@@ -34,6 +34,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.name;
+            roi_name_textbox.TextChanged += ROINameChanged;
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",

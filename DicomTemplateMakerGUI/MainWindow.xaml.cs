@@ -41,26 +41,26 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
+            folder_location = @".";
+            BuildFromRTButton.IsEnabled = true;
+            Rebuild_From_Folders();
         }
         public void Rebuild_From_Folders()
         {
-            if (folder_selected)
+            TemplateStackPanel.Children.Clear();
+            string[] directories = Directory.GetDirectories(folder_location);
+            foreach (string directory in directories)
             {
-                TemplateStackPanel.Children.Clear();
-                string[] directories = Directory.GetDirectories(folder_location);
-                foreach (string directory in directories)
+                TemplateEvaluator evaluator = new TemplateEvaluator();
+                evaluator.categorize_folder(directory);
+                if (evaluator.is_template)
                 {
-                    TemplateEvaluator evaluator = new TemplateEvaluator();
-                    evaluator.categorize_folder(directory);
-                    if (evaluator.is_template)
-                    {
-                        AddTemplateRow new_row = new AddTemplateRow(evaluator);
-                        Border myborder = new Border();
-                        myborder.Background = Brushes.Black;
-                        myborder.BorderThickness = new Thickness(5);
-                        TemplateStackPanel.Children.Add(myborder);
-                        TemplateStackPanel.Children.Add(new_row);
-                    }
+                    AddTemplateRow new_row = new AddTemplateRow(evaluator);
+                    Border myborder = new Border();
+                    myborder.Background = Brushes.Black;
+                    myborder.BorderThickness = new Thickness(5);
+                    TemplateStackPanel.Children.Add(myborder);
+                    TemplateStackPanel.Children.Add(new_row);
                 }
             }
         }
@@ -81,7 +81,6 @@ namespace DicomTemplateMakerGUI
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 folder_location = dialog.FileName;
-                FolderLocationLabel.Content = folder_location;
                 BuildFromRTButton.IsEnabled = true;
                 folder_selected = true;
                 Rebuild_From_Folders();
