@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DicomTemplateMakerGUI.Services
 {
-    class ROIClass
+    public class ROIClass
     {
         public string name;
         public byte R, G, B;

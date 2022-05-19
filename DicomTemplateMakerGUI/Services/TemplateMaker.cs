@@ -7,7 +7,7 @@ using FellowOakDicom;
 
 namespace DicomTemplateMakerGUI.Services
 {
-    class TemplateMaker
+    public class TemplateMaker
     {
         public string template_name;
         string rois_present;
@@ -71,6 +71,31 @@ namespace DicomTemplateMakerGUI.Services
             foreach (ROIClass roi in ROIs)
             {
                 File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.roi_interpreted_type}");
+            }
+        }
+        public void categorize_folder(string path)
+        {
+            ROIs = new List<ROIClass>();
+            this.path = path;
+            is_template = false;
+            if (Directory.Exists(Path.Combine(path, "ROIs")))
+            {
+                is_template = true;
+                template_name = Path.GetFileName(path);
+                string[] roi_files = Directory.GetFiles(Path.Combine(path, "ROIs"), "*.txt");
+                foreach (string roi_file in roi_files)
+                {
+                    string roiname = Path.GetFileName(roi_file).Replace(".txt", "");
+                    string[] instructions = File.ReadAllLines(roi_file);
+                    color = instructions[0];
+                    string[] color_values = color.Split('\\');
+                    interperter = "";
+                    if (instructions.Length == 2)
+                    {
+                        interperter = instructions[1];
+                    }
+                    ROIs.Add(new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter));
+                }
             }
         }
     }

@@ -21,16 +21,14 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     {
         Button color_button;
         private ROIClass roi;
-        private int index;
         private TextBox roi_name_textbox;
         private List<ROIClass> roi_list;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
-        public AddROIRow(List<ROIClass> roi_list, int index)
+        public AddROIRow(List<ROIClass> roi_list, ROIClass roi)
         {
-            this.roi = roi_list[index];
+            this.roi = roi;
             this.roi_list = roi_list;
-            this.index = index;
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.name;
@@ -86,7 +84,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
-            roi_list.RemoveAt(index);
+            roi_list.Remove(roi);
             Children.Clear();
         }
         private void color_button_Click(object sender, System.EventArgs e)

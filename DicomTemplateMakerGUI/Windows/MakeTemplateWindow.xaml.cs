@@ -28,16 +28,16 @@ namespace DicomTemplateMakerGUI.Windows
     {
         string dicom_file;
         string out_path;
-        TemplateMaker template_maker;
+        public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
         List<string> interpreters = new List<string> {"PLEASE SELECT", "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
-        public MakeTemplateWindow(string folder)
+        public MakeTemplateWindow(string folder, TemplateMaker template_maker)
         {
             out_path = folder;
             InitializeComponent();
-            template_maker = new TemplateMaker();
+            this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
             InterpComboBox.SelectedIndex = 0;
             R = byte.Parse("0");
@@ -45,6 +45,12 @@ namespace DicomTemplateMakerGUI.Windows
             B = byte.Parse("255");
             Brush brush = new SolidColorBrush(Color.FromRgb(R, G, B));
             ColorButton.Background = brush;
+            if (Directory.Exists(Path.Combine(folder, "ROIs")))
+            {
+                // This means we are editing a folder, not making a new one
+                TemplateTextBox.Text = Path.GetFileName(folder);
+                TemplateTextBox.IsEnabled = false;
+            }
         }
 
         private void Select_File_Click(object sender, RoutedEventArgs e)
@@ -70,7 +76,7 @@ namespace DicomTemplateMakerGUI.Windows
             ROIStackPanel.Children.Clear();
             foreach (ROIClass roi in template_maker.ROIs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, template_maker.ROIs.IndexOf(roi));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
                 ROIStackPanel.Children.Add(new_row);
             }
         }

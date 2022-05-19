@@ -51,7 +51,7 @@ namespace DicomTemplateMakerGUI
             string[] directories = Directory.GetDirectories(folder_location);
             foreach (string directory in directories)
             {
-                TemplateEvaluator evaluator = new TemplateEvaluator();
+                TemplateMaker evaluator = new TemplateMaker();
                 evaluator.categorize_folder(directory);
                 if (evaluator.is_template)
                 {
@@ -66,7 +66,8 @@ namespace DicomTemplateMakerGUI
         }
         private void Click_Build(object sender, RoutedEventArgs e)
         {
-            MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location);
+            TemplateMaker template_maker = new TemplateMaker();
+            MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker);
             template_window.ShowDialog();
             Rebuild_From_Folders();
         }
