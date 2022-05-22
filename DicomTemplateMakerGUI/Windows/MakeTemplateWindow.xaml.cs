@@ -137,6 +137,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void ROINameChanged(object sender, TextChangedEventArgs e)
         {
             check_status();
+            UpdateButton.IsEnabled = true;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
