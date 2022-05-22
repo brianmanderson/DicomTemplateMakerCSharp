@@ -10,8 +10,8 @@ namespace DicomTemplateMakerGUI.Services
     {
         public string name;
         public byte R, G, B;
+        public string color;
         public List<byte> RGB;
-        int reference_roi_number, observation_number;
         public string roi_interpreted_type;
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
