@@ -10,7 +10,7 @@ namespace DicomTemplateMakerCSharp.Services
     class DicomTemplateRunner
     {
         DicomSeriesReader reader;
-        string template_folder = @"C:\Users\b5anderson\Modular_Projects\Template_Folder";
+        string template_folder = @".";
         string roiname, color, interperter;
         Dictionary<string, List<ROIClass>> template_dictionary;
         public DicomTemplateRunner()

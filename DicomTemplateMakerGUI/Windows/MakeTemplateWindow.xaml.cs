@@ -104,7 +104,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void check_status()
         {
             BuildButton.IsEnabled = false;
-            if (template_maker.ROIs.Count > 0 & TemplateTextBox.Text != "" & TemplateTextBox.IsEnabled)
+            if (TemplateTextBox.Text != "" & TemplateTextBox.IsEnabled)
             {
                 BuildButton.IsEnabled = true;
             }

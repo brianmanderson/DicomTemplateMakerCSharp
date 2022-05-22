@@ -122,6 +122,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\Making_Basic_Templates.cs" />
     <Compile Include="Services\ROIClass.cs" />
     <Compile Include="Services\TemplateEvaluator.cs" />
     <Compile Include="Services\TemplateMaker.cs" />
