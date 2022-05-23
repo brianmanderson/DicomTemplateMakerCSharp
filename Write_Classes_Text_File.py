@@ -13,4 +13,4 @@ for directory in directories:
         colors = colors.split('\\')
         interp = fid.readline()
         fid.close()
-        print(f'new ROIClass({colors[0]}, {colors[1]}, {colors[2]}, {ROI.split(".txt")[0]}, {interp}),')
+        print(f'new ROIClass(byte.Parse({colors[0]}), byte.Parse({colors[1]}), byte.Parse({colors[2]}), "{ROI.split(".txt")[0]}", "{interp}"),')
