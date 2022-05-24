@@ -26,7 +26,6 @@ namespace DicomTemplateMakerGUI
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        bool folder_selected;
         string folder_location;
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -42,6 +41,7 @@ namespace DicomTemplateMakerGUI
         {
             InitializeComponent();
             folder_location = @".";
+            TemplateBaseLabel.Content = Path.GetFullPath(folder_location);
             BuildFromRTButton.IsEnabled = true;
             Rebuild_From_Folders();
         }
@@ -72,20 +72,21 @@ namespace DicomTemplateMakerGUI
             Rebuild_From_Folders();
         }
 
-        private void Select_Folder_Click(object sender, RoutedEventArgs e)
+        private void ChangeTemplateClick(object sender, RoutedEventArgs e)
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = ".";
+            dialog.InitialDirectory = Path.GetFullPath(folder_location);
             dialog.IsFolderPicker = true;
-            folder_selected = false;
-            BuildFromRTButton.IsEnabled = false;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 folder_location = dialog.FileName;
-                BuildFromRTButton.IsEnabled = true;
-                folder_selected = true;
+                TemplateBaseLabel.Content = folder_location;
                 Rebuild_From_Folders();
             }
+        }
+
+        private void ClickRunDicomserver(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
