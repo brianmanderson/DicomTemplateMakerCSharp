@@ -19,15 +19,47 @@ using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using DicomUtilitiesTemplateRunner;
+using System.Threading;
 
 namespace DicomTemplateMakerGUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    public class DicomRunner
+    {
+        private Task t;
+        public string folder_location;
+        bool running;
+        public DicomRunner(string folder_location)
+        {
+            this.folder_location = Path.GetFullPath(folder_location);
+            t = new Task(() => RunTemplateRunner());
+            running = false;
+        }
+        private async void RunTemplateRunner()
+        {
+            DicomTemplateRunner runner = new DicomTemplateRunner(Path.GetFullPath(folder_location));
+            runner.run();
+        }
+        public void run()
+        {
+            if (running)
+            {
+                t.Dispose();
+            }
+            t = new Task(() => RunTemplateRunner());
+            t.Start();
+            running = true;
+        }
+    }
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         string folder_location;
+        bool running;
+        DicomRunner runner;
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -45,6 +77,8 @@ namespace DicomTemplateMakerGUI
             TemplateBaseLabel.Content = Path.GetFullPath(folder_location);
             BuildFromRTButton.IsEnabled = true;
             Rebuild_From_Folders();
+            running = false;
+            runner = new DicomRunner(Path.GetFullPath(folder_location));
         }
         public void Rebuild_From_Folders()
         {
@@ -83,13 +117,15 @@ namespace DicomTemplateMakerGUI
                 folder_location = dialog.FileName;
                 TemplateBaseLabel.Content = folder_location;
                 Rebuild_From_Folders();
+                runner = new DicomRunner(Path.GetFullPath(folder_location));
+                RunDICOMServerButton.IsEnabled = true;
             }
         }
 
         private void ClickRunDicomserver(object sender, RoutedEventArgs e)
         {
-            DicomTemplateRunner runner = new DicomTemplateRunner(Path.GetFullPath(folder_location));
             runner.run();
+            RunDICOMServerButton.IsEnabled = false;
         }
     }
 }
