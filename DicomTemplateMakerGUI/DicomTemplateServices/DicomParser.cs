@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using itk.simple;
 
-namespace DicomUtilitiesTemplateRunner
+namespace DicomTemplateMakerGUI.DicomTemplateServices
 {
     public class DicomParser
     {

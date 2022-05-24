@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using itk.simple;
 using FellowOakDicom;
 
-namespace DicomUtilitiesTemplateRunner
+namespace DicomTemplateMakerGUI.DicomTemplateServices
 {
     class DicomSeriesReader
     {

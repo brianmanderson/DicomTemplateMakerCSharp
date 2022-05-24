@@ -18,7 +18,7 @@ using DicomTemplateMakerGUI.Windows;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using DicomUtilitiesTemplateRunner;
+using DicomTemplateMakerGUI.DicomTemplateServices;
 using System.Threading;
 
 namespace DicomTemplateMakerGUI

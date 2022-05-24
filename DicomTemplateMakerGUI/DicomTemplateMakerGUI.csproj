@@ -158,10 +158,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DicomTemplateRunner\DicomParser.cs" />
-    <Compile Include="DicomTemplateRunner\DicomSeriesReader.cs" />
-    <Compile Include="DicomTemplateRunner\DicomTemplateRunner.cs" />
-    <Compile Include="DicomTemplateRunner\ROIClass.cs" />
+    <Compile Include="DicomTemplateServices\DicomParser.cs" />
+    <Compile Include="DicomTemplateServices\DicomSeriesReader.cs" />
+    <Compile Include="DicomTemplateServices\DicomTemplateRunner.cs" />
+    <Compile Include="DicomTemplateServices\ROIClass.cs" />
+    <Compile Include="DicomTemplateServices\FolderWatcher.cs" />
     <Compile Include="Services\Making_Basic_Templates.cs" />
     <Compile Include="Services\ROIClass.cs" />
     <Compile Include="Services\TemplateEvaluator.cs" />

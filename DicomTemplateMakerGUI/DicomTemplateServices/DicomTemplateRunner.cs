@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace DicomUtilitiesTemplateRunner
+namespace DicomTemplateMakerGUI.DicomTemplateServices
 {
     public class DicomTemplateRunner
     {
@@ -60,41 +60,82 @@ namespace DicomUtilitiesTemplateRunner
                 }
             }
         }
+        public void run_for_path(string template_name, string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+            string[] all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
+            foreach (string directory in all_directories)
+            {
+                string outpath = Path.Combine(directory, $"{template_name}.dcm");
+                if (File.Exists(outpath))
+                {
+                    continue;
+                }
+                string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
+                if (dicom_files.Length > 0)
+                {
+                    FolderWatcher folder_watcher_class = new FolderWatcher(directory);
+                    int tries = 0;
+                    Thread.Sleep(3000);
+                    while (folder_watcher_class.Folder_Changed)
+                    {
+                        folder_watcher_class.Folder_Changed = false;
+                        Console.WriteLine("Waiting for files to be fully transferred...");
+                        tries += 1;
+                        Thread.Sleep(5000);
+                        if (tries > 3)
+                        {
+                            return;
+                        }
+                    }
+                    dicom_files = Directory.GetFiles(directory, "*.dcm");
+                    if (dicom_files.Length == 0)
+                    {
+                        return;
+                    }
+                    reader.dicomParser.__reset__();
+                    reader.parse_folder(directory);
+                    foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
+                    {
+                        reader.load_DICOM(uid);
+                        reader.update_template(delete_contours: true, delete_everything: true);
+                        foreach (ROIClass roi in template_dictionary[template_name])
+                        {
+                            reader.add_roi(roi);
+                        }
+                        reader.save_RT(outpath);
+                    }
+                }
+            }
+        }
+        public void run_for_template_key(string template_name)
+        {
+            foreach (string path in paths_dictionary[template_name])
+            {
+                try
+                {
+                    run_for_path(template_name, path);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+        }
         public void walk_down_folders()
         {
             foreach (string template_name in template_dictionary.Keys)
             {
-                foreach (string path in paths_dictionary[template_name])
+                try
                 {
-                    if (!Directory.Exists(path))
-                    {
-                        continue;
-                    }
-                    string[] all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
-                    foreach (string directory in all_directories)
-                    {
-                        string outpath = Path.Combine(directory, $"{template_name}.dcm");
-                        if (File.Exists(outpath))
-                        {
-                            continue;
-                        }
-                        string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
-                        if (dicom_files.Length > 0)
-                        {
-                            reader.dicomParser.__reset__();
-                            reader.parse_folder(directory);
-                            foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
-                            {
-                                reader.load_DICOM(uid);
-                                reader.update_template(delete_contours: true, delete_everything: true);
-                                foreach (ROIClass roi in template_dictionary[template_name])
-                                {
-                                    reader.add_roi(roi);
-                                }
-                                reader.save_RT(outpath);
-                            }
-                        }
-                    }
+                    run_for_template_key(template_name);
+                }
+                catch
+                {
+                    continue;
                 }
             }
 
