@@ -17,6 +17,11 @@ namespace DicomTemplateMakerCSharp.Services
         {
             reader = new DicomSeriesReader();
         }
+        public DicomTemplateRunner(string template_folder)
+        {
+            this.template_folder = template_folder;
+            reader = new DicomSeriesReader();
+        }
         public void build_dictionary()
         {
             template_dictionary = new Dictionary<string, List<ROIClass>>();
