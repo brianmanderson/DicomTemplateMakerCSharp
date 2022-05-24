@@ -208,10 +208,5 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         {
             RT_file.Save(file_name);
         }
-        public void add_RTs()
-        {
-            Dictionary<string, string> name_color_dict = new Dictionary<string, string>() { { "Parotid_R", "Blue" } };
-
-        }
     }
 }
