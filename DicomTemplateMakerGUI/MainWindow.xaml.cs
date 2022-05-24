@@ -18,6 +18,7 @@ using DicomTemplateMakerGUI.Windows;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using DicomUtilitiesTemplateRunner;
 
 namespace DicomTemplateMakerGUI
 {
@@ -87,6 +88,8 @@ namespace DicomTemplateMakerGUI
 
         private void ClickRunDicomserver(object sender, RoutedEventArgs e)
         {
+            DicomTemplateRunner runner = new DicomTemplateRunner(Path.GetFullPath(folder_location));
+            runner.run();
         }
     }
 }

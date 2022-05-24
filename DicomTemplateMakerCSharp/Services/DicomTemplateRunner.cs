@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DicomTemplateMakerCSharp.Services
 {
-    class DicomTemplateRunner
+    public class DicomTemplateRunner
     {
         DicomSeriesReader reader;
         string template_folder = @".";
