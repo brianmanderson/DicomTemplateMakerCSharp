@@ -118,7 +118,6 @@ namespace DicomTemplateMakerGUI
                 TemplateBaseLabel.Content = folder_location;
                 Rebuild_From_Folders();
                 runner = new DicomRunner(Path.GetFullPath(folder_location));
-                RunDICOMServerButton.IsEnabled = true;
             }
         }
 
@@ -126,6 +125,7 @@ namespace DicomTemplateMakerGUI
         {
             runner.run();
             RunDICOMServerButton.IsEnabled = false;
+            ChangeTemplateButton.IsEnabled = false;
         }
     }
 }

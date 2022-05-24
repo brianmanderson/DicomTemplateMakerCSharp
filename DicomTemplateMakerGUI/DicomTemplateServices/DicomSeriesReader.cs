@@ -149,28 +149,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.roi_interpreted_type);
             roi_observation_sequence.Items.Add(roi_observation_set);
         }
-        public void update_template(bool delete_contours, bool delete_everything)
+        public void update_image_sequence()
         {
-            foreach (DicomTag key in change_tags)
-            {
-                if (series_reader.HasMetaDataKey(0, dicom_tags_dict[key]))
-                {
-                    RT_file.Dataset.AddOrUpdate(key, series_reader.GetMetaData(0, dicom_tags_dict[key]));
-                }
-            }
-            rt_structure_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0]);
-            roi_contour_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0]);
-            roi_observation_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0]);
-            if (delete_contours)
-            {
-                delete_all_contours();
-            }
-            if (delete_everything)
-            {
-                delete_all_structures();
-            }
-            build_reference_numbers();
-            /// Update the SOP Instance UIDS
             DicomSequence refFrameofRefSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ReferencedFrameOfReferenceSequence);
             foreach (DicomDataset refFrameofRef in refFrameofRefSequence.Items)
             {
@@ -199,6 +179,30 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     }
                 }
             }
+        }
+        public void update_template(bool delete_contours, bool delete_everything)
+        {
+            foreach (DicomTag key in change_tags)
+            {
+                if (series_reader.HasMetaDataKey(0, dicom_tags_dict[key]))
+                {
+                    RT_file.Dataset.AddOrUpdate(key, series_reader.GetMetaData(0, dicom_tags_dict[key]));
+                }
+            }
+            rt_structure_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence).Items[0]);
+            roi_contour_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence).Items[0]);
+            roi_observation_set = new DicomDataset(RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence).Items[0]);
+            if (delete_contours)
+            {
+                delete_all_contours();
+            }
+            if (delete_everything)
+            {
+                delete_all_structures();
+            }
+            build_reference_numbers();
+            /// Update the SOP Instance UIDS
+            update_image_sequence();
         }
         public void save_RT(string file_name)
         {

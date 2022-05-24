@@ -9,7 +9,7 @@
     <Grid>
         <Button x:Name="BuildFromRTButton" Content="Add a new template" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
         <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="True" HorizontalAlignment="Left" Height="50" Margin="311,66,0,0" VerticalAlignment="Top" Width="496" Click="ClickRunDicomserver"/>
-        <Button Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
+        <Button Name="ChangeTemplateButton" Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
         <Label Name="TemplateBaseLabel" Content="." HorizontalAlignment="Left" Height="34" Margin="256,18,0,0" VerticalAlignment="Top" Width="699"/>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,121,0,0">
             <StackPanel Margin="23,27,41,88" x:Name="TemplateStackPanel">
