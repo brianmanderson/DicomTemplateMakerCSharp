@@ -35,22 +35,23 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
-                "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", "", "PLEASE SELECT"};
+                "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
+            Binding interp_binding = new Binding("ROI_Interpreted_type");
+            interp_binding.Source = roi;
+
             ComboBox roi_interp_combobox = new ComboBox();
+            roi_interp_combobox.SetBinding(ComboBox.SelectedItemProperty, interp_binding);
             roi_interp_combobox.ItemsSource = interpreters;
-            if (interpreters.Contains(roi.roi_interpreted_type))
+            if (interpreters.Contains(roi.ROI_Interpreted_type))
             {
-                roi_interp_combobox.SelectedItem = roi.roi_interpreted_type;
-            }
-            else
-            {
-                roi_interp_combobox.SelectedItem = "PLEASE SELECT";
+                roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type;
             }
             roi_interp_combobox.Width = 150;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
-            Brush brush = new SolidColorBrush(Color.FromRgb(roi.RGB[0], roi.RGB[1], roi.RGB[2]));
-            color_button.Background = brush;
+            Binding color_binding = new Binding("ROI_Brush");
+            color_binding.Source = roi;
+            color_button.SetBinding(Button.BackgroundProperty, color_binding);
             color_button.Width = 100;
             color_button.Click += color_button_Click;
             Children.Add(color_button);
@@ -92,11 +93,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 var new_color = MyDialog.Color;
-                Brush brush = new SolidColorBrush(Color.FromRgb(new_color.R, new_color.G, new_color.B));
-                roi.R = new_color.R;
-                roi.G = new_color.G;
-                roi.B = new_color.B;
-                color_button.Background = brush;
+                roi.update_color(new_color.R, new_color.G, new_color.B);
             }
         }
         private void ROINameChanged(object sender, TextChangedEventArgs e)

@@ -1,15 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace DicomTemplateMakerGUI.Services
 {
     public class ROIClass
     {
         public string name;
-        public List<byte> RGB;
+        private List<byte> rgb;
         private string roi_interpreted_type;
         private byte r, g, b;
+        private Color roi_color;
+        private Brush roi_brush;
+
+        public Brush ROI_Brush
+        {
+            get { return roi_brush; }
+            set
+            {
+                roi_brush = value;
+                OnPropertyChanged("ROI_Brush");
+            }
+        }
+
+        public Color ROIColor
+        {
+            get { return roi_color; }
+            set
+            {
+                roi_color = value;
+                OnPropertyChanged("ROIColor");
+            }
+        }
+        public List<byte> RGB
+        {
+            get { return rgb; }
+            set
+            {
+                rgb = value;
+                OnPropertyChanged("RGB");
+            }
+        }
         public string ROI_Interpreted_type
         {
             get { return roi_interpreted_type; }
@@ -54,8 +86,18 @@ namespace DicomTemplateMakerGUI.Services
             this.R = R;
             this.G = G;
             this.B = B;
-            RGB = new List<byte>{ R, G, B};
-            this.roi_interpreted_type = roi_interpreted_type;
+            this.ROIColor = Color.FromRgb(R, G, B);
+            this.ROI_Brush = new SolidColorBrush(ROIColor);
+            this.RGB = new List<byte>{ R, G, B};
+            this.ROI_Interpreted_type = roi_interpreted_type;
+        }
+        public void update_color(byte R, byte G, byte B)
+        {
+            this.R = R;
+            this.G = G;
+            this.B = B;
+            this.ROIColor = Color.FromRgb(R, G, B);
+            this.ROI_Brush = new SolidColorBrush(ROIColor);
         }
         public event PropertyChangedEventHandler PropertyChanged;
 

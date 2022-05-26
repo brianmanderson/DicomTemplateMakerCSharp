@@ -95,15 +95,15 @@ namespace DicomTemplateMakerGUI.Windows
             List<ROIClass> ROIs_list = new List<ROIClass>();
             foreach (ROIClass roi in template_maker.ROIs)
             {
-                if (roi.roi_interpreted_type == "PTV")
+                if (roi.ROI_Interpreted_type == "PTV")
                 {
                     PTVs.Add(roi);
                 }
-                else if (roi.roi_interpreted_type == "CTV")
+                else if (roi.ROI_Interpreted_type == "CTV")
                 {
                     CTVs.Add(roi);
                 }
-                else if (roi.roi_interpreted_type == "GTV")
+                else if (roi.ROI_Interpreted_type == "GTV")
                 {
                     GTVs.Add(roi);
                 }
