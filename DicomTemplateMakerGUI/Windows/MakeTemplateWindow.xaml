@@ -17,6 +17,7 @@
         <Button x:Name="BuildButton" Background="LightGreen" Content="Build Template!" HorizontalAlignment="Left" Height="34" Margin="592,95,0,0" VerticalAlignment="Top" Width="137" Click="Build_Button_Click"/>
         <Button x:Name="AddROIButton" Content="Add ROI" HorizontalAlignment="Left" Height="45" Margin="592,142,0,0" VerticalAlignment="Top" Width="137" Click="AddROI_Click" IsEnabled="False"/>
         <Button x:Name="ColorButton" Content="" HorizontalAlignment="Left" Height="45" Margin="500,142,0,0" VerticalAlignment="Top" Width="80" Click="ChangeColor_Click"/>
+        <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="34" Margin="29,204,0,0" VerticalAlignment="Top" Width="140" Click="Refresh_Click" IsEnabled="False"/>
         <Button x:Name="UpdateButton" Content="Save Changes" HorizontalAlignment="Left" Height="34" Margin="190,204,0,0" VerticalAlignment="Top" Width="138" Click="Save_Changes_Click" IsEnabled="False"/>
         <Button x:Name="Update_and_ExitButton" Content="Save and Exit" HorizontalAlignment="Left" Height="34" Margin="358,204,0,0" VerticalAlignment="Top" Width="137" Click="Save_and_Exit_Click" IsEnabled="False" Grid.ColumnSpan="3"/>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,243,0,0" Grid.ColumnSpan="3">

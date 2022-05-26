@@ -58,6 +58,7 @@ namespace DicomTemplateMakerGUI.Windows
                 TemplateTextBox.IsEnabled = false;
                 add_roi_rows();
                 UpdateButton.IsEnabled = true;
+                RefreshButton.IsEnabled = true;
                 pathsButton.IsEnabled = true;
                 Update_and_ExitButton.IsEnabled = true;
                 AddROIFromRTButton.IsEnabled = true;
@@ -88,7 +89,49 @@ namespace DicomTemplateMakerGUI.Windows
         private void add_roi_rows()
         {
             ROIStackPanel.Children.Clear();
+            List<ROIClass> PTVs = new List<ROIClass>();
+            List<ROIClass> CTVs = new List<ROIClass>();
+            List<ROIClass> GTVs = new List<ROIClass>();
+            List<ROIClass> ROIs_list = new List<ROIClass>();
             foreach (ROIClass roi in template_maker.ROIs)
+            {
+                if (roi.roi_interpreted_type == "PTV")
+                {
+                    PTVs.Add(roi);
+                }
+                else if (roi.roi_interpreted_type == "CTV")
+                {
+                    CTVs.Add(roi);
+                }
+                else if (roi.roi_interpreted_type == "GTV")
+                {
+                    GTVs.Add(roi);
+                }
+                else
+                {
+                    ROIs_list.Add(roi);
+                }
+            }
+            ROIs_list = ROIs_list.OrderBy(o => o.name).ToList();
+            PTVs = PTVs.OrderBy(o => o.name).ToList();
+            GTVs = GTVs.OrderBy(o => o.name).ToList();
+            CTVs = CTVs.OrderBy(o => o.name).ToList();
+            foreach (ROIClass roi in PTVs)
+            {
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                ROIStackPanel.Children.Add(new_row);
+            }
+            foreach (ROIClass roi in CTVs)
+            {
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                ROIStackPanel.Children.Add(new_row);
+            }
+            foreach (ROIClass roi in GTVs)
+            {
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                ROIStackPanel.Children.Add(new_row);
+            }
+            foreach (ROIClass roi in ROIs_list)
             {
                 AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
                 ROIStackPanel.Children.Add(new_row);
@@ -138,6 +181,7 @@ namespace DicomTemplateMakerGUI.Windows
             write_path = Path.Combine(out_path, TemplateTextBox.Text);
             template_maker.define_output(write_path);
             UpdateButton.IsEnabled = false;
+            RefreshButton.IsEnabled = false;
             pathsButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = false;
             check_status();
@@ -155,6 +199,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             check_status();
             UpdateButton.IsEnabled = true;
+            RefreshButton.IsEnabled = true;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -173,6 +218,11 @@ namespace DicomTemplateMakerGUI.Windows
             EditPathsWindow paths_window = new EditPathsWindow(template_maker);
             paths_window.ShowDialog();
             check_status();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            add_roi_rows();
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)
