@@ -30,6 +30,9 @@ namespace DicomTemplateMakerGUI.Windows
         string dicom_file;
         string out_path;
         private string write_path;
+        Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
+        Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
@@ -57,6 +60,9 @@ namespace DicomTemplateMakerGUI.Windows
                 UpdateButton.IsEnabled = true;
                 pathsButton.IsEnabled = true;
                 Update_and_ExitButton.IsEnabled = true;
+                AddROIFromRTButton.IsEnabled = true;
+                BuildButton.IsEnabled = false;
+                BuildButton.Content = "Finished Building!";
                 write_path = folder;
             }
         }
@@ -93,21 +99,32 @@ namespace DicomTemplateMakerGUI.Windows
             UpdateButton.IsEnabled = true;
             pathsButton.IsEnabled = true;
             TemplateTextBox.IsEnabled = false;
+            AddROIFromRTButton.IsEnabled = true;
             BuildButton.Content = "Finished Building!";
             BuildButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = true;
             template_maker.define_output(Path.Combine(out_path, TemplateTextBox.Text));
             template_maker.make_template();
-            BuildButton.Content = "Finished!";
             check_status();
         }
         private void check_status()
         {
-            BuildButton.IsEnabled = false;
-            if (TemplateTextBox.Text != "" & TemplateTextBox.IsEnabled)
+            TemplateTextBox.Background = lightgreen;
+            pathsButton.Background = lightgray;
+            if (template_maker.Paths.Count == 0)
             {
-                BuildButton.IsEnabled = true;
+                pathsButton.Background = lightgreen;
             }
+            BuildButton.IsEnabled = false;
+            if (TemplateTextBox.Text != "")
+            {
+                TemplateTextBox.Background = white;
+                if (TemplateTextBox.IsEnabled)
+                {
+                    BuildButton.IsEnabled = true;
+                }    
+            }
+            
             AddROIButton.IsEnabled = false;
             if (ROITextBox.Text != "")
             {
@@ -155,6 +172,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             EditPathsWindow paths_window = new EditPathsWindow(template_maker);
             paths_window.ShowDialog();
+            check_status();
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)

@@ -31,7 +31,6 @@ namespace CleaningRTStructureCsharp
                     foreach (DicomDataset rTReferencedSeries in rTReferencedSeriesSequence)
                     {
                         DicomSequence contourImageSequence = rTReferencedSeries.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
-                        DicomDataset fill_segment_base = new DicomDataset(contourImageSequence.Items[0]);
                         int total = contourImageSequence.Items.Count;
                         for (int i = 0; i < total; i++)
                         {
