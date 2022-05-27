@@ -112,10 +112,10 @@ namespace DicomTemplateMakerGUI.Windows
                     ROIs_list.Add(roi);
                 }
             }
-            ROIs_list = ROIs_list.OrderBy(o => o.name).ToList();
-            PTVs = PTVs.OrderBy(o => o.name).ToList();
-            GTVs = GTVs.OrderBy(o => o.name).ToList();
-            CTVs = CTVs.OrderBy(o => o.name).ToList();
+            ROIs_list = ROIs_list.OrderBy(o => o.ROIName).ToList();
+            PTVs = PTVs.OrderBy(o => o.ROIName).ToList();
+            GTVs = GTVs.OrderBy(o => o.ROIName).ToList();
+            CTVs = CTVs.OrderBy(o => o.ROIName).ToList();
             foreach (ROIClass roi in PTVs)
             {
                 AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);

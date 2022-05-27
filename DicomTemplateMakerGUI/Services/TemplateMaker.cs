@@ -84,7 +84,7 @@ namespace DicomTemplateMakerGUI.Services
             clear_folder();
             foreach (ROIClass roi in ROIs)
             {
-                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.name}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.ROI_Interpreted_type}");
+                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.ROI_Interpreted_type}");
             }
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
         }

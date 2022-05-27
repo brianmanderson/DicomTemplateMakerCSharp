@@ -7,13 +7,22 @@ namespace DicomTemplateMakerGUI.Services
 {
     public class ROIClass
     {
-        public string name;
+        private string roiname;
         private List<byte> rgb;
         private string roi_interpreted_type;
         private byte r, g, b;
         private Color roi_color;
         private Brush roi_brush;
 
+        public string ROIName
+        {
+            get { return roiname; }
+            set
+            {
+                roiname = value;
+                OnPropertyChanged("ROIName");
+            }
+        }
         public Brush ROI_Brush
         {
             get { return roi_brush; }
@@ -62,34 +71,34 @@ namespace DicomTemplateMakerGUI.Services
         }
         public byte G
         {
-            get { return r; }
+            get { return g; }
             set
             {
-                r = value;
+                g = value;
                 OnPropertyChanged("G");
             }
         }
         public byte B
         {
-            get { return r; }
+            get { return b; }
             set
             {
-                r = value;
+                b = value;
                 OnPropertyChanged("B");
             }
         }
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
-        public ROIClass(byte R, byte G, byte B, string name, string roi_interpreted_type)
+        public ROIClass(byte r, byte g, byte b, string Name, string Roi_interp)
         {
-            this.name = name;
-            this.R = R;
-            this.G = G;
-            this.B = B;
-            this.ROIColor = Color.FromRgb(R, G, B);
-            this.ROI_Brush = new SolidColorBrush(ROIColor);
-            this.RGB = new List<byte>{ R, G, B};
-            this.ROI_Interpreted_type = roi_interpreted_type;
+            roiname = Name;
+            R = r;
+            G = g;
+            B = b;
+            ROIColor = Color.FromRgb(R, G, B);
+            ROI_Brush = new SolidColorBrush(ROIColor);
+            RGB = new List<byte>{ R, G, B};
+            ROI_Interpreted_type = Roi_interp;
         }
         public void update_color(byte R, byte G, byte B)
         {

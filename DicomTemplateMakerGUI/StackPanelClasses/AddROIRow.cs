@@ -30,7 +30,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             this.roi_list = roi_list;
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
-            roi_name_textbox.Text = roi.name;
+            roi_name_textbox.Text = roi.ROIName;
             roi_name_textbox.TextChanged += ROINameChanged;
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
@@ -49,9 +49,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             roi_interp_combobox.Width = 150;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
-            Binding color_binding = new Binding("ROI_Brush");
-            color_binding.Source = roi;
-            color_button.SetBinding(Button.BackgroundProperty, color_binding);
+            color_button.Background = roi.ROI_Brush;
             color_button.Width = 100;
             color_button.Click += color_button_Click;
             Children.Add(color_button);
@@ -92,13 +90,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
             if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                var new_color = MyDialog.Color;
-                roi.update_color(new_color.R, new_color.G, new_color.B);
+                roi.update_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+                color_button.Background = roi.ROI_Brush;
             }
         }
         private void ROINameChanged(object sender, TextChangedEventArgs e)
         {
-            roi.name = roi_name_textbox.Text;
+            roi.ROIName = roi_name_textbox.Text;
         }
     }
 }
