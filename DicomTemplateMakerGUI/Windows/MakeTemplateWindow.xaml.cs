@@ -31,8 +31,8 @@ namespace DicomTemplateMakerGUI.Windows
         string out_path;
         private string write_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
-        Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+        Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;

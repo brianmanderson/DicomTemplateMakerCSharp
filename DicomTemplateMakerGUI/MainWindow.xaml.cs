@@ -57,6 +57,8 @@ namespace DicomTemplateMakerGUI
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         string folder_location;
+        Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
+        Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         bool running;
         DicomRunner runner;
 
@@ -73,9 +75,10 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
+            running = false;
             folder_location = @".";
             TemplateBaseLabel.Content = Path.GetFullPath(folder_location);
-            BuildFromRTButton.IsEnabled = true;
+            AddTemplateButton.IsEnabled = true;
             Rebuild_From_Folders();
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
@@ -84,12 +87,19 @@ namespace DicomTemplateMakerGUI
         {
             TemplateStackPanel.Children.Clear();
             string[] directories = Directory.GetDirectories(folder_location);
+            AddTemplateButton.Background = lightgreen;
+            RunDICOMServerButton.IsEnabled = false;
             foreach (string directory in directories)
             {
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.categorize_folder(directory);
                 if (evaluator.is_template)
                 {
+                    AddTemplateButton.Background = lightgray;
+                    if (!running)
+                    {
+                        RunDICOMServerButton.IsEnabled = true;
+                    }
                     AddTemplateRow new_row = new AddTemplateRow(evaluator);
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
@@ -117,13 +127,13 @@ namespace DicomTemplateMakerGUI
                 folder_location = dialog.FileName;
                 TemplateBaseLabel.Content = folder_location;
                 Rebuild_From_Folders();
-                runner = new DicomRunner(Path.GetFullPath(folder_location));
             }
         }
 
         private void ClickRunDicomserver(object sender, RoutedEventArgs e)
         {
             runner.run();
+            running = true;
             RunDICOMServerButton.IsEnabled = false;
             ChangeTemplateButton.IsEnabled = false;
         }

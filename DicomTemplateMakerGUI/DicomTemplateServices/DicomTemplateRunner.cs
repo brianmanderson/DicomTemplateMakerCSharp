@@ -69,11 +69,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             string[] all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
             foreach (string directory in all_directories)
             {
-                string outpath = Path.Combine(directory, $"{template_name}.dcm");
-                if (File.Exists(outpath))
-                {
-                    continue;
-                }
                 string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
                 if (dicom_files.Length > 0)
                 {
@@ -100,6 +95,11 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     reader.parse_folder(directory);
                     foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
                     {
+                        string outpath = Path.Combine(directory, $"{template_name}_{uid}.dcm");
+                        if (File.Exists(outpath))
+                        {
+                            continue;
+                        }
                         reader.load_DICOM(uid);
                         reader.update_template(delete_contours: true, delete_everything: true);
                         foreach (ROIClass roi in template_dictionary[template_name])
