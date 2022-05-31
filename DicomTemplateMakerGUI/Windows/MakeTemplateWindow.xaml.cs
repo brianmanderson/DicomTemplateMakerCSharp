@@ -61,6 +61,9 @@ namespace DicomTemplateMakerGUI.Windows
                 RefreshButton.IsEnabled = true;
                 pathsButton.IsEnabled = true;
                 Update_and_ExitButton.IsEnabled = true;
+                ROITextBox.IsEnabled = true;
+                InterpComboBox.IsEnabled = true;
+                ColorButton.IsEnabled = true;
                 AddROIFromRTButton.IsEnabled = true;
                 BuildButton.IsEnabled = false;
                 BuildButton.Content = "Finished Building!";
@@ -70,7 +73,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Select_File_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
             dialog.InitialDirectory = ".";
             dialog.IsFolderPicker = false;
             file_selected = false;
@@ -143,6 +146,9 @@ namespace DicomTemplateMakerGUI.Windows
             pathsButton.IsEnabled = true;
             TemplateTextBox.IsEnabled = false;
             AddROIFromRTButton.IsEnabled = true;
+            ROITextBox.IsEnabled = true;
+            InterpComboBox.IsEnabled = true;
+            ColorButton.IsEnabled = true;
             BuildButton.Content = "Finished Building!";
             BuildButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = true;

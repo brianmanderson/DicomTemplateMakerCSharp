@@ -69,6 +69,11 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             string[] all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
             foreach (string directory in all_directories)
             {
+                string status_file = Path.Combine(directory, $"CreatedRT_{template_name}.txt");
+                if (File.Exists(status_file))
+                {
+                    continue;
+                }
                 string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
                 if (dicom_files.Length > 0)
                 {
@@ -107,6 +112,11 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             reader.add_roi(roi);
                         }
                         reader.save_RT(outpath);
+                    }
+                    if (!File.Exists(status_file))
+                    {
+                        FileStream fid_status_file = File.OpenWrite(status_file);
+                        fid_status_file.Close();
                     }
                 }
             }
