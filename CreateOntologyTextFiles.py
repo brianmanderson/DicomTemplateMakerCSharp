@@ -1,6 +1,7 @@
 import pydicom
 from owlready2 import *
 import pickle
+import os
 
 
 def save_obj(obj, path): # Save almost anything.. dictionary, list, etc.
@@ -35,18 +36,27 @@ def walk_down(onto, i, global_output):
     return None
 
 
-ds = pydicom.read_file(r'C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\Test.dcm')
-onto = get_ontology(r'C:\Users\b5anderson\Downloads\fma.owl').load()
-classes = onto.classes()
-organ_class = None
+out_path = r'./ontology.pkl'
+if not os.path.exists(out_path):
+    ds = pydicom.read_file(r'C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\Test.dcm')
+    onto = get_ontology(r'C:\Users\b5anderson\Downloads\fma.owl').load()
+    classes = onto.classes()
+    organ_class = None
 
-for i in classes:
-    if len(i.preferred_name) > 0:
-        if i.preferred_name[0] == 'Organ':
-            organ_class = i
-            break
-global_output = dict()
-walk_down(onto, organ_class, global_output)
-save_obj(global_output, r'./ontology.pkl')
+    for i in classes:
+        if len(i.preferred_name) > 0:
+            if i.preferred_name[0] == 'Organ':
+                organ_class = i
+                break
+    global_output = dict()
+    walk_down(onto, organ_class, global_output)
+    save_obj(global_output, out_path)
+global_output = load_obj(out_path)
+onto_out_path = os.path.join('.', 'Ontologies')
+if not os.path.exists(onto_out_path):
+    os.makedirs(onto_out_path)
+for preferred_name in global_output.keys():
+    fid = open(os.path.join(onto_out_path))
+xxx = 1
 # onto.get_namespace("http://purl.org/sig/ont/fma.owl#")
 # xxx = 1

@@ -170,6 +170,9 @@
     <Compile Include="StackPanelClasses\AddROIRow.cs" />
     <Compile Include="StackPanelClasses\AddTemplateRow.cs" />
     <Compile Include="StackPanelClasses\PathsRow.cs" />
+    <Compile Include="Windows\EditOntologyWindow.xaml.cs">
+      <DependentUpon>EditOntologyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EditPathsWindow.xaml.cs">
       <DependentUpon>EditPathsWindow.xaml</DependentUpon>
     </Compile>
@@ -188,6 +191,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\EditOntologyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\EditPathsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
