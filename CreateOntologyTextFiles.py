@@ -57,6 +57,7 @@ if not os.path.exists(onto_out_path):
     os.makedirs(onto_out_path)
 for preferred_name in global_output.keys():
     fid = open(os.path.join(onto_out_path))
+[i for i in global_output.keys() if i.lower().find('rib') != -1]
 xxx = 1
 # onto.get_namespace("http://purl.org/sig/ont/fma.owl#")
 # xxx = 1

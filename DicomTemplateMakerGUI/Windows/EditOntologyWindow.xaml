@@ -10,7 +10,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,118,150,0">
             <StackPanel x:Name="OntologyStackPanel" Height="172"/>
         </ScrollViewer>
-        <Button Content="Add Ontology" HorizontalAlignment="Left" Height="50" Margin="515,39,0,0" VerticalAlignment="Top" Width="129" Click="Button_Click"/>
+        <Button Content="Add Ontology" HorizontalAlignment="Left" Height="50" Margin="515,39,0,0" VerticalAlignment="Top" Width="129"/>
         <Label Content="Preferred Name" HorizontalAlignment="Left" Height="26" Margin="29,10,0,0" VerticalAlignment="Top" Width="101"/>
         <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="341,10,0,0" VerticalAlignment="Top" Width="101"/>
         <TextBlock x:Name="PreferredNameTextBox" HorizontalAlignment="Left" Height="48" Margin="29,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
