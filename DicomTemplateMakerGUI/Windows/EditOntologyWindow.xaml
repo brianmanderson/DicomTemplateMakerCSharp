@@ -1,0 +1,19 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.EditOntologyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="EditOntologyWindow" Height="450" Width="800">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,118,150,0">
+            <StackPanel x:Name="OntologyStackPanel" Height="172"/>
+        </ScrollViewer>
+        <Button Content="Add Ontology" HorizontalAlignment="Left" Height="50" Margin="515,39,0,0" VerticalAlignment="Top" Width="129"/>
+        <Label Content="Preferred Name" HorizontalAlignment="Left" Height="26" Margin="29,10,0,0" VerticalAlignment="Top" Width="101"/>
+        <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="341,10,0,0" VerticalAlignment="Top" Width="101"/>
+        <TextBlock x:Name="PreferredNameTextBox" HorizontalAlignment="Left" Height="48" Margin="29,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
+        <TextBlock x:Name="CodeTextBox" HorizontalAlignment="Left" Height="48" Margin="327,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168"/>
+    </Grid>
+</Window>
