@@ -71,7 +71,8 @@ namespace DicomTemplateMakerGUI.Services
                     if (name_dict.ContainsKey(key))
                     {
                         string[] colors = color_dict[key].Split('\\');
-                        ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key]));
+                        IdentificationCodeClass code_class = new IdentificationCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
+                        ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class));
                     }
                 }
             }
