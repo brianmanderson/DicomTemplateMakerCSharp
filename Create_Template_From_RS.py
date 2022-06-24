@@ -21,6 +21,8 @@ def main(rs_path=r'C:\Users\b5anderson\Modular_Projects\Template_Folder\Abdomen_
         reference_number = roi_observation.ReferencedROINumber
         if reference_number in roi_dict.keys():
             roi_dict[reference_number]['Interp'] = roi_observation.RTROIInterpretedType
+            coded = roi_observation.RTROIIdentificationCodeSequence[0]
+            roi_dict[reference_number]['Codes'] = f"{coded.CodeMeaning}\{coded.CodeValue}\{coded.CodingSchemeDesignator}"
     for roi_struct in ds.StructureSetROISequence:
         reference_number = roi_struct.ROINumber
         if reference_number in roi_dict.keys():
@@ -31,10 +33,11 @@ def main(rs_path=r'C:\Users\b5anderson\Modular_Projects\Template_Folder\Abdomen_
         if roi_name is not None:
             fid = open(os.path.join(roi_path, '{}.txt'.format(roi_name)), 'w+')
             fid.write('{}\{}\{}\n'.format(roi['color'][0], roi['color'][1], roi['color'][2]))
+            fid.write(f"{roi['Codes']}\n")
             interp = roi['Interp']
             fid.write(interp)
             fid.close()
 
 
 if __name__ == '__main__':
-    main()
+    main(r'O:\DICOM\BMA_Export\RT.dcm')
