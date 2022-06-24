@@ -97,7 +97,11 @@ namespace DicomTemplateMakerGUI.Services
             clear_folder();
             foreach (ROIClass roi in ROIs)
             {
-                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"), $"{roi.R}\\{roi.G}\\{roi.B}\n{roi.ROI_Interpreted_type}");
+                IdentificationCodeClass i = roi.IdentificationCode;
+                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
+                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +
+                    $"{roi.ROI_Interpreted_type}");
             }
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
         }
@@ -126,12 +130,14 @@ namespace DicomTemplateMakerGUI.Services
                     string[] instructions = File.ReadAllLines(roi_file);
                     color = instructions[0];
                     string[] color_values = color.Split('\\');
+                    string[] code_values = instructions[1].Split('\\');
+                    IdentificationCodeClass code_class = new IdentificationCodeClass(code_values[0], code_values[1], code_values[2]);
                     interperter = "";
-                    if (instructions.Length == 2)
+                    if (instructions.Length == 3)
                     {
-                        interperter = instructions[1];
+                        interperter = instructions[2];
                     }
-                    ROIs.Add(new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter));
+                    ROIs.Add(new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter, code_class));
                 }
             }
         }

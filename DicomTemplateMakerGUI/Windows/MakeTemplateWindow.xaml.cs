@@ -233,7 +233,8 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddROI_Click(object sender, RoutedEventArgs e)
         {
-            ROIClass roi = new ROIClass(R, G, B, ROITextBox.Text, InterpComboBox.SelectedItem.ToString());
+            IdentificationCodeClass code_class = new IdentificationCodeClass("Test", "Test", "test");
+            ROIClass roi = new ROIClass(R, G, B, ROITextBox.Text, InterpComboBox.SelectedItem.ToString(), code_class);
             template_maker.ROIs.Add(roi);
             add_roi_rows();
             ROITextBox.Text = "";
