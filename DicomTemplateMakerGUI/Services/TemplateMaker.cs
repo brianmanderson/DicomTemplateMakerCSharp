@@ -21,7 +21,8 @@ namespace DicomTemplateMakerGUI.Services
         public List<ROIClass> ROIs;
         public List<string> Paths;
         string output;
-        public Dictionary<int, string> color_dict, interp_dict, name_dict;
+        public Dictionary<int, string> color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
+            coding_scheme_designator_dict;
         DicomFile RT_file;
         public TemplateMaker()
         {
@@ -33,6 +34,9 @@ namespace DicomTemplateMakerGUI.Services
             color_dict = new Dictionary<int, string>();
             interp_dict = new Dictionary<int, string>();
             name_dict = new Dictionary<int, string>();
+            code_meaning_dict = new Dictionary<int, string>();
+            code_value_dict = new Dictionary<int, string>();
+            coding_scheme_designator_dict = new Dictionary<int, string>();
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             foreach (DicomDataset rt_contour in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
             {
@@ -45,6 +49,14 @@ namespace DicomTemplateMakerGUI.Services
                 int ref_number = rt_observation.GetSingleValue<int>(DicomTag.ReferencedROINumber);
                 string interp = rt_observation.GetString(DicomTag.RTROIInterpretedType);
                 interp_dict.Add(ref_number, interp);
+                DicomSequence rt_roi_identification_sequence = rt_observation.GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence);
+                foreach (DicomDataset rt_ident in rt_roi_identification_sequence)
+                {
+                    code_meaning_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeMeaning));
+                    code_value_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeValue));
+                    coding_scheme_designator_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodingSchemeDesignator));
+                    break;
+                }
             }
             foreach (DicomDataset rt_struct in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence))
             {
@@ -59,7 +71,8 @@ namespace DicomTemplateMakerGUI.Services
                     if (name_dict.ContainsKey(key))
                     {
                         string[] colors = color_dict[key].Split('\\');
-                        ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key]));
+                        IdentificationCodeClass code_class = new IdentificationCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
+                        ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class));
                     }
                 }
             }
