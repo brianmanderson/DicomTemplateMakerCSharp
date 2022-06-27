@@ -11,37 +11,43 @@ using System.Collections.Generic;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
-    public class OntologyClass
+    class OntologyClass
     {
         public string Name;
         public string CodeValue;
         public string CodingScheme;
+        public OntologyClass(string name, string code_value, string coding_scheme)
+        {
+            this.Name = name;
+            this.CodeValue = code_value;
+            this.CodingScheme = coding_scheme;
+        }
     }
     class AddOntologyRow : StackPanel
     {
         private OntologyClass ontology;
+        private List<OntologyClass> ontology_list;
         private TextBox ontology_name_textbox, code_value_textbox, code_scheme_textbox;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
-        private OntologyClass onto;
-        public AddOntologyRow(OntologyClass ontology)
+        public AddOntologyRow(List<OntologyClass> ontology_list, OntologyClass ontology)
         {
             Orientation = Orientation.Horizontal;
-            this.onto = ontology;
+            this.ontology = ontology;
             ontology_name_textbox = new TextBox();
-            ontology_name_textbox.Text = onto.Name;
+            ontology_name_textbox.Text = ontology.Name;
             ontology_name_textbox.TextChanged += TextValueChange;
             ontology_name_textbox.Width = 200;
             Children.Add(ontology_name_textbox);
 
             code_value_textbox = new TextBox();
-            code_value_textbox.Text = onto.CodeValue;
+            code_value_textbox.Text = ontology.CodeValue;
             code_value_textbox.TextChanged += TextValueChange;
             code_value_textbox.Width = 200;
             Children.Add(code_value_textbox);
 
             code_scheme_textbox = new TextBox();
-            code_scheme_textbox.Text = onto.CodingScheme;
+            code_scheme_textbox.Text = ontology.CodingScheme;
             code_scheme_textbox.TextChanged += TextValueChange;
             code_scheme_textbox.Width = 200;
             Children.Add(code_scheme_textbox);
@@ -76,12 +82,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
             Children.Clear();
+            ontology_list.Remove(ontology);
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
-            onto.Name = ontology_name_textbox.Text;
-            onto.CodeValue = code_value_textbox.Text;
-            onto.CodingScheme = code_scheme_textbox.Text;
+            ontology.Name = ontology_name_textbox.Text;
+            ontology.CodeValue = code_value_textbox.Text;
+            ontology.CodingScheme = code_scheme_textbox.Text;
         }
     }
 }

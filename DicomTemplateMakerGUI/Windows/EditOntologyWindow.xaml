@@ -7,13 +7,19 @@
         mc:Ignorable="d"
         Title="EditOntologyWindow" Height="450" Width="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,118,150,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="124*"/>
+            <RowDefinition Height="297*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,118,150.333,-0.333" Grid.RowSpan="2">
             <StackPanel x:Name="OntologyStackPanel" Height="172"/>
         </ScrollViewer>
-        <Button Content="Add Ontology" HorizontalAlignment="Left" Height="50" Margin="515,39,0,0" VerticalAlignment="Top" Width="129"/>
-        <Label Content="Preferred Name" HorizontalAlignment="Left" Height="26" Margin="29,10,0,0" VerticalAlignment="Top" Width="101"/>
+        <Button Content="Add Ontology" HorizontalAlignment="Left" Height="50" Margin="654,41,0,0" VerticalAlignment="Top" Width="129" Click="AddOntology_Button"/>
+        <Label Content="Searchable Name" HorizontalAlignment="Left" Height="26" Margin="29,10,0,0" VerticalAlignment="Top" Width="101"/>
         <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="341,10,0,0" VerticalAlignment="Top" Width="101"/>
         <TextBlock x:Name="PreferredNameTextBox" HorizontalAlignment="Left" Height="48" Margin="29,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
-        <TextBlock x:Name="CodeTextBox" HorizontalAlignment="Left" Height="48" Margin="327,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168"/>
+        <TextBlock x:Name="CodeValue_TextBox" HorizontalAlignment="Left" Height="48" Margin="327,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
+        <Label Content="Code Scheme" HorizontalAlignment="Left" Height="26" Margin="467,10,0,0" VerticalAlignment="Top" Width="101"/>
+        <TextBlock x:Name="CodeScheme_TextBox" HorizontalAlignment="Left" Height="48" Margin="467,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
     </Grid>
 </Window>

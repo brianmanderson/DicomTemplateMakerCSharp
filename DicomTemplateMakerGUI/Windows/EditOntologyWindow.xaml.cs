@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DicomTemplateMakerGUI.StackPanelClasses;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -19,11 +20,22 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class EditOntologyWindow : Window
     {
+        private List<OntologyClass> ontology_list = new List<OntologyClass>();
         public EditOntologyWindow()
         {
             InitializeComponent();
         }
-        public void build_ontology()
+        private void RefreshView()
+        {
+            OntologyStackPanel.Children.Clear();
+            foreach (OntologyClass onto in ontology_list)
+            {
+                AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto);
+                OntologyStackPanel.Children.Add(new_row);
+            }
+        }
+
+        private void AddOntology_Button(object sender, RoutedEventArgs e)
         {
 
         }
