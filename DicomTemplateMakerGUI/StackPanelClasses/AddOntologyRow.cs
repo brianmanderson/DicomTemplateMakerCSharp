@@ -34,6 +34,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             Orientation = Orientation.Horizontal;
             this.ontology = ontology;
+            this.ontology_list = ontology_list;
             ontology_name_textbox = new TextBox();
             ontology_name_textbox.Text = ontology.Name;
             ontology_name_textbox.TextChanged += TextValueChange;
@@ -43,13 +44,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             code_value_textbox = new TextBox();
             code_value_textbox.Text = ontology.CodeValue;
             code_value_textbox.TextChanged += TextValueChange;
-            code_value_textbox.Width = 200;
+            code_value_textbox.Width = 100;
             Children.Add(code_value_textbox);
 
             code_scheme_textbox = new TextBox();
             code_scheme_textbox.Text = ontology.CodingScheme;
             code_scheme_textbox.TextChanged += TextValueChange;
-            code_scheme_textbox.Width = 200;
+            code_scheme_textbox.Width = 100;
             Children.Add(code_scheme_textbox);
 
             Label DeleteLabel = new Label();
