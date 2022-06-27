@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.DicomTemplateServices
 {
@@ -43,13 +44,13 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             color = instructions[0];
                             string[] color_values = color.Split('\\');
                             string[] code_values = instructions[1].Split('\\');
-                            //IdentificationCodeClass code_class = new IdentificationCodeClass(code_values[0], code_values[1], code_values[2]);
+                            IdentificationCodeClass code_class = new IdentificationCodeClass(code_values[0], code_values[1], code_values[2]);
                             interperter = "";
                             if (instructions.Length == 3)
                             {
                                 interperter = instructions[2];
                             }
-                            rois.Add(new ROIClass(color, roiname, interperter));
+                            rois.Add(new ROIClass(color, roiname, interperter, code_class));
                         }
                         template_dictionary.Add(Path.GetFileName(template_directory), rois);
                         string[] paths = File.ReadAllLines(Path.Combine(template_directory, "Paths.txt"));

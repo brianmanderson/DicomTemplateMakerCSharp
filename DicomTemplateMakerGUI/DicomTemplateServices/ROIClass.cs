@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DicomTemplateMakerGUI.DicomTemplateServices
+namespace DicomTemplateMakerGUI.DicomTemplateServicesOld
 {
     class ROIClass
     {
