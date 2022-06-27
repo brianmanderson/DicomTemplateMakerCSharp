@@ -184,6 +184,7 @@
     <Compile Include="Services\ROIClass.cs" />
     <Compile Include="Services\TemplateEvaluator.cs" />
     <Compile Include="Services\TemplateMaker.cs" />
+    <Compile Include="StackPanelClasses\AddOntologyRow.cs" />
     <Compile Include="StackPanelClasses\AddROIRow.cs" />
     <Compile Include="StackPanelClasses\AddTemplateRow.cs" />
     <Compile Include="StackPanelClasses\PathsRow.cs" />

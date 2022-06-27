@@ -7,13 +7,18 @@
         mc:Ignorable="d"
         Title="EditOntologyWindow" Height="450" Width="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,118,150,0">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,193,10.333,-0.333">
             <StackPanel x:Name="OntologyStackPanel" Height="172"/>
         </ScrollViewer>
-        <Button Content="Add Ontology" HorizontalAlignment="Left" Height="50" Margin="515,39,0,0" VerticalAlignment="Top" Width="129"/>
-        <Label Content="Preferred Name" HorizontalAlignment="Left" Height="26" Margin="29,10,0,0" VerticalAlignment="Top" Width="101"/>
-        <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="341,10,0,0" VerticalAlignment="Top" Width="101"/>
-        <TextBlock x:Name="PreferredNameTextBox" HorizontalAlignment="Left" Height="48" Margin="29,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
-        <TextBlock x:Name="CodeTextBox" HorizontalAlignment="Left" Height="48" Margin="327,41,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="168"/>
+        <Button Name="AddOntology_Button" Content="Add Ontology" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="607,81,0,0" VerticalAlignment="Top" Width="129" Click="AddOntology_Click"/>
+        <Label Content="Wanted Name" HorizontalAlignment="Left" Height="26" Margin="21,51,0,0" VerticalAlignment="Top" Width="101"/>
+        <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="333,51,0,0" VerticalAlignment="Top" Width="101"/>
+        <Label Content="Code Scheme" HorizontalAlignment="Left" Height="26" Margin="459,51,0,0" VerticalAlignment="Top" Width="101"/>
+        <TextBox x:Name="PreferredNameTextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="21,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
+        <TextBox x:Name="CodeValue_TextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="319,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
+        <TextBox x:Name="CodeScheme_TextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="459,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
+        <Button Content="Add from RT" HorizontalAlignment="Left" Height="45" Margin="21,1,0,0" VerticalAlignment="Top" Width="201" Click="AddOntologyFromRT_Click"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="233,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="173"/>
+        <Label Content="Search by name, code, or scheme" HorizontalAlignment="Left" Height="43" Margin="21,145,0,0" VerticalAlignment="Top" Width="207"/>
     </Grid>
 </Window>
