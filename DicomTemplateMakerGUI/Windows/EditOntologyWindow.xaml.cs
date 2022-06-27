@@ -23,5 +23,9 @@ namespace DicomTemplateMakerGUI.Windows
         {
             InitializeComponent();
         }
+        public void build_ontology()
+        {
+
+        }
     }
 }
