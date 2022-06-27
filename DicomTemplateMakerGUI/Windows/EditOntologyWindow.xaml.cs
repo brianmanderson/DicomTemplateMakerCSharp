@@ -82,7 +82,20 @@ namespace DicomTemplateMakerGUI.Windows
             OntologyStackPanel.Children.Add(TopRow());
             foreach (OntologyClass onto in ontology_list)
             {
+                bool add_onto = false;
                 if (onto.Name.Contains(SearchBox_TextBox.Text))
+                {
+                    add_onto = true;
+                }
+                else if (onto.CodeValue.Contains(SearchBox_TextBox.Text))
+                {
+                    add_onto = true;
+                }
+                else if (onto.CodingScheme.Contains(SearchBox_TextBox.Text))
+                {
+                    add_onto = true;
+                }
+                if (add_onto)
                 {
                     AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto);
                     OntologyStackPanel.Children.Add(new_row);
