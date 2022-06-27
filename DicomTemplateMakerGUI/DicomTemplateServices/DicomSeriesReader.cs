@@ -137,16 +137,16 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             }
             observation_number_list.Add(roi_observation_number);
             rt_structure_set.AddOrUpdate(DicomTag.ROINumber, roi_number);
-            rt_structure_set.AddOrUpdate(DicomTag.ROIName, roi_class.name);
+            rt_structure_set.AddOrUpdate(DicomTag.ROIName, roi_class.ROIName);
             rt_structure_set_sequence.Items.Add(rt_structure_set);
 
             roi_contour_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
-            roi_contour_set.AddOrUpdate(DicomTag.ROIDisplayColor, roi_class.color);
+            roi_contour_set.AddOrUpdate(DicomTag.ROIDisplayColor, roi_class.color_string);
             roi_contour_sequence.Items.Add(roi_contour_set);
 
             roi_observation_set.AddOrUpdate(DicomTag.ObservationNumber, roi_observation_number);
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
-            roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.roi_interpreted_type);
+            roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
             roi_observation_sequence.Items.Add(roi_observation_set);
         }
         public void update_image_sequence()

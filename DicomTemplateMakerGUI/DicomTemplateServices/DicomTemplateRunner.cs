@@ -41,10 +41,13 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             roiname = Path.GetFileName(roi_file).Replace(".txt", "");
                             string[] instructions = File.ReadAllLines(roi_file);
                             color = instructions[0];
+                            string[] color_values = color.Split('\\');
+                            string[] code_values = instructions[1].Split('\\');
+                            //IdentificationCodeClass code_class = new IdentificationCodeClass(code_values[0], code_values[1], code_values[2]);
                             interperter = "";
-                            if (instructions.Length == 2)
+                            if (instructions.Length == 3)
                             {
-                                interperter = instructions[1];
+                                interperter = instructions[2];
                             }
                             rois.Add(new ROIClass(color, roiname, interperter));
                         }

@@ -14,6 +14,7 @@ namespace DicomTemplateMakerGUI.Services
         private byte r, g, b;
         private Color roi_color;
         private Brush roi_brush;
+        public string color_string;
         public IdentificationCodeClass IdentificationCode
         {
             get { return identification_class; }
@@ -108,6 +109,13 @@ namespace DicomTemplateMakerGUI.Services
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte>{ R, G, B};
             ROI_Interpreted_type = Roi_interp;
+            IdentificationCode = identification_code_class;
+        }
+        public ROIClass(string color, string name, string roi_interpreted_type, IdentificationCodeClass identification_code_class)
+        {
+            roiname = name;
+            color_string = color;
+            ROI_Interpreted_type = roi_interpreted_type;
             IdentificationCode = identification_code_class;
         }
         public void update_color(byte R, byte G, byte B)
