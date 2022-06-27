@@ -137,5 +137,12 @@ namespace DicomTemplateMakerGUI
             RunDICOMServerButton.IsEnabled = false;
             ChangeTemplateButton.IsEnabled = false;
         }
+
+        private void Add_Ontology_Button(object sender, RoutedEventArgs e)
+        {
+            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location);
+            ontology_window.ShowDialog();
+            Rebuild_From_Folders();
+        }
     }
 }

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000">
     <Grid>
-        <Button x:Name="AddTemplateButton" Content="Add a new template" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
+        <Button x:Name="AddTemplateButton" Content="Add a new template" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
         <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="311,66,0,0" VerticalAlignment="Top" Width="496" Click="ClickRunDicomserver"/>
         <Button Name="ChangeTemplateButton" Visibility="Hidden" Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
         <Label Name="TemplateBaseLabel" Content="." Visibility="Hidden" HorizontalAlignment="Left" Height="34" Margin="256,18,0,0" VerticalAlignment="Top" Width="699"/>
@@ -15,5 +15,6 @@
             <StackPanel Margin="23,27,41,88" x:Name="TemplateStackPanel">
             </StackPanel>
         </ScrollViewer>
+        <Button x:Name="AddOntology" Content="Edit Ontologies" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Add_Ontology_Button"/>
     </Grid>
 </Window>

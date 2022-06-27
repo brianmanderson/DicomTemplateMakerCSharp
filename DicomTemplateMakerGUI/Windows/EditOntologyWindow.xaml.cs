@@ -21,8 +21,10 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class EditOntologyWindow : Window
     {
         private List<OntologyClass> ontology_list = new List<OntologyClass>();
-        public EditOntologyWindow()
+        private string path;
+        public EditOntologyWindow(string path)
         {
+            this.path = path;
             InitializeComponent();
         }
         private void RefreshView()
@@ -37,7 +39,9 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddOntology_Button(object sender, RoutedEventArgs e)
         {
-
+            OntologyClass onto = new OntologyClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
+            ontology_list.Add(onto);
+            RefreshView();
         }
     }
 }
