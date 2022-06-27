@@ -31,6 +31,11 @@ namespace DicomTemplateMakerGUI.Windows
         private void check_status()
         {
             AddOntology_Button.IsEnabled = false;
+            SearchBox_TextBox.IsEnabled = false;
+            if (ontology_list.Count > 0)
+            {
+                SearchBox_TextBox.IsEnabled = true;
+            }
             if (PreferredNameTextBox.Text != "")
             {
                 if (CodeValue_TextBox.Text != "")
@@ -45,6 +50,10 @@ namespace DicomTemplateMakerGUI.Windows
         private void UpdateText(object sender, TextChangedEventArgs e)
         {
             check_status();
+        }
+        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        {
+            RefreshView();
         }
         private StackPanel TopRow()
         {
@@ -73,8 +82,11 @@ namespace DicomTemplateMakerGUI.Windows
             OntologyStackPanel.Children.Add(TopRow());
             foreach (OntologyClass onto in ontology_list)
             {
-                AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto);
-                OntologyStackPanel.Children.Add(new_row);
+                if (onto.Name.Contains(SearchBox_TextBox.Text))
+                {
+                    AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto);
+                    OntologyStackPanel.Children.Add(new_row);
+                }
             }
         }
 
@@ -82,10 +94,11 @@ namespace DicomTemplateMakerGUI.Windows
         {
             OntologyClass onto = new OntologyClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
             ontology_list.Add(onto);
-            RefreshView();
             PreferredNameTextBox.Text = "";
             CodeValue_TextBox.Text = "";
             CodeScheme_TextBox.Text = "";
+            RefreshView();
+            check_status();
         }
 
         private void AddOntologyFromRT_Click(object sender, RoutedEventArgs e)

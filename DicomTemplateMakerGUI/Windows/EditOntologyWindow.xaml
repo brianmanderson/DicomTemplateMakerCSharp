@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="EditOntologyWindow" Height="450" Width="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,166,10.333,-0.333">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,193,10.333,-0.333">
             <StackPanel x:Name="OntologyStackPanel" Height="172"/>
         </ScrollViewer>
         <Button Name="AddOntology_Button" Content="Add Ontology" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="607,81,0,0" VerticalAlignment="Top" Width="129" Click="AddOntology_Click"/>
@@ -17,6 +17,8 @@
         <TextBox x:Name="PreferredNameTextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="21,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>
         <TextBox x:Name="CodeValue_TextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="319,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
         <TextBox x:Name="CodeScheme_TextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="459,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
-        <Button Content="Add from RT" HorizontalAlignment="Left" Height="50" Margin="607,10,0,0" VerticalAlignment="Top" Width="129" Click="AddOntologyFromRT_Click"/>
+        <Button Content="Add from RT" HorizontalAlignment="Left" Height="45" Margin="21,1,0,0" VerticalAlignment="Top" Width="201" Click="AddOntologyFromRT_Click"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="314,145,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="248"/>
+        <Label Content="Search by name" HorizontalAlignment="Left" Height="43" Margin="194,145,0,0" VerticalAlignment="Top" Width="115"/>
     </Grid>
 </Window>
