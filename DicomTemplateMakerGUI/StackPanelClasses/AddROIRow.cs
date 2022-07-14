@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
@@ -24,10 +23,12 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private List<ROIClass> roi_list;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
-        public AddROIRow(List<ROIClass> roi_list, ROIClass roi)
+        private string roi_path;
+        public AddROIRow(List<ROIClass> roi_list, ROIClass roi, string path)
         {
             this.roi = roi;
             this.roi_list = roi_list;
+            this.roi_path = path;
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.ROIName;
@@ -42,6 +43,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ComboBox roi_interp_combobox = new ComboBox();
             roi_interp_combobox.SetBinding(ComboBox.SelectedItemProperty, interp_binding);
             roi_interp_combobox.ItemsSource = interpreters;
+            roi_interp_combobox.SelectionChanged += SelectionChangedEvent;
             if (interpreters.Contains(roi.ROI_Interpreted_type))
             {
                 roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type;
@@ -70,6 +72,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteButton.Width = 150;
             DeleteButton.Click += DeleteButton_Click;
             Children.Add(DeleteButton);
+            rebuild_text();
         }
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
@@ -84,6 +87,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             roi_list.Remove(roi);
             Children.Clear();
+            delete_previous();
         }
         private void color_button_Click(object sender, System.EventArgs e)
         {
@@ -92,11 +96,38 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi.update_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
                 color_button.Background = roi.ROI_Brush;
+                rebuild_text();
             }
         }
         private void ROINameChanged(object sender, TextChangedEventArgs e)
         {
             roi.ROIName = roi_name_textbox.Text;
+        }
+        private void SelectionChangedEvent(object sender, SelectionChangedEventArgs args)
+        {
+            delete_previous();
+            rebuild_text();
+        }
+        private void delete_previous()
+        {
+            if (File.Exists(Path.Combine(Path.Combine(roi_path, $"{roi.ROIName}.txt"))))
+            {
+                File.Delete(Path.Combine(Path.Combine(roi_path, $"{roi.ROIName}.txt")));
+            }
+        }
+        private void rebuild_text()
+        {
+            IdentificationCodeClass i = roi.IdentificationCode;
+            File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
+                $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +
+                $"{roi.ROI_Interpreted_type}");
+        }
+        private void TextValueChange(object sender, TextChangedEventArgs e)
+        {
+            delete_previous();
+            roi.ROIName = roi_name_textbox.Text;
+            rebuild_text();
         }
     }
 }

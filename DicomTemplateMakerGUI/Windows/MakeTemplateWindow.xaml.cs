@@ -121,22 +121,22 @@ namespace DicomTemplateMakerGUI.Windows
             CTVs = CTVs.OrderBy(o => o.ROIName).ToList();
             foreach (ROIClass roi in PTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in CTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in GTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in ROIs_list)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi);
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
                 ROIStackPanel.Children.Add(new_row);
             }
         }

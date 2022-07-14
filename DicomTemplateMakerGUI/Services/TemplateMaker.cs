@@ -94,7 +94,6 @@ namespace DicomTemplateMakerGUI.Services
             {
                 Directory.CreateDirectory(Path.Combine(output, "ROIs"));
             }
-            clear_folder();
             foreach (ROIClass roi in ROIs)
             {
                 IdentificationCodeClass i = roi.IdentificationCode;

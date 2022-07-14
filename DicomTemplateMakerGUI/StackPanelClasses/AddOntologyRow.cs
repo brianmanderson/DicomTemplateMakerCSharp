@@ -30,13 +30,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private TextBox ontology_name_textbox, code_value_textbox, code_scheme_textbox;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
-        private string onto_file_path;
+        private string onto_path;
         public AddOntologyRow(List<OntologyClass> ontology_list, OntologyClass ontology, string onto_path)
         {
             Orientation = Orientation.Horizontal;
             this.ontology = ontology;
             this.ontology_list = ontology_list;
-            this.onto_file_path = Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt"));
+            this.onto_path = onto_path;
             ontology_name_textbox = new TextBox();
             ontology_name_textbox.Text = ontology.Name;
             ontology_name_textbox.TextChanged += TextValueChange;
@@ -86,16 +86,22 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             Children.Clear();
             ontology_list.Remove(ontology);
-            if (File.Exists(onto_file_path))
+            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt"))))
             {
-                File.Delete(onto_file_path);
+                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt")));
             }
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
+            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt"))))
+            {
+                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt")));
+            }
             ontology.Name = ontology_name_textbox.Text;
             ontology.CodeValue = code_value_textbox.Text;
             ontology.CodingScheme = code_scheme_textbox.Text;
+            File.WriteAllText(Path.Combine(onto_path, $"{ontology.Name}.txt"),
+                $"{ontology.CodeValue}\n{ontology.CodingScheme}");
         }
     }
 }
