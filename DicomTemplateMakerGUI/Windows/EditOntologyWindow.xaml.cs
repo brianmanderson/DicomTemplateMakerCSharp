@@ -83,15 +83,15 @@ namespace DicomTemplateMakerGUI.Windows
             foreach (OntologyClass onto in ontology_list)
             {
                 bool add_onto = false;
-                if (onto.Name.Contains(SearchBox_TextBox.Text))
+                if (onto.Name.ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     add_onto = true;
                 }
-                else if (onto.CodeValue.Contains(SearchBox_TextBox.Text))
+                else if (onto.CodeValue.ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     add_onto = true;
                 }
-                else if (onto.CodingScheme.Contains(SearchBox_TextBox.Text))
+                else if (onto.CodingScheme.ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     add_onto = true;
                 }

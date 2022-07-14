@@ -18,6 +18,16 @@ namespace DicomTemplateMakerGUI.Services
         public string mapping_resource_name = "Varian Medical Systems";
         public string mapping_resource_uid = "1.2.246.352.7.1.1";
         public string context_uid = "1.2.246.352.7.2.11";
+        private string common_name = "Test";
+        public string CommonName
+        {
+            get { return common_name; }
+            set
+            {
+                common_name = value;
+                OnPropertyChanged("CommonName");
+            }
+        }
         public string Scheme
         {
             get { return scheme_designated; }

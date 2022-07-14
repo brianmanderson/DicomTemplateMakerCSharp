@@ -98,21 +98,37 @@ namespace DicomTemplateMakerGUI.Windows
             List<ROIClass> ROIs_list = new List<ROIClass>();
             foreach (ROIClass roi in template_maker.ROIs)
             {
-                if (roi.ROI_Interpreted_type == "PTV")
+                bool add = false;
+                if (roi.ROIName.ToLower().Contains(SearchBox_TextBox.Text))
                 {
-                    PTVs.Add(roi);
+                    add = true;
                 }
-                else if (roi.ROI_Interpreted_type == "CTV")
+                else if (roi.IdentificationCode.CommonName.ToLower().Contains(SearchBox_TextBox.Text))
                 {
-                    CTVs.Add(roi);
+                    add = true;
                 }
-                else if (roi.ROI_Interpreted_type == "GTV")
+                else if (roi.ROI_Interpreted_type.ToLower().Contains(SearchBox_TextBox.Text))
                 {
-                    GTVs.Add(roi);
+                    add = true;
                 }
-                else
+                if (add)
                 {
-                    ROIs_list.Add(roi);
+                    if (roi.ROI_Interpreted_type == "PTV")
+                    {
+                        PTVs.Add(roi);
+                    }
+                    else if (roi.ROI_Interpreted_type == "CTV")
+                    {
+                        CTVs.Add(roi);
+                    }
+                    else if (roi.ROI_Interpreted_type == "GTV")
+                    {
+                        GTVs.Add(roi);
+                    }
+                    else
+                    {
+                        ROIs_list.Add(roi);
+                    }
                 }
             }
             ROIs_list = ROIs_list.OrderBy(o => o.ROIName).ToList();
@@ -231,6 +247,10 @@ namespace DicomTemplateMakerGUI.Windows
             add_roi_rows();
         }
 
+        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        {
+            add_roi_rows();
+        }
         private void AddROI_Click(object sender, RoutedEventArgs e)
         {
             IdentificationCodeClass code_class = new IdentificationCodeClass("Test", "Test", "test");

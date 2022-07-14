@@ -19,7 +19,7 @@
         <TextBox x:Name="CodeValue_TextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="319,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
         <TextBox x:Name="CodeScheme_TextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="459,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="115"/>
         <Button Content="Add from RT" HorizontalAlignment="Left" Height="45" Margin="21,1,0,0" VerticalAlignment="Top" Width="201" Click="AddOntologyFromRT_Click"/>
-        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="233,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="173"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="239,144,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="173"/>
         <Label Content="Search by name, code, or scheme" HorizontalAlignment="Left" Height="43" Margin="21,145,0,0" VerticalAlignment="Top" Width="207"/>
         <Button x:Name="Save_Button" Content="Save" HorizontalAlignment="Left" Height="34" Margin="425,10,0,0" VerticalAlignment="Top" Width="137" Click="Save_Changes_Click" IsEnabled="True"/>
     </Grid>

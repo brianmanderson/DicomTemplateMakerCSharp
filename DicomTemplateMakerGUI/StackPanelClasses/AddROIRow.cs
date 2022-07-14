@@ -32,7 +32,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.ROIName;
-            roi_name_textbox.TextChanged += ROINameChanged;
+            roi_name_textbox.TextChanged += TextValueChange;
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
@@ -99,13 +99,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 rebuild_text();
             }
         }
-        private void ROINameChanged(object sender, TextChangedEventArgs e)
-        {
-            roi.ROIName = roi_name_textbox.Text;
-        }
         private void SelectionChangedEvent(object sender, SelectionChangedEventArgs args)
         {
-            delete_previous();
             rebuild_text();
         }
         private void delete_previous()
