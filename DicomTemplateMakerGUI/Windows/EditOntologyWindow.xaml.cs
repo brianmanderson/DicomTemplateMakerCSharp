@@ -118,5 +118,13 @@ namespace DicomTemplateMakerGUI.Windows
         {
 
         }
+        private void Save_Changes_Click(object sender, RoutedEventArgs e)
+        {
+        }
+        private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Save_Changes_Click(sender, e);
+            Close();
+        }
     }
 }
