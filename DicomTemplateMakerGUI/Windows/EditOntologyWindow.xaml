@@ -10,7 +10,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,193,10.333,-0.333">
             <StackPanel x:Name="OntologyStackPanel" Height="172"/>
         </ScrollViewer>
-        <Button x:Name="SaveAndExit_Button" Content="Save and Exit" HorizontalAlignment="Left" Height="34" Margin="607,141,0,0" VerticalAlignment="Top" Width="137" Click="Save_and_Exit_Click" IsEnabled="True"/>
+        <Button x:Name="SaveAndExit_Button" Content="Save and Exit" HorizontalAlignment="Left" Height="46" Margin="576,4,0,0" VerticalAlignment="Top" Width="189" Click="Save_and_Exit_Click" IsEnabled="True"/>
         <Button Name="AddOntology_Button" Content="Add Ontology" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="607,81,0,0" VerticalAlignment="Top" Width="129" Click="AddOntology_Click"/>
         <Label Content="Wanted Name" HorizontalAlignment="Left" Height="26" Margin="21,51,0,0" VerticalAlignment="Top" Width="101"/>
         <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="333,51,0,0" VerticalAlignment="Top" Width="101"/>
@@ -21,6 +21,6 @@
         <Button Content="Add from RT" HorizontalAlignment="Left" Height="45" Margin="21,1,0,0" VerticalAlignment="Top" Width="201" Click="AddOntologyFromRT_Click"/>
         <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="233,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="173"/>
         <Label Content="Search by name, code, or scheme" HorizontalAlignment="Left" Height="43" Margin="21,145,0,0" VerticalAlignment="Top" Width="207"/>
-        <Button x:Name="Save_Button" Content="Save" HorizontalAlignment="Left" Height="34" Margin="437,141,0,0" VerticalAlignment="Top" Width="137" Click="Save_Changes_Click" IsEnabled="True"/>
+        <Button x:Name="Save_Button" Content="Save" HorizontalAlignment="Left" Height="34" Margin="425,10,0,0" VerticalAlignment="Top" Width="137" Click="Save_Changes_Click" IsEnabled="True"/>
     </Grid>
 </Window>

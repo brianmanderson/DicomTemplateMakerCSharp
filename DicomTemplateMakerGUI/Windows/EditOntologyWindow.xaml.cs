@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DicomTemplateMakerGUI.StackPanelClasses;
 
 namespace DicomTemplateMakerGUI.Windows
@@ -21,10 +20,10 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class EditOntologyWindow : Window
     {
         private List<OntologyClass> ontology_list = new List<OntologyClass>();
-        private string path;
+        private string onto_path;
         public EditOntologyWindow(string path)
         {
-            this.path = path;
+            this.onto_path = Path.Combine(path, "Ontologies"); ;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
         }
@@ -118,8 +117,23 @@ namespace DicomTemplateMakerGUI.Windows
         {
 
         }
+        public void clear_folder()
+        {
+            foreach (string file in Directory.GetFiles(onto_path))
+            {
+                File.Delete(file);
+            }
+        }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
+            if (!Directory.Exists(onto_path))
+            {
+                Directory.CreateDirectory(onto_path);
+            }
+            clear_folder();
+            foreach (OntologyClass onto in ontology_list)
+            {
+            }
         }
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
         {
