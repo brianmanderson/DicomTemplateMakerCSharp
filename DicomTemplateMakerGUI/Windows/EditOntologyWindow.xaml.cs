@@ -26,6 +26,7 @@ namespace DicomTemplateMakerGUI.Windows
             this.onto_path = Path.Combine(path, "Ontologies"); ;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
+            BuildFromFolders();
         }
         private void check_status()
         {
@@ -96,7 +97,7 @@ namespace DicomTemplateMakerGUI.Windows
                 }
                 if (add_onto)
                 {
-                    AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto);
+                    AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto, onto_path);
                     OntologyStackPanel.Children.Add(new_row);
                 }
             }
@@ -109,6 +110,7 @@ namespace DicomTemplateMakerGUI.Windows
             PreferredNameTextBox.Text = "";
             CodeValue_TextBox.Text = "";
             CodeScheme_TextBox.Text = "";
+            Save_Changes_Click(sender, e);
             RefreshView();
             check_status();
         }
@@ -117,23 +119,31 @@ namespace DicomTemplateMakerGUI.Windows
         {
 
         }
-        public void clear_folder()
-        {
-            foreach (string file in Directory.GetFiles(onto_path))
-            {
-                File.Delete(file);
-            }
-        }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
             if (!Directory.Exists(onto_path))
             {
                 Directory.CreateDirectory(onto_path);
             }
-            clear_folder();
             foreach (OntologyClass onto in ontology_list)
             {
+                File.WriteAllText(Path.Combine(onto_path, $"{onto.Name}.txt"),
+                    $"{onto.CodeValue}\n{onto.CodingScheme}");
             }
+        }
+        private void BuildFromFolders()
+        {
+            string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
+            foreach (string ontology_file in roi_files)
+            {
+                string onto_name = Path.GetFileName(ontology_file).Replace(".txt", "");
+                string[] instructions = File.ReadAllLines(ontology_file);
+                string code_value = instructions[0];
+                string coding_scheme = instructions[1];
+                OntologyClass onto = new OntologyClass(onto_name, code_value, coding_scheme);
+                ontology_list.Add(onto);
+            }
+            RefreshView();
         }
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
         {

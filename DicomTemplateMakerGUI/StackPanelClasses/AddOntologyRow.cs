@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using DicomTemplateMakerGUI.Services;
@@ -30,11 +30,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private TextBox ontology_name_textbox, code_value_textbox, code_scheme_textbox;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
-        public AddOntologyRow(List<OntologyClass> ontology_list, OntologyClass ontology)
+        private string onto_file_path;
+        public AddOntologyRow(List<OntologyClass> ontology_list, OntologyClass ontology, string onto_path)
         {
             Orientation = Orientation.Horizontal;
             this.ontology = ontology;
             this.ontology_list = ontology_list;
+            this.onto_file_path = Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt"));
             ontology_name_textbox = new TextBox();
             ontology_name_textbox.Text = ontology.Name;
             ontology_name_textbox.TextChanged += TextValueChange;
@@ -84,6 +86,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             Children.Clear();
             ontology_list.Remove(ontology);
+            if (File.Exists(onto_file_path))
+            {
+                File.Delete(onto_file_path);
+            }
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
