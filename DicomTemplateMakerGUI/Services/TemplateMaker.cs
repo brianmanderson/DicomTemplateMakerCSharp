@@ -52,12 +52,15 @@ namespace DicomTemplateMakerGUI.Services
                 string interp = rt_observation.GetString(DicomTag.RTROIInterpretedType);
                 interp_dict.Add(ref_number, interp);
                 DicomSequence rt_roi_identification_sequence = rt_observation.GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence);
-                foreach (DicomDataset rt_ident in rt_roi_identification_sequence)
+                if (rt_roi_identification_sequence != null)
                 {
-                    code_meaning_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeMeaning));
-                    code_value_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeValue));
-                    coding_scheme_designator_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodingSchemeDesignator));
-                    break;
+                    foreach (DicomDataset rt_ident in rt_roi_identification_sequence)
+                    {
+                        code_meaning_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeMeaning));
+                        code_value_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeValue));
+                        coding_scheme_designator_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodingSchemeDesignator));
+                        break;
+                    }
                 }
             }
             foreach (DicomDataset rt_struct in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence))
@@ -73,7 +76,17 @@ namespace DicomTemplateMakerGUI.Services
                     if (name_dict.ContainsKey(key))
                     {
                         string[] colors = color_dict[key].Split('\\');
-                        OntologyCodeClass code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
+                        OntologyCodeClass code_class = new OntologyCodeClass();
+                        if (code_meaning_dict.ContainsKey(key))
+                        {
+                            if (code_value_dict.ContainsKey(key))
+                            {
+                                if (coding_scheme_designator_dict.ContainsKey(key))
+                                {
+                                    code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
+                                }
+                            }
+                        }
                         if (!Ontologies.Contains(code_class))
                         {
                             Ontologies.Add(code_class);

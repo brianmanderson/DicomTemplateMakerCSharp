@@ -46,13 +46,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             code_value_textbox = new TextBox();
             code_value_textbox.Text = ontology.CodeValue;
             code_value_textbox.TextChanged += TextValueChange;
-            code_value_textbox.Width = 100;
+            code_value_textbox.Width = 200;
             Children.Add(code_value_textbox);
 
             code_scheme_textbox = new TextBox();
             code_scheme_textbox.Text = ontology.Scheme;
             code_scheme_textbox.TextChanged += TextValueChange;
-            code_scheme_textbox.Width = 100;
+            code_scheme_textbox.Width = 200;
             Children.Add(code_scheme_textbox);
 
             Label DeleteLabel = new Label();
@@ -69,7 +69,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteButton = new Button();
             DeleteButton.IsEnabled = false;
             DeleteButton.Content = "Delete";
-            DeleteButton.Width = 150;
+            DeleteButton.Width = 75;
             DeleteButton.Click += DeleteButton_Click;
             Children.Add(DeleteButton);
         }

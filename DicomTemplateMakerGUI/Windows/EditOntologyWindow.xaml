@@ -8,7 +8,7 @@
         Title="EditOntologyWindow" Height="450" Width="800">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,193,10.333,-0.333">
-            <StackPanel x:Name="OntologyStackPanel" Height="172"/>
+            <StackPanel x:Name="OntologyStackPanel"/>
         </ScrollViewer>
         <Button x:Name="SaveAndExit_Button" Content="Save and Exit" HorizontalAlignment="Left" Height="46" Margin="576,4,0,0" VerticalAlignment="Top" Width="189" Click="Save_and_Exit_Click" IsEnabled="True"/>
         <Button Name="AddOntology_Button" Content="Add Ontology" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="607,81,0,0" VerticalAlignment="Top" Width="129" Click="AddOntology_Click"/>

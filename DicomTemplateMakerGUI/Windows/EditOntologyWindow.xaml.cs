@@ -69,12 +69,12 @@ namespace DicomTemplateMakerGUI.Windows
             top_row.Children.Add(name_label);
 
             Label code_value = new Label();
-            code_value.Width = 100;
+            code_value.Width = 200;
             code_value.Content = "Code Value";
             top_row.Children.Add(code_value);
 
             Label code_scheme = new Label();
-            code_scheme.Width = 100;
+            code_scheme.Width = 200;
             code_scheme.Content = "Coding Scheme";
             top_row.Children.Add(code_scheme);
             return top_row;
@@ -128,6 +128,8 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 string dicom_file = dialog.FileName;
                 template_maker.interpret_RT(dicom_file);
+                RefreshView();
+                check_status();
             }
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)

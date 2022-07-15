@@ -55,7 +55,12 @@ namespace DicomTemplateMakerGUI.Services
                 OnPropertyChanged("CodeMeaning");
             }
         }
-
+        public OntologyCodeClass()
+        {
+            CommonName = "NormalTissue";
+            CodeValue = "123";
+            Scheme = "FMA";
+        }
         public OntologyCodeClass(string name, string code_value, string scheme_designated)
         {
             CommonName = name;
