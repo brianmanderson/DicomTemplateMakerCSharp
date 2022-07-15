@@ -65,7 +65,7 @@ namespace DicomTemplateMakerGUI.Windows
 
             Label name_label = new Label();
             name_label.Width = 200;
-            name_label.Content = "Name";
+            name_label.Content = "Common Name";
             top_row.Children.Add(name_label);
 
             Label code_value = new Label();
@@ -74,7 +74,7 @@ namespace DicomTemplateMakerGUI.Windows
             top_row.Children.Add(code_value);
 
             Label code_scheme = new Label();
-            code_scheme.Width = 200;
+            code_scheme.Width = 150;
             code_scheme.Content = "Coding Scheme";
             top_row.Children.Add(code_scheme);
             return top_row;
@@ -130,9 +130,10 @@ namespace DicomTemplateMakerGUI.Windows
                 template_maker.interpret_RT(dicom_file);
                 RefreshView();
                 check_status();
+                Save_Changes();
             }
         }
-        private void Save_Changes_Click(object sender, RoutedEventArgs e)
+        private void Save_Changes()
         {
             if (!Directory.Exists(onto_path))
             {
@@ -143,6 +144,10 @@ namespace DicomTemplateMakerGUI.Windows
                 File.WriteAllText(Path.Combine(onto_path, $"{onto.CommonName}.txt"),
                     $"{onto.CodeValue}\n{onto.Scheme}");
             }
+        }
+        private void Save_Changes_Click(object sender, RoutedEventArgs e)
+        {
+            Save_Changes();
         }
         private void BuildFromFolders()
         {

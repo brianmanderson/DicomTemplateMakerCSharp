@@ -12,7 +12,7 @@
         </ScrollViewer>
         <Button x:Name="SaveAndExit_Button" Content="Save and Exit" HorizontalAlignment="Left" Height="46" Margin="576,4,0,0" VerticalAlignment="Top" Width="189" Click="Save_and_Exit_Click" IsEnabled="True"/>
         <Button Name="AddOntology_Button" Content="Add Ontology" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="607,81,0,0" VerticalAlignment="Top" Width="129" Click="AddOntology_Click"/>
-        <Label Content="Wanted Name" HorizontalAlignment="Left" Height="26" Margin="21,51,0,0" VerticalAlignment="Top" Width="101"/>
+        <Label Content="Common Name" HorizontalAlignment="Left" Height="26" Margin="21,51,0,0" VerticalAlignment="Top" Width="101"/>
         <Label Content="Code" HorizontalAlignment="Left" Height="26" Margin="333,51,0,0" VerticalAlignment="Top" Width="101"/>
         <Label Content="Code Scheme" HorizontalAlignment="Left" Height="26" Margin="459,51,0,0" VerticalAlignment="Top" Width="101"/>
         <TextBox x:Name="PreferredNameTextBox" TextChanged="UpdateText" HorizontalAlignment="Left" Height="48" Margin="21,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="252"/>

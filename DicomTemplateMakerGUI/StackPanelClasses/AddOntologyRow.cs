@@ -52,7 +52,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             code_scheme_textbox = new TextBox();
             code_scheme_textbox.Text = ontology.Scheme;
             code_scheme_textbox.TextChanged += TextValueChange;
-            code_scheme_textbox.Width = 200;
+            code_scheme_textbox.Width = 150;
             Children.Add(code_scheme_textbox);
 
             Label DeleteLabel = new Label();
