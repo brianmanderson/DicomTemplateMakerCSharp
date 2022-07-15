@@ -92,7 +92,8 @@ namespace DicomTemplateMakerGUI.Services
                         OntologyCodeClass code_class = new OntologyCodeClass();
                         if (code_meaning_dict.ContainsKey(key))
                         {
-                            code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
+                            code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key], context_group_version_dict[key], mapping_resource_dict[key],
+                                context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
                         if (!Ontologies.Contains(code_class))
                         {

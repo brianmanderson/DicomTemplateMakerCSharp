@@ -18,7 +18,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
 {
     class AddTemplateRow : StackPanel
     {
-        private string folder_location;
         private Label rois_present_label;
         private TemplateMaker template_maker;
         private Button DeleteButton;
