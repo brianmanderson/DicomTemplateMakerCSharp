@@ -23,7 +23,8 @@ namespace DicomTemplateMakerGUI.Services
         public List<string> Paths;
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
-            coding_scheme_designator_dict;
+            coding_scheme_designator_dict, context_group_version_dict, context_identifier_dict, context_uid_dict, mapping_resource_dict,
+            mapping_resource_name_dict, mapping_resourceUID_dict;
         DicomFile RT_file;
         public TemplateMaker()
         {
@@ -39,6 +40,12 @@ namespace DicomTemplateMakerGUI.Services
             code_meaning_dict = new Dictionary<int, string>();
             code_value_dict = new Dictionary<int, string>();
             coding_scheme_designator_dict = new Dictionary<int, string>();
+            context_group_version_dict = new Dictionary<int, string>();
+            context_identifier_dict = new Dictionary<int, string>();
+            context_uid_dict = new Dictionary<int, string>();
+            mapping_resource_dict = new Dictionary<int, string>();
+            mapping_resource_name_dict = new Dictionary<int, string>();
+            mapping_resourceUID_dict = new Dictionary<int, string>();
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
             foreach (DicomDataset rt_contour in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
             {
@@ -59,6 +66,12 @@ namespace DicomTemplateMakerGUI.Services
                         code_meaning_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeMeaning));
                         code_value_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeValue));
                         coding_scheme_designator_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodingSchemeDesignator));
+                        context_group_version_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextGroupVersion));
+                        context_identifier_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextIdentifier));
+                        context_identifier_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextUID));
+                        mapping_resource_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResource));
+                        mapping_resource_name_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResourceName));
+                        mapping_resourceUID_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResourceUID));
                         break;
                     }
                 }
