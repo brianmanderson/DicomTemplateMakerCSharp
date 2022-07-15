@@ -96,18 +96,19 @@ namespace DicomTemplateMakerGUI.Windows
             List<ROIClass> CTVs = new List<ROIClass>();
             List<ROIClass> GTVs = new List<ROIClass>();
             List<ROIClass> ROIs_list = new List<ROIClass>();
+            string text = SearchBox_TextBox.Text;
             foreach (ROIClass roi in template_maker.ROIs)
             {
                 bool add = false;
-                if (roi.ROIName.ToLower().Contains(SearchBox_TextBox.Text))
+                if (roi.ROIName.ToLower().Contains(text))
                 {
                     add = true;
                 }
-                else if (roi.Ontology_Class.CommonName.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (roi.Ontology_Class.CommonName.ToLower().Contains(text))
                 {
                     add = true;
                 }
-                else if (roi.ROI_Interpreted_type.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (roi.ROI_Interpreted_type.ToLower().Contains(text))
                 {
                     add = true;
                 }
