@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using FellowOakDicom;
-using System.IO;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace DicomTemplateMakerGUI.Services
@@ -14,7 +12,6 @@ namespace DicomTemplateMakerGUI.Services
     public class TemplateMaker
     {
         public string template_name;
-        string rois_present;
         public string path;
         public string color, interperter;
         public bool is_template;

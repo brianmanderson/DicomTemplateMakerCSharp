@@ -12,7 +12,6 @@ namespace DicomTemplateMakerGUI.Services
     class TemplateEvaluator
     {
         public string template_name;
-        string rois_present;
         public string path;
         public string color, interperter;
         public bool is_template;

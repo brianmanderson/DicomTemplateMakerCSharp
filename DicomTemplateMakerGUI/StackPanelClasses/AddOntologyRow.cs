@@ -7,7 +7,6 @@ using DicomTemplateMakerGUI.Services;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Collections.Generic;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
