@@ -227,6 +227,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             check_status();
+            add_roi_rows();
         }
 
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)

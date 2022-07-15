@@ -7,19 +7,19 @@
         mc:Ignorable="d"
         Title="MakeTemplateWindow" Height="537.353" Width="916">
     <Grid>
-        <Button x:Name="AddROIFromRTButton" Background="LightGreen" Content="Add ROIs from RT" HorizontalAlignment="Left" Margin="23,40,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246" IsEnabled="False"/>
-        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="563,201,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="246"/>
+        <Button x:Name="AddROIFromRTButton" Background="LightGreen" Content="Add ROIs from RT Structure File" HorizontalAlignment="Left" Margin="23,89,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246" IsEnabled="False"/>
+        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,89,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
         <Label Name="FileLocationLabel" Visibility="Hidden" Content="" HorizontalAlignment="Left" Height="37" Margin="287,40,0,0" VerticalAlignment="Top" Width="481" Grid.ColumnSpan="3"/>
-        <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,95,0,0" VerticalAlignment="Top" Width="137"/>
+        <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,36,0,0" VerticalAlignment="Top" Width="137"/>
         <Label Name="ROINameLabel" Content="Add ROI:" HorizontalAlignment="Left" Height="37" Margin="23,150,0,0" VerticalAlignment="Top" Width="71"/>
-        <TextBox x:Name="TemplateTextBox" Background="LightGreen" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="165,91,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="379" Grid.ColumnSpan="3"/>
+        <TextBox x:Name="TemplateTextBox" Background="LightGreen" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="168,32,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="395"/>
         <TextBox x:Name="ROITextBox" IsEnabled="False" TextChanged="ROINameChanged" HorizontalAlignment="Left" Height="45" Margin="99,142,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
-        <Button x:Name="BuildButton" Background="LightGreen" Content="Build Template!" HorizontalAlignment="Left" Height="34" Margin="592,95,0,0" VerticalAlignment="Top" Width="137" Click="Build_Button_Click"/>
-        <Button x:Name="AddROIButton" Content="Add ROI" HorizontalAlignment="Left" Height="45" Margin="592,142,0,0" VerticalAlignment="Top" Width="137" Click="AddROI_Click" IsEnabled="False"/>
+        <Button x:Name="BuildButton" Background="LightGreen" Content="Build Template!" HorizontalAlignment="Left" Height="41" Margin="592,32,0,0" VerticalAlignment="Top" Width="210" Click="Build_Button_Click"/>
+        <Button x:Name="AddROIButton" Content="Add ROI" HorizontalAlignment="Left" Height="45" Margin="592,142,0,0" VerticalAlignment="Top" Width="210" Click="AddROI_Click" IsEnabled="False"/>
         <Button x:Name="ColorButton" IsEnabled="False" Content="" HorizontalAlignment="Left" Height="45" Margin="500,142,0,0" VerticalAlignment="Top" Width="80" Click="ChangeColor_Click"/>
-        <Button x:Name="RefreshButton" Visibility="Hidden" Content="Refresh" HorizontalAlignment="Left" Height="34" Margin="746,162,0,0" VerticalAlignment="Top" Width="140" Click="Refresh_Click" IsEnabled="False"/>
+        <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="34" Margin="423,202,0,0" VerticalAlignment="Top" Width="140" Click="Refresh_Click" IsEnabled="False"/>
         <Button x:Name="UpdateButton" Visibility="Hidden" Content="Save Changes" HorizontalAlignment="Left" Height="34" Margin="748,95,0,0" VerticalAlignment="Top" Width="138" Click="Save_Changes_Click" IsEnabled="False"/>
-        <Button x:Name="Update_and_ExitButton" Content="Save and Exit" HorizontalAlignment="Left" Height="50" Margin="592,40,0,0" VerticalAlignment="Top" Width="137" Click="Save_and_Exit_Click" IsEnabled="False"/>
+        <Button x:Name="Update_and_ExitButton" Content="Save and Exit" HorizontalAlignment="Left" Height="34" Margin="592,202,0,0" VerticalAlignment="Top" Width="210" Click="Save_and_Exit_Click" IsEnabled="False"/>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,243,0,0" Grid.ColumnSpan="3">
             <StackPanel Margin="23,27,41,88" x:Name="ROIStackPanel">
             </StackPanel>
@@ -27,5 +27,6 @@
         <ComboBox Name="InterpComboBox" IsEnabled="False" HorizontalAlignment="Left" Height="45" Margin="287,142,0,0" VerticalAlignment="Top" Width="208" SelectionChanged="OnSelectionChanged" Grid.ColumnSpan="3"/>
         <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="241,199,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="173"/>
         <Label Content="Search by name, type, ontology" HorizontalAlignment="Left" Height="43" Margin="23,200,0,0" VerticalAlignment="Top" Width="207"/>
+        <Label Content="Add paths to monitor:" HorizontalAlignment="Left" Height="37" Margin="440,92,0,0" VerticalAlignment="Top" Width="140"/>
     </Grid>
 </Window>
