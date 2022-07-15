@@ -109,6 +109,19 @@ namespace DicomTemplateMakerGUI.Services
             CodeValue = code_value;
             Scheme = scheme_designated;
         }
+        public OntologyCodeClass(string name, string code_value, string scheme_designated, string group_version, string mapping_resource,
+            string context_identifier, string mapping_resource_name, string mapping_resource_uid, string context_uid)
+        {
+            CodeMeaning = name;
+            CodeValue = code_value;
+            Scheme = scheme_designated;
+            ContextGroupVersion = group_version;
+            MappingResource = mapping_resource;
+            ContextIdentifier = context_identifier;
+            MappingResourceName = mapping_resource_name;
+            MappingResourceUID = mapping_resource_uid;
+            ContextUID = context_uid;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string info)
