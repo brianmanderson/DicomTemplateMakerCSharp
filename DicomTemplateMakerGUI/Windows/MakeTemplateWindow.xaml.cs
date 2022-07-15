@@ -103,7 +103,7 @@ namespace DicomTemplateMakerGUI.Windows
                 {
                     add = true;
                 }
-                else if (roi.IdentificationCode.CommonName.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (roi.Ontology_Class.Name.ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     add = true;
                 }
@@ -253,7 +253,7 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void AddROI_Click(object sender, RoutedEventArgs e)
         {
-            IdentificationCodeClass code_class = new IdentificationCodeClass("Test", "Test", "test");
+            OntologyCodeClass code_class = new OntologyCodeClass("Test", "Test", "test");
             ROIClass roi = new ROIClass(R, G, B, ROITextBox.Text, InterpComboBox.SelectedItem.ToString(), code_class);
             template_maker.ROIs.Add(roi);
             add_roi_rows();

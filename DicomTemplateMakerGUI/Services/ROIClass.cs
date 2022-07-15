@@ -8,19 +8,19 @@ namespace DicomTemplateMakerGUI.Services
     public class ROIClass
     {
         private string roiname;
-        private IdentificationCodeClass identification_class;
+        private OntologyCodeClass ontology_class;
         private List<byte> rgb;
         private string roi_interpreted_type;
         private byte r, g, b;
         private Color roi_color;
         private Brush roi_brush;
         public string color_string;
-        public IdentificationCodeClass IdentificationCode
+        public OntologyCodeClass Ontology_Class
         {
-            get { return identification_class; }
+            get { return ontology_class; }
             set
             {
-                identification_class = value;
+                ontology_class = value;
                 OnPropertyChanged("IdentificationCode");
             }
         }
@@ -99,7 +99,7 @@ namespace DicomTemplateMakerGUI.Services
         }
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
-        public ROIClass(byte r, byte g, byte b, string Name, string Roi_interp, IdentificationCodeClass identification_code_class)
+        public ROIClass(byte r, byte g, byte b, string Name, string Roi_interp, OntologyCodeClass identification_code_class)
         {
             roiname = Name;
             R = r;
@@ -109,14 +109,14 @@ namespace DicomTemplateMakerGUI.Services
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte>{ R, G, B};
             ROI_Interpreted_type = Roi_interp;
-            IdentificationCode = identification_code_class;
+            Ontology_Class = identification_code_class;
         }
-        public ROIClass(string color, string name, string roi_interpreted_type, IdentificationCodeClass identification_code_class)
+        public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
             roiname = name;
             color_string = color;
             ROI_Interpreted_type = roi_interpreted_type;
-            IdentificationCode = identification_code_class;
+            Ontology_Class = identification_code_class;
         }
         public void update_color(byte R, byte G, byte B)
         {

@@ -37,7 +37,7 @@ namespace DicomTemplateMakerGUI.Services
                     color = instructions[0];
                     string[] color_values = color.Split('\\');
                     string[] code_values = instructions[1].Split('\\');
-                    IdentificationCodeClass code_class = new IdentificationCodeClass(code_values[0], code_values[1], code_values[2]);
+                    OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
                     interperter = "";
                     if (instructions.Length == 3)
                     {

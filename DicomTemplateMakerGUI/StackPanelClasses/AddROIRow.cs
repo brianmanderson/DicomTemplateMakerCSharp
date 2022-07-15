@@ -112,7 +112,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void rebuild_text()
         {
-            IdentificationCodeClass i = roi.IdentificationCode;
+            OntologyCodeClass i = roi.Ontology_Class;
             File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
                 $"{roi.R}\\{roi.G}\\{roi.B}\n" +
                 $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +

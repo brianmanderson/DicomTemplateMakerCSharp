@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace DicomTemplateMakerGUI.Services
 {
-    public class IdentificationCodeClass
+    public class OntologyCodeClass
     {
         private string code_meaning, code_value, scheme_designated;
         public string mapping_resource = "99VMS";
@@ -19,7 +19,7 @@ namespace DicomTemplateMakerGUI.Services
         public string mapping_resource_uid = "1.2.246.352.7.1.1";
         public string context_uid = "1.2.246.352.7.2.11";
         private string common_name = "Test";
-        public string CommonName
+        public string Name
         {
             get { return common_name; }
             set
@@ -56,7 +56,7 @@ namespace DicomTemplateMakerGUI.Services
             }
         }
 
-        public IdentificationCodeClass(string code_meaning, string code_value, string scheme_designated)
+        public OntologyCodeClass(string code_meaning, string code_value, string scheme_designated)
         {
             CodeMeaning = code_meaning;
             CodeValue = code_value;

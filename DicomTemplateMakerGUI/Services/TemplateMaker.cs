@@ -71,7 +71,7 @@ namespace DicomTemplateMakerGUI.Services
                     if (name_dict.ContainsKey(key))
                     {
                         string[] colors = color_dict[key].Split('\\');
-                        IdentificationCodeClass code_class = new IdentificationCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
+                        OntologyCodeClass code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
                         ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class));
                     }
                 }
@@ -96,7 +96,7 @@ namespace DicomTemplateMakerGUI.Services
             }
             foreach (ROIClass roi in ROIs)
             {
-                IdentificationCodeClass i = roi.IdentificationCode;
+                OntologyCodeClass i = roi.Ontology_Class;
                 File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
                     $"{roi.R}\\{roi.G}\\{roi.B}\n" +
                     $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +
@@ -130,7 +130,7 @@ namespace DicomTemplateMakerGUI.Services
                     color = instructions[0];
                     string[] color_values = color.Split('\\');
                     string[] code_values = instructions[1].Split('\\');
-                    IdentificationCodeClass code_class = new IdentificationCodeClass(code_values[0], code_values[1], code_values[2]);
+                    OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
                     interperter = "";
                     if (instructions.Length == 3)
                     {
