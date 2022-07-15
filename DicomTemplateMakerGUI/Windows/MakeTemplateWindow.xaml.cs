@@ -104,7 +104,7 @@ namespace DicomTemplateMakerGUI.Windows
                 {
                     add = true;
                 }
-                else if (roi.Ontology_Class.CommonName.ToLower().Contains(text))
+                else if (roi.Ontology_Class.CodeMeaning.ToLower().Contains(text))
                 {
                     add = true;
                 }

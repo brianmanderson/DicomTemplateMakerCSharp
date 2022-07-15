@@ -87,7 +87,7 @@ namespace DicomTemplateMakerGUI.Windows
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
                 bool add_onto = false;
-                if (onto.CommonName.ToLower().Contains(text))
+                if (onto.CodeMeaning.ToLower().Contains(text))
                 {
                     add_onto = true;
                 }
@@ -141,7 +141,7 @@ namespace DicomTemplateMakerGUI.Windows
             }
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
-                File.WriteAllText(Path.Combine(onto_path, $"{onto.CommonName}.txt"),
+                File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
                     $"{onto.CodeValue}\n{onto.Scheme}");
             }
         }

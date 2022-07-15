@@ -13,19 +13,64 @@ namespace DicomTemplateMakerGUI.Services
     public class OntologyCodeClass
     {
         private string code_meaning, code_value, scheme_designated;
-        public string mapping_resource = "99VMS";
-        public string context_identifier = "VMS011";
-        public string mapping_resource_name = "Varian Medical Systems";
-        public string mapping_resource_uid = "1.2.246.352.7.1.1";
-        public string context_uid = "1.2.246.352.7.2.11";
-        private string common_name = "Test";
-        public string CommonName
+        private string context_group_version = "20161209";
+        private string mapping_resource = "99VMS";
+        private string context_identifier = "VMS011";
+        private string mapping_resource_name = "Varian Medical Systems";
+        private string mapping_resource_uid = "1.2.246.352.7.1.1";
+        private string context_uid = "1.2.246.352.7.2.11";
+        public string ContextUID
         {
-            get { return common_name; }
+            get { return context_uid; }
             set
             {
-                common_name = value;
-                OnPropertyChanged("CommonName");
+                context_uid = value;
+                OnPropertyChanged("ContextUID");
+            }
+        }
+        public string MappingResourceUID
+        {
+            get { return mapping_resource_uid; }
+            set
+            {
+                mapping_resource_name = value;
+                OnPropertyChanged("MappingResourceUID");
+            }
+        }
+        public string MappingResourceName
+        {
+            get { return mapping_resource_name; }
+            set
+            {
+                mapping_resource_name = value;
+                OnPropertyChanged("MappingResourceName");
+            }
+        }
+        public string ContextIdentifier
+        {
+            get { return context_identifier; }
+            set
+            {
+                context_identifier = value;
+                OnPropertyChanged("ContextIdentifier");
+            }
+        }
+        public string MappingResource
+        {
+            get { return mapping_resource; }
+            set
+            {
+                mapping_resource = value;
+                OnPropertyChanged("MappingResource");
+            }
+        }
+        public string ContextGroupVersion
+        {
+            get { return context_group_version; }
+            set
+            {
+                context_group_version = value;
+                OnPropertyChanged("ContextGroupVersion");
             }
         }
         public string Scheme
@@ -57,13 +102,10 @@ namespace DicomTemplateMakerGUI.Services
         }
         public OntologyCodeClass()
         {
-            CommonName = "NormalTissue";
-            CodeValue = "123";
-            Scheme = "FMA";
         }
         public OntologyCodeClass(string name, string code_value, string scheme_designated)
         {
-            CommonName = name;
+            CodeMeaning = name;
             CodeValue = code_value;
             Scheme = scheme_designated;
         }
