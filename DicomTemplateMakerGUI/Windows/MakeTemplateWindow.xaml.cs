@@ -103,7 +103,7 @@ namespace DicomTemplateMakerGUI.Windows
                 {
                     add = true;
                 }
-                else if (roi.Ontology_Class.Name.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (roi.Ontology_Class.CommonName.ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     add = true;
                 }

@@ -38,7 +38,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             this.ontology_list = ontology_list;
             this.onto_path = onto_path;
             ontology_name_textbox = new TextBox();
-            ontology_name_textbox.Text = ontology.Name;
+            ontology_name_textbox.Text = ontology.CommonName;
             ontology_name_textbox.TextChanged += TextValueChange;
             ontology_name_textbox.Width = 200;
             Children.Add(ontology_name_textbox);
@@ -86,21 +86,21 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             Children.Clear();
             ontology_list.Remove(ontology);
-            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt"))))
+            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.CommonName}.txt"))))
             {
-                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt")));
+                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.CommonName}.txt")));
             }
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
-            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt"))))
+            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.CommonName}.txt"))))
             {
-                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.Name}.txt")));
+                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.CommonName}.txt")));
             }
-            ontology.Name = ontology_name_textbox.Text;
+            ontology.CommonName = ontology_name_textbox.Text;
             ontology.CodeValue = code_value_textbox.Text;
             ontology.Scheme = code_scheme_textbox.Text;
-            File.WriteAllText(Path.Combine(onto_path, $"{ontology.Name}.txt"),
+            File.WriteAllText(Path.Combine(onto_path, $"{ontology.CommonName}.txt"),
                 $"{ontology.CodeValue}\n{ontology.Scheme}");
         }
     }

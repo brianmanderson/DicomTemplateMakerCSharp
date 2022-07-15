@@ -19,7 +19,7 @@ namespace DicomTemplateMakerGUI.Services
         public string mapping_resource_uid = "1.2.246.352.7.1.1";
         public string context_uid = "1.2.246.352.7.2.11";
         private string common_name = "Test";
-        public string Name
+        public string CommonName
         {
             get { return common_name; }
             set
@@ -56,9 +56,9 @@ namespace DicomTemplateMakerGUI.Services
             }
         }
 
-        public OntologyCodeClass(string code_meaning, string code_value, string scheme_designated)
+        public OntologyCodeClass(string name, string code_value, string scheme_designated)
         {
-            CodeMeaning = code_meaning;
+            CommonName = name;
             CodeValue = code_value;
             Scheme = scheme_designated;
         }

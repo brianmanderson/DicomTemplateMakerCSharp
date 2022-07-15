@@ -83,18 +83,19 @@ namespace DicomTemplateMakerGUI.Windows
         {
             OntologyStackPanel.Children.Clear();
             OntologyStackPanel.Children.Add(TopRow());
+            string text = SearchBox_TextBox.Text.ToLower();
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
                 bool add_onto = false;
-                if (onto.Name.ToLower().Contains(SearchBox_TextBox.Text))
+                if (onto.CommonName.ToLower().Contains(text))
                 {
                     add_onto = true;
                 }
-                else if (onto.CodeValue.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (onto.CodeValue.ToLower().Contains(text))
                 {
                     add_onto = true;
                 }
-                else if (onto.Scheme.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (onto.Scheme.ToLower().Contains(text))
                 {
                     add_onto = true;
                 }
@@ -137,7 +138,7 @@ namespace DicomTemplateMakerGUI.Windows
             }
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
-                File.WriteAllText(Path.Combine(onto_path, $"{onto.Name}.txt"),
+                File.WriteAllText(Path.Combine(onto_path, $"{onto.CommonName}.txt"),
                     $"{onto.CodeValue}\n{onto.Scheme}");
             }
         }
