@@ -19,6 +19,7 @@ namespace DicomTemplateMakerGUI.Services
         public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
+        public List<OntologyCodeClass> Ontologies;
         public List<string> Paths;
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
@@ -27,6 +28,7 @@ namespace DicomTemplateMakerGUI.Services
         public TemplateMaker()
         {
             ROIs = new List<ROIClass>();
+            Ontologies = new List<OntologyCodeClass>();
             Paths = new List<string>();
         }
         public void interpret_RT(string dicom_file)
@@ -72,7 +74,16 @@ namespace DicomTemplateMakerGUI.Services
                     {
                         string[] colors = color_dict[key].Split('\\');
                         OntologyCodeClass code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key]);
-                        ROIs.Add(new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class));
+                        if (!Ontologies.Contains(code_class))
+                        {
+                            Ontologies.Add(code_class);
+                        }
+                        ROIClass new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
+                        if (!ROIs.Contains(new_roi))
+                        {
+                            ROIs.Add(new_roi);
+                        }
+                        
                     }
                 }
             }

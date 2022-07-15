@@ -140,7 +140,8 @@ namespace DicomTemplateMakerGUI
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
-            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location);
+            TemplateMaker template_maker = new TemplateMaker();
+            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location, template_maker);
             ontology_window.ShowDialog();
             Rebuild_From_Folders();
         }

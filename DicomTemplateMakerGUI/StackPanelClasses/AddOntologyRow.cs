@@ -11,12 +11,12 @@ using System.Collections.Generic;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
-    class OntologyClass
+    class OldOntologyClass
     {
         public string Name;
         public string CodeValue;
         public string CodingScheme;
-        public OntologyClass(string name, string code_value, string coding_scheme)
+        public OldOntologyClass(string name, string code_value, string coding_scheme)
         {
             this.Name = name;
             this.CodeValue = code_value;
@@ -25,13 +25,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     }
     class AddOntologyRow : StackPanel
     {
-        private OntologyClass ontology;
-        private List<OntologyClass> ontology_list;
+        private OntologyCodeClass ontology;
+        private List<OntologyCodeClass> ontology_list;
         private TextBox ontology_name_textbox, code_value_textbox, code_scheme_textbox;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
         private string onto_path;
-        public AddOntologyRow(List<OntologyClass> ontology_list, OntologyClass ontology, string onto_path)
+        public AddOntologyRow(List<OntologyCodeClass> ontology_list, OntologyCodeClass ontology, string onto_path)
         {
             Orientation = Orientation.Horizontal;
             this.ontology = ontology;
@@ -50,7 +50,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Children.Add(code_value_textbox);
 
             code_scheme_textbox = new TextBox();
-            code_scheme_textbox.Text = ontology.CodingScheme;
+            code_scheme_textbox.Text = ontology.Scheme;
             code_scheme_textbox.TextChanged += TextValueChange;
             code_scheme_textbox.Width = 100;
             Children.Add(code_scheme_textbox);
@@ -99,9 +99,9 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             }
             ontology.Name = ontology_name_textbox.Text;
             ontology.CodeValue = code_value_textbox.Text;
-            ontology.CodingScheme = code_scheme_textbox.Text;
+            ontology.Scheme = code_scheme_textbox.Text;
             File.WriteAllText(Path.Combine(onto_path, $"{ontology.Name}.txt"),
-                $"{ontology.CodeValue}\n{ontology.CodingScheme}");
+                $"{ontology.CodeValue}\n{ontology.Scheme}");
         }
     }
 }

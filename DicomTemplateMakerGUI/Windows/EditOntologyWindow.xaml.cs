@@ -10,7 +10,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -19,11 +21,12 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class EditOntologyWindow : Window
     {
-        private List<OntologyClass> ontology_list = new List<OntologyClass>();
         private string onto_path;
-        public EditOntologyWindow(string path)
+        public TemplateMaker template_maker;
+        public EditOntologyWindow(string path, TemplateMaker template_maker)
         {
-            this.onto_path = Path.Combine(path, "Ontologies"); ;
+            this.onto_path = Path.Combine(path, "Ontologies");
+            this.template_maker = template_maker;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
             BuildFromFolders();
@@ -32,7 +35,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             AddOntology_Button.IsEnabled = false;
             SearchBox_TextBox.IsEnabled = false;
-            if (ontology_list.Count > 0)
+            if (template_maker.Ontologies.Count > 0)
             {
                 SearchBox_TextBox.IsEnabled = true;
             }
@@ -80,7 +83,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             OntologyStackPanel.Children.Clear();
             OntologyStackPanel.Children.Add(TopRow());
-            foreach (OntologyClass onto in ontology_list)
+            foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
                 bool add_onto = false;
                 if (onto.Name.ToLower().Contains(SearchBox_TextBox.Text))
@@ -91,13 +94,13 @@ namespace DicomTemplateMakerGUI.Windows
                 {
                     add_onto = true;
                 }
-                else if (onto.CodingScheme.ToLower().Contains(SearchBox_TextBox.Text))
+                else if (onto.Scheme.ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     add_onto = true;
                 }
                 if (add_onto)
                 {
-                    AddOntologyRow new_row = new AddOntologyRow(ontology_list, onto, onto_path);
+                    AddOntologyRow new_row = new AddOntologyRow(template_maker.Ontologies, onto, onto_path);
                     OntologyStackPanel.Children.Add(new_row);
                 }
             }
@@ -105,8 +108,8 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddOntology_Click(object sender, RoutedEventArgs e)
         {
-            OntologyClass onto = new OntologyClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
-            ontology_list.Add(onto);
+            OntologyCodeClass onto = new OntologyCodeClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
+            template_maker.Ontologies.Add(onto);
             PreferredNameTextBox.Text = "";
             CodeValue_TextBox.Text = "";
             CodeScheme_TextBox.Text = "";
@@ -117,7 +120,14 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddOntologyFromRT_Click(object sender, RoutedEventArgs e)
         {
-
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
+            dialog.InitialDirectory = ".";
+            dialog.IsFolderPicker = false;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string dicom_file = dialog.FileName;
+                template_maker.interpret_RT(dicom_file);
+            }
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
@@ -125,10 +135,10 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 Directory.CreateDirectory(onto_path);
             }
-            foreach (OntologyClass onto in ontology_list)
+            foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
                 File.WriteAllText(Path.Combine(onto_path, $"{onto.Name}.txt"),
-                    $"{onto.CodeValue}\n{onto.CodingScheme}");
+                    $"{onto.CodeValue}\n{onto.Scheme}");
             }
         }
         private void BuildFromFolders()
@@ -140,8 +150,8 @@ namespace DicomTemplateMakerGUI.Windows
                 string[] instructions = File.ReadAllLines(ontology_file);
                 string code_value = instructions[0];
                 string coding_scheme = instructions[1];
-                OntologyClass onto = new OntologyClass(onto_name, code_value, coding_scheme);
-                ontology_list.Add(onto);
+                OntologyCodeClass onto = new OntologyCodeClass(onto_name, code_value, coding_scheme);
+                template_maker.Ontologies.Add(onto);
             }
             RefreshView();
         }
