@@ -65,7 +65,7 @@ namespace DicomTemplateMakerGUI.Services
                         coding_scheme_designator_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodingSchemeDesignator));
                         context_group_version_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextGroupVersion));
                         context_identifier_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextIdentifier));
-                        context_identifier_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextUID));
+                        context_uid_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextUID));
                         mapping_resource_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResource));
                         mapping_resource_name_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResourceName));
                         mapping_resourceUID_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResourceUID));
@@ -92,7 +92,18 @@ namespace DicomTemplateMakerGUI.Services
                             code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key], context_group_version_dict[key], mapping_resource_dict[key],
                                 context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
-                        if (!Ontologies.Contains(code_class))
+                        bool contains_code_class = false;
+                        foreach (OntologyCodeClass o in Ontologies)
+                        {
+                            if (o.CodeMeaning == code_class.CodeMeaning)
+                            {
+                                if (o.CodeValue == code_class.CodeValue)
+                                {
+                                    contains_code_class = true;
+                                }
+                            }
+                        }
+                        if (!contains_code_class)
                         {
                             Ontologies.Add(code_class);
                         }
