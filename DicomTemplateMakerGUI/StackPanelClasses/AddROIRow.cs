@@ -21,20 +21,24 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private ROIClass roi;
         private TextBox roi_name_textbox;
         private List<ROIClass> roi_list;
+        private List<OntologyCodeClass> ontologies_list;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
         private string roi_path;
-        public AddROIRow(List<ROIClass> roi_list, ROIClass roi, string path)
+        public AddROIRow(List<ROIClass> roi_list, ROIClass roi, string path, List<OntologyCodeClass> ontologies_list) //, 
         {
             this.roi = roi;
             this.roi_list = roi_list;
             this.roi_path = path;
+            this.ontologies_list = ontologies_list;
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.ROIName;
             roi_name_textbox.TextChanged += TextValueChange;
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
+
+
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
             Binding interp_binding = new Binding("ROI_Interpreted_type");

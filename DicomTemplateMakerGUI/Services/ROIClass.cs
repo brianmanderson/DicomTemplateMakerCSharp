@@ -21,7 +21,7 @@ namespace DicomTemplateMakerGUI.Services
             set
             {
                 ontology_class = value;
-                OnPropertyChanged("IdentificationCode");
+                OnPropertyChanged("Ontology_Class");
             }
         }
         public string ROIName

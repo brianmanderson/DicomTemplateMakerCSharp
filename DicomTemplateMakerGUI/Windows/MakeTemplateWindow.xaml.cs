@@ -37,6 +37,7 @@ namespace DicomTemplateMakerGUI.Windows
         bool file_selected;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
+        List<OntologyCodeClass> ontology_list = new List<OntologyCodeClass>();
         public MakeTemplateWindow(string folder, TemplateMaker template_maker)
         {
             out_path = folder;
@@ -44,7 +45,12 @@ namespace DicomTemplateMakerGUI.Windows
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
             InterpComboBox.SelectedIndex = 0;
-            OntologyComboBox.ItemsSource = template_maker.Ontologies;
+            foreach (OntologyCodeClass o in template_maker.Ontologies)
+            {
+                ontology_list.Add(o);
+            }
+            OntologyComboBox.DisplayMemberPath = "CodeMeaning";
+            OntologyComboBox.ItemsSource = ontology_list;
             OntologyComboBox.SelectedIndex = 0;
             R = byte.Parse("0");
             G = byte.Parse("255");
@@ -93,6 +99,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void add_roi_rows()
         {
             ROIStackPanel.Children.Clear();
+            ROIStackPanel.Children.Add(TopRow());
             List<ROIClass> PTVs = new List<ROIClass>();
             List<ROIClass> CTVs = new List<ROIClass>();
             List<ROIClass> GTVs = new List<ROIClass>();
@@ -158,6 +165,27 @@ namespace DicomTemplateMakerGUI.Windows
                 ROIStackPanel.Children.Add(new_row);
             }
         }
+        private StackPanel TopRow()
+        {
+            StackPanel top_row = new StackPanel();
+            top_row.Orientation = Orientation.Horizontal;
+
+            Label name_label = new Label();
+            name_label.Width = 200;
+            name_label.Content = "ROI Name";
+            top_row.Children.Add(name_label);
+
+            Label code_value = new Label();
+            code_value.Width = 200;
+            code_value.Content = "Ontology";
+            top_row.Children.Add(code_value);
+
+            Label code_scheme = new Label();
+            code_scheme.Width = 150;
+            code_scheme.Content = "Coding Scheme";
+            top_row.Children.Add(code_scheme);
+            return top_row;
+        }
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
             UpdateButton.IsEnabled = true;
@@ -195,7 +223,10 @@ namespace DicomTemplateMakerGUI.Windows
             AddROIButton.IsEnabled = false;
             if (ROITextBox.Text != "")
             {
-                AddROIButton.IsEnabled = true;
+                if (OntologyComboBox.SelectedIndex != -1)
+                {
+                    AddROIButton.IsEnabled = true;
+                }
             }
         }
 
@@ -254,9 +285,25 @@ namespace DicomTemplateMakerGUI.Windows
         {
             add_roi_rows();
         }
+
+        private void OntologyNameChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = Ontology_TextBox.Text.ToLower();
+            ontology_list = new List<OntologyCodeClass>();
+            foreach (OntologyCodeClass onto in template_maker.Ontologies)
+            {
+                if (onto.CodeMeaning.ToLower().Contains(text))
+                {
+                    ontology_list.Add(onto);
+                }
+            }
+            OntologyComboBox.ItemsSource = ontology_list;
+            OntologyComboBox.SelectedIndex = 0;
+        }
+
         private void AddROI_Click(object sender, RoutedEventArgs e)
         {
-            OntologyCodeClass code_class = new OntologyCodeClass("Test", "Test", "test");
+            OntologyCodeClass code_class = (OntologyCodeClass)OntologyComboBox.SelectedItem;
             ROIClass roi = new ROIClass(R, G, B, ROITextBox.Text, InterpComboBox.SelectedItem.ToString(), code_class);
             template_maker.ROIs.Add(roi);
             add_roi_rows();

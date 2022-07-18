@@ -56,7 +56,7 @@ namespace DicomTemplateMakerGUI
     }
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        string folder_location;
+        string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         bool running;
@@ -77,6 +77,11 @@ namespace DicomTemplateMakerGUI
             InitializeComponent();
             running = false;
             folder_location = @".";
+            onto_path = Path.Combine(folder_location, "Ontologies");
+            if (!Directory.Exists(onto_path))
+            {
+                Directory.CreateDirectory(onto_path);
+            }
             TemplateBaseLabel.Content = Path.GetFullPath(folder_location);
             AddTemplateButton.IsEnabled = true;
             Rebuild_From_Folders();
@@ -92,6 +97,23 @@ namespace DicomTemplateMakerGUI
             foreach (string directory in directories)
             {
                 TemplateMaker evaluator = new TemplateMaker();
+                string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
+                foreach (string ontology_file in roi_files)
+                {
+                    string onto_name = Path.GetFileName(ontology_file).Replace(".txt", "");
+                    string[] instructions = File.ReadAllLines(ontology_file);
+                    string code_value = instructions[0];
+                    string coding_scheme = instructions[1];
+                    string context_group_version = instructions[2];
+                    string mapping_resource = instructions[3];
+                    string context_identifier = instructions[4];
+                    string mapping_resource_name = instructions[5];
+                    string mapping_resource_uid = instructions[6];
+                    string context_uid = instructions[7];
+                    OntologyCodeClass onto = new OntologyCodeClass(onto_name, code_value, coding_scheme, context_group_version, mapping_resource,
+                        context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
+                    evaluator.Ontologies.Add(onto);
+                }
                 evaluator.categorize_folder(directory);
                 if (evaluator.is_template)
                 {

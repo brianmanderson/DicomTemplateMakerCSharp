@@ -29,7 +29,7 @@
         <Label Content="Search by name, type, ontology" HorizontalAlignment="Left" Height="43" Margin="23,224,0,0" VerticalAlignment="Top" Width="207"/>
         <Label Content="Add paths to monitor:" HorizontalAlignment="Left" Height="37" Margin="447,89,0,0" VerticalAlignment="Top" Width="140"/>
         <Label x:Name="ROINameLabel_Copy" Content="Ontology Name" HorizontalAlignment="Left" Height="27" Margin="8,131,0,0" VerticalAlignment="Top" Width="118"/>
-        <TextBox x:Name="Ontology_TextBox" IsEnabled="False" TextChanged="ROINameChanged" HorizontalAlignment="Left" Height="45" Margin="10,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="244"/>
-        <ComboBox x:Name="OntologyComboBox" IsEnabled="False" HorizontalAlignment="Left" Height="45" Margin="259,166,0,0" VerticalAlignment="Top" Width="236" SelectionChanged="OnSelectionChanged"/>
+        <TextBox x:Name="Ontology_TextBox" IsEnabled="True" TextChanged="OntologyNameChanged" HorizontalAlignment="Left" Height="45" Margin="10,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="244"/>
+        <ComboBox x:Name="OntologyComboBox" IsEnabled="True" HorizontalAlignment="Left" Height="45" Margin="259,166,0,0" VerticalAlignment="Top" Width="236" SelectionChanged="OnSelectionChanged"/>
     </Grid>
 </Window>
