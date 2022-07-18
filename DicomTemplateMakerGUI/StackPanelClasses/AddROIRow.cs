@@ -38,6 +38,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
 
+            Binding ontology_binding = new Binding("Ontology_Class");
+            ontology_binding.Source = roi;
+            ComboBox ontology_combobox = new ComboBox();
+            ontology_combobox.SetBinding(ComboBox.SelectedItemProperty, ontology_binding);
+            ontology_combobox.ItemsSource = ontologies_list;
+            ontology_combobox.DisplayMemberPath = "CodeMeaning";
+            ontology_combobox.SelectionChanged += SelectionChangedEvent;
+            ontology_combobox.Width = 150;
+            Children.Add(ontology_combobox);
 
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
@@ -116,10 +125,11 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void rebuild_text()
         {
-            OntologyCodeClass i = roi.Ontology_Class;
+            OntologyCodeClass onto = roi.Ontology_Class;
             File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
                 $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +
+                $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
+                $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
                 $"{roi.ROI_Interpreted_type}");
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)

@@ -146,22 +146,22 @@ namespace DicomTemplateMakerGUI.Windows
             CTVs = CTVs.OrderBy(o => o.ROIName).ToList();
             foreach (ROIClass roi in PTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in CTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in GTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in ROIs_list)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
         }
@@ -176,7 +176,7 @@ namespace DicomTemplateMakerGUI.Windows
             top_row.Children.Add(name_label);
 
             Label code_value = new Label();
-            code_value.Width = 200;
+            code_value.Width = 150;
             code_value.Content = "Ontology";
             top_row.Children.Add(code_value);
 

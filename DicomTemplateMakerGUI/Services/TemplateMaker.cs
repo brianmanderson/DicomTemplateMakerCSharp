@@ -148,6 +148,7 @@ namespace DicomTemplateMakerGUI.Services
         {
             ROIs = new List<ROIClass>();
             Paths = new List<string>();
+            OntologyCodeClass code_class;
             this.path = path;
             is_template = false;
             if (File.Exists(Path.Combine(path, "Paths.txt")))
@@ -170,7 +171,16 @@ namespace DicomTemplateMakerGUI.Services
                     color = instructions[0];
                     string[] color_values = color.Split('\\');
                     string[] code_values = instructions[1].Split('\\');
-                    OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    if (code_values.Length == 3)
+                    {
+                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    }
+                    else
+                    {
+                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
+                            code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
+                    }
+                    
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {
@@ -179,6 +189,8 @@ namespace DicomTemplateMakerGUI.Services
                             if (o.CodeValue == code_class.CodeValue)
                             {
                                 contains_code_class = true;
+                                code_class = o;
+                                break;
                             }
                         }
                     }
