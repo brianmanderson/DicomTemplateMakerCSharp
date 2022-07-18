@@ -44,6 +44,8 @@ namespace DicomTemplateMakerGUI.Windows
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
             InterpComboBox.SelectedIndex = 0;
+            OntologyComboBox.ItemsSource = template_maker.Ontologies;
+            OntologyComboBox.SelectedIndex = 0;
             R = byte.Parse("0");
             G = byte.Parse("255");
             B = byte.Parse("255");

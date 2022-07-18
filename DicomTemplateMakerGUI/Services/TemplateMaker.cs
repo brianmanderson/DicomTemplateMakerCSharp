@@ -171,6 +171,21 @@ namespace DicomTemplateMakerGUI.Services
                     string[] color_values = color.Split('\\');
                     string[] code_values = instructions[1].Split('\\');
                     OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    bool contains_code_class = false;
+                    foreach (OntologyCodeClass o in Ontologies)
+                    {
+                        if (o.CodeMeaning == code_class.CodeMeaning)
+                        {
+                            if (o.CodeValue == code_class.CodeValue)
+                            {
+                                contains_code_class = true;
+                            }
+                        }
+                    }
+                    if (!contains_code_class)
+                    {
+                        Ontologies.Add(code_class);
+                    }
                     interperter = "";
                     if (instructions.Length == 3)
                     {

@@ -26,6 +26,10 @@ namespace DicomTemplateMakerGUI.Windows
         public EditOntologyWindow(string path, TemplateMaker template_maker)
         {
             this.onto_path = Path.Combine(path, "Ontologies");
+            if (!Directory.Exists(onto_path))
+            {
+                Directory.CreateDirectory(onto_path);
+            }
             this.template_maker = template_maker;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
