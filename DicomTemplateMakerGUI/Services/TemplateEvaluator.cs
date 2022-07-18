@@ -22,6 +22,7 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void categorize_folder(string path)
         {
+            OntologyCodeClass code_class;
             this.path = path;
             is_template = false;
             if (Directory.Exists(Path.Combine(path, "ROIs")))
@@ -36,7 +37,15 @@ namespace DicomTemplateMakerGUI.Services
                     color = instructions[0];
                     string[] color_values = color.Split('\\');
                     string[] code_values = instructions[1].Split('\\');
-                    OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    if (code_values.Length == 3)
+                    {
+                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    }
+                    else
+                    {
+                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
+                            code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
+                    }
                     interperter = "";
                     if (instructions.Length == 3)
                     {

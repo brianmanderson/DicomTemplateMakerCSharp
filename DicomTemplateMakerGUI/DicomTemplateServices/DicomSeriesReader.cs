@@ -122,6 +122,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             DicomSequence rt_structure_set_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence);
             DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
             DicomSequence roi_observation_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence);
+            DicomDataset code_sequence = new DicomDataset();
+            code_sequence.AddOrUpdate(DicomTag.CodeMeaning, roi_class.Ontology_Class.CodeMeaning);
             rt_structure_set = new DicomDataset(rt_structure_set);
             roi_contour_set = new DicomDataset(roi_contour_set);
             roi_observation_set = new DicomDataset(roi_observation_set);

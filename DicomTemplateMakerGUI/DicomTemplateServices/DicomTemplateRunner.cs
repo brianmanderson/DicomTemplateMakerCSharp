@@ -27,6 +27,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         }
         public void build_dictionary()
         {
+            OntologyCodeClass code_class;
             template_dictionary = new Dictionary<string, List<ROIClass>>();
             paths_dictionary = new Dictionary<string, List<string>>();
             string[] template_directories = Directory.GetDirectories(template_folder);
@@ -44,7 +45,15 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             color = instructions[0];
                             string[] color_values = color.Split('\\');
                             string[] code_values = instructions[1].Split('\\');
-                            OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                            if (code_values.Length == 3)
+                            {
+                                code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                            }
+                            else
+                            {
+                                code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
+                                    code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
+                            }
                             interperter = "";
                             if (instructions.Length == 3)
                             {
