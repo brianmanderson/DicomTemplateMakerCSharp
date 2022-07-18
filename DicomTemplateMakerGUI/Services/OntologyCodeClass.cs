@@ -31,7 +31,7 @@ namespace DicomTemplateMakerGUI.Services
             get { return mapping_resource_uid; }
             set
             {
-                mapping_resource_name = value;
+                mapping_resource_uid = value;
                 OnPropertyChanged("MappingResourceUID");
             }
         }
