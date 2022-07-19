@@ -136,6 +136,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             DicomSequence roi_observation_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence);
 
             rt_structure_set = new DicomDataset(rt_structure_set);
+            rt_structure_set = new DicomDataset();
             roi_contour_set = new DicomDataset(roi_contour_set);
             roi_observation_set = new DicomDataset(roi_observation_set);
             int roi_number = 1;
@@ -152,6 +153,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             observation_number_list.Add(roi_observation_number);
             rt_structure_set.AddOrUpdate(DicomTag.ROINumber, roi_number);
             rt_structure_set.AddOrUpdate(DicomTag.ROIName, roi_class.ROIName);
+            rt_structure_set.AddOrUpdate(DicomTag.ROIGenerationAlgorithm, "SEMIAUTOMATIC");
+            rt_structure_set.AddOrUpdate(DicomTag.ReferencedFrameOfReferenceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.FrameOfReferenceUID]));
             rt_structure_set_sequence.Items.Add(rt_structure_set);
 
             roi_contour_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
