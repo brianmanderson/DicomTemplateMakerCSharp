@@ -122,27 +122,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             DicomSequence rt_structure_set_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence);
             DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
             DicomSequence roi_observation_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence);
-
-            DicomDataset code_set;
             DicomDataset roi_observation_set = roi_observation_sequence.Items[0];
-            if (roi_observation_set.Contains(DicomTag.RTROIIdentificationCodeSequence))
-            {
-                code_set = roi_observation_sequence.Items[0].GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence).Items[0];
-            }
-            else
-            {
-                code_set = new DicomDataset();
-            }
-            code_set.AddOrUpdate(DicomTag.CodeMeaning, roi_class.Ontology_Class.CodeMeaning);
-            code_set.AddOrUpdate(DicomTag.CodeValue, roi_class.Ontology_Class.CodeValue);
-            code_set.AddOrUpdate(DicomTag.ContextGroupVersion, roi_class.Ontology_Class.ContextGroupVersion);
-            code_set.AddOrUpdate(DicomTag.ContextIdentifier, roi_class.Ontology_Class.ContextIdentifier);
-            code_set.AddOrUpdate(DicomTag.ContextUID, roi_class.Ontology_Class.ContextUID);
-            code_set.AddOrUpdate(DicomTag.MappingResource, roi_class.Ontology_Class.MappingResource);
-            code_set.AddOrUpdate(DicomTag.MappingResource, roi_class.Ontology_Class.MappingResource);
-            code_set.AddOrUpdate(DicomTag.MappingResourceName, roi_class.Ontology_Class.MappingResourceName);
-            code_set.AddOrUpdate(DicomTag.MappingResourceUID, roi_class.Ontology_Class.MappingResourceUID);
-            code_set.AddOrUpdate(DicomTag.CodingSchemeDesignator, roi_class.Ontology_Class.Scheme);
+
             rt_structure_set = new DicomDataset(rt_structure_set);
             roi_contour_set = new DicomDataset(roi_contour_set);
             roi_observation_set = new DicomDataset(roi_observation_set);
@@ -170,6 +151,28 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
             roi_observation_sequence.Items.Add(roi_observation_set);
+
+            DicomDataset code_set;
+            if (roi_observation_set.Contains(DicomTag.RTROIIdentificationCodeSequence))
+            {
+                code_set = roi_observation_sequence.Items[0].GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence).Items[0];
+            }
+            else
+            {
+                code_set = new DicomDataset();
+                DicomSequence code_sequence = new DicomSequence(DicomTag.RTROIIdentificationCodeSequence);
+                code_sequence.Items.Add(code_set);
+            }
+            code_set.AddOrUpdate(DicomTag.CodeMeaning, roi_class.Ontology_Class.CodeMeaning);
+            code_set.AddOrUpdate(DicomTag.CodeValue, roi_class.Ontology_Class.CodeValue);
+            code_set.AddOrUpdate(DicomTag.ContextGroupVersion, roi_class.Ontology_Class.ContextGroupVersion);
+            code_set.AddOrUpdate(DicomTag.ContextIdentifier, roi_class.Ontology_Class.ContextIdentifier);
+            code_set.AddOrUpdate(DicomTag.ContextUID, roi_class.Ontology_Class.ContextUID);
+            code_set.AddOrUpdate(DicomTag.MappingResource, roi_class.Ontology_Class.MappingResource);
+            code_set.AddOrUpdate(DicomTag.MappingResource, roi_class.Ontology_Class.MappingResource);
+            code_set.AddOrUpdate(DicomTag.MappingResourceName, roi_class.Ontology_Class.MappingResourceName);
+            code_set.AddOrUpdate(DicomTag.MappingResourceUID, roi_class.Ontology_Class.MappingResourceUID);
+            code_set.AddOrUpdate(DicomTag.CodingSchemeDesignator, roi_class.Ontology_Class.Scheme);
         }
         public void update_image_sequence()
         {
