@@ -198,7 +198,8 @@ namespace DicomTemplateMakerGUI.Windows
             BuildButton.Content = "Finished Building!";
             BuildButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = true;
-            template_maker.define_output(Path.Combine(out_path, TemplateTextBox.Text));
+            out_path = Path.Combine(out_path, TemplateTextBox.Text);
+            template_maker.define_output(out_path);
             template_maker.make_template();
             check_status();
         }

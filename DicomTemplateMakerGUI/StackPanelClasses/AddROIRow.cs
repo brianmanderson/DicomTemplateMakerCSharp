@@ -126,6 +126,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private void rebuild_text()
         {
             OntologyCodeClass onto = roi.Ontology_Class;
+            if (!Directory.Exists(roi_path))
+            {
+                Directory.CreateDirectory(roi_path);
+            }
             File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
                 $"{roi.R}\\{roi.G}\\{roi.B}\n" +
                 $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +

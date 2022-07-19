@@ -93,6 +93,7 @@ namespace DicomTemplateMakerGUI.Services
                                 context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
                         bool contains_code_class = false;
+                        ROIClass new_roi;
                         foreach (OntologyCodeClass o in Ontologies)
                         {
                             if (o.CodeMeaning == code_class.CodeMeaning)
@@ -100,18 +101,25 @@ namespace DicomTemplateMakerGUI.Services
                                 if (o.CodeValue == code_class.CodeValue)
                                 {
                                     contains_code_class = true;
+                                    new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], o);
+                                    if (!ROIs.Contains(new_roi))
+                                    {
+                                        ROIs.Add(new_roi);
+                                    }
+                                    break;
                                 }
                             }
                         }
                         if (!contains_code_class)
                         {
                             Ontologies.Add(code_class);
+                            new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
+                            if (!ROIs.Contains(new_roi))
+                            {
+                                ROIs.Add(new_roi);
+                            }
                         }
-                        ROIClass new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
-                        if (!ROIs.Contains(new_roi))
-                        {
-                            ROIs.Add(new_roi);
-                        }
+
                         
                     }
                 }
