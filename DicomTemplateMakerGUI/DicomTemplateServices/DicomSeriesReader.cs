@@ -140,24 +140,17 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             roi_contour_set.AddOrUpdate(DicomTag.ROIDisplayColor, roi_class.color_string);
             roi_contour_sequence.Items.Add(roi_contour_set);
 
-            roi_observation_set = new DicomDataset(roi_observation_set);
+            roi_observation_set = new DicomDataset();
             roi_observation_set.AddOrUpdate(DicomTag.ObservationNumber, roi_observation_number);
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
+            roi_observation_set.AddOrUpdate(DicomTag.ROIInterpreter, "Brian_Mark_Anderson");
+            roi_observation_set.AddOrUpdate(DicomTag.ROIObservationLabel, roi_class.ROIName);
             roi_observation_sequence.Items.Add(roi_observation_set);
 
             DicomDataset code_set;
             DicomSequence code_sequence;
-            if (roi_observation_set.Contains(DicomTag.RTROIIdentificationCodeSequence))
-            {
-                code_sequence = roi_observation_set.GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence);
-                code_set = code_sequence.Items[0];
-            }
-            else
-            {
-                code_set = new DicomDataset();
-                code_sequence = new DicomSequence(DicomTag.RTROIIdentificationCodeSequence);
-            }
+            code_set = new DicomDataset();
             code_set.AddOrUpdate(DicomTag.CodeMeaning, roi_class.Ontology_Class.CodeMeaning);
             code_set.AddOrUpdate(DicomTag.CodeValue, roi_class.Ontology_Class.CodeValue);
             code_set.AddOrUpdate(DicomTag.ContextGroupVersion, roi_class.Ontology_Class.ContextGroupVersion);
@@ -168,8 +161,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             code_set.AddOrUpdate(DicomTag.MappingResourceName, roi_class.Ontology_Class.MappingResourceName);
             code_set.AddOrUpdate(DicomTag.MappingResourceUID, roi_class.Ontology_Class.MappingResourceUID);
             code_set.AddOrUpdate(DicomTag.CodingSchemeDesignator, roi_class.Ontology_Class.Scheme);
-            code_sequence.Items.Clear();
-            code_sequence.Items.Add(code_set);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIIdentificationCodeSequence, code_set);
         }
         public void update_image_sequence()

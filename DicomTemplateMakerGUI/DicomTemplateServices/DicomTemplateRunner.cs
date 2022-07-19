@@ -122,6 +122,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         reader.load_DICOM(uid);
                         reader.update_template(delete_contours: true, delete_everything: true);
                         reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name);
+                        reader.update_dicom_tag(DicomTag.Manufacturer, "UCSD Residency");
+                        reader.update_dicom_tag(DicomTag.ManufacturerModelName, "Universal_RT_Creator");
                         foreach (ROIClass roi in template_dictionary[template_name])
                         {
                             reader.add_roi(roi);
