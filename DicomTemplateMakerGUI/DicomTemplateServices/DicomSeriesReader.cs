@@ -220,6 +220,10 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 }
             }
         }
+        public void update_dicom_tag(DicomTag dicom_tag, string new_value)
+        {
+            RT_file.Dataset.AddOrUpdate(dicom_tag, new_value);
+        }
         public void update_template(bool delete_contours, bool delete_everything)
         {
             foreach (DicomTag key in change_tags)
