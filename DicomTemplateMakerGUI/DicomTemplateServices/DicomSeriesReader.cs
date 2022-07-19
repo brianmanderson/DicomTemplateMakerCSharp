@@ -145,7 +145,14 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
             roi_observation_set.AddOrUpdate(DicomTag.ROIInterpreter, "Brian_Mark_Anderson");
-            roi_observation_set.AddOrUpdate(DicomTag.ROIObservationLabel, roi_class.ROIName);
+            if (roi_class.ROIName.Length > 16)
+            {
+                roi_observation_set.AddOrUpdate(DicomTag.ROIObservationLabel, roi_class.ROIName.Substring(0, 16));
+            }
+            else
+            {
+                roi_observation_set.AddOrUpdate(DicomTag.ROIObservationLabel, roi_class.ROIName);
+            }
             roi_observation_sequence.Items.Add(roi_observation_set);
 
             DicomDataset code_set;

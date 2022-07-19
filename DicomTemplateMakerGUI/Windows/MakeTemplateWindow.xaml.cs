@@ -176,12 +176,12 @@ namespace DicomTemplateMakerGUI.Windows
             top_row.Children.Add(name_label);
 
             Label code_value = new Label();
-            code_value.Width = 150;
+            code_value.Width = 250;
             code_value.Content = "Ontology";
             top_row.Children.Add(code_value);
 
             Label code_scheme = new Label();
-            code_scheme.Width = 150;
+            code_scheme.Width = 200;
             code_scheme.Content = "Coding Scheme";
             top_row.Children.Add(code_scheme);
             return top_row;
