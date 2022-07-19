@@ -51,11 +51,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         public void delete_all_structures()
         {
             DicomSequence rt_structure_set_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence);
-            foreach (DicomDataset rt_struct in rt_structure_set_sequence.Items)
-            {
-                rt_structure_set = new DicomDataset(rt_struct);
-                break;
-            }
             DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
             foreach (DicomDataset rs_object in roi_contour_sequence.Items)
             {
@@ -120,10 +115,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
             DicomSequence roi_observation_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence);
 
-            rt_structure_set = new DicomDataset(rt_structure_set);
             rt_structure_set = new DicomDataset();
-            roi_contour_set = new DicomDataset(roi_contour_set);
-            roi_observation_set = new DicomDataset(roi_observation_set);
             int roi_number = 1;
             while (referenced_roi_number_list.Contains(roi_number))
             {
@@ -142,10 +134,13 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             rt_structure_set.AddOrUpdate(DicomTag.ReferencedFrameOfReferenceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.FrameOfReferenceUID]));
             rt_structure_set_sequence.Items.Add(rt_structure_set);
 
+            //roi_contour_set = new DicomDataset(roi_contour_set);
+            roi_contour_set = new DicomDataset();
             roi_contour_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_contour_set.AddOrUpdate(DicomTag.ROIDisplayColor, roi_class.color_string);
             roi_contour_sequence.Items.Add(roi_contour_set);
 
+            roi_observation_set = new DicomDataset(roi_observation_set);
             roi_observation_set.AddOrUpdate(DicomTag.ObservationNumber, roi_observation_number);
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
