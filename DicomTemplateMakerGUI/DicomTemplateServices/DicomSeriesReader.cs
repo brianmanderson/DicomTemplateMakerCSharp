@@ -68,30 +68,15 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 roi_observation_set = new DicomDataset(rs_object);
                 break;
             }
-            int rt_count = rt_structure_set_sequence.Items.Count;
-            for (int i = 0; i < rt_count; i++)
-            {
-                rt_structure_set_sequence.Items.RemoveAt(0);
-            }
-            int countour_count = roi_contour_sequence.Items.Count;
-            for (int i = 0; i < countour_count; i++)
-            {
-                roi_contour_sequence.Items.RemoveAt(0);
-            }
-            int observ_count = roi_observation_sequence.Items.Count;
-            for (int i = 0; i < observ_count; i++)
-            {
-                roi_observation_sequence.Items.RemoveAt(0);
-            }
+            rt_structure_set_sequence.Items.Clear();
+            roi_contour_sequence.Items.Clear();
+            roi_observation_sequence.Items.Clear();
         }
         public void delete_all_contours()
         {
             /// Delete the previous ContourSequence
             DicomSequence roiContourSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
-            foreach (DicomDataset roiContour in roiContourSequence.Items)
-            {
-                roiContour.Remove(DicomTag.ContourSequence);
-            }
+            roiContourSequence.Items.Clear();
             RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
             RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
         }
