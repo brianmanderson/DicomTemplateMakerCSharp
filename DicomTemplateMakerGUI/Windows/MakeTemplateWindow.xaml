@@ -20,7 +20,7 @@
         <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="34" Margin="423,226,0,0" VerticalAlignment="Top" Width="140" Click="Refresh_Click" IsEnabled="False"/>
         <Button x:Name="UpdateButton" Visibility="Hidden" Content="Save Changes" HorizontalAlignment="Left" Height="34" Margin="748,95,0,0" VerticalAlignment="Top" Width="138" Click="Save_Changes_Click" IsEnabled="False"/>
         <Button x:Name="Update_and_ExitButton" Content="Save and Exit" HorizontalAlignment="Left" Height="34" Margin="973,220,0,0" VerticalAlignment="Top" Width="210" Click="Save_and_Exit_Click" IsEnabled="False"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,289,0.333,-24.333">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,289,0,10">
             <StackPanel Margin="23,27,41,88" x:Name="ROIStackPanel">
             </StackPanel>
         </ScrollViewer>

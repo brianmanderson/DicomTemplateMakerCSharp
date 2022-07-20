@@ -45,7 +45,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ontology_combobox.ItemsSource = ontologies_list;
             ontology_combobox.DisplayMemberPath = "CodeMeaning";
             ontology_combobox.SelectionChanged += SelectionChangedEvent;
-            ontology_combobox.Width = 150;
+            ontology_combobox.Width = 250;
             Children.Add(ontology_combobox);
 
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
@@ -61,7 +61,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type;
             }
-            roi_interp_combobox.Width = 150;
+            roi_interp_combobox.Width = 200;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
             color_button.Background = roi.ROI_Brush;
@@ -126,11 +126,23 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private void rebuild_text()
         {
             OntologyCodeClass onto = roi.Ontology_Class;
-            File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
-                $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
-                $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
-                $"{roi.ROI_Interpreted_type}");
+            if (!Directory.Exists(roi_path))
+            {
+                Directory.CreateDirectory(roi_path);
+            }
+            try
+            {
+                File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
+                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                    $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
+                    $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
+                    $"{roi.ROI_Interpreted_type}");
+            }
+            catch
+            {
+                int x = 5;
+            }
+
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {

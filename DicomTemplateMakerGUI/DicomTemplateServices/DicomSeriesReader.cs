@@ -51,11 +51,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         public void delete_all_structures()
         {
             DicomSequence rt_structure_set_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence);
-            foreach (DicomDataset rt_struct in rt_structure_set_sequence.Items)
-            {
-                rt_structure_set = new DicomDataset(rt_struct);
-                break;
-            }
             DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
             foreach (DicomDataset rs_object in roi_contour_sequence.Items)
             {
@@ -68,30 +63,15 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 roi_observation_set = new DicomDataset(rs_object);
                 break;
             }
-            int rt_count = rt_structure_set_sequence.Items.Count;
-            for (int i = 0; i < rt_count; i++)
-            {
-                rt_structure_set_sequence.Items.RemoveAt(0);
-            }
-            int countour_count = roi_contour_sequence.Items.Count;
-            for (int i = 0; i < countour_count; i++)
-            {
-                roi_contour_sequence.Items.RemoveAt(0);
-            }
-            int observ_count = roi_observation_sequence.Items.Count;
-            for (int i = 0; i < observ_count; i++)
-            {
-                roi_observation_sequence.Items.RemoveAt(0);
-            }
+            rt_structure_set_sequence.Items.Clear();
+            roi_contour_sequence.Items.Clear();
+            roi_observation_sequence.Items.Clear();
         }
         public void delete_all_contours()
         {
             /// Delete the previous ContourSequence
             DicomSequence roiContourSequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
-            foreach (DicomDataset roiContour in roiContourSequence.Items)
-            {
-                roiContour.Remove(DicomTag.ContourSequence);
-            }
+            roiContourSequence.Items.Clear();
             RT_file.Dataset.AddOrUpdate(DicomTag.SeriesInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
             RT_file.Dataset.AddOrUpdate(DicomTag.SOPInstanceUID, DicomUIDGenerator.GenerateDerivedFromUUID());
         }
@@ -135,9 +115,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             DicomSequence roi_contour_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence);
             DicomSequence roi_observation_sequence = RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence);
 
-            rt_structure_set = new DicomDataset(rt_structure_set);
-            roi_contour_set = new DicomDataset(roi_contour_set);
-            roi_observation_set = new DicomDataset(roi_observation_set);
+            rt_structure_set = new DicomDataset();
             int roi_number = 1;
             while (referenced_roi_number_list.Contains(roi_number))
             {
@@ -152,29 +130,34 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             observation_number_list.Add(roi_observation_number);
             rt_structure_set.AddOrUpdate(DicomTag.ROINumber, roi_number);
             rt_structure_set.AddOrUpdate(DicomTag.ROIName, roi_class.ROIName);
+            rt_structure_set.AddOrUpdate(DicomTag.ROIGenerationAlgorithm, "SEMIAUTOMATIC");
+            rt_structure_set.AddOrUpdate(DicomTag.ReferencedFrameOfReferenceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.FrameOfReferenceUID]));
             rt_structure_set_sequence.Items.Add(rt_structure_set);
 
+            //roi_contour_set = new DicomDataset(roi_contour_set);
+            roi_contour_set = new DicomDataset();
             roi_contour_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_contour_set.AddOrUpdate(DicomTag.ROIDisplayColor, roi_class.color_string);
             roi_contour_sequence.Items.Add(roi_contour_set);
 
+            roi_observation_set = new DicomDataset();
             roi_observation_set.AddOrUpdate(DicomTag.ObservationNumber, roi_observation_number);
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
+            roi_observation_set.AddOrUpdate(DicomTag.ROIInterpreter, "Brian_Mark_Anderson");
+            if (roi_class.ROIName.Length > 16)
+            {
+                roi_observation_set.AddOrUpdate(DicomTag.ROIObservationLabel, roi_class.ROIName.Substring(0, 16));
+            }
+            else
+            {
+                roi_observation_set.AddOrUpdate(DicomTag.ROIObservationLabel, roi_class.ROIName);
+            }
             roi_observation_sequence.Items.Add(roi_observation_set);
 
             DicomDataset code_set;
             DicomSequence code_sequence;
-            if (roi_observation_set.Contains(DicomTag.RTROIIdentificationCodeSequence))
-            {
-                code_sequence = roi_observation_set.GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence);
-                code_set = code_sequence.Items[0];
-            }
-            else
-            {
-                code_set = new DicomDataset();
-                code_sequence = new DicomSequence(DicomTag.RTROIIdentificationCodeSequence);
-            }
+            code_set = new DicomDataset();
             code_set.AddOrUpdate(DicomTag.CodeMeaning, roi_class.Ontology_Class.CodeMeaning);
             code_set.AddOrUpdate(DicomTag.CodeValue, roi_class.Ontology_Class.CodeValue);
             code_set.AddOrUpdate(DicomTag.ContextGroupVersion, roi_class.Ontology_Class.ContextGroupVersion);
@@ -185,8 +168,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             code_set.AddOrUpdate(DicomTag.MappingResourceName, roi_class.Ontology_Class.MappingResourceName);
             code_set.AddOrUpdate(DicomTag.MappingResourceUID, roi_class.Ontology_Class.MappingResourceUID);
             code_set.AddOrUpdate(DicomTag.CodingSchemeDesignator, roi_class.Ontology_Class.Scheme);
-            code_sequence.Items.Clear();
-            code_sequence.Items.Add(code_set);
             roi_observation_set.AddOrUpdate(DicomTag.RTROIIdentificationCodeSequence, code_set);
         }
         public void update_image_sequence()
@@ -219,6 +200,10 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     }
                 }
             }
+        }
+        public void update_dicom_tag(DicomTag dicom_tag, string new_value)
+        {
+            RT_file.Dataset.AddOrUpdate(dicom_tag, new_value);
         }
         public void update_template(bool delete_contours, bool delete_everything)
         {
