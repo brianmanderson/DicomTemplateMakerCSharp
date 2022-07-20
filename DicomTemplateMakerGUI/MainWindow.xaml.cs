@@ -139,6 +139,7 @@ namespace DicomTemplateMakerGUI
         private void Click_Build(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
+            template_maker.set_onto_path(Path.Combine(folder_location, "Ontologies"));
             template_maker = update_ontology_reader(template_maker);
             MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker);
             template_window.ShowDialog();

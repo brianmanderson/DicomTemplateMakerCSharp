@@ -13,6 +13,7 @@ namespace DicomTemplateMakerGUI.Services
     {
         public string template_name;
         public string path;
+        private string onto_path;
         public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
@@ -28,6 +29,18 @@ namespace DicomTemplateMakerGUI.Services
             ROIs = new List<ROIClass>();
             Ontologies = new List<OntologyCodeClass>();
             Paths = new List<string>();
+        }
+        public void set_onto_path(string onto_path)
+        {
+            this.onto_path = onto_path;
+        }
+        public void write_ontology(OntologyCodeClass onto)
+        {
+            File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
+                $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
+                $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
+                $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
+                $"{onto.ContextUID}");
         }
         public void interpret_RT(string dicom_file)
         {
@@ -113,6 +126,7 @@ namespace DicomTemplateMakerGUI.Services
                         if (!contains_code_class)
                         {
                             Ontologies.Add(code_class);
+                            write_ontology(code_class);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
                             if (!ROIs.Contains(new_roi))
                             {

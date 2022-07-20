@@ -4,13 +4,18 @@ import pydicom
 
 
 def add_to_base_dictionary(out_dictionary, fields):
-    color_name = fields['Jeff Colors'][0].replace(' ', '')
-    RGB = [int(i*255) for i in to_rgb(color_name)]
+    if fields['Structure'] == 'BODY':
+        xxx = 1
+    try:
+        color_name = fields['Jeff Colors'][0].replace(' ', '')
+        RGB = [int(i * 255) for i in to_rgb(color_name)]
+    except:
+        RGB = [int(i * 255) for i in to_rgb('Green')]
     color = f"{RGB[0]}\{RGB[1]}\{RGB[2]}"
     structure_fields = {'Name': fields['Structure'], 'Color': color,
                         'Type': fields['Type'], 'FMAID': fields['FMAID']}
     for group in fields.keys():
-        if fields[group] in ['Consider', 'Recommend']:
+        if fields[group] in ['Consider', 'Recommended']:
             if group not in out_dictionary:
                 out_dictionary[group] = []
             out_dictionary[group].append(structure_fields)
@@ -54,9 +59,18 @@ for template_key in out_dictionary.keys():
             if roi['FMAID'] == 88:
                 scheme = "99VMS_STRUCTCODE"
                 if roi_name.find('CTV') != -1:
-                    roi['FMAID'] = "CTV"
+                    base = 'CTV'
                 elif roi_name.find('PTV') != -1:
-                    roi['FMAID'] = "PTV"
+                    base = 'PTV'
+                if roi_name.find('High') != -1:
+                    out = f"{base}_High"
+                elif roi_name.find('Mid') != -1:
+                    out = f"{base}_Mid"
+                elif roi_name.find('Low') != -1:
+                    out = f"{base}_Low"
+                else:
+                    out = f"{base}"
+                roi['FMAID'] = out
             else:
                 scheme = "FMA"
             ontology_dict[roi['Name']] = {"Name": roi['Name'], "Code": roi['FMAID'], "Scheme": scheme}
