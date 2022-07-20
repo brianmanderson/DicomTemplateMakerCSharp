@@ -130,11 +130,19 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 Directory.CreateDirectory(roi_path);
             }
-            File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
-                $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
-                $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
-                $"{roi.ROI_Interpreted_type}");
+            try
+            {
+                File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
+                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                    $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
+                    $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
+                    $"{roi.ROI_Interpreted_type}");
+            }
+            catch
+            {
+                int x = 5;
+            }
+
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
