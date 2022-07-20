@@ -37,4 +37,55 @@ for record in all_records:
         add_to_base_dictionary(out_dictionary, fields)
     except:
         problem_fields.append(fields)
+ontology_dict = {}
+
+ontology_path = os.path.join('.', 'AirTableRecords', "Ontologies")
+if not os.path.exists(ontology_path):
+    os.makedirs(ontology_path)
+for template_key in out_dictionary.keys():
+    template_path = os.path.join('.', 'AirTableRecords', template_key)
+    roi_path = os.path.join(template_path, 'ROIs')
+    if not os.path.exists(template_path):
+        os.makedirs(template_path)
+        os.makedirs(roi_path)
+    for roi in out_dictionary[template_key]:
+        roi_name = roi['Name']
+        if roi_name not in ontology_dict:
+            if roi['FMAID'] == 88:
+                scheme = "99VMS_STRUCTCODE"
+                if roi_name.find('CTV') != -1:
+                    roi['FMAID'] = "CTV"
+                elif roi_name.find('PTV') != -1:
+                    roi['FMAID'] = "PTV"
+            else:
+                scheme = "FMA"
+            ontology_dict[roi['Name']] = {"Name": roi['Name'], "Code": roi['FMAID'], "Scheme": scheme}
+for roi in ontology_dict.keys():
+    onto = ontology_dict[roi]
+    try:
+        fid = open(os.path.join(ontology_path, f"{onto['Name']}.txt"), 'w+')
+        fid.write(f"{onto['Code']}\n{onto['Scheme']}\n20161209\n99VMS\nVMS011\nVarian Medical Systems\n1.2.246.352.7.1.1"
+                  f"\n1.2.246.352.7.2.11")
+        fid.close()
+    except:
+        continue
+for template_key in out_dictionary.keys():
+    template_path = os.path.join('.', 'AirTableRecords', template_key.replace('/', '.'))
+    roi_path = os.path.join(template_path, 'ROIs')
+    if not os.path.exists(template_path):
+        os.makedirs(template_path)
+        os.makedirs(roi_path)
+    fid = open(os.path.join(template_path, "Paths.txt"), 'w+')
+    fid.write("O:\DICOM\BMA_Export\n")
+    fid.close()
+    for roi in out_dictionary[template_key]:
+        roi_name = roi['Name']
+        if roi_name not in ontology_dict:
+            continue
+        onto = ontology_dict[roi_name]
+        roi_name = roi_name.replace('/', '.')
+        fid = open(os.path.join(roi_path, f"{roi_name}.txt"), 'w+')
+        fid.write(f"{roi['Color']}\n{onto['Name']}\\{onto['Code']}\\{onto['Scheme']}\\20161209\\99VMS\\VMS011\\Varian Medical Systems\\1.2.246.352.7.1.1\\1.2.246.352.7.2.11\n"
+                  f"{roi['Type']}")
+        fid.close()
 xxx = 1
