@@ -32,6 +32,7 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
@@ -207,6 +208,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             TemplateTextBox.Background = lightgreen;
             pathsButton.Background = lightgray;
+            ROITextBox.Background = white;
             if (template_maker.Paths.Count == 0)
             {
                 pathsButton.Background = lightgreen;
@@ -224,9 +226,16 @@ namespace DicomTemplateMakerGUI.Windows
             AddROIButton.IsEnabled = false;
             if (ROITextBox.Text != "")
             {
-                if (OntologyComboBox.SelectedIndex != -1)
+                if (template_maker.ROIs.Where(p => p.ROIName == ROITextBox.Text).Any())
                 {
-                    AddROIButton.IsEnabled = true;
+                    ROITextBox.Background = red;
+                }
+                else
+                {
+                    if (OntologyComboBox.SelectedIndex != -1)
+                    {
+                        AddROIButton.IsEnabled = true;
+                    }
                 }
             }
         }
