@@ -126,6 +126,7 @@ namespace DicomTemplateMakerGUI.Services
                         if (!contains_code_class)
                         {
                             Ontologies.Add(code_class);
+                            Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
                             write_ontology(code_class);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
                             if (!ROIs.Contains(new_roi))

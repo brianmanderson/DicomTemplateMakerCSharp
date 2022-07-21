@@ -116,6 +116,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             OntologyCodeClass onto = new OntologyCodeClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
             template_maker.Ontologies.Add(onto);
+            template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             PreferredNameTextBox.Text = "";
             CodeValue_TextBox.Text = "";
             CodeScheme_TextBox.Text = "";
