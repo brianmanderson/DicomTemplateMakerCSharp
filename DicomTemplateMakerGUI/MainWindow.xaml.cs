@@ -107,6 +107,7 @@ namespace DicomTemplateMakerGUI
                     context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
                 evaluator.Ontologies.Add(onto);
             }
+            evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             return evaluator;
         }
         public void Rebuild_From_Folders()
