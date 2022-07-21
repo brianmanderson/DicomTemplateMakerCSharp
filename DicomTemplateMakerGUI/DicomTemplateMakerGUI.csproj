@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -72,6 +72,9 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="fo-dicom.core, Version=5.0.3.0, Culture=neutral, PublicKeyToken=3a13f649e28eb09a, processorArchitecture=MSIL">
@@ -243,17 +246,39 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Windows\JeffR.JPG" />
-    <Resource Include="Windows\KevinM.JPG" />
-    <Resource Include="Windows\CaseyB.JPG" />
-    <Resource Include="Windows\BrianAnderson.JPG" />
-    <Resource Include="Windows\GeneratedRTs.JPG" />
-    <Resource Include="Windows\Running.JPG" />
-    <Resource Include="Windows\Pat_Folders.JPG" />
-    <Resource Include="Windows\EditPaths.JPG" />
-    <Resource Include="Windows\EditTemplate.JPG" />
-    <Resource Include="Windows\EditOntologies.JPG" />
-    <Resource Include="Windows\SplashScreen.JPG" />
+    <Resource Include="Windows\JeffR.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\KevinM.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\CaseyB.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\BrianAnderson.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\GeneratedRTs.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Running.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Pat_Folders.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\EditPaths.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\EditTemplate.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\EditOntologies.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\SplashScreen.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -264,6 +289,17 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Pictures\BrianAnderson.JPG" />
+    <Resource Include="Pictures\CaseyB.JPG" />
+    <Resource Include="Pictures\EditOntologies.JPG" />
+    <Resource Include="Pictures\EditPaths.JPG" />
+    <Resource Include="Pictures\EditTemplate.JPG" />
+    <Resource Include="Pictures\GeneratedRTs.JPG" />
+    <Resource Include="Pictures\JeffR.JPG" />
+    <Resource Include="Pictures\KevinM.JPG" />
+    <Resource Include="Pictures\Pat_Folders.JPG" />
+    <Resource Include="Pictures\Running.JPG" />
+    <Resource Include="Pictures\SplashScreen.JPG" />
     <Content Include="template_RS.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
