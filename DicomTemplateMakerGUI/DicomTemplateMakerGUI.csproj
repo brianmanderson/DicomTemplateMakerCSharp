@@ -188,6 +188,9 @@
     <Compile Include="StackPanelClasses\AddROIRow.cs" />
     <Compile Include="StackPanelClasses\AddTemplateRow.cs" />
     <Compile Include="StackPanelClasses\PathsRow.cs" />
+    <Compile Include="Windows\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EditOntologyWindow.xaml.cs">
       <DependentUpon>EditOntologyWindow.xaml</DependentUpon>
     </Compile>
@@ -209,6 +212,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\EditOntologyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,6 +243,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Windows\JeffR.JPG" />
+    <Resource Include="Windows\KevinM.JPG" />
+    <Resource Include="Windows\CaseyB.JPG" />
+    <Resource Include="Windows\BrianAnderson.JPG" />
+    <Resource Include="Windows\GeneratedRTs.JPG" />
+    <Resource Include="Windows\Running.JPG" />
+    <Resource Include="Windows\Pat_Folders.JPG" />
+    <Resource Include="Windows\EditPaths.JPG" />
+    <Resource Include="Windows\EditTemplate.JPG" />
+    <Resource Include="Windows\EditOntologies.JPG" />
+    <Resource Include="Windows\SplashScreen.JPG" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -168,6 +168,12 @@ namespace DicomTemplateMakerGUI
             ChangeTemplateButton.IsEnabled = false;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow about_window = new AboutWindow();
+            about_window.Show();
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
