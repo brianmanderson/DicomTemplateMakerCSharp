@@ -209,6 +209,7 @@ namespace DicomTemplateMakerGUI.Windows
             TemplateTextBox.Background = lightgreen;
             pathsButton.Background = lightgray;
             ROITextBox.Background = white;
+            AddROIButton.Background = white;
             if (template_maker.Paths.Count == 0)
             {
                 pathsButton.Background = lightgreen;
@@ -235,6 +236,7 @@ namespace DicomTemplateMakerGUI.Windows
                     if (OntologyComboBox.SelectedIndex != -1)
                     {
                         AddROIButton.IsEnabled = true;
+                        AddROIButton.Background = lightgreen;
                     }
                 }
             }
