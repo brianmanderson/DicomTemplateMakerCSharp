@@ -106,6 +106,7 @@ namespace DicomTemplateMakerGUI.Services
                                 context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
                         bool contains_code_class = false;
+                        bool contains_roi_class = false;
                         ROIClass new_roi;
                         foreach (OntologyCodeClass o in Ontologies)
                         {
@@ -113,17 +114,27 @@ namespace DicomTemplateMakerGUI.Services
                             {
                                 if (o.CodeValue == code_class.CodeValue)
                                 {
+                                    code_class = o;
                                     contains_code_class = true;
-                                    new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], o);
-                                    if (!ROIs.Contains(new_roi))
-                                    {
-                                        ROIs.Add(new_roi);
-                                    }
                                     break;
                                 }
                             }
                         }
-                        if (!contains_code_class)
+                        new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
+                        foreach (ROIClass r in ROIs)
+                        {
+                            if (r.ROIName == name_dict[key])
+                            {
+                                new_roi = r;
+                                contains_roi_class = true;
+                                break;
+                            }
+                        }
+                        if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
+                        {
+                            ROIs.Add(new_roi);
+                        }
+                        if (!Ontologies.Any(p => p.CodeMeaning == code_class.CodeMeaning) & !Ontologies.Any(p => p.CodeValue == code_class.CodeValue))
                         {
                             Ontologies.Add(code_class);
                             Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
@@ -134,8 +145,6 @@ namespace DicomTemplateMakerGUI.Services
                                 ROIs.Add(new_roi);
                             }
                         }
-
-                        
                     }
                 }
             }
