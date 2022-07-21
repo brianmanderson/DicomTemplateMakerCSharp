@@ -212,7 +212,10 @@ namespace DicomTemplateMakerGUI.Services
                         code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
                             code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
                     }
-                    
+                    if (!File.Exists(Path.Combine(onto_path, $"{code_class.CodeMeaning}.txt")))
+                    {
+                        write_ontology(code_class);
+                    }
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {

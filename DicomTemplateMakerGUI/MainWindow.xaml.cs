@@ -119,6 +119,7 @@ namespace DicomTemplateMakerGUI
             foreach (string directory in directories)
             {
                 TemplateMaker evaluator = new TemplateMaker();
+                evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                 evaluator = update_ontology_reader(evaluator);
                 evaluator.categorize_folder(directory);
                 if (evaluator.is_template)
