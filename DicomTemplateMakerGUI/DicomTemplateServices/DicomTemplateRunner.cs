@@ -80,7 +80,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             {
                 return;
             }
-            string[] all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories);
+            List<string> all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).ToList();
+            all_directories.Add(path);
             foreach (string directory in all_directories)
             {
                 string status_file = Path.Combine(directory, $"CreatedRT_{template_name}.txt");

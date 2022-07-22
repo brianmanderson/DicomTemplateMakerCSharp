@@ -249,6 +249,15 @@
     <Resource Include="Windows\JeffR.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Windows\GeneratedRTs.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\Running.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Windows\SplashScreen.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Windows\KevinM.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -256,12 +265,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Windows\BrianAnderson.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Windows\GeneratedRTs.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Windows\Running.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Windows\Pat_Folders.JPG">
@@ -274,9 +277,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Windows\EditOntologies.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Windows\SplashScreen.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -294,12 +294,15 @@
     <Resource Include="Pictures\EditOntologies.JPG" />
     <Resource Include="Pictures\EditPaths.JPG" />
     <Resource Include="Pictures\EditTemplate.JPG" />
-    <Resource Include="Pictures\GeneratedRTs.JPG" />
+    <Resource Include="Pictures\GeneratedRTs.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Pictures\JeffR.JPG" />
     <Resource Include="Pictures\KevinM.JPG" />
     <Resource Include="Pictures\Pat_Folders.JPG" />
-    <Resource Include="Pictures\Running.JPG" />
-    <Resource Include="Pictures\SplashScreen.JPG" />
+    <Resource Include="Pictures\Running.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Ontologies\Artifact.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -916,9 +919,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="template_RS.dcm">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TG263_Abdomen.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TG263_Breast.dcm">

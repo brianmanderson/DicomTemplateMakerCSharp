@@ -64,8 +64,8 @@
                 <Grid Background="#FFE5E5E5">
                     <Label Content="After clicking Run DICOM server, the program will walk through the templates listed below" HorizontalAlignment="Left" Margin="26,39,0,0" VerticalAlignment="Top"/>
                     <Label Content="RT Structure files named 'Template_UID' and 'CreatedTemplate.txt' are made" HorizontalAlignment="Left" Margin="90,467,0,0" VerticalAlignment="Top"/>
-                    <Image HorizontalAlignment="Left" Height="286" Margin="26,91,0,0" VerticalAlignment="Top" Width="642" Source="Running.JPG"/>
-                    <Image HorizontalAlignment="Left" Height="208" Margin="543,382,0,0" VerticalAlignment="Top" Width="453" Source="GeneratedRTs.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="286" Margin="26,91,0,0" VerticalAlignment="Top" Width="642" Source="/Windows/Running.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="208" Margin="543,382,0,0" VerticalAlignment="Top" Width="453" Source="/Windows/GeneratedRTs.JPG"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Contact and Acknowledgements">
@@ -78,9 +78,9 @@
                     <Image HorizontalAlignment="Left" Height="174" Margin="560,0,0,0" VerticalAlignment="Top" Width="149" Source="BrianAnderson.JPG"/>
                     <Image HorizontalAlignment="Left" Height="150" Margin="10,153,0,0" VerticalAlignment="Top" Width="132" Source="CaseyB.JPG"/>
                     <Image HorizontalAlignment="Left" Height="150" Margin="161,153,0,0" VerticalAlignment="Top" Width="132" Source="KevinM.JPG"/>
-                    <Image HorizontalAlignment="Left" Height="150" Margin="312,153,0,0" VerticalAlignment="Top" Width="135" Source="JeffR.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="150" Margin="318,153,0,0" VerticalAlignment="Top" Width="112" Source="/Windows/JeffR.JPG"/>
                     <Label Content="Casey Bojechko, PhD" HorizontalAlignment="Left" Margin="22,308,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Jeff Ryckman, MD" HorizontalAlignment="Left" Margin="325,285,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Jeff Ryckman, MD" HorizontalAlignment="Left" Margin="325,308,0,0" VerticalAlignment="Top"/>
                     <Label Content="Kevin Moore, PhD" HorizontalAlignment="Left" Margin="174,308,0,0" VerticalAlignment="Top"/>
                     <Label Content="Brian Anderson, PhD" HorizontalAlignment="Left" Margin="560,179,0,0" VerticalAlignment="Top"/>
                 </Grid>

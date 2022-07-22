@@ -183,7 +183,7 @@ namespace DicomTemplateMakerGUI.Windows
 
             Label code_scheme = new Label();
             code_scheme.Width = 200;
-            code_scheme.Content = "Coding Scheme";
+            code_scheme.Content = "Interpreted Type";
             top_row.Children.Add(code_scheme);
             return top_row;
         }
