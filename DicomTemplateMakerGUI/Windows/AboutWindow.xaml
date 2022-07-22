@@ -25,11 +25,12 @@
                         <ColumnDefinition Width="15*"/>
                         <ColumnDefinition Width="751*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="204,159,0,0" VerticalAlignment="Top" Width="609" Source="SplashScreen.JPG"/>
                     <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,200,0,0" TextWrapping="Wrap" Text="Edit the ontologies available for the ROIs" VerticalAlignment="Top" Height="25" Width="221"/>
                     <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,170,0,0" TextWrapping="Wrap" Text="Create a new template!" VerticalAlignment="Top" Height="25" Width="221"/>
                     <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,287,0,0" TextWrapping="Wrap" Text="A list of all templates made" VerticalAlignment="Top" Height="25" Width="221"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="340,134,0,0" TextWrapping="Wrap" Text="Run the server which creates the RT structure files" VerticalAlignment="Top" Height="25" Width="271" Grid.Column="1"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="456,134,0,0" TextWrapping="Wrap" Text="Run the server which creates the RT structure files" VerticalAlignment="Top" Height="25" Width="271" Grid.Column="1"/>
+                    <Image Grid.Column="1" HorizontalAlignment="Center" Height="277" Margin="0,159,0,0" VerticalAlignment="Top" Width="598" Source="/Windows/SplashScreen.JPG"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="347,99,0,0" TextWrapping="Wrap" Text="Recreate the default TG263 templates" VerticalAlignment="Top" Height="25" Width="271" Grid.Column="1"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Edit Ontologies">
