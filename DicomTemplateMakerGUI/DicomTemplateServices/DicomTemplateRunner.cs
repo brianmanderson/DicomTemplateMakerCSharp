@@ -85,7 +85,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             foreach (string directory in all_directories)
             {
                 string status_file = Path.Combine(directory, $"CreatedRT_{template_name}.txt");
-                if (File.Exists(status_file))
+                if (Directory.GetFiles(directory, $"{template_name}_UID*").Any())
                 {
                     continue;
                 }
@@ -115,7 +115,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     reader.parse_folder(directory);
                     foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
                     {
-                        string outpath = Path.Combine(directory, $"{template_name}_{uid}.dcm");
+                        string outpath = Path.Combine(directory, $"{template_name}_UID{uid}.dcm");
                         if (File.Exists(outpath))
                         {
                             continue;
@@ -140,8 +140,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     }
                     if (!File.Exists(status_file))
                     {
-                        FileStream fid_status_file = File.OpenWrite(status_file);
-                        fid_status_file.Close();
+                        //FileStream fid_status_file = File.OpenWrite(status_file);
+                        //fid_status_file.Close();
                     }
                 }
             }
