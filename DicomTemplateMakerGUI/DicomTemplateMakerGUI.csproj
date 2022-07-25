@@ -187,12 +187,16 @@
     <Compile Include="Services\ROIClass.cs" />
     <Compile Include="Services\TemplateEvaluator.cs" />
     <Compile Include="Services\TemplateMaker.cs" />
+    <Compile Include="StackPanelClasses\AddDefaultTemplateRow.cs" />
     <Compile Include="StackPanelClasses\AddOntologyRow.cs" />
     <Compile Include="StackPanelClasses\AddROIRow.cs" />
     <Compile Include="StackPanelClasses\AddTemplateRow.cs" />
     <Compile Include="StackPanelClasses\PathsRow.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Build_Default_Template_Window.xaml.cs">
+      <DependentUpon>Build_Default_Template_Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\EditOntologyWindow.xaml.cs">
       <DependentUpon>EditOntologyWindow.xaml</DependentUpon>
@@ -216,6 +220,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Build_Default_Template_Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

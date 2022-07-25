@@ -1,0 +1,16 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.Build_Default_Template_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="Build_Default_Template_Window" Height="250" Width="775">
+    <Grid>
+        <Button Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="717" Height="36" Click="Build_button_click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="10,73,40,10">
+            <StackPanel x:Name="DefaultStackPanel" Height="121"/>
+        </ScrollViewer>
+
+    </Grid>
+</Window>

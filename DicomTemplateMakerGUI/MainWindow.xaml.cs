@@ -83,7 +83,8 @@ namespace DicomTemplateMakerGUI
             {
                 Directory.CreateDirectory(onto_path);
             }
-            if (!File.Exists(Path.Combine(folder_location, "Built_from_RTs.txt")))
+            bool build = false;
+            if (!File.Exists(Path.Combine(folder_location, "Built_from_RTs.txt")) & (build))
             {
                 string[] rt_files = Directory.GetFiles(folder_location, "TG263*.dcm");
                 foreach (string rt_file in rt_files)
@@ -218,6 +219,10 @@ namespace DicomTemplateMakerGUI
 
         private void MakeDefault_Button(object sender, RoutedEventArgs e)
         {
+            Build_Default_Template_Window window = new Build_Default_Template_Window(folder_location, onto_path);
+            window.ShowDialog();
+            Rebuild_From_Folders();
+            return;
             string[] rt_files = Directory.GetFiles(folder_location, "TG263*.dcm");
             foreach (string rt_file in rt_files)
             {
