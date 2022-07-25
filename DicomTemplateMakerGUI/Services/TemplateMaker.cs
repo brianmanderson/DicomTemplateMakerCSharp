@@ -36,11 +36,19 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void write_ontology(OntologyCodeClass onto)
         {
-            File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
-                $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
-                $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
-                $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
-                $"{onto.ContextUID}");
+            try
+            {
+                File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
+                    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
+                    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
+                    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
+                    $"{onto.ContextUID}");
+            }
+            catch
+            {
+
+            }
+
         }
         public void interpret_RT(string dicom_file)
         {

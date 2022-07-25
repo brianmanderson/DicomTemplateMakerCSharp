@@ -156,6 +156,10 @@ namespace DicomTemplateMakerGUI
             RunDICOMServerButton.IsEnabled = false;
             foreach (string directory in directories)
             {
+                if (!directory.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                {
+                    continue;
+                }
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                 evaluator = update_ontology_reader(evaluator);
@@ -227,6 +231,11 @@ namespace DicomTemplateMakerGUI
                 write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
             }
             File.CreateText(Path.Combine(folder_location, "Built_from_RTs.txt"));
+            Rebuild_From_Folders();
+        }
+
+        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        {
             Rebuild_From_Folders();
         }
 

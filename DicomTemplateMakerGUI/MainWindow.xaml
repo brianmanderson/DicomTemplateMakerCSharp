@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000">
+        Title="MainWindow" Height="600" Width="1000">
     <Grid>
         <Button x:Name="AddTemplateButton" Content="Add a new template" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
         <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="106" Margin="381,10,0,0" VerticalAlignment="Top" Width="288" Click="ClickRunDicomserver"/>
         <Button Name="ChangeTemplateButton" Visibility="Hidden" Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
         <Label Name="TemplateBaseLabel" Content="." Visibility="Hidden" HorizontalAlignment="Left" Height="34" Margin="256,18,0,0" VerticalAlignment="Top" Width="699"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,121,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,166,0,0">
             <StackPanel Margin="23,27,41,88" x:Name="TemplateStackPanel">
             </StackPanel>
         </ScrollViewer>
@@ -19,5 +19,7 @@
         <Button Content="Help!" HorizontalAlignment="Left" Margin="798,10,0,0" VerticalAlignment="Top" Width="157" Height="106" Click="Button_Click"/>
         <Label Content="Need help? Click here!" HorizontalAlignment="Left" Margin="669,50,0,0" VerticalAlignment="Top"/>
         <Button x:Name="BuildDefault_Button" Content="Make default templates" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="MakeDefault_Button"/>
+        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,140,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="62" Margin="236,121,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="179"/>
     </Grid>
 </Window>
