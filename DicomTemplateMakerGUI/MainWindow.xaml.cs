@@ -61,6 +61,7 @@ namespace DicomTemplateMakerGUI
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         bool running;
         DicomRunner runner;
+        List<AddTemplateRow> template_rows;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -154,12 +155,9 @@ namespace DicomTemplateMakerGUI
             string[] directories = Directory.GetDirectories(folder_location);
             AddTemplateButton.Background = lightgreen;
             RunDICOMServerButton.IsEnabled = false;
+            template_rows = new List<AddTemplateRow>();
             foreach (string directory in directories)
             {
-                if (!directory.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
-                {
-                    continue;
-                }
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                 evaluator = update_ontology_reader(evaluator);
@@ -177,6 +175,7 @@ namespace DicomTemplateMakerGUI
                     myborder.BorderThickness = new Thickness(5);
                     TemplateStackPanel.Children.Add(myborder);
                     TemplateStackPanel.Children.Add(new_row);
+                    template_rows.Add(new_row);
                 }
             }
         }
@@ -236,7 +235,18 @@ namespace DicomTemplateMakerGUI
 
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
         {
-            Rebuild_From_Folders();
+            TemplateStackPanel.Children.Clear();
+            foreach (AddTemplateRow temp_row in template_rows)
+            {
+                if (temp_row.template_maker.template_name.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                {
+                    Border myborder = new Border();
+                    myborder.Background = Brushes.Black;
+                    myborder.BorderThickness = new Thickness(5);
+                    TemplateStackPanel.Children.Add(myborder);
+                    TemplateStackPanel.Children.Add(temp_row);
+                }
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
