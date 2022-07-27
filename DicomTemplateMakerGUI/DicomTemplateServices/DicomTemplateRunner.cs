@@ -36,6 +36,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             OntologyCodeClass code_class;
             template_dictionary = new Dictionary<string, List<ROIClass>>();
             paths_dictionary = new Dictionary<string, List<string>>();
+            DicomTags = new Dictionary<string, List<string>>();
             string[] template_directories = Directory.GetDirectories(template_folder);
             foreach (string template_directory in template_directories)
             {
