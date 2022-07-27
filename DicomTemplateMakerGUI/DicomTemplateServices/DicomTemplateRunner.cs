@@ -17,6 +17,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         string roiname, color, interperter;
         Dictionary<string, List<ROIClass>> template_dictionary;
         Dictionary<string, List<string>> paths_dictionary;
+        Dictionary<List<string>, List<string>> files_and_series_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
+        Dictionary<List<string>, List<string>> files_and_study_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
+        Dictionary<List<string>, List<string>> files_and_modality_dictionary = new Dictionary<List<string>, List<string>>();
         public DicomTemplateRunner()
         {
             reader = new DicomSeriesReader();
@@ -89,8 +92,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 {
                     continue;
                 }
-                string[] dicom_files = Directory.GetFiles(directory, "*.dcm");
-                if (dicom_files.Length > 0)
+                List<string> dicom_files = Directory.GetFiles(directory, "*.dcm").ToList();
+                if (dicom_files.Count > 0)
                 {
                     FolderWatcher folder_watcher_class = new FolderWatcher(directory);
                     int tries = 0;
@@ -106,13 +109,17 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             return;
                         }
                     }
-                    dicom_files = Directory.GetFiles(directory, "*.dcm");
-                    if (dicom_files.Length == 0)
+                    dicom_files = Directory.GetFiles(directory, "*.dcm").ToList();
+                    if (dicom_files.Count == 0)
                     {
                         return;
                     }
                     reader.dicomParser.__reset__();
                     reader.parse_folder(directory);
+                    if (!files_and_modality_dictionary.ContainsKey(dicom_files))
+                    {
+                        files_and_modality_dictionary.Add(dicom_files, new List<string>());
+                    }
                     foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
                     {
                         string outpath = Path.Combine(directory, $"{template_name}_UID{uid}.dcm");
@@ -137,6 +144,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             reader.add_roi(roi);
                         }
                         reader.save_RT(outpath);
+                        files_and_modality_dictionary.Remove(dicom_files);
+                        files_and_series_descriptions_dictionary.Remove(dicom_files);
+                        files_and_study_descriptions_dictionary.Remove(dicom_files);
                     }
                     if (!File.Exists(status_file))
                     {

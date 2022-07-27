@@ -44,6 +44,14 @@ namespace DicomTemplateMakerGUI.Windows
                 PathsRow new_row = new PathsRow(template_maker, path);
                 PathsStackPanel.Children.Add(new_row);
             }
+            foreach (string key in template_maker.DicomTags.Keys)
+            {
+                foreach (string value in template_maker.DicomTags[key])
+                {
+                    DicomTagRow new_row = new DicomTagRow(template_maker, key, value);
+                    RequirementStackPanel.Children.Add(new_row);
+                }
+            }
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -66,7 +74,17 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Add_Requirement(object sender, RoutedEventArgs e)
         {
-            DicomTagRow new_row = new DicomTagRow(template_maker, DicomTag_Combobox.Text, Dicomtag_TextBox.Text);
+            string key = DicomTag_Combobox.Text;
+            string value = Dicomtag_TextBox.Text;
+            if (template_maker.DicomTags.ContainsKey(key))
+            {
+                template_maker.DicomTags[key].Add(value);
+            }
+            else
+            {
+                template_maker.DicomTags.Add(key, new List<string> { value });
+            }
+            DicomTagRow new_row = new DicomTagRow(template_maker, key, value);
             RequirementStackPanel.Children.Add(new_row);
             Dicomtag_TextBox.Text = "";
         }

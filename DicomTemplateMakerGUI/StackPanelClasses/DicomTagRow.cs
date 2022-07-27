@@ -18,14 +18,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public DicomTagRow(TemplateMaker template_maker, string key, string value)
         {
             Orientation = Orientation.Horizontal;
-            if (template_maker.DicomTags.ContainsKey(key))
-            {
-                template_maker.DicomTags[key].Add(value);
-            }
-            else
-            {
-                template_maker.DicomTags.Add(key, new List<string> { value });
-            }
             this.template_maker = template_maker;
             this.key = key;
             this.value = value;

@@ -192,7 +192,7 @@ namespace DicomTemplateMakerGUI.Services
                     start += $"{key}";
                     foreach (string line in DicomTags[key])
                     {
-                        start += $"//{line}";
+                        start += $"\\{line}";
                     }
                     file.WriteLine(start);
                 }
@@ -211,6 +211,18 @@ namespace DicomTemplateMakerGUI.Services
                 foreach (string file_path in file_paths)
                 {
                     Paths.Add(file_path);
+                }
+            }
+            if (File.Exists(Path.Combine(path, "DicomTags.txt")))
+            {
+                string[] file_paths = File.ReadAllLines(Path.Combine(path, "DicomTags.txt"));
+                foreach (string file_path in file_paths)
+                {
+
+                    string[] key_values = file_path.Split('\\');
+                    string key = key_values[0];
+                    List<string> values = key_values.Skip(1).ToList();
+                    DicomTags.Add(key, values);
                 }
             }
             if (Directory.Exists(Path.Combine(path, "ROIs")))
