@@ -18,9 +18,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         Dictionary<string, List<ROIClass>> template_dictionary;
         public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
         Dictionary<string, List<string>> paths_dictionary;
-        Dictionary<List<string>, List<string>> files_and_series_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
-        Dictionary<List<string>, List<string>> files_and_study_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
-        Dictionary<List<string>, List<string>> files_and_modality_dictionary = new Dictionary<List<string>, List<string>>();
+        Dictionary<string, List<string>> files_and_series_descriptions_dictionary = new Dictionary<string, List<string>>();
+        Dictionary<string, List<string>> files_and_study_descriptions_dictionary = new Dictionary<string, List<string>>();
+        Dictionary<string, List<string>> files_and_modality_dictionary = new Dictionary<string, List<string>>();
         Dictionary<string, List<string>> directory_and_files_dictionary = new Dictionary<string, List<string>>();
         public DicomTemplateRunner()
         {
@@ -136,7 +136,11 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     {
                         run_program = true;
                     }
-                    else if (directory_and_files_dictionary[directory] != dicom_files)
+                    else if (directory_and_files_dictionary[directory].Except(dicom_files).Any())
+                    {
+                        run_program = true;
+                    }
+                    else if (dicom_files.Except(directory_and_files_dictionary[directory]).Any())
                     {
                         run_program = true;
                     }
@@ -144,9 +148,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     {
                         if (DicomTags.ContainsKey("Series Description"))
                         {
-                            if (files_and_series_descriptions_dictionary.ContainsKey(dicom_files))
+                            if (files_and_series_descriptions_dictionary.ContainsKey(directory))
                             {
-                                foreach (string series_description in files_and_series_descriptions_dictionary[dicom_files])
+                                foreach (string series_description in files_and_series_descriptions_dictionary[directory])
                                 {
                                     foreach (string dicom_tag in DicomTags["Series Description"])
                                     {
@@ -165,9 +169,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         }
                         if (DicomTags.ContainsKey("Study Description"))
                         {
-                            if (files_and_study_descriptions_dictionary.ContainsKey(dicom_files))
+                            if (files_and_study_descriptions_dictionary.ContainsKey(directory))
                             {
-                                foreach (string study_description in files_and_study_descriptions_dictionary[dicom_files])
+                                foreach (string study_description in files_and_study_descriptions_dictionary[directory])
                                 {
                                     foreach (string dicom_tag in DicomTags["Study Description"])
                                     {
@@ -197,17 +201,17 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         {
                             directory_and_files_dictionary[directory] = dicom_files;
                         }
-                        if (!files_and_modality_dictionary.ContainsKey(dicom_files))
+                        if (!files_and_modality_dictionary.ContainsKey(directory))
                         {
-                            files_and_modality_dictionary.Add(dicom_files, new List<string>());
+                            files_and_modality_dictionary.Add(directory, new List<string>());
                         }
-                        if (!files_and_series_descriptions_dictionary.ContainsKey(dicom_files))
+                        if (!files_and_series_descriptions_dictionary.ContainsKey(directory))
                         {
-                            files_and_series_descriptions_dictionary.Add(dicom_files, new List<string>());
+                            files_and_series_descriptions_dictionary.Add(directory, new List<string>());
                         }
-                        if (!files_and_study_descriptions_dictionary.ContainsKey(dicom_files))
+                        if (!files_and_study_descriptions_dictionary.ContainsKey(directory))
                         {
-                            files_and_study_descriptions_dictionary.Add(dicom_files, new List<string>());
+                            files_and_study_descriptions_dictionary.Add(directory, new List<string>());
                         }
                         foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
                         {
@@ -220,9 +224,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             string modality = reader.return_dicom_tag(DicomTag.Modality);
                             string series_description = reader.return_dicom_tag(DicomTag.SeriesDescription);
                             string study_description = reader.return_dicom_tag(DicomTag.StudyDescription);
-                            files_and_modality_dictionary[dicom_files].Add(modality);
-                            files_and_series_descriptions_dictionary[dicom_files].Add(series_description);
-                            files_and_study_descriptions_dictionary[dicom_files].Add(study_description);
+                            files_and_modality_dictionary[directory].Add(modality);
+                            files_and_series_descriptions_dictionary[directory].Add(series_description);
+                            files_and_study_descriptions_dictionary[directory].Add(study_description);
                             bool checked_tags_go = false;
                             bool has_keys = false;
                             if (DicomTags.ContainsKey("Study Description"))
@@ -230,7 +234,12 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                 has_keys = true;
                                 foreach (string study_desc in DicomTags["Study Description"])
                                 {
-                                    if (study_desc.ToLower().Contains(study_description))
+                                    if (study_desc.ToLower().Contains(study_description.ToLower()))
+                                    {
+                                        checked_tags_go = true;
+                                        break;
+                                    }
+                                    else if (study_description.ToLower().Contains(study_desc.ToLower()))
                                     {
                                         checked_tags_go = true;
                                         break;
@@ -240,9 +249,14 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             if (DicomTags.ContainsKey("Series Description"))
                             {
                                 has_keys = true;
-                                foreach (string study_desc in DicomTags["Series Description"])
+                                foreach (string series_desc in DicomTags["Series Description"])
                                 {
-                                    if (study_desc.ToLower().Contains(series_description))
+                                    if (series_desc.ToLower().Contains(series_description.ToLower()))
+                                    {
+                                        checked_tags_go = true;
+                                        break;
+                                    }
+                                    else if (series_description.ToLower().Contains(series_desc.ToLower()))
                                     {
                                         checked_tags_go = true;
                                         break;
@@ -271,9 +285,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                     reader.add_roi(roi);
                                 }
                                 reader.save_RT(outpath);
-                                files_and_modality_dictionary.Remove(dicom_files);
-                                files_and_series_descriptions_dictionary.Remove(dicom_files);
-                                files_and_study_descriptions_dictionary.Remove(dicom_files);
+                                files_and_modality_dictionary.Remove(directory);
+                                files_and_series_descriptions_dictionary.Remove(directory);
+                                files_and_study_descriptions_dictionary.Remove(directory);
                             }
                         }
                     }
