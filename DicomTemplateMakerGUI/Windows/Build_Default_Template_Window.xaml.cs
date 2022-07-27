@@ -102,5 +102,21 @@ namespace DicomTemplateMakerGUI.Windows
                 }
             }
         }
+
+        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        {
+            DefaultStackPanel.Children.Clear();
+            foreach (AddDefaultTemplateRow template_row in default_template_list)
+            {
+                if (template_row.file_name.Content.ToString().ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                {
+                    DefaultStackPanel.Children.Add(template_row);
+                    Border myborder = new Border();
+                    myborder.Background = Brushes.Black;
+                    myborder.BorderThickness = new Thickness(5);
+                    DefaultStackPanel.Children.Add(myborder);
+                }
+            }
+        }
     }
 }

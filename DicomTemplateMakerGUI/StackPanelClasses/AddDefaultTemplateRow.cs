@@ -15,16 +15,17 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     {
         public string file_path;
         public CheckBox check_box;
+        public Label file_name;
         public AddDefaultTemplateRow(string file_path)
         {
             Orientation = Orientation.Horizontal;
             this.file_path = file_path;
-            Label label = new Label();
-            label.Content = Path.GetFileName(file_path);
-            label.Width = 200;
-            Children.Add(label);
+            file_name = new Label();
+            file_name.Content = Path.GetFileName(file_path);
+            file_name.Width = 200;
+            Children.Add(file_name);
 
-            label = new Label();
+            Label label = new Label();
             label.Content = "Build template?";
             label.Width = 200;
             Children.Add(label);

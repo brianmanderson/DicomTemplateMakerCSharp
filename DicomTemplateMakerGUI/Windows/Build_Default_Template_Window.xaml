@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="Build_Default_Template_Window" Height="250" Width="775">
+        Title="Build_Default_Template_Window" Height="350" Width="800">
     <Grid>
-        <Button Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="717" Height="36" Click="Build_button_click"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="10,73,40,10">
+        <Button Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="742" Height="36" Click="Build_button_click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="10,107,40,10">
             <StackPanel x:Name="DefaultStackPanel" Height="121"/>
         </ScrollViewer>
+        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="14,63,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="198,63,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="554"/>
 
     </Grid>
 </Window>
