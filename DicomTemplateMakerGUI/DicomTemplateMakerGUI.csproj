@@ -191,6 +191,7 @@
     <Compile Include="StackPanelClasses\AddOntologyRow.cs" />
     <Compile Include="StackPanelClasses\AddROIRow.cs" />
     <Compile Include="StackPanelClasses\AddTemplateRow.cs" />
+    <Compile Include="StackPanelClasses\DicomTagRow.cs" />
     <Compile Include="StackPanelClasses\PathsRow.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>

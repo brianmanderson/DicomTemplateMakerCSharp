@@ -28,10 +28,13 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class EditPathsWindow : Window
     {
         private TemplateMaker template_maker;
+        List<string> dicom_tag_list = new List<string> {"Study Description", "Series Description", "Modality"};
         public EditPathsWindow(TemplateMaker template_maker)
         {
             InitializeComponent();
             this.template_maker = template_maker;
+            DicomTag_Combobox.ItemsSource = dicom_tag_list;
+            DicomTag_Combobox.SelectedIndex = 0;
             write_paths();
         }
         public void write_paths()
@@ -59,6 +62,22 @@ namespace DicomTemplateMakerGUI.Windows
         {
             template_maker.make_template();
             Close();
+        }
+
+        private void Add_Requirement(object sender, RoutedEventArgs e)
+        {
+            DicomTagRow new_row = new DicomTagRow(template_maker, DicomTag_Combobox.Text, Dicomtag_TextBox.Text);
+            RequirementStackPanel.Children.Add(new_row);
+            Dicomtag_TextBox.Text = "";
+        }
+
+        private void TagText_Changed(object sender, TextChangedEventArgs e)
+        {
+            AddDicom_Button.IsEnabled = false;
+            if (Dicomtag_TextBox.Text != "")
+            {
+                AddDicom_Button.IsEnabled = true;
+            }
         }
     }
 }

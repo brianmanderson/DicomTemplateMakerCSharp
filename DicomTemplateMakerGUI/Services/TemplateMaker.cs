@@ -19,7 +19,7 @@ namespace DicomTemplateMakerGUI.Services
         public List<ROIClass> ROIs;
         public List<OntologyCodeClass> Ontologies;
         public List<string> Paths;
-        public Dictionary<string, string> DicomTags;
+        public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
             coding_scheme_designator_dict, context_group_version_dict, context_identifier_dict, context_uid_dict, mapping_resource_dict,
@@ -184,6 +184,19 @@ namespace DicomTemplateMakerGUI.Services
                     $"{roi.ROI_Interpreted_type}");
             }
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
+            using (StreamWriter file = new StreamWriter(Path.Combine(output, "DicomTags.txt")))
+            {
+                foreach (string key in DicomTags.Keys)
+                {
+                    string start = "";
+                    start += $"{key}";
+                    foreach (string line in DicomTags[key])
+                    {
+                        start += $"//{line}";
+                    }
+                    file.WriteLine(start);
+                }
+            }
         }
         public void categorize_folder(string path)
         {
