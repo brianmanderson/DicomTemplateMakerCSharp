@@ -20,6 +20,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         Dictionary<List<string>, List<string>> files_and_series_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
         Dictionary<List<string>, List<string>> files_and_study_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
         Dictionary<List<string>, List<string>> files_and_modality_dictionary = new Dictionary<List<string>, List<string>>();
+        Dictionary<string, List<string>> directory_and_files_dictionary = new Dictionary<string, List<string>>();
         public DicomTemplateRunner()
         {
             reader = new DicomSeriesReader();
@@ -85,6 +86,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             }
             List<string> all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).ToList();
             all_directories.Add(path);
+            bool run_program;
             foreach (string directory in all_directories)
             {
                 string status_file = Path.Combine(directory, $"CreatedRT_{template_name}.txt");
@@ -114,40 +116,75 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     {
                         return;
                     }
-                    reader.dicomParser.__reset__();
-                    reader.parse_folder(directory);
-                    if (!files_and_modality_dictionary.ContainsKey(dicom_files))
+                    run_program = false;
+                    if (!directory_and_files_dictionary.ContainsKey(directory))
                     {
-                        files_and_modality_dictionary.Add(dicom_files, new List<string>());
+                        run_program = true;
                     }
-                    foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
+                    else if (directory_and_files_dictionary[directory] != dicom_files)
                     {
-                        string outpath = Path.Combine(directory, $"{template_name}_UID{uid}.dcm");
-                        if (File.Exists(outpath))
+                        run_program = true;
+                    }
+                    if (run_program)
+                    {
+                        reader.dicomParser.__reset__();
+                        reader.parse_folder(directory);
+                        if (!directory_and_files_dictionary.ContainsKey(directory))
                         {
-                            continue;
-                        }
-                        reader.load_DICOM(uid);
-                        reader.update_template(delete_contours: true, delete_everything: true);
-                        if (template_name.Length > 16)
-                        {
-                            reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name.Substring(0, 16));
+                            directory_and_files_dictionary.Add(directory, dicom_files);
                         }
                         else
                         {
-                            reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name);
+                            directory_and_files_dictionary[directory] = dicom_files;
                         }
-                        reader.update_dicom_tag(DicomTag.Manufacturer, "UCSD Residency");
-                        reader.update_dicom_tag(DicomTag.ManufacturerModelName, "Universal_RT_Creator");
-                        foreach (ROIClass roi in template_dictionary[template_name])
+                        if (!files_and_modality_dictionary.ContainsKey(dicom_files))
                         {
-                            reader.add_roi(roi);
+                            files_and_modality_dictionary.Add(dicom_files, new List<string>());
                         }
-                        reader.save_RT(outpath);
-                        files_and_modality_dictionary.Remove(dicom_files);
-                        files_and_series_descriptions_dictionary.Remove(dicom_files);
-                        files_and_study_descriptions_dictionary.Remove(dicom_files);
+                        if (!files_and_series_descriptions_dictionary.ContainsKey(dicom_files))
+                        {
+                            files_and_series_descriptions_dictionary.Add(dicom_files, new List<string>());
+                        }
+                        if (!files_and_study_descriptions_dictionary.ContainsKey(dicom_files))
+                        {
+                            files_and_study_descriptions_dictionary.Add(dicom_files, new List<string>());
+                        }
+                        foreach (string uid in reader.dicomParser.dicom_series_instance_uids)
+                        {
+                            string outpath = Path.Combine(directory, $"{template_name}_UID{uid}.dcm");
+                            if (File.Exists(outpath))
+                            {
+                                continue;
+                            }
+                            reader.load_DICOM(uid);
+                            string modality = reader.return_dicom_tag(DicomTag.Modality);
+                            string series_description = reader.return_dicom_tag(DicomTag.SeriesDescription);
+                            string study_description = reader.return_dicom_tag(DicomTag.StudyDescription);
+                            files_and_modality_dictionary[dicom_files].Add(modality);
+                            files_and_series_descriptions_dictionary[dicom_files].Add(series_description);
+                            files_and_study_descriptions_dictionary[dicom_files].Add(study_description);
+                            reader.update_template(delete_contours: true, delete_everything: true);
+                            if (template_name.Length > 16)
+                            {
+                                reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name.Substring(0, 16));
+                            }
+                            else
+                            {
+                                reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name);
+                            }
+                            reader.update_dicom_tag(DicomTag.Manufacturer, "UCSD Residency");
+                            reader.update_dicom_tag(DicomTag.ManufacturerModelName, "Universal_RT_Creator");
+                            foreach (ROIClass roi in template_dictionary[template_name])
+                            {
+                                reader.add_roi(roi);
+                            }
+                            reader.save_RT(outpath);
+                            files_and_modality_dictionary.Remove(dicom_files);
+                            files_and_series_descriptions_dictionary.Remove(dicom_files);
+                            files_and_study_descriptions_dictionary.Remove(dicom_files);
+                        }
                     }
+
                     if (!File.Exists(status_file))
                     {
                         //FileStream fid_status_file = File.OpenWrite(status_file);

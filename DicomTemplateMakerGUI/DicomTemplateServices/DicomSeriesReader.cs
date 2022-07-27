@@ -19,9 +19,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         string loaded_series_instance_uid;
         List<int> referenced_roi_number_list, observation_number_list;
         Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} ,
-            { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"},
-            { DicomTag.ReferringPhysicianName, "0008|0090"}, { DicomTag.StudyDescription, "0008|1030" } , {DicomTag.PatientName, "0010|0010" },
-            { DicomTag.PatientID, "0010|0020" }, { DicomTag.PatientBirthDate, "0010|0030" }, { DicomTag.PatientSex, "0010|0040" } ,
+            { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"}, { DicomTag.SeriesDescription, "0008|103e" },
+            { DicomTag.ReferringPhysicianName, "0008|0090"}, { DicomTag.StudyDescription, "0008|1030" } , {DicomTag.PatientName, "0010|0010" }, { DicomTag.StudyDescription, "0008|1030" },
+            { DicomTag.PatientID, "0010|0020" }, { DicomTag.PatientBirthDate, "0010|0030" }, { DicomTag.PatientSex, "0010|0040" } , {DicomTag.Modality, "0008|0060"},
             { DicomTag.StudyInstanceUID, "0020|000d" }, { DicomTag.StudyID, "0020|0010" }, { DicomTag.FrameOfReferenceUID, "0020|0052" }, { DicomTag.SOPInstanceUID, "0008|0018"} };
         List<DicomTag> change_tags = new List<DicomTag> { DicomTag.StudyDate, DicomTag.StudyTime, DicomTag.AccessionNumber, DicomTag.ReferringPhysicianName,
             DicomTag.StudyDescription, DicomTag.PatientName, DicomTag.PatientID, DicomTag.PatientBirthDate, DicomTag.PatientSex, DicomTag.StudyInstanceUID,
@@ -200,6 +200,10 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     }
                 }
             }
+        }
+        public string return_dicom_tag(DicomTag dicom_tag)
+        {
+            return series_reader.GetMetaData(0, dicom_tags_dict[dicom_tag]);
         }
         public void update_dicom_tag(DicomTag dicom_tag, string new_value)
         {
