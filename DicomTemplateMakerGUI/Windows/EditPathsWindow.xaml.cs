@@ -28,7 +28,7 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class EditPathsWindow : Window
     {
         private TemplateMaker template_maker;
-        List<string> dicom_tag_list = new List<string> {"Study Description", "Series Description", "Modality"};
+        List<string> dicom_tag_list = new List<string> {"Study Description", "Series Description"}; //, "Modality"
         public EditPathsWindow(TemplateMaker template_maker)
         {
             InitializeComponent();

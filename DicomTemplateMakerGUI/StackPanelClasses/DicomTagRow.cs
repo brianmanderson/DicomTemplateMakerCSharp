@@ -15,6 +15,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private string key;
         private string value;
         private string path;
+        List<string> dicom_tag_list = new List<string> { "Study Description", "Series Description", "Modality" };
         public DicomTagRow(TemplateMaker template_maker, string key, string value)
         {
             Orientation = Orientation.Horizontal;

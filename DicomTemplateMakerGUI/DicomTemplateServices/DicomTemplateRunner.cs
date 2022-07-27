@@ -16,6 +16,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         string template_folder = @".";
         string roiname, color, interperter;
         Dictionary<string, List<ROIClass>> template_dictionary;
+        public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
         Dictionary<string, List<string>> paths_dictionary;
         Dictionary<List<string>, List<string>> files_and_series_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
         Dictionary<List<string>, List<string>> files_and_study_descriptions_dictionary = new Dictionary<List<string>, List<string>>();
@@ -75,6 +76,19 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         }
                         paths_dictionary.Add(Path.GetFileName(template_directory), path_list);
                     }
+
+                    if (File.Exists(Path.Combine(template_directory, "DicomTags.txt")))
+                    {
+                        string[] file_paths = File.ReadAllLines(Path.Combine(template_directory, "DicomTags.txt"));
+                        foreach (string file_path in file_paths)
+                        {
+
+                            string[] key_values = file_path.Split('\\');
+                            string key = key_values[0];
+                            List<string> values = key_values.Skip(1).ToList();
+                            DicomTags.Add(key, values);
+                        }
+                    }
                 }
             }
         }
@@ -125,6 +139,51 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     {
                         run_program = true;
                     }
+                    else
+                    {
+                        if (DicomTags.ContainsKey("Series Description"))
+                        {
+                            if (files_and_series_descriptions_dictionary.ContainsKey(dicom_files))
+                            {
+                                foreach (string series_description in files_and_series_descriptions_dictionary[dicom_files])
+                                {
+                                    foreach (string dicom_tag in DicomTags["Series Description"])
+                                    {
+                                        if (series_description.ToLower().Contains(dicom_tag.ToLower()))
+                                        {
+                                            run_program = true;
+                                            break;
+                                        }
+                                    }
+                                    if (run_program)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (DicomTags.ContainsKey("Study Description"))
+                        {
+                            if (files_and_study_descriptions_dictionary.ContainsKey(dicom_files))
+                            {
+                                foreach (string study_description in files_and_study_descriptions_dictionary[dicom_files])
+                                {
+                                    foreach (string dicom_tag in DicomTags["Study Description"])
+                                    {
+                                        if (study_description.ToLower().Contains(dicom_tag.ToLower()))
+                                        {
+                                            run_program = true;
+                                            break;
+                                        }
+                                    }
+                                    if (run_program)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     if (run_program)
                     {
                         reader.dicomParser.__reset__();
@@ -163,25 +222,58 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             files_and_modality_dictionary[dicom_files].Add(modality);
                             files_and_series_descriptions_dictionary[dicom_files].Add(series_description);
                             files_and_study_descriptions_dictionary[dicom_files].Add(study_description);
-                            reader.update_template(delete_contours: true, delete_everything: true);
-                            if (template_name.Length > 16)
+                            bool checked_tags_go = false;
+                            bool has_keys = false;
+                            if (DicomTags.ContainsKey("Study Description"))
                             {
-                                reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name.Substring(0, 16));
+                                has_keys = true;
+                                foreach (string study_desc in DicomTags["Study Description"])
+                                {
+                                    if (study_desc.ToLower().Contains(study_description))
+                                    {
+                                        checked_tags_go = true;
+                                        break;
+                                    }
+                                }
                             }
-                            else
+                            if (DicomTags.ContainsKey("Series Description"))
                             {
-                                reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name);
+                                has_keys = true;
+                                foreach (string study_desc in DicomTags["Series Description"])
+                                {
+                                    if (study_desc.ToLower().Contains(series_description))
+                                    {
+                                        checked_tags_go = true;
+                                        break;
+                                    }
+                                }
                             }
-                            reader.update_dicom_tag(DicomTag.Manufacturer, "UCSD Residency");
-                            reader.update_dicom_tag(DicomTag.ManufacturerModelName, "Universal_RT_Creator");
-                            foreach (ROIClass roi in template_dictionary[template_name])
+                            if (has_keys & !checked_tags_go)
                             {
-                                reader.add_roi(roi);
+                                run_program = false;
                             }
-                            reader.save_RT(outpath);
-                            files_and_modality_dictionary.Remove(dicom_files);
-                            files_and_series_descriptions_dictionary.Remove(dicom_files);
-                            files_and_study_descriptions_dictionary.Remove(dicom_files);
+                            if (run_program)
+                            {
+                                reader.update_template(delete_contours: true, delete_everything: true);
+                                if (template_name.Length > 16)
+                                {
+                                    reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name.Substring(0, 16));
+                                }
+                                else
+                                {
+                                    reader.update_dicom_tag(DicomTag.StructureSetLabel, template_name);
+                                }
+                                reader.update_dicom_tag(DicomTag.Manufacturer, "UCSD Residency");
+                                reader.update_dicom_tag(DicomTag.ManufacturerModelName, "Universal_RT_Creator");
+                                foreach (ROIClass roi in template_dictionary[template_name])
+                                {
+                                    reader.add_roi(roi);
+                                }
+                                reader.save_RT(outpath);
+                                files_and_modality_dictionary.Remove(dicom_files);
+                                files_and_series_descriptions_dictionary.Remove(dicom_files);
+                                files_and_study_descriptions_dictionary.Remove(dicom_files);
+                            }
                         }
                     }
 
