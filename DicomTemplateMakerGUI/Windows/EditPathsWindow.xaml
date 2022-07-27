@@ -5,12 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="EditPathsWindow" Height="250" Width="800">
+        Title="EditPathsWindow" Height="500" Width="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,10,150,0">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,198,150,0">
             <StackPanel x:Name="PathsStackPanel" Height="172"/>
         </ScrollViewer>
-        <Button Content="Add Path" HorizontalAlignment="Left" Height="34" Margin="663,22,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
-        <Button Content="Save and Close" HorizontalAlignment="Left" Height="34" Margin="663,61,0,0" VerticalAlignment="Top" Width="101" Click="Save_Click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,83,150,302">
+            <StackPanel x:Name="RequirementStackPanel" Height="172"/>
+        </ScrollViewer>
+        <Button Content="Add Path" HorizontalAlignment="Left" Height="34" Margin="663,188,0,0" VerticalAlignment="Top" Width="119" Click="Button_Click"/>
+        <Button Content="Save and Close" HorizontalAlignment="Left" Height="85" Margin="663,10,0,0" VerticalAlignment="Top" Width="119" Click="Save_Click"/>
+        <ComboBox HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Width="200" Height="27" SelectionChanged="ComboBox_SelectionChanged"/>
+        <TextBox HorizontalAlignment="Left" Height="27" Margin="235,19,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="125"/>
+        <Button Content="Add DICOM requirement" IsEnabled="False" HorizontalAlignment="Left" Height="27" Margin="398,19,0,0" VerticalAlignment="Top" Width="161" Click="Add_Requirement"/>
+        <Label Content="Monitored Paths" HorizontalAlignment="Left" Margin="235,167,0,0" VerticalAlignment="Top" Width="104"/>
+        <Label Content="Monitored DICOM" HorizontalAlignment="Left" Margin="235,52,0,0" VerticalAlignment="Top" Width="115"/>
     </Grid>
 </Window>
