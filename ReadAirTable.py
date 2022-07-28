@@ -21,7 +21,7 @@ def add_to_base_dictionary(out_dictionary, fields):
             out_dictionary[group].append(structure_fields)
     return None
 
-
+ds = pydicom.read_file(r'C:\Users\b5anderson\Modular_Projects\Template_Folder\Abdomen_Template\ANON398831\RS.1.2.246.352.205.4963739911030282051.5106223655473496236.dcm')
 fid = open(os.path.join('.', 'API_Key.txt'))
 API_KEY = fid.readline()
 fid.close()
@@ -62,6 +62,8 @@ for template_key in out_dictionary.keys():
                     base = 'CTV'
                 elif roi_name.find('PTV') != -1:
                     base = 'PTV'
+                elif roi_name.find('GTV') != -1:
+                    base = 'GTV'
                 if roi_name.find('High') != -1:
                     out = f"{base}_High"
                 elif roi_name.find('Mid') != -1:
@@ -90,7 +92,7 @@ for template_key in out_dictionary.keys():
         os.makedirs(template_path)
         os.makedirs(roi_path)
     fid = open(os.path.join(template_path, "Paths.txt"), 'w+')
-    fid.write("O:\DICOM\BMA_Export\n")
+    fid.write("O:\DICOM\BMA_Export\Single_Image\n")
     fid.close()
     for roi in out_dictionary[template_key]:
         roi_name = roi['Name']
