@@ -203,7 +203,14 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         }
         public string return_dicom_tag(DicomTag dicom_tag)
         {
-            return series_reader.GetMetaData(0, dicom_tags_dict[dicom_tag]);
+            if (series_reader.HasMetaDataKey(0, dicom_tags_dict[dicom_tag]))
+            {
+                return series_reader.GetMetaData(0, dicom_tags_dict[dicom_tag]);
+            }
+            else
+            {
+                return "NA";
+            }
         }
         public void update_dicom_tag(DicomTag dicom_tag, string new_value)
         {

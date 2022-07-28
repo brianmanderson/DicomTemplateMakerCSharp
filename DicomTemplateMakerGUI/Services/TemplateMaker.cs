@@ -119,14 +119,11 @@ namespace DicomTemplateMakerGUI.Services
                         ROIClass new_roi;
                         foreach (OntologyCodeClass o in Ontologies)
                         {
-                            if (o.CodeMeaning == code_class.CodeMeaning)
+                            if (o.CodeValue == code_class.CodeValue)
                             {
-                                if (o.CodeValue == code_class.CodeValue)
-                                {
-                                    code_class = o;
-                                    contains_code_class = true;
-                                    break;
-                                }
+                                code_class = o;
+                                contains_code_class = true;
+                                break;
                             }
                         }
                         new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
@@ -149,7 +146,7 @@ namespace DicomTemplateMakerGUI.Services
                             Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
                             write_ontology(code_class);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
-                            if (!ROIs.Contains(new_roi))
+                            if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
                             {
                                 ROIs.Add(new_roi);
                             }
