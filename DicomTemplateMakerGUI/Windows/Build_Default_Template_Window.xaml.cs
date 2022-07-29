@@ -29,6 +29,10 @@ namespace DicomTemplateMakerGUI.Windows
             this.onto_path = onto_path;
             this.default_template_list = new List<AddDefaultTemplateRow>();
             InitializeComponent();
+            if (!Directory.Exists(Path.Combine(folder_location, "Template_Dicoms")))
+            {
+                Directory.CreateDirectory(Path.Combine(folder_location, "Template_Dicoms"));
+            }
             string[] rt_files = Directory.GetFiles(Path.Combine(folder_location, "Template_Dicoms"), "*.dcm");
             foreach (string rt_file in rt_files)
             {
