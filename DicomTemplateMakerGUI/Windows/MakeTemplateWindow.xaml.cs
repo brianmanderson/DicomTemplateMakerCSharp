@@ -215,6 +215,10 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 pathsButton.Background = lightred;
             }
+            else
+            {
+                pathsButton.Background = lightgray;
+            }
             BuildButton.IsEnabled = false;
             if (TemplateTextBox.Text != "")
             {

@@ -22,7 +22,9 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public TemplateMaker template_maker;
         private Button DeleteButton;
         private CheckBox DeleteCheckBox;
+        private Button edit_rois_button;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
+        Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public AddTemplateRow(TemplateMaker template_maker)
         {
             this.template_maker = template_maker;
@@ -34,10 +36,14 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
             Children.Add(rois_present_label);
 
-            Button edit_rois_button = new Button();
+            edit_rois_button = new Button();
             if (template_maker.Paths.Count == 0)
             {
                 edit_rois_button.Background = lightred;
+            }
+            else
+            {
+                edit_rois_button.Background = lightgray;
             }
             edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
             edit_rois_button.Click += EditROIButton_Click;
@@ -71,6 +77,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             MakeTemplateWindow template_window = new MakeTemplateWindow(template_maker.path, template_maker);
             template_window.ShowDialog();
+            if (template_maker.Paths.Count != 0)
+            {
+                edit_rois_button.Background = lightgray;
+            }
             rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
         }
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
