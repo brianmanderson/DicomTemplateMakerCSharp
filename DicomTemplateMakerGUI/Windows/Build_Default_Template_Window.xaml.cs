@@ -29,7 +29,7 @@ namespace DicomTemplateMakerGUI.Windows
             this.onto_path = onto_path;
             this.default_template_list = new List<AddDefaultTemplateRow>();
             InitializeComponent();
-            string[] rt_files = Directory.GetFiles(folder_location, "TG263*.dcm");
+            string[] rt_files = Directory.GetFiles(Path.Combine(folder_location, "Template_Dicoms"), "*.dcm");
             foreach (string rt_file in rt_files)
             {
                 AddDefaultTemplateRow template_row = new AddDefaultTemplateRow(rt_file);
@@ -101,6 +101,7 @@ namespace DicomTemplateMakerGUI.Windows
                     write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
                 }
             }
+            Close();
         }
 
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
