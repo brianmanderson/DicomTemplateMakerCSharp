@@ -1,0 +1,15 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.OutDatedWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="OutDatedWindow" Height="450" Width="800">
+    <Grid>
+        <Label Content="Warning! This program is likely outdated.. please consider downloading the latest version" HorizontalAlignment="Left" Margin="147,76,0,0" VerticalAlignment="Top"/>
+        <Label Content="To ensure continued functionality, this program will become unusable on 01/01/2023" HorizontalAlignment="Left" Margin="157,107,0,0" VerticalAlignment="Top"/>
+        <Label Content="For any issues, please email me at: b5anderson@health.ucsd.edu" HorizontalAlignment="Left" Margin="218,138,0,0" VerticalAlignment="Top"/>
+        <Label Content="I appologize for any inconvenience" HorizontalAlignment="Left" Margin="298,169,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
