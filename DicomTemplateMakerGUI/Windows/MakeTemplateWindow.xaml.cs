@@ -33,6 +33,7 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        public Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
@@ -212,7 +213,7 @@ namespace DicomTemplateMakerGUI.Windows
             AddROIButton.Background = white;
             if (template_maker.Paths.Count == 0)
             {
-                pathsButton.Background = lightgreen;
+                pathsButton.Background = lightred;
             }
             BuildButton.IsEnabled = false;
             if (TemplateTextBox.Text != "")

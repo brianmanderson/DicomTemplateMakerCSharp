@@ -22,6 +22,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public TemplateMaker template_maker;
         private Button DeleteButton;
         private CheckBox DeleteCheckBox;
+        Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         public AddTemplateRow(TemplateMaker template_maker)
         {
             this.template_maker = template_maker;
@@ -34,6 +35,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Children.Add(rois_present_label);
 
             Button edit_rois_button = new Button();
+            if (template_maker.Paths.Count == 0)
+            {
+                edit_rois_button.Background = lightred;
+            }
             edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
             edit_rois_button.Click += EditROIButton_Click;
             Children.Add(edit_rois_button);

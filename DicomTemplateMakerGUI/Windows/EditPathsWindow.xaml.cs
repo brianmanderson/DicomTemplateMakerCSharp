@@ -28,6 +28,8 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class EditPathsWindow : Window
     {
         private TemplateMaker template_maker;
+        Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
+        Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         List<string> dicom_tag_list = new List<string> {"Study Description", "Series Description"}; //, "Modality"
         public EditPathsWindow(TemplateMaker template_maker)
         {
@@ -39,6 +41,10 @@ namespace DicomTemplateMakerGUI.Windows
         }
         public void write_paths()
         {
+            if (template_maker.Paths.Count == 0)
+            {
+                Add_Path_Button.Background = lightred;
+            }
             foreach (string path in template_maker.Paths)
             {
                 PathsRow new_row = new PathsRow(template_maker, path);
@@ -63,6 +69,10 @@ namespace DicomTemplateMakerGUI.Windows
                 template_maker.Paths.Add(dialog.FileName);
                 PathsRow new_row = new PathsRow(template_maker, dialog.FileName);
                 PathsStackPanel.Children.Add(new_row);
+            }
+            if (template_maker.Paths.Count != 0)
+            {
+                Add_Path_Button.Background = lightgray;
             }
         }
 
