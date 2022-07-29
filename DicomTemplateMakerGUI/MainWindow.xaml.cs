@@ -76,6 +76,18 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            Window warning = new OutDatedWindow();
+            if (year > 2022)
+            {
+                warning.ShowDialog();
+                Close();
+            }
+            else if (month > 9)
+            {
+                warning.ShowDialog();
+            }
             running = false;
             folder_location = @".";
             onto_path = Path.Combine(folder_location, "Ontologies");
