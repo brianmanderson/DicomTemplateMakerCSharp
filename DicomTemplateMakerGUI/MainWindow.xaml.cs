@@ -78,14 +78,15 @@ namespace DicomTemplateMakerGUI
             InitializeComponent();
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
-            Window warning = new OutDatedWindow();
-            if (year > 2022)
+            if (month > 10)
             {
+                Window warning = new OutDatedWindow();
                 warning.ShowDialog();
                 Close();
             }
-            else if (month > 9)
+            else if (month > 8)
             {
+                Window warning = new OutDatedWindow();
                 warning.ShowDialog();
             }
             running = false;
