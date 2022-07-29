@@ -192,6 +192,14 @@ namespace DicomTemplateMakerGUI
                     template_rows.Add(new_row);
                 }
             }
+            if (template_rows.Count == 0)
+            {
+                BuildDefault_Button.Background = lightgreen;
+            }
+            else
+            {
+                BuildDefault_Button.Background = lightgray;
+            }
         }
         private void Click_Build(object sender, RoutedEventArgs e)
         {
