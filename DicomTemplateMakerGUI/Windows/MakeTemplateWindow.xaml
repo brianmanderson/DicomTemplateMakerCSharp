@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="MakeTemplateWindow" Height="600" Width="1200">
+        Title="MakeTemplateWindow" Height="600" Width="1215">
     <Grid>
         <Button x:Name="AddROIFromRTButton" Background="LightGreen" Content="Add ROIs from RT Structure File" HorizontalAlignment="Left" Margin="23,89,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246" IsEnabled="False"/>
         <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,89,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
