@@ -32,11 +32,14 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        public Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
+        List<OntologyCodeClass> ontology_list = new List<OntologyCodeClass>();
         public MakeTemplateWindow(string folder, TemplateMaker template_maker)
         {
             out_path = folder;
@@ -44,6 +47,13 @@ namespace DicomTemplateMakerGUI.Windows
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
             InterpComboBox.SelectedIndex = 0;
+            foreach (OntologyCodeClass o in template_maker.Ontologies)
+            {
+                ontology_list.Add(o);
+            }
+            OntologyComboBox.DisplayMemberPath = "CodeMeaning";
+            OntologyComboBox.ItemsSource = ontology_list;
+            OntologyComboBox.SelectedIndex = 0;
             R = byte.Parse("0");
             G = byte.Parse("255");
             B = byte.Parse("255");
@@ -91,6 +101,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void add_roi_rows()
         {
             ROIStackPanel.Children.Clear();
+            ROIStackPanel.Children.Add(TopRow());
             List<ROIClass> PTVs = new List<ROIClass>();
             List<ROIClass> CTVs = new List<ROIClass>();
             List<ROIClass> GTVs = new List<ROIClass>();
@@ -137,24 +148,45 @@ namespace DicomTemplateMakerGUI.Windows
             CTVs = CTVs.OrderBy(o => o.ROIName).ToList();
             foreach (ROIClass roi in PTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in CTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in GTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
             foreach (ROIClass roi in ROIs_list)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"));
+                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
                 ROIStackPanel.Children.Add(new_row);
             }
+        }
+        private StackPanel TopRow()
+        {
+            StackPanel top_row = new StackPanel();
+            top_row.Orientation = Orientation.Horizontal;
+
+            Label name_label = new Label();
+            name_label.Width = 200;
+            name_label.Content = "ROI Name";
+            top_row.Children.Add(name_label);
+
+            Label code_value = new Label();
+            code_value.Width = 250;
+            code_value.Content = "Ontology";
+            top_row.Children.Add(code_value);
+
+            Label code_scheme = new Label();
+            code_scheme.Width = 200;
+            code_scheme.Content = "Interpreted Type";
+            top_row.Children.Add(code_scheme);
+            return top_row;
         }
         private void Build_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -168,7 +200,8 @@ namespace DicomTemplateMakerGUI.Windows
             BuildButton.Content = "Finished Building!";
             BuildButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = true;
-            template_maker.define_output(Path.Combine(out_path, TemplateTextBox.Text));
+            out_path = Path.Combine(out_path, TemplateTextBox.Text);
+            template_maker.define_output(out_path);
             template_maker.make_template();
             check_status();
         }
@@ -176,9 +209,15 @@ namespace DicomTemplateMakerGUI.Windows
         {
             TemplateTextBox.Background = lightgreen;
             pathsButton.Background = lightgray;
+            ROITextBox.Background = white;
+            AddROIButton.Background = white;
             if (template_maker.Paths.Count == 0)
             {
-                pathsButton.Background = lightgreen;
+                pathsButton.Background = lightred;
+            }
+            else
+            {
+                pathsButton.Background = lightgray;
             }
             BuildButton.IsEnabled = false;
             if (TemplateTextBox.Text != "")
@@ -193,7 +232,18 @@ namespace DicomTemplateMakerGUI.Windows
             AddROIButton.IsEnabled = false;
             if (ROITextBox.Text != "")
             {
-                AddROIButton.IsEnabled = true;
+                if (template_maker.ROIs.Where(p => p.ROIName == ROITextBox.Text).Any())
+                {
+                    ROITextBox.Background = red;
+                }
+                else
+                {
+                    if (OntologyComboBox.SelectedIndex != -1)
+                    {
+                        AddROIButton.IsEnabled = true;
+                        AddROIButton.Background = lightgreen;
+                    }
+                }
             }
         }
 
@@ -252,9 +302,25 @@ namespace DicomTemplateMakerGUI.Windows
         {
             add_roi_rows();
         }
+
+        private void OntologyNameChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = Ontology_TextBox.Text.ToLower();
+            ontology_list = new List<OntologyCodeClass>();
+            foreach (OntologyCodeClass onto in template_maker.Ontologies)
+            {
+                if (onto.CodeMeaning.ToLower().Contains(text))
+                {
+                    ontology_list.Add(onto);
+                }
+            }
+            OntologyComboBox.ItemsSource = ontology_list;
+            OntologyComboBox.SelectedIndex = 0;
+        }
+
         private void AddROI_Click(object sender, RoutedEventArgs e)
         {
-            OntologyCodeClass code_class = new OntologyCodeClass("Test", "Test", "test");
+            OntologyCodeClass code_class = (OntologyCodeClass)OntologyComboBox.SelectedItem;
             ROIClass roi = new ROIClass(R, G, B, ROITextBox.Text, InterpComboBox.SelectedItem.ToString(), code_class);
             template_maker.ROIs.Add(roi);
             add_roi_rows();

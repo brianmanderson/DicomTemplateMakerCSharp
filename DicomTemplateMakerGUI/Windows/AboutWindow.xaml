@@ -1,0 +1,91 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="AboutWindow" Height="700" Width="1200">
+    <Grid>
+        <TabControl HorizontalAlignment="Left" Height="650" Margin="10,39,0,0" VerticalAlignment="Top" Width="1100" Grid.ColumnSpan="2">
+            <TabItem Header="About">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="37*"/>
+                        <ColumnDefinition Width="346*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Welcome to the DICOM RT Structure Template GUI!" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Label Content="The goal of this work is to create RT-Structure DICOM files, in the hopes of helping clinics transition to TG-263 nomenclature" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                    <Label Content="Please look at the tabs above for explanations of each aspect of the program" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Splash Screen">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="751*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,200,0,0" TextWrapping="Wrap" Text="Edit the ontologies available for the ROIs" VerticalAlignment="Top" Height="25" Width="221"/>
+                    <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,170,0,0" TextWrapping="Wrap" Text="Create a new template!" VerticalAlignment="Top" Height="25" Width="221"/>
+                    <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="10,287,0,0" TextWrapping="Wrap" Text="A list of all templates made" VerticalAlignment="Top" Height="25" Width="221"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="456,134,0,0" TextWrapping="Wrap" Text="Run the server which creates the RT structure files" VerticalAlignment="Top" Height="25" Width="271" Grid.Column="1"/>
+                    <Image Grid.Column="1" HorizontalAlignment="Center" Height="277" Margin="0,159,0,0" VerticalAlignment="Top" Width="598" Source="/Windows/SplashScreen.JPG"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="347,99,0,0" TextWrapping="Wrap" Text="Recreate the default TG263 templates" VerticalAlignment="Top" Height="25" Width="271" Grid.Column="1"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Edit Ontologies">
+                <Grid Background="#FFE5E5E5">
+                    <Image HorizontalAlignment="Left" Height="303" Margin="138,172,0,0" VerticalAlignment="Top" Width="669" Source="EditOntologies.JPG"/>
+                    <Label Content="The goal of this is to include the DICOM Identification code sequence: https://dicom.innolitics.com/ciods/rt-structure-set/rt-roi-observations/30060080/30060086" HorizontalAlignment="Left" Margin="26,39,0,0" VerticalAlignment="Top"/>
+                    <Label Content="This means, regardless of the name of an ROI (Eye_R, Right Eye), they can both be identified as the same thing" HorizontalAlignment="Left" Margin="26,65,0,0" VerticalAlignment="Top"/>
+                    <Label Content="They are not strictly necessary, but can provide benefit if using autocontouring systems" HorizontalAlignment="Left" Margin="26,91,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Rather than adding ontologies manually, they can be automatically generated from an RT Structure" HorizontalAlignment="Left" Margin="28,141,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Codes listed under FMA come from the Foundation Model of Anatomy (FMA) https://bioportal.bioontology.org/ontologies/FMA" HorizontalAlignment="Left" Margin="26,117,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Edit Templates">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="When creating a new template, the template name will need to be defined. After this, you can begin adding ROIs" HorizontalAlignment="Left" Margin="26,39,0,0" VerticalAlignment="Top"/>
+                    <Label Content="ROIs can be added manually, by typing the ontology, and then ROI name" HorizontalAlignment="Left" Margin="26,65,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Rather than adding ROIs manually, they can be automatically generated from an RT Structure" HorizontalAlignment="Left" Margin="26,99,0,0" VerticalAlignment="Top"/>
+                    <Image HorizontalAlignment="Left" Height="391" Margin="26,130,0,0" VerticalAlignment="Top" Width="904" Source="EditTemplate.JPG"/>
+                    <Label Content="Do not neglect to add monitored DICOM paths!" HorizontalAlignment="Left" Margin="583,99,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Edit DICOM Paths">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="In order for the program to create an RT Structure file, it has to know where to watch for DICOM files" HorizontalAlignment="Left" Margin="26,39,0,0" VerticalAlignment="Top"/>
+                    <Label Content="The program operates by looking for folders with DICOM files present at the file paths locations" HorizontalAlignment="Left" Margin="26,65,0,0" VerticalAlignment="Top"/>
+                    <Image HorizontalAlignment="Left" Height="204" Margin="10,125,0,0" VerticalAlignment="Top" Width="641" Source="EditPaths.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="204" Margin="706,130,0,0" VerticalAlignment="Top" Width="378" Source="Pat_Folders.JPG"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Running the program">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="After clicking Run DICOM server, the program will walk through the templates listed below" HorizontalAlignment="Left" Margin="26,39,0,0" VerticalAlignment="Top"/>
+                    <Label Content="RT Structure files named 'Template_UID' and 'CreatedTemplate.txt' are made" HorizontalAlignment="Left" Margin="90,467,0,0" VerticalAlignment="Top"/>
+                    <Image HorizontalAlignment="Left" Height="286" Margin="26,91,0,0" VerticalAlignment="Top" Width="642" Source="/Windows/Running.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="208" Margin="543,382,0,0" VerticalAlignment="Top" Width="453" Source="/Windows/GeneratedRTs.JPG"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Contact and Acknowledgements">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="This work is a labor of love, and undoubtedly has problems present, I appreciate your patience." HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top"/>
+                    <Label Content="For any feedback please reach out to b5anderson@ucsd.edu" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Special thanks to Dr. Casey Bojechko, Dr. Kevin Moore, and Dr. Jeff Ryckman" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Check out my GitHub page at https://github.com/brianmanderson for other interesting projects" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                    <Label Content="If you find this useful, consider getting me a coffee if you see me at a conference =)" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top"/>
+                    <Image HorizontalAlignment="Left" Height="174" Margin="560,0,0,0" VerticalAlignment="Top" Width="149" Source="BrianAnderson.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="150" Margin="10,153,0,0" VerticalAlignment="Top" Width="132" Source="CaseyB.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="150" Margin="161,153,0,0" VerticalAlignment="Top" Width="132" Source="KevinM.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="150" Margin="318,153,0,0" VerticalAlignment="Top" Width="112" Source="/Windows/JeffR.JPG"/>
+                    <Label Content="Casey Bojechko, PhD" HorizontalAlignment="Left" Margin="22,308,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Jeff Ryckman, MD" HorizontalAlignment="Left" Margin="325,308,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Kevin Moore, PhD" HorizontalAlignment="Left" Margin="174,308,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Brian Anderson, PhD" HorizontalAlignment="Left" Margin="560,179,0,0" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

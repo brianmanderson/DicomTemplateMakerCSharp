@@ -5,12 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="EditPathsWindow" Height="250" Width="800">
+        Title="EditPathsWindow" Height="500" Width="800">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,10,150,0">
-            <StackPanel x:Name="PathsStackPanel" Height="172"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,40,150,231">
+            <StackPanel Height="307" x:Name="PathsStackPanel" />
         </ScrollViewer>
-        <Button Content="Add Path" HorizontalAlignment="Left" Height="34" Margin="663,22,0,0" VerticalAlignment="Top" Width="101" Click="Button_Click"/>
-        <Button Content="Save and Close" HorizontalAlignment="Left" Height="34" Margin="663,61,0,0" VerticalAlignment="Top" Width="101" Click="Save_Click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,296,150,89">
+            <StackPanel x:Name="RequirementStackPanel" Height="172"/>
+        </ScrollViewer>
+        <Button x:Name="Add_Path_Button" Content="Add Path" HorizontalAlignment="Left" Height="26" Margin="158,10,0,0" VerticalAlignment="Top" Width="214" Click="Button_Click"/>
+        <Button Content="Save and Close" HorizontalAlignment="Left" Height="85" Margin="663,10,0,0" VerticalAlignment="Top" Width="119" Click="Save_Click"/>
+        <ComboBox Name="DicomTag_Combobox" HorizontalAlignment="Left" Margin="10,264,0,0" VerticalAlignment="Top" Width="200" Height="26"/>
+        <TextBox x:Name="Dicomtag_TextBox" HorizontalAlignment="Left" Height="26" Margin="215,264,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="181" TextChanged="TagText_Changed"/>
+        <Button x:Name="AddDicom_Button" Content="Add DICOM requirement" IsEnabled="False" HorizontalAlignment="Left" Height="26" Margin="401,264,0,0" VerticalAlignment="Top" Width="241" Click="Add_Requirement"/>
+        <Label Content="Add a monitored path:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="142"/>
+        <Label Content="Add a required DICOM aspect" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top" Width="255"/>
     </Grid>
 </Window>

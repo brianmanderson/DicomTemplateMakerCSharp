@@ -1,0 +1,18 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.Build_Default_Template_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="Build_Default_Template_Window" Height="350" Width="800">
+    <Grid>
+        <Button Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="742" Height="36" Click="Build_button_click"/>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,108,0,0">
+            <StackPanel Margin="20,20,20,20" x:Name="DefaultStackPanel">
+            </StackPanel>
+        </ScrollViewer> 
+        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="14,63,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="198,63,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="554"/>
+    </Grid>
+</Window>

@@ -21,20 +21,33 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private ROIClass roi;
         private TextBox roi_name_textbox;
         private List<ROIClass> roi_list;
+        private List<OntologyCodeClass> ontologies_list;
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
         private string roi_path;
-        public AddROIRow(List<ROIClass> roi_list, ROIClass roi, string path)
+        public AddROIRow(List<ROIClass> roi_list, ROIClass roi, string path, List<OntologyCodeClass> ontologies_list) //, 
         {
             this.roi = roi;
             this.roi_list = roi_list;
             this.roi_path = path;
+            this.ontologies_list = ontologies_list;
             Orientation = Orientation.Horizontal;
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.ROIName;
             roi_name_textbox.TextChanged += TextValueChange;
             roi_name_textbox.Width = 200;
             Children.Add(roi_name_textbox);
+
+            Binding ontology_binding = new Binding("Ontology_Class");
+            ontology_binding.Source = roi;
+            ComboBox ontology_combobox = new ComboBox();
+            ontology_combobox.SetBinding(ComboBox.SelectedItemProperty, ontology_binding);
+            ontology_combobox.ItemsSource = ontologies_list;
+            ontology_combobox.DisplayMemberPath = "CodeMeaning";
+            ontology_combobox.SelectionChanged += SelectionChangedEvent;
+            ontology_combobox.Width = 250;
+            Children.Add(ontology_combobox);
+
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
             Binding interp_binding = new Binding("ROI_Interpreted_type");
@@ -48,7 +61,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type;
             }
-            roi_interp_combobox.Width = 150;
+            roi_interp_combobox.Width = 200;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
             color_button.Background = roi.ROI_Brush;
@@ -112,11 +125,24 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void rebuild_text()
         {
-            OntologyCodeClass i = roi.Ontology_Class;
-            File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
-                $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +
-                $"{roi.ROI_Interpreted_type}");
+            OntologyCodeClass onto = roi.Ontology_Class;
+            if (!Directory.Exists(roi_path))
+            {
+                Directory.CreateDirectory(roi_path);
+            }
+            try
+            {
+                File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
+                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                    $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
+                    $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
+                    $"{roi.ROI_Interpreted_type}");
+            }
+            catch
+            {
+                int x = 5;
+            }
+
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {

@@ -13,11 +13,13 @@ namespace DicomTemplateMakerGUI.Services
     {
         public string template_name;
         public string path;
+        private string onto_path;
         public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
         public List<OntologyCodeClass> Ontologies;
         public List<string> Paths;
+        public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
         string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
             coding_scheme_designator_dict, context_group_version_dict, context_identifier_dict, context_uid_dict, mapping_resource_dict,
@@ -28,6 +30,26 @@ namespace DicomTemplateMakerGUI.Services
             ROIs = new List<ROIClass>();
             Ontologies = new List<OntologyCodeClass>();
             Paths = new List<string>();
+        }
+        public void set_onto_path(string onto_path)
+        {
+            this.onto_path = onto_path;
+        }
+        public void write_ontology(OntologyCodeClass onto)
+        {
+            try
+            {
+                File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
+                    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
+                    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
+                    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
+                    $"{onto.ContextUID}");
+            }
+            catch
+            {
+
+            }
+
         }
         public void interpret_RT(string dicom_file)
         {
@@ -93,26 +115,42 @@ namespace DicomTemplateMakerGUI.Services
                                 context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
                         bool contains_code_class = false;
+                        bool contains_roi_class = false;
+                        ROIClass new_roi;
                         foreach (OntologyCodeClass o in Ontologies)
                         {
-                            if (o.CodeMeaning == code_class.CodeMeaning)
+                            if (o.CodeValue == code_class.CodeValue)
                             {
-                                if (o.CodeValue == code_class.CodeValue)
-                                {
-                                    contains_code_class = true;
-                                }
+                                code_class = o;
+                                contains_code_class = true;
+                                break;
                             }
                         }
-                        if (!contains_code_class)
+                        new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
+                        foreach (ROIClass r in ROIs)
                         {
-                            Ontologies.Add(code_class);
+                            if (r.ROIName == name_dict[key])
+                            {
+                                new_roi = r;
+                                contains_roi_class = true;
+                                break;
+                            }
                         }
-                        ROIClass new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
-                        if (!ROIs.Contains(new_roi))
+                        if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
                         {
                             ROIs.Add(new_roi);
                         }
-                        
+                        if (!Ontologies.Any(p => p.CodeMeaning == code_class.CodeMeaning) & !Ontologies.Any(p => p.CodeValue == code_class.CodeValue))
+                        {
+                            Ontologies.Add(code_class);
+                            Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+                            write_ontology(code_class);
+                            new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
+                            if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
+                            {
+                                ROIs.Add(new_roi);
+                            }
+                        }
                     }
                 }
             }
@@ -143,11 +181,25 @@ namespace DicomTemplateMakerGUI.Services
                     $"{roi.ROI_Interpreted_type}");
             }
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
+            using (StreamWriter file = new StreamWriter(Path.Combine(output, "DicomTags.txt")))
+            {
+                foreach (string key in DicomTags.Keys)
+                {
+                    string start = "";
+                    start += $"{key}";
+                    foreach (string line in DicomTags[key])
+                    {
+                        start += $"\\{line}";
+                    }
+                    file.WriteLine(start);
+                }
+            }
         }
         public void categorize_folder(string path)
         {
             ROIs = new List<ROIClass>();
             Paths = new List<string>();
+            OntologyCodeClass code_class;
             this.path = path;
             is_template = false;
             if (File.Exists(Path.Combine(path, "Paths.txt")))
@@ -156,6 +208,18 @@ namespace DicomTemplateMakerGUI.Services
                 foreach (string file_path in file_paths)
                 {
                     Paths.Add(file_path);
+                }
+            }
+            if (File.Exists(Path.Combine(path, "DicomTags.txt")))
+            {
+                string[] file_paths = File.ReadAllLines(Path.Combine(path, "DicomTags.txt"));
+                foreach (string file_path in file_paths)
+                {
+
+                    string[] key_values = file_path.Split('\\');
+                    string key = key_values[0];
+                    List<string> values = key_values.Skip(1).ToList();
+                    DicomTags.Add(key, values);
                 }
             }
             if (Directory.Exists(Path.Combine(path, "ROIs")))
@@ -170,7 +234,36 @@ namespace DicomTemplateMakerGUI.Services
                     color = instructions[0];
                     string[] color_values = color.Split('\\');
                     string[] code_values = instructions[1].Split('\\');
-                    OntologyCodeClass code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    if (code_values.Length == 3)
+                    {
+                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+                    }
+                    else
+                    {
+                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
+                            code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
+                    }
+                    if (!File.Exists(Path.Combine(onto_path, $"{code_class.CodeMeaning}.txt")))
+                    {
+                        write_ontology(code_class);
+                    }
+                    bool contains_code_class = false;
+                    foreach (OntologyCodeClass o in Ontologies)
+                    {
+                        if (o.CodeMeaning == code_class.CodeMeaning)
+                        {
+                            if (o.CodeValue == code_class.CodeValue)
+                            {
+                                contains_code_class = true;
+                                code_class = o;
+                                break;
+                            }
+                        }
+                    }
+                    if (!contains_code_class)
+                    {
+                        Ontologies.Add(code_class);
+                    }
                     interperter = "";
                     if (instructions.Length == 3)
                     {

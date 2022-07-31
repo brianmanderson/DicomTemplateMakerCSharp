@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,11 +22,21 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class EditOntologyWindow : Window
     {
+        Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
+        Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         private string onto_path;
         public TemplateMaker template_maker;
         public EditOntologyWindow(string path, TemplateMaker template_maker)
         {
             this.onto_path = Path.Combine(path, "Ontologies");
+            template_maker.set_onto_path(Path.Combine(path, "Ontologies"));
+            this.template_maker = template_maker;
+            if (!Directory.Exists(onto_path))
+            {
+                Directory.CreateDirectory(onto_path);
+            }
             this.template_maker = template_maker;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
@@ -35,19 +46,35 @@ namespace DicomTemplateMakerGUI.Windows
         {
             AddOntology_Button.IsEnabled = false;
             SearchBox_TextBox.IsEnabled = false;
+            PreferredNameTextBox.Background = white;
+            CodeValue_TextBox.Background = white;
+            AddOntology_Button.Background = white;
             if (template_maker.Ontologies.Count > 0)
             {
                 SearchBox_TextBox.IsEnabled = true;
             }
-            if (PreferredNameTextBox.Text != "")
+            if (template_maker.Ontologies.Where(p => p.CodeValue == CodeValue_TextBox.Text).Any())
             {
-                if (CodeValue_TextBox.Text != "")
-                {
+                CodeValue_TextBox.Background = yellow;
+            }
+            if (template_maker.Ontologies.Where(p => p.CodeMeaning.ToLower() == PreferredNameTextBox.Text.ToLower()).Any())
+            {
+                PreferredNameTextBox.Background = yellow;
+            }
+            if (CodeValue_TextBox.Background == yellow & PreferredNameTextBox.Background == yellow)
+            {
+                CodeValue_TextBox.Background = red;
+                PreferredNameTextBox.Background = red;
+            }
+            if (PreferredNameTextBox.Background != red & CodeValue_TextBox.Background != red)
+            {
                     if (CodeScheme_TextBox.Text != "")
                     {
-                        AddOntology_Button.IsEnabled = true;
+                        {
+                            AddOntology_Button.IsEnabled = true;
+                            AddOntology_Button.Background = lightgreen;
+                        }
                     }
-                }
             }
         }
         private void UpdateText(object sender, TextChangedEventArgs e)
@@ -111,6 +138,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             OntologyCodeClass onto = new OntologyCodeClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
             template_maker.Ontologies.Add(onto);
+            template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             PreferredNameTextBox.Text = "";
             CodeValue_TextBox.Text = "";
             CodeScheme_TextBox.Text = "";
@@ -141,11 +169,12 @@ namespace DicomTemplateMakerGUI.Windows
             }
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
-                File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
-                    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
-                    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
-                    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
-                    $"{onto.ContextUID}");
+                template_maker.write_ontology(onto);
+                //File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
+                //    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
+                //    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
+                //    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
+                //    $"{onto.ContextUID}");
             }
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
@@ -171,6 +200,7 @@ namespace DicomTemplateMakerGUI.Windows
                     context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
                 template_maker.Ontologies.Add(onto);
             }
+            template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             RefreshView();
         }
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)

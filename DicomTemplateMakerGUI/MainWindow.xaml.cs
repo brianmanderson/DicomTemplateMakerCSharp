@@ -56,11 +56,12 @@ namespace DicomTemplateMakerGUI
     }
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        string folder_location;
+        string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         bool running;
         DicomRunner runner;
+        List<AddTemplateRow> template_rows;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -75,13 +76,92 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
+            int month = DateTime.Now.Month;
+            int year = DateTime.Now.Year;
+            if (month > 10)
+            {
+                Window warning = new OutDatedWindow();
+                warning.ShowDialog();
+                Close();
+            }
+            else if (month > 8)
+            {
+                Window warning = new OutDatedWindow();
+                warning.ShowDialog();
+            }
             running = false;
             folder_location = @".";
+            onto_path = Path.Combine(folder_location, "Ontologies");
+            if (!Directory.Exists(onto_path))
+            {
+                Directory.CreateDirectory(onto_path);
+            }
+            bool build = false;
+            if (!File.Exists(Path.Combine(folder_location, "Built_from_RTs.txt")) & (build))
+            {
+                string[] rt_files = Directory.GetFiles(folder_location, "TG263*.dcm");
+                foreach (string rt_file in rt_files)
+                {
+                    TemplateMaker evaluator = new TemplateMaker();
+                    evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
+                    evaluator = update_ontology_reader(evaluator);
+                    evaluator.interpret_RT(rt_file);
+                    string folder_path = Path.GetFileName(rt_file);
+                    folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
+                    write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
+                }
+                File.CreateText(Path.Combine(folder_location, "Built_from_RTs.txt"));
+            }
             TemplateBaseLabel.Content = Path.GetFullPath(folder_location);
             AddTemplateButton.IsEnabled = true;
             Rebuild_From_Folders();
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
+        }
+        public void write_rois(TemplateMaker evaluator, string roi_path)
+        {
+            if (!Directory.Exists(roi_path))
+            {
+                Directory.CreateDirectory(roi_path);
+            }
+            foreach (ROIClass roi in evaluator.ROIs)
+            {
+                try
+                {
+                    File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
+                        $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                        $"{roi.Ontology_Class.CodeMeaning}\\{roi.Ontology_Class.CodeValue}\\{roi.Ontology_Class.Scheme}\\{roi.Ontology_Class.ContextGroupVersion}\\" +
+                        $"{roi.Ontology_Class.MappingResource}\\{roi.Ontology_Class.ContextIdentifier}\\{roi.Ontology_Class.MappingResourceName}\\" +
+                        $"{roi.Ontology_Class.MappingResourceUID}\\{roi.Ontology_Class.ContextUID}\n" +
+                        $"{roi.ROI_Interpreted_type}");
+                }
+                catch
+                {
+                    int x = 5;
+                }
+            }
+        }
+        public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
+        {
+            string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
+            foreach (string ontology_file in roi_files)
+            {
+                string onto_name = Path.GetFileName(ontology_file).Replace(".txt", "");
+                string[] instructions = File.ReadAllLines(ontology_file);
+                string code_value = instructions[0];
+                string coding_scheme = instructions[1];
+                string context_group_version = instructions[2];
+                string mapping_resource = instructions[3];
+                string context_identifier = instructions[4];
+                string mapping_resource_name = instructions[5];
+                string mapping_resource_uid = instructions[6];
+                string context_uid = instructions[7];
+                OntologyCodeClass onto = new OntologyCodeClass(onto_name, code_value, coding_scheme, context_group_version, mapping_resource,
+                    context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
+                evaluator.Ontologies.Add(onto);
+            }
+            evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+            return evaluator;
         }
         public void Rebuild_From_Folders()
         {
@@ -89,9 +169,12 @@ namespace DicomTemplateMakerGUI
             string[] directories = Directory.GetDirectories(folder_location);
             AddTemplateButton.Background = lightgreen;
             RunDICOMServerButton.IsEnabled = false;
+            template_rows = new List<AddTemplateRow>();
             foreach (string directory in directories)
             {
                 TemplateMaker evaluator = new TemplateMaker();
+                evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
+                evaluator = update_ontology_reader(evaluator);
                 evaluator.categorize_folder(directory);
                 if (evaluator.is_template)
                 {
@@ -106,12 +189,23 @@ namespace DicomTemplateMakerGUI
                     myborder.BorderThickness = new Thickness(5);
                     TemplateStackPanel.Children.Add(myborder);
                     TemplateStackPanel.Children.Add(new_row);
+                    template_rows.Add(new_row);
                 }
+            }
+            if (template_rows.Count == 0)
+            {
+                BuildDefault_Button.Background = lightgreen;
+            }
+            else
+            {
+                BuildDefault_Button.Background = lightgray;
             }
         }
         private void Click_Build(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
+            template_maker.set_onto_path(Path.Combine(folder_location, "Ontologies"));
+            template_maker = update_ontology_reader(template_maker);
             MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker);
             template_window.ShowDialog();
             Rebuild_From_Folders();
@@ -136,6 +230,49 @@ namespace DicomTemplateMakerGUI
             running = true;
             RunDICOMServerButton.IsEnabled = false;
             ChangeTemplateButton.IsEnabled = false;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow about_window = new AboutWindow();
+            about_window.Show();
+        }
+
+        private void MakeDefault_Button(object sender, RoutedEventArgs e)
+        {
+            Build_Default_Template_Window window = new Build_Default_Template_Window(folder_location, onto_path);
+            window.ShowDialog();
+            Rebuild_From_Folders();
+            return;
+            string[] rt_files = Directory.GetFiles(folder_location, "TG263*.dcm");
+            foreach (string rt_file in rt_files)
+            {
+                TemplateMaker evaluator = new TemplateMaker();
+                evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
+                evaluator = update_ontology_reader(evaluator);
+                evaluator.interpret_RT(rt_file);
+                string folder_path = Path.GetFileName(rt_file);
+                folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
+                write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
+            }
+            File.CreateText(Path.Combine(folder_location, "Built_from_RTs.txt"));
+            Rebuild_From_Folders();
+        }
+
+        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        {
+            TemplateStackPanel.Children.Clear();
+            foreach (AddTemplateRow temp_row in template_rows)
+            {
+                if (temp_row.template_maker.template_name.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                {
+                    Border myborder = new Border();
+                    myborder.Background = Brushes.Black;
+                    myborder.BorderThickness = new Thickness(5);
+                    TemplateStackPanel.Children.Add(myborder);
+                    TemplateStackPanel.Children.Add(temp_row);
+                }
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

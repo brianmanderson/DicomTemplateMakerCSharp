@@ -10,7 +10,9 @@ namespace DicomTemplateMakerGUI.Services
 {
     public class OntologyCodeClass
     {
-        private string code_meaning, code_value, scheme_designated;
+        private string scheme_designated = "99VMS_STRUCTCODE";
+        private string code_meaning = "Undefined Normal Tissue";
+        private string code_value = "NormalTissue";
         private string context_group_version = "20161209";
         private string mapping_resource = "99VMS";
         private string context_identifier = "VMS011";
@@ -31,7 +33,7 @@ namespace DicomTemplateMakerGUI.Services
             get { return mapping_resource_uid; }
             set
             {
-                mapping_resource_name = value;
+                mapping_resource_uid = value;
                 OnPropertyChanged("MappingResourceUID");
             }
         }
