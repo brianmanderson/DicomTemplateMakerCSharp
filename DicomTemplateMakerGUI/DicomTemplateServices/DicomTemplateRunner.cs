@@ -145,50 +145,54 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     {
                         run_program = true;
                     }
-                    else
+                    bool has_tags = false;
+                    if (DicomTags.ContainsKey("Series Description"))
                     {
-                        if (DicomTags.ContainsKey("Series Description"))
+                        has_tags = true;
+                        if (files_and_series_descriptions_dictionary.ContainsKey(directory_key))
                         {
-                            if (files_and_series_descriptions_dictionary.ContainsKey(directory_key))
+                            foreach (string series_description in files_and_series_descriptions_dictionary[directory_key])
                             {
-                                foreach (string series_description in files_and_series_descriptions_dictionary[directory_key])
+                                foreach (string dicom_tag in DicomTags["Series Description"])
                                 {
-                                    foreach (string dicom_tag in DicomTags["Series Description"])
+                                    if (series_description.ToLower().Contains(dicom_tag.ToLower()))
                                     {
-                                        if (series_description.ToLower().Contains(dicom_tag.ToLower()))
-                                        {
-                                            run_program = true;
-                                            break;
-                                        }
-                                    }
-                                    if (run_program)
-                                    {
+                                        run_program = true;
                                         break;
                                     }
                                 }
-                            }
-                        }
-                        if (DicomTags.ContainsKey("Study Description"))
-                        {
-                            if (files_and_study_descriptions_dictionary.ContainsKey(directory_key))
-                            {
-                                foreach (string study_description in files_and_study_descriptions_dictionary[directory_key])
+                                if (run_program)
                                 {
-                                    foreach (string dicom_tag in DicomTags["Study Description"])
-                                    {
-                                        if (study_description.ToLower().Contains(dicom_tag.ToLower()))
-                                        {
-                                            run_program = true;
-                                            break;
-                                        }
-                                    }
-                                    if (run_program)
-                                    {
-                                        break;
-                                    }
+                                    break;
                                 }
                             }
                         }
+                    }
+                    if (DicomTags.ContainsKey("Study Description"))
+                    {
+                        has_tags = true;
+                        if (files_and_study_descriptions_dictionary.ContainsKey(directory_key))
+                        {
+                            foreach (string study_description in files_and_study_descriptions_dictionary[directory_key])
+                            {
+                                foreach (string dicom_tag in DicomTags["Study Description"])
+                                {
+                                    if (study_description.ToLower().Contains(dicom_tag.ToLower()))
+                                    {
+                                        run_program = true;
+                                        break;
+                                    }
+                                }
+                                if (run_program)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (!has_tags)
+                    {
+                        run_program = true;
                     }
                     if (run_program)
                     {
