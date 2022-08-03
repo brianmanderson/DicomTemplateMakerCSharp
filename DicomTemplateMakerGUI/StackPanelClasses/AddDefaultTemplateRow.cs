@@ -21,7 +21,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Orientation = Orientation.Horizontal;
             this.file_path = file_path;
             file_name = new Label();
-            file_name.Content = Path.GetFileName(file_path);
+            file_name.Content = Path.GetFileName(file_path).Replace(".dcm", "");
             file_name.Width = 200;
             Children.Add(file_name);
 
