@@ -76,21 +76,24 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
+            folder_location = @".";
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
-            if (month > 10)
+            if (!File.Exists(Path.Combine(folder_location, "Running.txt")))
             {
-                Window warning = new OutDatedWindow();
-                warning.ShowDialog();
-                Close();
-            }
-            else if (month > 8)
-            {
-                Window warning = new OutDatedWindow();
-                warning.ShowDialog();
+                if (year > 2022)
+                {
+                    Window warning = new OutDatedWindow();
+                    warning.ShowDialog();
+                    Close();
+                }
+                else if (month > 8)
+                {
+                    Window warning = new OutDatedWindow();
+                    warning.ShowDialog();
+                }
             }
             running = false;
-            folder_location = @".";
             onto_path = Path.Combine(folder_location, "Ontologies");
             if (!Directory.Exists(onto_path))
             {
