@@ -13,7 +13,7 @@ API_Key.txt
 Base_key.txt
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-
+*.zip
 # Mono auto generated files
 mono_crash.*
 
