@@ -4,25 +4,6 @@ import pydicom
 from pyairtable import Api, Base, Table
 
 
-def add_to_base_dictionary(out_dictionary, fields):
-    if fields['Structure'] == 'BODY':
-        xxx = 1
-    try:
-        color_name = fields['Jeff Colors'][0].replace(' ', '')
-        RGB = [int(i * 255) for i in to_rgb(color_name)]
-    except:
-        RGB = [int(i * 255) for i in to_rgb('Green')]
-    color = f"{RGB[0]}\{RGB[1]}\{RGB[2]}"
-    structure_fields = {'Name': fields['Structure'], 'Color': color,
-                        'Type': fields['Type'], 'FMAID': fields['FMAID']}
-    for group in fields.keys():
-        if fields[group] in ['Consider', 'Recommended']:
-            if group not in out_dictionary:
-                out_dictionary[group] = []
-            out_dictionary[group].append(structure_fields)
-    return None
-
-
 def add_to_airtable_from_path(table: Table, path_to_rt, site):
     all_records = table.all()
     all_records_dict = {}
