@@ -262,6 +262,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Pictures\EditPaths.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Template_Dicoms\AbdPelv_Anal.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -421,6 +424,9 @@
     <Content Include="template_RS.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Windows\EditPaths.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Windows\JeffR.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -445,9 +451,6 @@
     <Resource Include="Windows\Pat_Folders.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Windows\EditPaths.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Windows\EditTemplate.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -466,9 +469,6 @@
     <Resource Include="Pictures\BrianAnderson.JPG" />
     <Resource Include="Pictures\CaseyB.JPG" />
     <Resource Include="Pictures\EditOntologies.JPG" />
-    <Resource Include="Pictures\EditPaths.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Pictures\EditTemplate.JPG" />
     <Resource Include="Pictures\GeneratedRTs.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
