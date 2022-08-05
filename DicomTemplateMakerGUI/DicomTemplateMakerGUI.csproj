@@ -26,7 +26,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>14</ApplicationRevision>
+    <ApplicationRevision>15</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -466,7 +466,9 @@
     <Resource Include="Pictures\BrianAnderson.JPG" />
     <Resource Include="Pictures\CaseyB.JPG" />
     <Resource Include="Pictures\EditOntologies.JPG" />
-    <Resource Include="Pictures\EditPaths.JPG" />
+    <Resource Include="Pictures\EditPaths.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Pictures\EditTemplate.JPG" />
     <Resource Include="Pictures\GeneratedRTs.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -56,8 +56,8 @@
                 <Grid Background="#FFE5E5E5">
                     <Label Content="In order for the program to create an RT Structure file, it has to know where to watch for DICOM files" HorizontalAlignment="Left" Margin="26,39,0,0" VerticalAlignment="Top"/>
                     <Label Content="The program operates by looking for folders with DICOM files present at the file paths locations" HorizontalAlignment="Left" Margin="26,65,0,0" VerticalAlignment="Top"/>
-                    <Image HorizontalAlignment="Left" Height="204" Margin="10,125,0,0" VerticalAlignment="Top" Width="641" Source="EditPaths.JPG"/>
                     <Image HorizontalAlignment="Left" Height="204" Margin="706,130,0,0" VerticalAlignment="Top" Width="378" Source="Pat_Folders.JPG"/>
+                    <Image HorizontalAlignment="Left" Height="308" Margin="74,130,0,0" VerticalAlignment="Top" Width="482" Source="EditPaths.JPG"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Running the program">
