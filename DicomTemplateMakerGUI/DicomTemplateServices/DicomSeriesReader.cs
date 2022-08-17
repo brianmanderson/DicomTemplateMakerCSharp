@@ -179,7 +179,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 DicomSequence rtRefStudySequence = refFrameofRef.GetDicomItem<DicomSequence>(DicomTag.RTReferencedStudySequence);
                 foreach (DicomDataset rtRefStudy in rtRefStudySequence)
                 {
-                    rtRefStudy.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.StudyInstanceUID]));
+                    rtRefStudy.AddOrUpdate(DicomTag.ReferencedSOPInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SOPInstanceUID]));
+                    rtRefStudy.AddOrUpdate(DicomTag.ReferencedSOPClassUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SOPClassUID]));
                     DicomSequence rTReferencedSeriesSequence = rtRefStudy.GetDicomItem<DicomSequence>(DicomTag.RTReferencedSeriesSequence);
                     foreach (DicomDataset rTReferencedSeries in rTReferencedSeriesSequence)
                     {
