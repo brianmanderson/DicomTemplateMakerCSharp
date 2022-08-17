@@ -18,7 +18,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         private DicomDataset rt_structure_set, roi_observation_set, roi_contour_set;
         string loaded_series_instance_uid;
         List<int> referenced_roi_number_list, observation_number_list;
-        Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} ,
+        Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} , { DicomTag.SOPClassUID, "0008|0016" },
             { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"}, { DicomTag.SeriesDescription, "0008|103e" },
             { DicomTag.ReferringPhysicianName, "0008|0090"}, { DicomTag.StudyDescription, "0008|1030" } , {DicomTag.PatientName, "0010|0010" },
             { DicomTag.PatientID, "0010|0020" }, { DicomTag.PatientBirthDate, "0010|0030" }, { DicomTag.PatientSex, "0010|0040" } , {DicomTag.Modality, "0008|0060"},
@@ -185,12 +185,9 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     {
                         rTReferencedSeries.AddOrUpdate(DicomTag.SeriesInstanceUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SeriesInstanceUID]));
                         DicomSequence contourImageSequence = rTReferencedSeries.GetDicomItem<DicomSequence>(DicomTag.ContourImageSequence);
-                        DicomDataset fill_segment_base = new DicomDataset(contourImageSequence.Items[0]);
-                        int total = contourImageSequence.Items.Count;
-                        for (int i = 0; i < total; i++)
-                        {
-                            contourImageSequence.Items.RemoveAt(0);
-                        }
+                        DicomDataset fill_segment_base = new DicomDataset();
+                        fill_segment_base.AddOrUpdate(DicomTag.ReferencedSOPClassUID, series_reader.GetMetaData(0, dicom_tags_dict[DicomTag.SOPClassUID]));
+                        contourImageSequence.Items.Clear();
                         for (uint i = 0; i < dicomImage.GetSize()[2]; i++)
                         {
                             DicomDataset fill_segment = new DicomDataset(fill_segment_base);

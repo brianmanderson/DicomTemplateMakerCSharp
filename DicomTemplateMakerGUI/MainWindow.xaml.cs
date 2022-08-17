@@ -75,6 +75,8 @@ namespace DicomTemplateMakerGUI
         }
         public MainWindow()
         {
+            ReadAirTable airtable = new ReadAirTable();
+            airtable.read_records();
             InitializeComponent();
             folder_location = @".";
             int month = DateTime.Now.Month;
