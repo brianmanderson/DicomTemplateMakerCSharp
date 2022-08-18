@@ -10,7 +10,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -283,6 +282,7 @@ namespace DicomTemplateMakerGUI
         private void Read_Airtable(object sender, RoutedEventArgs e)
         {
             airtable.read_records();
+            AirTableWindow airtable_window = new AirTableWindow(airtable);
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

@@ -25,16 +25,14 @@ namespace DicomTemplateMakerGUI.Services
         public string ContextUID { get; set; }
         public List<string> Sites { get; set; }
     }
-    class ReadAirTable
+    public class ReadAirTable
     {
         string APIKey = "keyfXbWgL96FyPUYH";
         string BaseKey = "appczNMj8RE4CKjtp";
         string TableKey = "tblR6fpTrCnJb4dWy";
-        AirTableOntology airOnt;
         private AirtableBase airtableBase;
         public Task<List<AirtableRecord>> records_task;
-        public List<OntologyCodeClass> ontologies = new List<OntologyCodeClass>();
-        public Dictionary<string, List<OntologyCodeClass>> template_dictionary = new Dictionary<string, List<OntologyCodeClass>>();
+        public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
         public ReadAirTable()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
@@ -50,45 +48,27 @@ namespace DicomTemplateMakerGUI.Services
             }
             airtableBase = new AirtableBase(APIKey, BaseKey);
             List<AirtableRecord> records = records_task.Result;
-            foreach (AirtableRecord r in records)
+            foreach (AirtableRecord rr in records)
             {
-                Task<AirtableRetrieveRecordResponse<AirTableOntology>> task = airtableBase.RetrieveRecord<AirTableOntology>(TableKey, r.Id);
+                Task<AirtableRetrieveRecordResponse<AirTableEntry>> task = airtableBase.RetrieveRecord<AirTableEntry>(TableKey, rr.Id);
                 var response = await task;
-                if (!response.Success)
-                {
-                    string errorMessage = null;
-                    if (response.AirtableApiError is AirtableApiException)
-                    {
-                        errorMessage = response.AirtableApiError.ErrorMessage;
-                    }
-                    else
-                    {
-                        errorMessage = "Unknown error";
-                    }
-                    // Report errorMessage
-                }
-                else
+                if (response.Success)
                 {
                     // Do something with your retrieved record.
                     // See how to extract fields of the retrieved record as an instance of Artist in the example section below
-                    AirtableRetrieveRecordResponse<AirTableOntology> airTableOntology = task.Result;
+                    AirtableRetrieveRecordResponse<AirTableEntry> airTableOntology = task.Result;
+                    AirTableEntry r = airTableOntology.Record.Fields;
+                    foreach (string site in r.Sites)
+                    {
+                        if (!template_dictionary.ContainsKey(site))
+                        {
+                            template_dictionary.Add(site, new List<AirTableEntry>());
+                        }
+                        template_dictionary[site].Add(r);
+                    }
+                    OntologyCodeClass o = new OntologyCodeClass(name: r.CommonName, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier, group_version: r.ContextGroupVersion,
+                        mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID, mapping_resource_name: r.MappingResourceName);
                 }
-                string type = r.Fields["Type"].ToString();
-                string name = r.Fields["CommonName"].ToString();
-                string fmaid = r.Fields["FMAID"].ToString();
-                string scheme = r.Fields["Scheme"].ToString();
-                string group_version = r.Fields["ContextGroupVersion"].ToString();
-                string mapping_resource = r.Fields["MappingResource"].ToString();
-                string mapping_resource_name = r.Fields["MappingResourceName"].ToString();
-                string context_uid = r.Fields["ContextUID"].ToString();
-                string context_identifier = r.Fields["ContextIdentifier"].ToString();
-                string mappingresource_uid = r.Fields["MappingResourceUID"].ToString();
-                OntologyCodeClass o = new OntologyCodeClass(name: name, code_value: fmaid, scheme_designated: scheme, context_identifier: context_identifier,
-                    group_version: group_version, mapping_resource: mapping_resource, mapping_resource_uid: mappingresource_uid, context_uid: context_uid, mapping_resource_name:mapping_resource_name);
-                ontologies.Add(o);
-
-                //r.Fields["Sites"];
-
             }
         }
         public async Task<AirtableListRecordsResponse> get_record_response(AirtableBase airtableBase, string TableKey)
