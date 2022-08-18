@@ -77,7 +77,6 @@ namespace DicomTemplateMakerGUI
         {
             InitializeComponent();
             airtable = new ReadAirTable();
-            //airtable.read_records();
             folder_location = @".";
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -284,6 +283,7 @@ namespace DicomTemplateMakerGUI
         {
             AirTableWindow airtable_window = new AirTableWindow(airtable, folder_location, onto_path);
             airtable_window.ShowDialog();
+            Rebuild_From_Folders();
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

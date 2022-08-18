@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 
@@ -50,9 +49,14 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if ((bool) row.check_box.IsChecked)
                 {
-
+                    TemplateMaker evaluator = new TemplateMaker();
+                    evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
+                    evaluator.define_output(Path.Combine(folder_location, row.site_name));
+                    evaluator.ROIs = airtable.roi_dictionary[row.site_name];
+                    evaluator.make_template();
                 }
             }
+            Close();
         }
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
         {

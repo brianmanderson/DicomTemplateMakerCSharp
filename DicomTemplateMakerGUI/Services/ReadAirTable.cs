@@ -13,6 +13,7 @@ namespace DicomTemplateMakerGUI.Services
     {
         public string CommonName { get; set; }
         public List<string> Names { get; set; }
+        public string Name { get; set; }
         public string Type { get; set; }
         public string FMAID { get; set; }
         public string RGB { get; set; }
@@ -33,6 +34,7 @@ namespace DicomTemplateMakerGUI.Services
         private AirtableBase airtableBase;
         public Task<List<AirtableRecord>> records_task;
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
+        public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
         public ReadAirTable()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
@@ -65,10 +67,25 @@ namespace DicomTemplateMakerGUI.Services
                         {
                             template_dictionary.Add(site, new List<AirTableEntry>());
                         }
-                        template_dictionary[site].Add(r);
+                        if (!template_dictionary[site].Where(p => p.Name == r.Name).Any())
+                        {
+                            template_dictionary[site].Add(r);
+                        }
+                        if (!roi_dictionary.ContainsKey(site))
+                        {
+                            roi_dictionary.Add(site, new List<ROIClass>());
+                        }
+                        if (!roi_dictionary[site].Where(p => p.ROIName == r.Name).Any())
+                        {
+                            OntologyCodeClass o = new OntologyCodeClass(name: r.CommonName, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
+                                group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
+                                mapping_resource_name: r.MappingResourceName);
+                            ROIClass roi = new ROIClass(color: r.RGB.Replace(',', '\\'), name: r.Name, roi_interpreted_type: r.Type, identification_code_class: o);
+                            roi_dictionary[site].Add(roi);
+                        }
+
                     }
-                    OntologyCodeClass o = new OntologyCodeClass(name: r.CommonName, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier, group_version: r.ContextGroupVersion,
-                        mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID, mapping_resource_name: r.MappingResourceName);
+
                 }
             }
         }
