@@ -42,16 +42,17 @@ namespace DicomTemplateMakerGUI.Services
         }
         public async void read_records()
         {
-            while (!records_task.IsCompleted)
-            {
-                Thread.Sleep(1000);
-            }
             airtableBase = new AirtableBase(APIKey, BaseKey);
             List<AirtableRecord> records = records_task.Result;
             foreach (AirtableRecord rr in records)
             {
                 Task<AirtableRetrieveRecordResponse<AirTableEntry>> task = airtableBase.RetrieveRecord<AirTableEntry>(TableKey, rr.Id);
+                while (!task.IsCompleted)
+                {
+                    Thread.Sleep(10);
+                }
                 var response = await task;
+
                 if (response.Success)
                 {
                     // Do something with your retrieved record.
