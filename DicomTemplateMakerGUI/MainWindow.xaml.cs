@@ -59,6 +59,7 @@ namespace DicomTemplateMakerGUI
         string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+        ReadAirTable airtable;
         bool running;
         DicomRunner runner;
         List<AddTemplateRow> template_rows;
@@ -75,8 +76,7 @@ namespace DicomTemplateMakerGUI
         }
         public MainWindow()
         {
-            ReadAirTable airtable = new ReadAirTable();
-            airtable.read_records();
+            airtable = new ReadAirTable();
             InitializeComponent();
             folder_location = @".";
             int month = DateTime.Now.Month;
@@ -278,6 +278,11 @@ namespace DicomTemplateMakerGUI
                     TemplateStackPanel.Children.Add(temp_row);
                 }
             }
+        }
+
+        private void Read_Airtable(object sender, RoutedEventArgs e)
+        {
+            airtable.read_records();
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
