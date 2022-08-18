@@ -5,12 +5,24 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AirtableApiClient;
+using Newtonsoft.Json;
 
 namespace DicomTemplateMakerGUI.Services
 {
-    public class AirTableOntology
+    public class AirTableEntry
     {
         public string CommonName { get; set; }
+        public List<string> Names { get; set; }
+        public string Type { get; set; }
+        public string FMAID { get; set; }
+        public string RGB { get; set; }
+        public string Scheme { get; set; }
+        public string ContextGroupVersion { get; set; }
+        public string MappingResource { get; set; }
+        public string ContextIdentifier { get; set; }
+        public string MappingResourceName { get; set; }
+        public string MappingResourceUID { get; set; }
+        public string ContextUID { get; set; }
         public List<string> Sites { get; set; }
     }
     class ReadAirTable

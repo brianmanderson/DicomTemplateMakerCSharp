@@ -11,12 +11,10 @@ def add_to_airtable_from_path(table: Table, path_to_rt, site):
     for record in all_records:
         id = record['id']
         fields = record['fields']
-        record_dict = {'Sites': [], 'Names': [], 'id': id}
+        record_dict = {'Sites': [], 'id': id}
         if 'Sites' in fields:
             record_dict['Sites'] = fields['Sites']
-        if 'Names' in fields:
-            record_dict['Names'] = fields['Names']
-        current_dict[record['fields']['FMAID']] = record_dict
+        current_dict[record['fields']['Name']] = record_dict
         all_records_dict[record['id']] = record['fields']
     ds = pydicom.read_file(path_to_rt)
     temp_out_dict = {}
@@ -24,16 +22,13 @@ def add_to_airtable_from_path(table: Table, path_to_rt, site):
         test_dict = {'CommonName': None, 'FMAID': None, 'Type': None, 'RGB': None, 'Scheme': None,
                      'ContextGroupVersion': None, 'MappingResource': None,
                      'ContextIdentifier': None, 'MappingResourceName': None, 'MappingResourceUID': None,
-                     'ContextUID': None, 'Sites': None, 'Names': None}
+                     'ContextUID': None, 'Sites': None, 'Name': None}
         test_dict['Type'] = roi_observation.RTROIInterpretedType
         if test_dict['Type'] == "":
             test_dict['Type'] = "AVOIDANCE"
         rt_code = roi_observation.RTROIIdentificationCodeSequence[0]
         test_dict['FMAID'] = rt_code.CodeValue
         test_dict['Sites'] = [site]
-        if rt_code.CodeValue in current_dict:
-            if site not in current_dict[rt_code.CodeValue]['Sites']:
-                test_dict['Sites'] = current_dict[rt_code.CodeValue]['Sites'] + [site]
         test_dict['CommonName'] = rt_code.CodeMeaning
         test_dict['Scheme'] = rt_code.CodingSchemeDesignator
         test_dict['ContextIdentifier'] = rt_code.ContextIdentifier
@@ -50,21 +45,23 @@ def add_to_airtable_from_path(table: Table, path_to_rt, site):
     for roi in ds.StructureSetROISequence:
         if roi.ROINumber in temp_out_dict:
             name = roi.ROIName
-            temp_out_dict[roi.ROINumber]['Names'] = [name]
-            if temp_out_dict[roi.ROINumber]['FMAID'] in current_dict:
-                if name not in current_dict[temp_out_dict[roi.ROINumber]['FMAID']]['Names']:
-                    temp_out_dict[roi.ROINumber]['Names'] = current_dict[temp_out_dict[roi.ROINumber]['FMAID']]['Names'] + [name]
+            temp_out_dict[roi.ROINumber]['Name'] = name
+            if name in current_dict:
+                if site not in current_dict[name]['Sites']:
+                    temp_out_dict[roi.ROINumber]['Sites'] = current_dict[name]['Sites'] + [site]
+                else:
+                    temp_out_dict[roi.ROINumber]['Sites'] = current_dict[name]['Sites']
     out_list = []
-    fmaids = []
+    names = []
     for dictionary in temp_out_dict.values():
-        if dictionary['FMAID'] not in fmaids:
-            fmaids.append(dictionary['FMAID'])
+        if dictionary['Name'] not in names:
+            names.append(dictionary['Name'])
             out_list.append(dictionary)
     to_write = []
     for dictionary in out_list:
-        if dictionary['FMAID'] in current_dict:
-            if all_records_dict[current_dict[dictionary['FMAID']]['id']] != dictionary:
-                table.update(current_dict[dictionary['FMAID']]['id'], dictionary, typecast=True)
+        if dictionary['Name'] in current_dict:
+            if all_records_dict[current_dict[dictionary['Name']]['id']] != dictionary:
+                table.update(current_dict[dictionary['Name']]['id'], dictionary, typecast=True)
         else:
             to_write.append(dictionary)
     if to_write:
