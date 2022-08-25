@@ -62,11 +62,19 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                     code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
                             }
                             interperter = "";
-                            if (instructions.Length == 3)
+                            if (instructions.Length >= 3)
                             {
                                 interperter = instructions[2];
                             }
-                            rois.Add(new ROIClass(color, roiname, interperter, code_class));
+                            bool include = true;
+                            if (instructions.Length > 3)
+                            {
+                                include = bool.Parse(instructions[3]);
+                            }
+                            if (include)
+                            {
+                                rois.Add(new ROIClass(color, roiname, interperter, code_class));
+                            }
                         }
                         template_dictionary.Add(Path.GetFileName(template_directory), rois);
                         string[] paths = File.ReadAllLines(Path.Combine(template_directory, "Paths.txt"));

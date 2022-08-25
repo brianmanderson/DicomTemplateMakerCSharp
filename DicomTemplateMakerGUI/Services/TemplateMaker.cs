@@ -176,9 +176,12 @@ namespace DicomTemplateMakerGUI.Services
             {
                 OntologyCodeClass i = roi.Ontology_Class;
                 File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
-                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\n" +
-                    $"{roi.ROI_Interpreted_type}");
+                $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
+                $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
+                $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
+                $"{roi.ROI_Interpreted_type}\n" + 
+                $"{roi.Include}");
             }
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
             using (StreamWriter file = new StreamWriter(Path.Combine(output, "DicomTags.txt")))
@@ -265,11 +268,18 @@ namespace DicomTemplateMakerGUI.Services
                         Ontologies.Add(code_class);
                     }
                     interperter = "";
-                    if (instructions.Length == 3)
+                    bool include = true;
+                    if (instructions.Length >= 3)
                     {
                         interperter = instructions[2];
                     }
-                    ROIs.Add(new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter, code_class));
+                    if (instructions.Length > 3)
+                    {
+                        include = bool.Parse(instructions[3]);
+                    }
+                    ROIClass roi = new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter, code_class);
+                    roi.Include = include;
+                    ROIs.Add(roi);
                 }
             }
         }

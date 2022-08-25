@@ -112,7 +112,8 @@ namespace DicomTemplateMakerGUI
                     evaluator.interpret_RT(rt_file);
                     string folder_path = Path.GetFileName(rt_file);
                     folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
-                    write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
+                    evaluator.define_output(Path.Combine(folder_location, folder_path));
+                    evaluator.make_template();
                 }
                 File.CreateText(Path.Combine(folder_location, "Built_from_RTs.txt"));
             }
@@ -257,7 +258,8 @@ namespace DicomTemplateMakerGUI
                 evaluator.interpret_RT(rt_file);
                 string folder_path = Path.GetFileName(rt_file);
                 folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
-                write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
+                evaluator.define_output(Path.Combine(folder_location, folder_path));
+                evaluator.make_template();
             }
             File.CreateText(Path.Combine(folder_location, "Built_from_RTs.txt"));
             Rebuild_From_Folders();

@@ -15,6 +15,7 @@ namespace DicomTemplateMakerGUI.Services
         public List<string> Names { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
+        public string Inclusion { get; set; }
         public string FMAID { get; set; }
         public string RGB { get; set; }
         public string Scheme { get; set; }

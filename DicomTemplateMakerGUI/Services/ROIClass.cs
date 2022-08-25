@@ -15,6 +15,16 @@ namespace DicomTemplateMakerGUI.Services
         private Color roi_color;
         private Brush roi_brush;
         public string color_string;
+        private bool include = true;
+        public bool Include
+        {
+            get { return include; }
+            set
+            {
+                include = value;
+                OnPropertyChanged("Include");
+            }
+        }
         public OntologyCodeClass Ontology_Class
         {
             get { return ontology_class; }
@@ -106,6 +116,7 @@ namespace DicomTemplateMakerGUI.Services
             G = g;
             B = b;
             ROIColor = Color.FromRgb(R, G, B);
+            color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte>{ R, G, B};
             ROI_Interpreted_type = roi_interpreted_type;
@@ -115,6 +126,11 @@ namespace DicomTemplateMakerGUI.Services
         {
             roiname = name;
             color_string = color;
+            string[] colors = color.Split('\\');
+            R = Byte.Parse(colors[0]);
+            G = Byte.Parse(colors[1]);
+            B = Byte.Parse(colors[2]);
+            RGB = new List<byte> { R, G, B };
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
         }
@@ -123,6 +139,8 @@ namespace DicomTemplateMakerGUI.Services
             this.R = R;
             this.G = G;
             this.B = B;
+            RGB = new List<byte> { R, G, B };
+            color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
             this.ROIColor = Color.FromRgb(R, G, B);
             this.ROI_Brush = new SolidColorBrush(ROIColor);
         }

@@ -172,6 +172,11 @@ namespace DicomTemplateMakerGUI.Windows
             StackPanel top_row = new StackPanel();
             top_row.Orientation = Orientation.Horizontal;
 
+            Label include_label = new Label();
+            include_label.Width = 150;
+            include_label.Content = "Include?";
+            top_row.Children.Add(include_label);
+
             Label name_label = new Label();
             name_label.Width = 200;
             name_label.Content = "ROI Name";

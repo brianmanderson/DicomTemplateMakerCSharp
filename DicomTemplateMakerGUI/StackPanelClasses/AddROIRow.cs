@@ -32,6 +32,14 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             this.roi_path = path;
             this.ontologies_list = ontologies_list;
             Orientation = Orientation.Horizontal;
+
+            CheckBox included_checkbox = new CheckBox();
+            Binding check_box_binding = new Binding("Include");
+            check_box_binding.Source = roi;
+            included_checkbox.SetBinding(CheckBox.IsCheckedProperty, check_box_binding);
+            included_checkbox.Width = 50;
+            Children.Add(included_checkbox);
+
             roi_name_textbox = new TextBox();
             roi_name_textbox.Text = roi.ROIName;
             roi_name_textbox.TextChanged += TextValueChange;
