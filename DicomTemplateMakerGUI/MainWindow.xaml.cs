@@ -84,14 +84,14 @@ namespace DicomTemplateMakerGUI
             {
                 if (year > 2022)
                 {
-                    Window warning = new OutDatedWindow();
-                    warning.ShowDialog();
-                    Close();
+                    //Window warning = new OutDatedWindow();
+                    //warning.ShowDialog();
+                    //Close();
                 }
                 else if (month > 8)
                 {
-                    Window warning = new OutDatedWindow();
-                    warning.ShowDialog();
+                    //Window warning = new OutDatedWindow();
+                    //warning.ShowDialog();
                 }
             }
             running = false;

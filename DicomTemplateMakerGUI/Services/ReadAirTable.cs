@@ -80,7 +80,8 @@ namespace DicomTemplateMakerGUI.Services
                             OntologyCodeClass o = new OntologyCodeClass(name: r.CommonName, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
                                 group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
                                 mapping_resource_name: r.MappingResourceName);
-                            ROIClass roi = new ROIClass(color: r.RGB.Replace(',', '\\'), name: r.Name, roi_interpreted_type: r.Type, identification_code_class: o);
+                            string[] colors = r.RGB.Split(',');
+                            ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Name, roi_interpreted_type: r.Type, identification_code_class: o);
                             roi_dictionary[site].Add(roi);
                         }
 

@@ -99,16 +99,16 @@ namespace DicomTemplateMakerGUI.Services
         }
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
-        public ROIClass(byte r, byte g, byte b, string Name, string Roi_interp, OntologyCodeClass identification_code_class)
+        public ROIClass(byte r, byte g, byte b, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
-            roiname = Name;
+            roiname = name;
             R = r;
             G = g;
             B = b;
             ROIColor = Color.FromRgb(R, G, B);
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte>{ R, G, B};
-            ROI_Interpreted_type = Roi_interp;
+            ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
         }
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
