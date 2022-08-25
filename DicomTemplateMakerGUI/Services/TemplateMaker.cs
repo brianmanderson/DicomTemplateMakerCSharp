@@ -174,14 +174,21 @@ namespace DicomTemplateMakerGUI.Services
             }
             foreach (ROIClass roi in ROIs)
             {
-                OntologyCodeClass i = roi.Ontology_Class;
-                File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
-                $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
-                $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
-                $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
-                $"{roi.ROI_Interpreted_type}\n" + 
-                $"{roi.Include}");
+                try
+                {
+                    OntologyCodeClass i = roi.Ontology_Class;
+                    File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
+                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
+                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
+                    $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
+                    $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
+                    $"{roi.ROI_Interpreted_type}\n" +
+                    $"{roi.Include}");
+                }
+                catch
+                {
+
+                }
             }
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
             using (StreamWriter file = new StreamWriter(Path.Combine(output, "DicomTags.txt")))

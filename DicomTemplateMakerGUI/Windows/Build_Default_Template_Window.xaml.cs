@@ -67,29 +67,6 @@ namespace DicomTemplateMakerGUI.Windows
             evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             return evaluator;
         }
-        public void write_rois(TemplateMaker evaluator, string roi_path)
-        {
-            if (!Directory.Exists(roi_path))
-            {
-                Directory.CreateDirectory(roi_path);
-            }
-            foreach (ROIClass roi in evaluator.ROIs)
-            {
-                try
-                {
-                    File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
-                        $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                        $"{roi.Ontology_Class.CodeMeaning}\\{roi.Ontology_Class.CodeValue}\\{roi.Ontology_Class.Scheme}\\{roi.Ontology_Class.ContextGroupVersion}\\" +
-                        $"{roi.Ontology_Class.MappingResource}\\{roi.Ontology_Class.ContextIdentifier}\\{roi.Ontology_Class.MappingResourceName}\\" +
-                        $"{roi.Ontology_Class.MappingResourceUID}\\{roi.Ontology_Class.ContextUID}\n" +
-                        $"{roi.ROI_Interpreted_type}");
-                }
-                catch
-                {
-                    int x = 5;
-                }
-            }
-        }
         private void Build_button_click(object sender, RoutedEventArgs e)
         {
             foreach (AddDefaultTemplateRow template_row in default_template_list)
@@ -102,7 +79,8 @@ namespace DicomTemplateMakerGUI.Windows
                     evaluator.interpret_RT(template_row.file_path);
                     string folder_path = Path.GetFileName(template_row.file_path);
                     folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
-                    write_rois(evaluator, Path.Combine(folder_location, folder_path, "ROIs"));
+                    evaluator.define_output(Path.Combine(folder_location, folder_path));
+                    evaluator.make_template();
                 }
             }
             Close();

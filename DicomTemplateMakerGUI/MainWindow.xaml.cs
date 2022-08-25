@@ -123,29 +123,6 @@ namespace DicomTemplateMakerGUI
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
         }
-        public void write_rois(TemplateMaker evaluator, string roi_path)
-        {
-            if (!Directory.Exists(roi_path))
-            {
-                Directory.CreateDirectory(roi_path);
-            }
-            foreach (ROIClass roi in evaluator.ROIs)
-            {
-                try
-                {
-                    File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
-                        $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                        $"{roi.Ontology_Class.CodeMeaning}\\{roi.Ontology_Class.CodeValue}\\{roi.Ontology_Class.Scheme}\\{roi.Ontology_Class.ContextGroupVersion}\\" +
-                        $"{roi.Ontology_Class.MappingResource}\\{roi.Ontology_Class.ContextIdentifier}\\{roi.Ontology_Class.MappingResourceName}\\" +
-                        $"{roi.Ontology_Class.MappingResourceUID}\\{roi.Ontology_Class.ContextUID}\n" +
-                        $"{roi.ROI_Interpreted_type}");
-                }
-                catch
-                {
-                    int x = 5;
-                }
-            }
-        }
         public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
         {
             string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
@@ -247,21 +224,6 @@ namespace DicomTemplateMakerGUI
         {
             Build_Default_Template_Window window = new Build_Default_Template_Window(folder_location, onto_path);
             window.ShowDialog();
-            Rebuild_From_Folders();
-            return;
-            string[] rt_files = Directory.GetFiles(folder_location, "TG263*.dcm");
-            foreach (string rt_file in rt_files)
-            {
-                TemplateMaker evaluator = new TemplateMaker();
-                evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
-                evaluator = update_ontology_reader(evaluator);
-                evaluator.interpret_RT(rt_file);
-                string folder_path = Path.GetFileName(rt_file);
-                folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
-                evaluator.define_output(Path.Combine(folder_location, folder_path));
-                evaluator.make_template();
-            }
-            File.CreateText(Path.Combine(folder_location, "Built_from_RTs.txt"));
             Rebuild_From_Folders();
         }
 

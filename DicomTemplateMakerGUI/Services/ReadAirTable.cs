@@ -82,7 +82,13 @@ namespace DicomTemplateMakerGUI.Services
                                 group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
                                 mapping_resource_name: r.MappingResourceName);
                             string[] colors = r.RGB.Split(',');
+                            bool include = true;
+                            if (r.Inclusion == "Consider")
+                            {
+                                include = false;
+                            }
                             ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Name, roi_interpreted_type: r.Type, identification_code_class: o);
+                            roi.Include = include;
                             roi_dictionary[site].Add(roi);
                         }
 
