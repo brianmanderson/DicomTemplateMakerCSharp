@@ -10,7 +10,7 @@ namespace DicomTemplateMakerGUI.Services
 {
     public class OntologyCodeClass
     {
-        private string scheme_designated = "99VMS_STRUCTCODE";
+        private string scheme_designated = "FMA";
         private string code_meaning = "Undefined Normal Tissue";
         private string code_value = "NormalTissue";
         private string context_group_version = "20161209";
