@@ -48,35 +48,45 @@ namespace DicomTemplateMakerGUI.Services
         string TableKey = "tblex7IPsmm8hvVEc";
         private AirtableBase airtableBase;
         public Task<List<AirtableRecord>> records_task;
+        public Task<bool> finished_task;
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
         public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
         public ReadAirTable()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
             records_task = return_recordsAsync(airtableBase);
-            //
-            int x = 1;
+            finished_task = read_recordsAsync();
         }
-        public async void read_records()
+        public void await_finish()
+        {
+            while (!finished_task.IsCompleted)
+            {
+                Thread.Sleep(1000);
+            }
+            finished_task.Wait();
+            int x = 5;
+        }
+        public async Task<bool> read_recordsAsync()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
+            bool output = true;
+            await records_task;
             List<AirtableRecord> records = records_task.Result;
             foreach (AirtableRecord rr in records)
             {
                 Task<AirtableRetrieveRecordResponse<AirTableEntry>> task = airtableBase.RetrieveRecord<AirTableEntry>(TableKey, rr.Id);
                 while (!task.IsCompleted)
                 {
-                    Thread.Sleep(10);
+                    await task;
                 }
                 var response = await task;
-
                 if (response.Success)
                 {
                     // Do something with your retrieved record.
                     // See how to extract fields of the retrieved record as an instance of Artist in the example section below
                     AirtableRetrieveRecordResponse<AirTableEntry> airTableOntology = task.Result;
                     AirTableEntry r = airTableOntology.Record.Fields;
-                    if (r.Structure == "Parotid_L")
+                    if (r.Structure == "Parotid_R")
                     {
                         int x = 5;
                     }
@@ -102,7 +112,7 @@ namespace DicomTemplateMakerGUI.Services
                             }
                             if (!roi_dictionary[site].Where(p => p.ROIName == r.Structure).Any())
                             {
-                                OntologyCodeClass o = new OntologyCodeClass(name: r.CommonName, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
+                                OntologyCodeClass o = new OntologyCodeClass(name: r.Structure, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
                                     group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
                                     mapping_resource_name: r.MappingResourceName);
                                 string[] colors;
@@ -135,16 +145,14 @@ namespace DicomTemplateMakerGUI.Services
 
                 }
             }
-        }
-        public async Task<AirtableListRecordsResponse> get_record_response(AirtableBase airtableBase, string TableKey)
-        {
-            return await airtableBase.ListRecords(TableKey);
+            return output;
         }
         public async Task<List<AirtableRecord>> return_recordsAsync(AirtableBase airtableBase)
         {
             List<AirtableRecord> records = new List<AirtableRecord>();
             string offset = null;
             string errorMessage = null;
+            int record_index = 0;
             using (airtableBase)
             {
                 //
@@ -153,27 +161,31 @@ namespace DicomTemplateMakerGUI.Services
                 // Only use a 'do while' loop if you want to get multiple pages
                 // of records.
                 //
-                Task<AirtableListRecordsResponse> task = airtableBase.ListRecords(TableKey);
-                
-                AirtableListRecordsResponse response = await task;
+                while (offset != null | record_index == 0)
+                {
+                    record_index += 1;
+                    Task<AirtableListRecordsResponse> task = airtableBase.ListRecords(TableKey, offset: offset);
 
-                if (response.Success)
-                {
-                    records.AddRange(response.Records.ToList());
-                    offset = response.Offset;
-                }
-                else if (response.AirtableApiError is AirtableApiException)
-                {
-                    errorMessage = response.AirtableApiError.ErrorMessage;
-                    if (response.AirtableApiError is AirtableInvalidRequestException)
+                    AirtableListRecordsResponse response = await task;
+
+                    if (response.Success)
                     {
-                        errorMessage += "\nDetailed error message: ";
-                        errorMessage += response.AirtableApiError.DetailedErrorMessage;
+                        records.AddRange(response.Records.ToList());
+                        offset = response.Offset;
                     }
-                }
-                else
-                {
-                    errorMessage = "Unknown error";
+                    else if (response.AirtableApiError is AirtableApiException)
+                    {
+                        errorMessage = response.AirtableApiError.ErrorMessage;
+                        if (response.AirtableApiError is AirtableInvalidRequestException)
+                        {
+                            errorMessage += "\nDetailed error message: ";
+                            errorMessage += response.AirtableApiError.DetailedErrorMessage;
+                        }
+                    }
+                    else
+                    {
+                        errorMessage = "Unknown error";
+                    }
                 }
                 return records;
             }

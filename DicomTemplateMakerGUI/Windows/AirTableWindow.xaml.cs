@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,11 +24,11 @@ namespace DicomTemplateMakerGUI.Windows
         public ReadAirTable airtable;
         string folder_location;
         string onto_path;
+        bool finished = false;
         List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
         public AirTableWindow(ReadAirTable airtable, string folder_location, string onto_path)
         {
             InitializeComponent();
-            airtable.read_records();
             this.folder_location = folder_location;
             this.onto_path = onto_path;
             this.airtable = airtable;
@@ -42,7 +43,12 @@ namespace DicomTemplateMakerGUI.Windows
                 default_airtable_list.Add(atrow);
             }
         }
+        public async Task Main(ReadAirTable airTable)
+        {
+            await airTable.finished_task;
 
+            finished = true;
+        }
         private void Build_button_click(object sender, RoutedEventArgs e)
         {
             foreach (AddAirTableRow row in default_airtable_list)
