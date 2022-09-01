@@ -77,6 +77,7 @@ namespace DicomTemplateMakerGUI
         {
             InitializeComponent();
             airtable = new ReadAirTable();
+            ReadingAirTable();
             folder_location = @".";
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -122,6 +123,12 @@ namespace DicomTemplateMakerGUI
             Rebuild_From_Folders();
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
+        }
+        public async void ReadingAirTable()
+        {
+            await airtable.finished_task;
+            ReadAirTableButton.Content = "Read Airtable";
+            ReadAirTableButton.Background = lightgreen;
         }
         public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
         {

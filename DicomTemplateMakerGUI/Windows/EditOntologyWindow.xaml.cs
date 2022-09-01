@@ -68,6 +68,8 @@ namespace DicomTemplateMakerGUI.Windows
             }
             if (PreferredNameTextBox.Background != red & CodeValue_TextBox.Background != red)
             {
+                if (PreferredNameTextBox.Text != "")
+                {
                     if (CodeScheme_TextBox.Text != "")
                     {
                         {
@@ -75,6 +77,7 @@ namespace DicomTemplateMakerGUI.Windows
                             AddOntology_Button.Background = lightgreen;
                         }
                     }
+                }
             }
         }
         private void UpdateText(object sender, TextChangedEventArgs e)
