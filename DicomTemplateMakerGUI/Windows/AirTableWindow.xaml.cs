@@ -26,12 +26,41 @@ namespace DicomTemplateMakerGUI.Windows
         string onto_path;
         bool finished = false;
         List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
+        Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
+        Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public AirTableWindow(ReadAirTable airtable, string folder_location, string onto_path)
         {
             InitializeComponent();
             this.folder_location = folder_location;
             this.onto_path = onto_path;
             this.airtable = airtable;
+            BuildTables();
+        }
+        private StackPanel TopRow()
+        {
+            StackPanel top_row = new StackPanel();
+            top_row.Orientation = Orientation.Horizontal;
+
+            Label name_label = new Label();
+            name_label.Width = 200;
+            name_label.Content = "Template Name";
+            top_row.Children.Add(name_label);
+
+            Label code_value = new Label();
+            code_value.Width = 200;
+            code_value.Content = "Include in build?";
+            top_row.Children.Add(code_value);
+
+            Label code_scheme = new Label();
+            code_scheme.Width = 150;
+            code_scheme.Content = "Check box";
+            top_row.Children.Add(code_scheme);
+            return top_row;
+        }
+        public async void BuildTables()
+        {
+            await airtable.finished_task;
+            StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
             {
                 AddAirTableRow atrow = new AddAirTableRow(site);
@@ -42,11 +71,14 @@ namespace DicomTemplateMakerGUI.Windows
                 StackDefaultAirtablePanel.Children.Add(atrow);
                 default_airtable_list.Add(atrow);
             }
+            Status_Label.Content = "Ready!";
+            BuildButton.Background = lightgreen;
+            Status_Label.Visibility = Visibility.Hidden;
+            BuildButton.IsEnabled = true;
         }
         public async Task Main(ReadAirTable airTable)
         {
             await airTable.finished_task;
-
             finished = true;
         }
         private void Build_button_click(object sender, RoutedEventArgs e)

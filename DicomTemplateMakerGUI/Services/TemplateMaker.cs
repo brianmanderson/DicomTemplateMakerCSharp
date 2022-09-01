@@ -168,6 +168,10 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void make_template()
         {
+            if (!Directory.Exists(output))
+            {
+                Directory.CreateDirectory(output);
+            }
             if (!Directory.Exists(Path.Combine(output, "ROIs")))
             {
                 Directory.CreateDirectory(Path.Combine(output, "ROIs"));
