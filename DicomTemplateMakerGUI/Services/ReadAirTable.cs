@@ -18,7 +18,7 @@ namespace DicomTemplateMakerGUI.Services
         public string Inclusion { get; set; }
         public string FMAID { get; set; }
         public string RGB { get; set; }
-        public List<string> Colors { get; set; }
+        public List<string> Colors_RGB { get; set; }
         public string Scheme { get; set; }
         public string ContextGroupVersion { get; set; }
         public string MappingResource { get; set; }
@@ -27,6 +27,8 @@ namespace DicomTemplateMakerGUI.Services
         public string MappingResourceUID { get; set; }
         public string ContextUID { get; set; }
         public List<string> Location { get; set; }
+        public List<string> Template_Recommend { get; set; }
+        public List<string> Template_Consider { get; set; }
         public AirTableEntry()
         {
             OntologyCodeClass o = new OntologyCodeClass();
@@ -66,6 +68,41 @@ namespace DicomTemplateMakerGUI.Services
             finished_task.Wait();
             int x = 5;
         }
+        public void add_roi(string site, AirTableEntry r, bool include)
+        {
+            if (!template_dictionary.ContainsKey(site))
+            {
+                template_dictionary.Add(site, new List<AirTableEntry>());
+            }
+            if (!template_dictionary[site].Where(p => p.Structure == r.Structure).Any())
+            {
+                template_dictionary[site].Add(r);
+            }
+            if (!roi_dictionary.ContainsKey(site))
+            {
+                roi_dictionary.Add(site, new List<ROIClass>());
+            }
+            if (!roi_dictionary[site].Where(p => p.ROIName == r.Structure).Any())
+            {
+                OntologyCodeClass o = new OntologyCodeClass(name: r.Structure, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
+                    group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
+                    mapping_resource_name: r.MappingResourceName);
+                string[] colors;
+                if (r.RGB != null)
+                {
+                    colors = r.RGB.Split(',');
+                }
+                else
+                {
+                    string[] c = r.Colors_RGB[0].Split(':')[1].Split(',');
+                    //var color = System.Drawing.Color.FromName(r.Colors[0]);
+                    colors = new string[] { $"{c[0]}", $"{c[1]}", $"{c[2]}" };
+                }
+                ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Structure, roi_interpreted_type: r.Type, identification_code_class: o);
+                roi.Include = include;
+                roi_dictionary[site].Add(roi);
+            }
+        }
         public async Task<bool> read_recordsAsync()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
@@ -86,63 +123,40 @@ namespace DicomTemplateMakerGUI.Services
                     // See how to extract fields of the retrieved record as an instance of Artist in the example section below
                     AirtableRetrieveRecordResponse<AirTableEntry> airTableOntology = task.Result;
                     AirTableEntry r = airTableOntology.Record.Fields;
-                    if (r.Structure == "Parotid_R")
-                    {
-                        int x = 5;
-                    }
                     if (r.Location == null)
                     {
                         continue;
                     }
-                    foreach (string site in r.Location)
+                    if (r.Template_Recommend != null)
                     {
-                        try
+                        foreach (string site in r.Template_Recommend)
                         {
-                            if (!template_dictionary.ContainsKey(site))
+                            bool include = true;
+                            try
                             {
-                                template_dictionary.Add(site, new List<AirTableEntry>());
+                                add_roi(site, r, include);
                             }
-                            if (!template_dictionary[site].Where(p => p.Structure == r.Structure).Any())
+                            catch
                             {
-                                template_dictionary[site].Add(r);
-                            }
-                            if (!roi_dictionary.ContainsKey(site))
-                            {
-                                roi_dictionary.Add(site, new List<ROIClass>());
-                            }
-                            if (!roi_dictionary[site].Where(p => p.ROIName == r.Structure).Any())
-                            {
-                                OntologyCodeClass o = new OntologyCodeClass(name: r.Structure, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
-                                    group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
-                                    mapping_resource_name: r.MappingResourceName);
-                                string[] colors;
-                                if (r.RGB != null)
-                                {
-                                    colors = r.RGB.Split(',');
-                                }
-                                else
-                                {
-                                    var color = System.Drawing.Color.FromName(r.Colors[0]);
-                                    colors = new string[] { $"{color.R}", $"{color.G}", $"{color.B}" };
-                                }
-                                bool include = true;
-                                if (r.Inclusion == "Consider")
-                                {
-                                    include = false;
-                                }
-                                ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Structure, roi_interpreted_type: r.Type, identification_code_class: o);
-                                roi.Include = include;
-                                roi_dictionary[site].Add(roi);
+                                continue;
                             }
                         }
-                        catch
-                        {
-                            continue;
-                        }
-
-
                     }
-
+                    if (r.Template_Consider != null)
+                    {
+                        foreach (string site in r.Template_Consider)
+                        {
+                            bool include = false;
+                            try
+                            {
+                                add_roi(site, r, include);
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+                        }
+                    }
                 }
             }
             return output;
