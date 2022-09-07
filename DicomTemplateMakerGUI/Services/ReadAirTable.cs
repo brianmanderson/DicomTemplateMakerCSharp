@@ -43,6 +43,8 @@ namespace DicomTemplateMakerGUI.Services
     }
     public class ReadAirTable
     {
+        string AirTableName = "TG263_AirTable";
+        bool writeable = false;
         string APIKey = "keyfXbWgL96FyPUYH";
         //string BaseKey = "appczNMj8RE4CKjtp";
         string BaseKey = "appTUL6ZaSepTawFw";
@@ -54,6 +56,16 @@ namespace DicomTemplateMakerGUI.Services
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
         public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
         public ReadAirTable()
+        {
+        }
+        public ReadAirTable(string airtablename, string apikey, string basekey, string tablekey)
+        {
+            AirTableName = airtablename;
+            APIKey = apikey;
+            BaseKey = basekey;
+            TableKey = tablekey;
+        }
+        public void read_records()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
             records_task = return_recordsAsync(airtableBase);
