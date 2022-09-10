@@ -58,6 +58,7 @@ namespace DicomTemplateMakerGUI
         string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+        List<ReadAirTable> airtables = new List<ReadAirTable>();
         ReadAirTable airtable;
         bool running;
         DicomRunner runner;
