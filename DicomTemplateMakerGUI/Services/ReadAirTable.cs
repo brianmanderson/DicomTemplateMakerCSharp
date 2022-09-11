@@ -42,7 +42,8 @@ namespace DicomTemplateMakerGUI.Services
     }
     public class ReadAirTable
     {
-        string AirTableName = "TG263_AirTable";
+        public string AirTableName = "TG263_AirTable";
+        public string Test = "Test";
         bool writeable = false;
         string APIKey = "keyfXbWgL96FyPUYH";
         string BaseKey = "appczNMj8RE4CKjtp";

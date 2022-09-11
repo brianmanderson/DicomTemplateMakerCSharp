@@ -29,13 +29,21 @@ namespace DicomTemplateMakerGUI.Windows
         List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public AirTableWindow(List<ReadAirTable> airtables, string folder_location, string onto_path)
+        Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+        public AirTableWindow(List<ReadAirTable> ats, string folder_location, string onto_path)
         {
             InitializeComponent();
             this.folder_location = folder_location;
             this.onto_path = onto_path;
-            this.airtables = airtables;
-            BuildTables();
+            airtables = ats;
+            List<string> airtable_names = new List<string>();
+            foreach (ReadAirTable r in ats)
+            {
+                airtable_names.Add(r.AirTableName);
+            }
+            //Template_ComboBox.DisplayMemberPath = "Test";
+            Template_ComboBox.ItemsSource = airtable_names;
+            //BuildTables();
         }
         private StackPanel TopRow()
         {
@@ -58,9 +66,24 @@ namespace DicomTemplateMakerGUI.Windows
             top_row.Children.Add(code_scheme);
             return top_row;
         }
-        public async void BuildTables()
+        private void BuildTables()
         {
-            airtable = airtables[0];
+            BuildButton.IsEnabled = false;
+            StackDefaultAirtablePanel.Children.Clear();
+            default_airtable_list = new List<AddAirTableRow>();
+            foreach (ReadAirTable airtable in airtables)
+            {
+                if (airtable.AirTableName == (string)Template_ComboBox.SelectedItem)
+                {
+                    BuildTable(airtable);
+                }
+            }
+        }
+        public async void BuildTable(ReadAirTable airtable)
+        {
+            Status_Label.Content = "Status: Loading from online...Please wait";
+            BuildButton.Background = yellow;
+            Status_Label.Visibility = Visibility.Visible;
             await airtable.finished_task;
             StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
@@ -112,6 +135,11 @@ namespace DicomTemplateMakerGUI.Windows
                     StackDefaultAirtablePanel.Children.Add(myborder);
                 }
             }
+        }
+
+        private void Template_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BuildTables();
         }
     }
 }

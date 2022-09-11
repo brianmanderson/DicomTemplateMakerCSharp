@@ -13,8 +13,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public string site_name;
         public Label site_label;
         public CheckBox check_box;
-        public AddAirTableRow(string site_name)
+        public ReadAirTable airtable;
+        public AddAirTableRow(string site_name, ReadAirTable airTable)
         {
+            airtable = airTable;
             Orientation = Orientation.Horizontal;
             this.site_name = site_name;
             site_label = new Label();
