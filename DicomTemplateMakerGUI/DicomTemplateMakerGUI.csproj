@@ -284,6 +284,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="license.txt" />
+    <Resource Include="AirTables\TG263_AirTable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="AirTables\UCSD_AirTable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Template_Dicoms\AbdPelv_Anal.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

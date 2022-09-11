@@ -59,7 +59,6 @@ namespace DicomTemplateMakerGUI
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         List<ReadAirTable> airtables = new List<ReadAirTable>();
-        ReadAirTable airtable;
         bool running;
         DicomRunner runner;
         List<AddTemplateRow> template_rows;
@@ -77,9 +76,7 @@ namespace DicomTemplateMakerGUI
         public MainWindow()
         {
             InitializeComponent();
-            airtable = new ReadAirTable();
-            airtable.read_records();
-            ReadingAirTable();
+            load_airtables();
             folder_location = @".";
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -126,11 +123,39 @@ namespace DicomTemplateMakerGUI
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
         }
+        public void load_airtables()
+        {
+
+            string airtable_directory = Path.Combine(@".", "AirTables");
+            if (Directory.Exists(airtable_directory))
+            {
+                foreach (string file in Directory.EnumerateFiles(airtable_directory, "*.txt"))
+                {
+                    string[] lines = File.ReadAllLines(file);
+                    ReadAirTable airtable = new ReadAirTable(Path.GetFileName(file), lines[0], lines[1], lines[2]);
+                    airtable.read_records();
+                    airtables.Add(airtable);
+                }
+            }
+            ReadingAirTable();
+        }
         public async void ReadingAirTable()
         {
-            await airtable.finished_task;
-            ReadAirTableButton.Content = "Read Airtable";
-            ReadAirTableButton.Background = lightgreen;
+            if (airtables.Count > 0)
+            {
+                foreach (ReadAirTable air_table in airtables)
+                {
+                    await air_table.finished_task;
+                }
+                ReadAirTableButton.Content = "Read Airtable";
+                ReadAirTableButton.Background = lightgreen;
+            }
+            else
+            {
+                ReadAirTableButton.Content = "No Airtables found";
+                ReadAirTableButton.Background = lightgray;
+                ReadAirTableButton.IsEnabled = false;
+            }
         }
         public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
         {
@@ -254,7 +279,7 @@ namespace DicomTemplateMakerGUI
 
         private void Read_Airtable(object sender, RoutedEventArgs e)
         {
-            AirTableWindow airtable_window = new AirTableWindow(airtable, folder_location, onto_path);
+            AirTableWindow airtable_window = new AirTableWindow(airtables, folder_location, onto_path);
             airtable_window.ShowDialog();
             Rebuild_From_Folders();
         }

@@ -22,18 +22,19 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class AirTableWindow : Window
     {
         public ReadAirTable airtable;
+        public List<ReadAirTable> airtables;
         string folder_location;
         string onto_path;
         bool finished = false;
         List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public AirTableWindow(ReadAirTable airtable, string folder_location, string onto_path)
+        public AirTableWindow(List<ReadAirTable> airtables, string folder_location, string onto_path)
         {
             InitializeComponent();
             this.folder_location = folder_location;
             this.onto_path = onto_path;
-            this.airtable = airtable;
+            this.airtables = airtables;
             BuildTables();
         }
         private StackPanel TopRow()
