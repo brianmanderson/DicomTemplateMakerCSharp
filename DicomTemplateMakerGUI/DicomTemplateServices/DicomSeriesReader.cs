@@ -43,7 +43,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         }
         public void load_DICOM(string series_instance_uid)
         {
-            string image_uid, value;
             VectorString dicom_filenames = dicomParser.series_instance_uids_dict[series_instance_uid];
             series_reader.SetFileNames(dicom_filenames);
             dicomImage = series_reader.Execute();
@@ -156,7 +155,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             roi_observation_sequence.Items.Add(roi_observation_set);
 
             DicomDataset code_set;
-            DicomSequence code_sequence;
             code_set = new DicomDataset();
             code_set.AddOrUpdate(DicomTag.CodeMeaning, roi_class.Ontology_Class.CodeMeaning);
             code_set.AddOrUpdate(DicomTag.CodeValue, roi_class.Ontology_Class.CodeValue);

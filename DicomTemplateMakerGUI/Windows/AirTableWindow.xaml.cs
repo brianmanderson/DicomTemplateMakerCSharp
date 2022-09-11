@@ -60,6 +60,7 @@ namespace DicomTemplateMakerGUI.Windows
         }
         public async void BuildTables()
         {
+            airtable = airtables[0];
             await airtable.finished_task;
             StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
