@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,14 +12,13 @@ namespace DicomTemplateMakerGUI.Services
 {
     public class AirTableEntry
     {
-        public string CommonName { get; set; }
-        public List<string> Names { get; set; }
         public string Structure { get; set; }
         public string Type { get; set; }
-        public string Inclusion { get; set; }
         public string FMAID { get; set; }
         public string RGB { get; set; }
         public List<string> Colors_RGB { get; set; }
+
+        public string Color_RGB;
         public string Scheme { get; set; }
         public string ContextGroupVersion { get; set; }
         public string MappingResource { get; set; }
@@ -26,7 +26,6 @@ namespace DicomTemplateMakerGUI.Services
         public string MappingResourceName { get; set; }
         public string MappingResourceUID { get; set; }
         public string ContextUID { get; set; }
-        public List<string> Location { get; set; }
         public List<string> Template_Recommend { get; set; }
         public List<string> Template_Consider { get; set; }
         public AirTableEntry()
@@ -46,10 +45,10 @@ namespace DicomTemplateMakerGUI.Services
         string AirTableName = "TG263_AirTable";
         bool writeable = false;
         string APIKey = "keyfXbWgL96FyPUYH";
-        //string BaseKey = "appczNMj8RE4CKjtp";
-        string BaseKey = "appTUL6ZaSepTawFw";
-        //string TableKey = "tblR6fpTrCnJb4dWy";
-        string TableKey = "tblex7IPsmm8hvVEc";
+        string BaseKey = "appczNMj8RE4CKjtp";
+        //string BaseKey = "appTUL6ZaSepTawFw";
+        string TableKey = "tblR6fpTrCnJb4dWy";
+        //string TableKey = "tblex7IPsmm8hvVEc";
         private AirtableBase airtableBase;
         public Task<List<AirtableRecord>> records_task;
         public Task<bool> finished_task;
@@ -103,6 +102,9 @@ namespace DicomTemplateMakerGUI.Services
                 if (r.RGB != null)
                 {
                     colors = r.RGB.Split(',');
+                    var Color_color = Color.FromArgb(int.Parse(colors[0]), int.Parse(colors[1]), int.Parse(colors[2]));
+                    var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
+                    var named_color = color_lookup[Color_color.ToArgb()];
                 }
                 else
                 {
@@ -135,10 +137,6 @@ namespace DicomTemplateMakerGUI.Services
                     // See how to extract fields of the retrieved record as an instance of Artist in the example section below
                     AirtableRetrieveRecordResponse<AirTableEntry> airTableOntology = task.Result;
                     AirTableEntry r = airTableOntology.Record.Fields;
-                    if (r.Location == null)
-                    {
-                        continue;
-                    }
                     if (r.Template_Recommend != null)
                     {
                         foreach (string site in r.Template_Recommend)
