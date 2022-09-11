@@ -88,7 +88,7 @@ namespace DicomTemplateMakerGUI.Windows
             StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
             {
-                AddAirTableRow atrow = new AddAirTableRow(site);
+                AddAirTableRow atrow = new AddAirTableRow(site, airtable);
                 Border myborder = new Border();
                 myborder.Background = Brushes.Black;
                 myborder.BorderThickness = new Thickness(5);
@@ -115,7 +115,7 @@ namespace DicomTemplateMakerGUI.Windows
                     TemplateMaker evaluator = new TemplateMaker();
                     evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                     evaluator.define_output(Path.Combine(folder_location, row.site_name));
-                    evaluator.ROIs = airtable.roi_dictionary[row.site_name];
+                    evaluator.ROIs = row.airtable.roi_dictionary[row.site_name];
                     evaluator.make_template();
                 }
             }
