@@ -15,16 +15,18 @@
             </ScrollViewer>
             <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="22,73,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
             <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="206,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="554"/>
-            <Label Name="Status_Label" Background="Yellow" Content="Status: Loading from online...Please wait" HorizontalAlignment="Left" Margin="264,104,0,0" VerticalAlignment="Top" Height="26" Width="224"/>
+            <Label Name="Status_Label" Background="Yellow" Content="Status: Select a template to show..." HorizontalAlignment="Left" Margin="264,104,0,0" VerticalAlignment="Top" Height="26" Width="224"/>
             <ComboBox Name="Template_ComboBox" HorizontalAlignment="Left" Margin="206,48,0,0" VerticalAlignment="Top" Width="554" SelectionChanged="Template_ComboBox_SelectionChanged"/>
             <Label Content="Templates to show..." HorizontalAlignment="Left" Margin="22,46,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
             <Button x:Name="AddAirTableButton" Content="Add a new AirTable" HorizontalAlignment="Left" Margin="765,12,0,0" IsEnabled="False" VerticalAlignment="Top" Width="419" Height="36" Click="AddAirTableButton_Click"/>
-            <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,53,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="API Key" HorizontalAlignment="Left" Margin="765,53,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-            <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="Base Key" HorizontalAlignment="Left" Margin="765,78,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-            <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="Table Key" HorizontalAlignment="Left" Margin="765,104,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+            <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+            <Label Content="API Key" HorizontalAlignment="Left" Margin="765,75,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+            <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+            <Label Content="Base Key" HorizontalAlignment="Left" Margin="765,100,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+            <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,126,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+            <Label Content="Table Key" HorizontalAlignment="Left" Margin="765,126,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+            <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+            <Label Content="Table Name" HorizontalAlignment="Left" Margin="765,49,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
         </Grid>
     </Grid>
 </Window>

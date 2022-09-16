@@ -143,10 +143,6 @@ namespace DicomTemplateMakerGUI
         {
             if (airtables.Count > 0)
             {
-                foreach (ReadAirTable air_table in airtables)
-                {
-                    await air_table.finished_task;
-                }
                 ReadAirTableButton.Content = "Read Airtable";
                 ReadAirTableButton.Background = lightgreen;
             }

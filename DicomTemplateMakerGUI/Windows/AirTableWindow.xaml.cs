@@ -28,6 +28,7 @@ namespace DicomTemplateMakerGUI.Windows
         string onto_path;
         bool finished = false;
         List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
+        List<string> airtable_names;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
@@ -37,14 +38,17 @@ namespace DicomTemplateMakerGUI.Windows
             this.folder_location = folder_location;
             this.onto_path = onto_path;
             airtables = ats;
-            List<string> airtable_names = new List<string>();
-            foreach (ReadAirTable r in ats)
+            build_combobox();
+        }
+        private void build_combobox()
+        {
+            airtable_names = new List<string>();
+            foreach (ReadAirTable r in airtables)
             {
                 airtable_names.Add(r.AirTableName);
             }
             //Template_ComboBox.DisplayMemberPath = "Test";
             Template_ComboBox.ItemsSource = airtable_names;
-            //BuildTables();
         }
         private StackPanel TopRow()
         {
@@ -140,18 +144,20 @@ namespace DicomTemplateMakerGUI.Windows
         private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
         {
             AddAirTableButton.IsEnabled = false;
-            if (API_TextBox.Text != "")
+            if (TableName_TextBox.Text != "")
             {
-                if (Base_TextBox.Text != "")
+                if (API_TextBox.Text != "")
                 {
-                    if (Table_TextBox.Text != "")
+                    if (Base_TextBox.Text != "")
                     {
-                        AddAirTableButton.IsEnabled = true;
-                        AirtableBase atb = new AirtableBase(API_TextBox.Text, Base_TextBox.Text);
-                        int x = 5;
+                        if (Table_TextBox.Text != "")
+                        {
+                            AddAirTableButton.IsEnabled = true;
+                        }
                     }
                 }
             }
+
         }
         private void Template_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -160,7 +166,10 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddAirTableButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
+            ratb.read_records();
+            airtables.Add(ratb);
+            build_combobox();
         }
     }
 }
