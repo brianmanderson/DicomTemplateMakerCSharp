@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
+using AirtableApiClient;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -136,10 +137,30 @@ namespace DicomTemplateMakerGUI.Windows
                 }
             }
         }
-
+        private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
+        {
+            AddAirTableButton.IsEnabled = false;
+            if (API_TextBox.Text != "")
+            {
+                if (Base_TextBox.Text != "")
+                {
+                    if (Table_TextBox.Text != "")
+                    {
+                        AddAirTableButton.IsEnabled = true;
+                        AirtableBase atb = new AirtableBase(API_TextBox.Text, Base_TextBox.Text);
+                        int x = 5;
+                    }
+                }
+            }
+        }
         private void Template_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BuildTables();
+        }
+
+        private void AddAirTableButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
