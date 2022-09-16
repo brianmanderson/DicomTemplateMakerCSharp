@@ -186,9 +186,10 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (airtable.AirTableName == (string)Template_ComboBox.SelectedItem)
                 {
-                    if (File.Exists(airtable.file_path))
+                    airtable.Delete();
                     airtables.Remove(airtable);
-
+                    build_combobox();
+                    break;
                 }
             }
         }

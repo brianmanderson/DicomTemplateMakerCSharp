@@ -76,6 +76,13 @@ namespace DicomTemplateMakerGUI.Services
             BaseKey = basekey;
             TableKey = tablekey;
         }
+        public void Delete()
+        {
+            if (File.Exists(file_path))
+            {
+                File.Delete(file_path);
+            }
+        }
         public void read_records()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
