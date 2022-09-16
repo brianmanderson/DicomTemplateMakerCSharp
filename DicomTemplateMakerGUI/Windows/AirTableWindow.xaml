@@ -13,8 +13,6 @@
                 <StackPanel Margin="20,20,20,20" x:Name="StackDefaultAirtablePanel">
                 </StackPanel>
             </ScrollViewer>
-            <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="22,73,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-            <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="206,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="554"/>
             <Label Name="Status_Label" Background="Yellow" Content="Status: Select a template to show..." HorizontalAlignment="Left" Margin="264,104,0,0" VerticalAlignment="Top" Height="26" Width="224"/>
             <ComboBox Name="Template_ComboBox" HorizontalAlignment="Left" Margin="206,48,0,0" VerticalAlignment="Top" Width="554" SelectionChanged="Template_ComboBox_SelectionChanged"/>
             <Label Content="Templates to show..." HorizontalAlignment="Left" Margin="22,46,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
@@ -27,6 +25,8 @@
             <Label Content="Table Key" HorizontalAlignment="Left" Margin="765,126,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
             <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
             <Label Content="Table Name" HorizontalAlignment="Left" Margin="765,49,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+            <CheckBox Name="Delete_CheckBox" Content="Delete Template?" HorizontalAlignment="Left" Margin="278,80,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
+            <Button x:Name="DeleteButton" Content="Delete Template?" HorizontalAlignment="Left" Margin="405,76,0,0" IsEnabled="False" VerticalAlignment="Top" Width="200" Height="21" Click="DeleteTemplate_Click"/>
         </Grid>
     </Grid>
 </Window>

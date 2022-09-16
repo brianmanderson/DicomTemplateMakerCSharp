@@ -132,7 +132,7 @@ namespace DicomTemplateMakerGUI
                 foreach (string file in Directory.EnumerateFiles(airtable_directory, "*.txt"))
                 {
                     string[] lines = File.ReadAllLines(file);
-                    ReadAirTable airtable = new ReadAirTable(Path.GetFileNameWithoutExtension(file), lines[0], lines[1], lines[2]);
+                    ReadAirTable airtable = new ReadAirTable(file);
                     airtable.read_records();
                     airtables.Add(airtable);
                 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using AirtableApiClient;
@@ -51,12 +51,23 @@ namespace DicomTemplateMakerGUI.Services
         string TableKey = "tblR6fpTrCnJb4dWy";
         //string TableKey = "tblex7IPsmm8hvVEc";
         private AirtableBase airtableBase;
+        public string file_path;
         public Task<List<AirtableRecord>> records_task;
         public Task<bool> finished_task;
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
         public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
         public ReadAirTable()
         {
+        }
+        public ReadAirTable(string file)
+        {
+            file_path = file;
+            string[] lines = File.ReadAllLines(file_path);
+            AirTableName = Path.GetFileNameWithoutExtension(file_path);
+            APIKey = lines[0];
+            BaseKey = lines[1];
+            TableKey = lines[2];
+
         }
         public ReadAirTable(string airtablename, string apikey, string basekey, string tablekey)
         {

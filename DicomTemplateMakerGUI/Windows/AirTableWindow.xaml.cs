@@ -131,7 +131,7 @@ namespace DicomTemplateMakerGUI.Windows
             StackDefaultAirtablePanel.Children.Clear();
             foreach (AddAirTableRow template_row in default_airtable_list)
             {
-                if (template_row.site_label.Content.ToString().ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                if (template_row.site_label.Content.ToString().ToLower().Contains(""))
                 {
                     StackDefaultAirtablePanel.Children.Add(template_row);
                     Border myborder = new Border();
@@ -161,6 +161,8 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void Template_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Delete_CheckBox.IsChecked = false;
+            DeleteButton.IsEnabled = false;
             BuildTables();
         }
 
@@ -169,7 +171,35 @@ namespace DicomTemplateMakerGUI.Windows
             ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
             ratb.read_records();
             airtables.Add(ratb);
+            API_TextBox.Text = "";
+            Base_TextBox.Text = "";
+            Table_TextBox.Text = "";
+            TableName_TextBox.Text = "";
             build_combobox();
+        }
+
+        private void DeleteTemplate_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteButton.IsEnabled = false;
+            Delete_CheckBox.IsChecked = false;
+            foreach (ReadAirTable airtable in airtables)
+            {
+                if (airtable.AirTableName == (string)Template_ComboBox.SelectedItem)
+                {
+                    if (File.Exists(airtable.file_path))
+                    airtables.Remove(airtable);
+
+                }
+            }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+                DeleteButton.IsEnabled = true;
+        }
+        private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+            DeleteButton.IsEnabled = false;
         }
     }
 }
