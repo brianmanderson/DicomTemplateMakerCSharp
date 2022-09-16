@@ -13,6 +13,7 @@ namespace DicomTemplateMakerGUI.Services
     public class AirTableEntry
     {
         public string Structure { get; set; }
+        public string Id { get; set; }
         public string Type { get; set; }
         public string FMAID { get; set; }
         public string RGB { get; set; }
@@ -156,6 +157,11 @@ namespace DicomTemplateMakerGUI.Services
                     // See how to extract fields of the retrieved record as an instance of Artist in the example section below
                     AirtableRetrieveRecordResponse<AirTableEntry> airTableOntology = task.Result;
                     AirTableEntry r = airTableOntology.Record.Fields;
+                    //Fields new_field = new Fields();
+                    //new_val.Add("Hi");
+                    //new_field.AddField("Testing", "Test");
+                    //await airtableBase.UpdateRecord(TableKey, new_field, airTableOntology.Record.Id, false);
+                    r.Id = airTableOntology.Record.Id;
                     if (r.Template_Recommend != null)
                     {
                         foreach (string site in r.Template_Recommend)

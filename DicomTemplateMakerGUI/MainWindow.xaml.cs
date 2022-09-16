@@ -125,13 +125,11 @@ namespace DicomTemplateMakerGUI
         }
         public void load_airtables()
         {
-
             string airtable_directory = Path.Combine(@".", "AirTables");
             if (Directory.Exists(airtable_directory))
             {
                 foreach (string file in Directory.EnumerateFiles(airtable_directory, "*.txt"))
                 {
-                    string[] lines = File.ReadAllLines(file);
                     ReadAirTable airtable = new ReadAirTable(file);
                     airtable.read_records();
                     airtables.Add(airtable);

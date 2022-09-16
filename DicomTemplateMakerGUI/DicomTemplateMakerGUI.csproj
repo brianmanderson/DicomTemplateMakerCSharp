@@ -284,9 +284,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="license.txt" />
-    <Content Include="AirTables\TG263_AirTable.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="AirTables\TG263_AirTable.txt" />
     <Content Include="AirTables\UCSD_AirTable.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
