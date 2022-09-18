@@ -20,10 +20,13 @@ namespace DicomTemplateMakerGUI.Services
         {
             ROIs = new List<ROIClass>();
         }
-        public void categorize_folder(string path)
+        public void define_path(string path)
+        {
+            this.path = path;
+        }
+        public void categorize_folder()
         {
             OntologyCodeClass code_class;
-            this.path = path;
             is_template = false;
             if (Directory.Exists(Path.Combine(path, "ROIs")))
             {

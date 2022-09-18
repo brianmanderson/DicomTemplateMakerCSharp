@@ -179,19 +179,23 @@ namespace DicomTemplateMakerGUI
             string[] directories = Directory.GetDirectories(folder_location);
             AddTemplateButton.Background = lightgreen;
             RunDICOMServerButton.IsEnabled = false;
+            MakeRTFolderButton.IsEnabled = false;
             template_rows = new List<AddTemplateRow>();
             foreach (string directory in directories)
             {
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                 evaluator = update_ontology_reader(evaluator);
-                evaluator.categorize_folder(directory);
+                evaluator.define_path(directory);
+                evaluator.define_output(directory);
+                evaluator.categorize_folder();
                 if (evaluator.is_template)
                 {
                     AddTemplateButton.Background = lightgray;
                     if (!running)
                     {
                         RunDICOMServerButton.IsEnabled = true;
+                        MakeRTFolderButton.IsEnabled = true;
                     }
                     AddTemplateRow new_row = new AddTemplateRow(evaluator);
                     Border myborder = new Border();
@@ -276,6 +280,28 @@ namespace DicomTemplateMakerGUI
             AirTableWindow airtable_window = new AirTableWindow(airtables, folder_location, onto_path);
             airtable_window.ShowDialog();
             Rebuild_From_Folders();
+        }
+
+        private void CreateFolderRT_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
+            dialog.InitialDirectory = ".";
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string output_directory = dialog.FileName;
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    if (!template_row.template_maker.Paths.Contains(output_directory))
+                    {
+                        template_row.template_maker.Paths.Add(output_directory);
+                        template_row.template_maker.make_template();
+                    }
+                }
+                Rebuild_From_Folders();
+                //ClickRunDicomserver(sender, e);
+
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

@@ -8,7 +8,7 @@
         Title="MainWindow" Height="600" Width="1000">
     <Grid>
         <Button x:Name="AddTemplateButton" Content="Add a new template" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
-        <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="106" Margin="381,10,0,0" VerticalAlignment="Top" Width="288" Click="ClickRunDicomserver"/>
+        <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="66" Margin="381,10,0,0" VerticalAlignment="Top" Width="288" Click="ClickRunDicomserver"/>
         <Button Name="ChangeTemplateButton" Visibility="Hidden" Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
         <Label Name="TemplateBaseLabel" Content="." Visibility="Hidden" HorizontalAlignment="Left" Height="34" Margin="256,18,0,0" VerticalAlignment="Top" Width="699"/>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,166,0,0">
@@ -22,5 +22,6 @@
         <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,140,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
         <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="498"/>
         <Button x:Name="ReadAirTableButton" Content="Reading Air Table..." Background="Yellow" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="Read_Airtable"/>
+        <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,81,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
     </Grid>
 </Window>

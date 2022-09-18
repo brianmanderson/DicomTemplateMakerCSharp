@@ -20,7 +20,7 @@ namespace DicomTemplateMakerGUI.Services
         public List<OntologyCodeClass> Ontologies;
         public List<string> Paths;
         public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
-        string output;
+        public string output;
         public Dictionary<int, string> color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
             coding_scheme_designator_dict, context_group_version_dict, context_identifier_dict, context_uid_dict, mapping_resource_dict,
             mapping_resource_name_dict, mapping_resourceUID_dict;
@@ -209,12 +209,15 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
         }
-        public void categorize_folder(string path)
+        public void define_path(string path)
+        {
+            this.path = path;
+        }
+        public void categorize_folder()
         {
             ROIs = new List<ROIClass>();
             Paths = new List<string>();
             OntologyCodeClass code_class;
-            this.path = path;
             is_template = false;
             if (File.Exists(Path.Combine(path, "Paths.txt")))
             {
