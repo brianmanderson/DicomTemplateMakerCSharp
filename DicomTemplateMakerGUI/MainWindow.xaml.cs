@@ -299,7 +299,7 @@ namespace DicomTemplateMakerGUI
                     }
                 }
                 Rebuild_From_Folders();
-                //ClickRunDicomserver(sender, e);
+                ClickRunDicomserver(sender, e);
 
             }
         }
