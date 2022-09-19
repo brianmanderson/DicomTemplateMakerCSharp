@@ -279,12 +279,26 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="SmallCT\vhm.1001.dcm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmallCT\vhm.1002.dcm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmallCT\vhm.1003.dcm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SmallCT\vhm.1004.dcm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Windows Logo.png" />
     <Resource Include="Pictures\EditPaths.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="license.txt" />
-    <Content Include="AirTables\TG263_AirTable.txt" />
+    <Content Include="AirTables\TG263_AirTable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AirTables\UCSD_AirTable.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

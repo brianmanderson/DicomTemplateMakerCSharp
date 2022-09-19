@@ -44,12 +44,12 @@ namespace DicomTemplateMakerGUI
         }
         public void run()
         {
-            if (running)
+            if (!running)
             {
-                t.Dispose();
+                t = new Task(() => RunTemplateRunner());
+                t.Start();
+                //t.Dispose();
             }
-            t = new Task(() => RunTemplateRunner());
-            t.Start();
             running = true;
         }
     }
@@ -195,8 +195,8 @@ namespace DicomTemplateMakerGUI
                     if (!running)
                     {
                         RunDICOMServerButton.IsEnabled = true;
-                        MakeRTFolderButton.IsEnabled = true;
                     }
+                    MakeRTFolderButton.IsEnabled = true;
                     AddTemplateRow new_row = new AddTemplateRow(evaluator);
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
@@ -289,7 +289,19 @@ namespace DicomTemplateMakerGUI
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string output_directory = dialog.FileName;
+                string output_directory = Path.Combine(dialog.FileName, "Template_Output");
+                if (!Directory.Exists(output_directory))
+                {
+                    Directory.CreateDirectory(output_directory);
+                }
+                foreach (string dicom_file in Directory.GetFiles(Path.Combine(@".", "SmallCT")))
+                {
+                    string out_file = Path.Combine(output_directory, Path.GetFileName(dicom_file));
+                    if (!File.Exists(out_file))
+                    {
+                        File.Copy(dicom_file, out_file);
+                    }
+                }
                 foreach (AddTemplateRow template_row in template_rows)
                 {
                     if (!template_row.template_maker.Paths.Contains(output_directory))
