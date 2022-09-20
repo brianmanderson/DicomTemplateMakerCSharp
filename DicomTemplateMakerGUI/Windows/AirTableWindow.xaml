@@ -5,28 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="AirTableWindow" Height="450" Width="1200">
+        Title="AirTableWindow" Height="450" Width="780">
     <Grid>
         <Grid>
             <Button x:Name="BuildButton" Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" IsEnabled="False" VerticalAlignment="Top" Width="750" Height="36" Click="Build_button_click"/>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,135,434,0">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,135,13.333,-0.333">
                 <StackPanel Margin="20,20,20,20" x:Name="StackDefaultAirtablePanel">
                 </StackPanel>
             </ScrollViewer>
             <Label Name="Status_Label" Background="Yellow" Content="Status: Select a template to show..." HorizontalAlignment="Left" Margin="264,104,0,0" VerticalAlignment="Top" Height="26" Width="224"/>
             <ComboBox Name="Template_ComboBox" HorizontalAlignment="Left" Margin="206,48,0,0" VerticalAlignment="Top" Width="554" SelectionChanged="Template_ComboBox_SelectionChanged"/>
             <Label Content="Templates to show..." HorizontalAlignment="Left" Margin="22,46,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-            <Button x:Name="AddAirTableButton" Content="Add a new AirTable" HorizontalAlignment="Left" Margin="765,12,0,0" IsEnabled="False" VerticalAlignment="Top" Width="419" Height="36" Click="AddAirTableButton_Click"/>
-            <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,75,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="API Key" HorizontalAlignment="Left" Margin="765,75,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-            <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="Base Key" HorizontalAlignment="Left" Margin="765,100,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-            <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,126,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="Table Key" HorizontalAlignment="Left" Margin="765,126,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-            <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="886,49,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-            <Label Content="Table Name" HorizontalAlignment="Left" Margin="765,49,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-            <CheckBox Name="Delete_CheckBox" Content="Delete Template?" HorizontalAlignment="Left" Margin="278,80,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
-            <Button x:Name="DeleteButton" Content="Delete Template?" HorizontalAlignment="Left" Margin="405,76,0,0" IsEnabled="False" VerticalAlignment="Top" Width="200" Height="21" Click="DeleteTemplate_Click"/>
+            <CheckBox Name="Delete_CheckBox" Content="Delete Template?" HorizontalAlignment="Left" Margin="206,83,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
+            <Button x:Name="DeleteButton" Content="Delete Template?" HorizontalAlignment="Left" Margin="333,79,0,0" IsEnabled="False" VerticalAlignment="Top" Width="200" Height="21" Click="DeleteTemplate_Click"/>
+            <Button x:Name="AddTableButton" Content="Add Airtable?" HorizontalAlignment="Left" Margin="538,79,0,0" VerticalAlignment="Top" Width="200" Height="21" Click="AddAirTable_Click"/>
         </Grid>
     </Grid>
 </Window>

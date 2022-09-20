@@ -1,0 +1,21 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.AddAirTableTemplate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="AddAirTableTemplate" Height="225" Width="500">
+    <Grid>
+        <Button x:Name="AddAirTableButton" Content="Add a Airtable and Close" HorizontalAlignment="Left" Margin="10,7,0,0" IsEnabled="False" VerticalAlignment="Top" Width="419" Height="36" Click="AddAirTableButton_Click"/>
+        <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+        <Label Content="API Key" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+        <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,95,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+        <Label Content="Base Key" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+        <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,121,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+        <Label Content="Table Key" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+        <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+        <Label Content="Table Name" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+
+    </Grid>
+</Window>

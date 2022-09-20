@@ -32,6 +32,7 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
+        Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
         public AirTableWindow(List<ReadAirTable> ats, string folder_location, string onto_path)
         {
             InitializeComponent();
@@ -49,6 +50,10 @@ namespace DicomTemplateMakerGUI.Windows
             }
             //Template_ComboBox.DisplayMemberPath = "Test";
             Template_ComboBox.ItemsSource = airtable_names;
+            if (airtable_names.Count > 0)
+            {
+                Template_ComboBox.SelectedIndex = 0;
+            }
         }
         private StackPanel TopRow()
         {
@@ -87,9 +92,20 @@ namespace DicomTemplateMakerGUI.Windows
         public async void BuildTable(ReadAirTable airtable)
         {
             Status_Label.Content = "Status: Loading from online...Please wait";
-            BuildButton.Background = yellow;
+            Status_Label.Background = yellow;
             Status_Label.Visibility = Visibility.Visible;
-            await airtable.finished_task;
+            try
+            {
+                await airtable.finished_task;
+            }
+            catch
+            {
+                Status_Label.Content = "Status: Could not load from online =(";
+                Status_Label.Background = red;
+                BuildButton.Background = red;
+                Status_Label.Visibility = Visibility.Visible;
+                return;
+            }
             StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
             {
@@ -101,10 +117,21 @@ namespace DicomTemplateMakerGUI.Windows
                 StackDefaultAirtablePanel.Children.Add(atrow);
                 default_airtable_list.Add(atrow);
             }
-            Status_Label.Content = "Ready!";
-            BuildButton.Background = lightgreen;
-            Status_Label.Visibility = Visibility.Hidden;
-            BuildButton.IsEnabled = true;
+            if (airtable.template_dictionary.Keys.Count > 0)
+            {
+                BuildButton.IsEnabled = true;
+                Status_Label.Content = "Ready!";
+                BuildButton.Background = lightgreen;
+                Status_Label.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                Status_Label.Content = "No records found!";
+                BuildButton.IsEnabled = false;
+                Status_Label.Background = red;
+                Status_Label.Visibility = Visibility.Visible;
+            }
+            
         }
         public async Task Main(ReadAirTable airTable)
         {
@@ -141,41 +168,11 @@ namespace DicomTemplateMakerGUI.Windows
                 }
             }
         }
-        private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
-        {
-            AddAirTableButton.IsEnabled = false;
-            if (TableName_TextBox.Text != "")
-            {
-                if (API_TextBox.Text != "")
-                {
-                    if (Base_TextBox.Text != "")
-                    {
-                        if (Table_TextBox.Text != "")
-                        {
-                            AddAirTableButton.IsEnabled = true;
-                        }
-                    }
-                }
-            }
-
-        }
         private void Template_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Delete_CheckBox.IsChecked = false;
             DeleteButton.IsEnabled = false;
             BuildTables();
-        }
-
-        private void AddAirTableButton_Click(object sender, RoutedEventArgs e)
-        {
-            ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
-            ratb.read_records();
-            airtables.Add(ratb);
-            API_TextBox.Text = "";
-            Base_TextBox.Text = "";
-            Table_TextBox.Text = "";
-            TableName_TextBox.Text = "";
-            build_combobox();
         }
 
         private void DeleteTemplate_Click(object sender, RoutedEventArgs e)
@@ -201,6 +198,13 @@ namespace DicomTemplateMakerGUI.Windows
         private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
         {
             DeleteButton.IsEnabled = false;
+        }
+
+        private void AddAirTable_Click(object sender, RoutedEventArgs e)
+        {
+            AddAirTableTemplate at_window = new AddAirTableTemplate(airtables);
+            at_window.ShowDialog();
+            build_combobox();
         }
     }
 }
