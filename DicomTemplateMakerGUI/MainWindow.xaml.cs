@@ -141,12 +141,12 @@ namespace DicomTemplateMakerGUI
         {
             if (airtables.Count > 0)
             {
-                ReadAirTableButton.Content = "Read Airtable";
+                ReadAirTableButton.Content = "Load Online Templates";
                 ReadAirTableButton.Background = lightgreen;
             }
             else
             {
-                ReadAirTableButton.Content = "No Airtables found";
+                ReadAirTableButton.Content = "Online Templates Found...";
                 ReadAirTableButton.Background = lightgray;
                 ReadAirTableButton.IsEnabled = false;
             }

@@ -94,6 +94,9 @@ namespace DicomTemplateMakerGUI.Windows
             Status_Label.Content = "Status: Loading from online...Please wait";
             Status_Label.Background = yellow;
             Status_Label.Visibility = Visibility.Visible;
+            CheckBoxLabel.Visibility = Visibility.Hidden;
+            IncludeLabel.Visibility = Visibility.Hidden;
+            TemplateNameLabel.Visibility = Visibility.Hidden;
             try
             {
                 await airtable.finished_task;
@@ -106,7 +109,7 @@ namespace DicomTemplateMakerGUI.Windows
                 Status_Label.Visibility = Visibility.Visible;
                 return;
             }
-            StackDefaultAirtablePanel.Children.Add(TopRow());
+            //StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
             {
                 AddAirTableRow atrow = new AddAirTableRow(site, airtable);
@@ -120,14 +123,19 @@ namespace DicomTemplateMakerGUI.Windows
             if (airtable.template_dictionary.Keys.Count > 0)
             {
                 BuildButton.IsEnabled = true;
+                SelectAllButton.IsEnabled = true;
                 Status_Label.Content = "Ready!";
                 BuildButton.Background = lightgreen;
                 Status_Label.Visibility = Visibility.Hidden;
+                CheckBoxLabel.Visibility = Visibility.Visible;
+                IncludeLabel.Visibility = Visibility.Visible;
+                TemplateNameLabel.Visibility = Visibility.Visible;
             }
             else
             {
                 Status_Label.Content = "No records found!";
                 BuildButton.IsEnabled = false;
+                SelectAllButton.IsEnabled = false;
                 Status_Label.Background = red;
                 Status_Label.Visibility = Visibility.Visible;
             }
@@ -158,7 +166,7 @@ namespace DicomTemplateMakerGUI.Windows
             StackDefaultAirtablePanel.Children.Clear();
             foreach (AddAirTableRow template_row in default_airtable_list)
             {
-                if (template_row.site_label.Content.ToString().ToLower().Contains(""))
+                if (template_row.site_label.Content.ToString().ToLower().Contains(SearchBox_TextBox.Text))
                 {
                     StackDefaultAirtablePanel.Children.Add(template_row);
                     Border myborder = new Border();
@@ -205,6 +213,14 @@ namespace DicomTemplateMakerGUI.Windows
             AddAirTableTemplate at_window = new AddAirTableTemplate(airtables);
             at_window.ShowDialog();
             build_combobox();
+        }
+
+        private void SelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (AddAirTableRow row in default_airtable_list)
+            {
+                row.check_box.IsChecked = true;
+            }
         }
     }
 }
