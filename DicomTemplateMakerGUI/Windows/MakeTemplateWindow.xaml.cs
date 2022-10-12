@@ -75,6 +75,8 @@ namespace DicomTemplateMakerGUI.Windows
                 ColorButton.IsEnabled = true;
                 AddROIFromRTButton.IsEnabled = true;
                 BuildButton.IsEnabled = false;
+                Select_All_Button.IsEnabled = true;
+                UnSelect_All_Button.IsEnabled = true;
                 BuildButton.Content = "Finished Building!";
                 write_path = folder;
             }
@@ -101,7 +103,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void add_roi_rows()
         {
             ROIStackPanel.Children.Clear();
-            ROIStackPanel.Children.Add(TopRow());
+            //ROIStackPanel.Children.Add(TopRow());
             List<ROIClass> PTVs = new List<ROIClass>();
             List<ROIClass> CTVs = new List<ROIClass>();
             List<ROIClass> GTVs = new List<ROIClass>();
@@ -321,6 +323,24 @@ namespace DicomTemplateMakerGUI.Windows
             }
             OntologyComboBox.ItemsSource = ontology_list;
             OntologyComboBox.SelectedIndex = 0;
+        }
+
+        private void SelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ROIClass roi in template_maker.ROIs)
+            {
+                roi.Include = true;
+            }
+            add_roi_rows();
+        }
+
+        private void UnSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ROIClass roi in template_maker.ROIs)
+            {
+                roi.Include = false;
+            }
+            add_roi_rows();
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)
