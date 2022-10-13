@@ -40,11 +40,24 @@ namespace DicomTemplateMakerGUI.Services
             MappingResourceUID = o.MappingResourceUID;
             ContextUID = o.ContextUID;
         }
+        public AirTableEntry(ROIClass roi)
+        {
+            OntologyCodeClass o = roi.Ontology_Class;
+            Scheme = o.Scheme;
+            ContextGroupVersion = o.ContextGroupVersion;
+            MappingResource = o.MappingResource;
+            ContextIdentifier = o.ContextIdentifier;
+            MappingResourceName = o.MappingResourceName;
+            MappingResourceUID = o.MappingResourceUID;
+            ContextUID = o.ContextUID;
+            Structure = roi.ROIName;
+            Type = roi.ROI_Interpreted_type;
+            Colors_RGB = new List<string>() { $":{roi.R},{roi.G},{roi.B}" };
+        }
     }
     public class ReadAirTable
     {
         public string AirTableName = "TG263_AirTable";
-        public string Test = "Test";
         bool writeable = false;
         string APIKey = "keyfXbWgL96FyPUYH";
         string BaseKey = "appczNMj8RE4CKjtp";
@@ -55,6 +68,7 @@ namespace DicomTemplateMakerGUI.Services
         public string file_path;
         public Task<List<AirtableRecord>> records_task;
         public Task<bool> finished_task;
+        public List<AirTableEntry> AirTableEntry_List = new List<AirTableEntry>();
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
         public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
         public ReadAirTable()
@@ -137,6 +151,19 @@ namespace DicomTemplateMakerGUI.Services
                 roi_dictionary[site].Add(roi);
             }
         }
+        public void WriteToAirTable(string site)
+        {
+            foreach (ROIClass roi in roi_dictionary[site])
+            {
+                AirTableEntry new_entry = new AirTableEntry(roi);
+                var records = AirTableEntry_List.Where(x => x.Structure == roi.ROIName);
+                if (records.Any())
+                {
+                    AirTableEntry entry = records.First();
+                    new_entry.Id = entry.Id;
+                }
+            }
+        }
         public async Task<bool> read_recordsAsync()
         {
             airtableBase = new AirtableBase(APIKey, BaseKey);
@@ -162,6 +189,10 @@ namespace DicomTemplateMakerGUI.Services
                     //new_field.AddField("Testing", "Test");
                     //await airtableBase.UpdateRecord(TableKey, new_field, airTableOntology.Record.Id, false);
                     r.Id = airTableOntology.Record.Id;
+                    if (!AirTableEntry_List.Contains(r))
+                    {
+                        AirTableEntry_List.Add(r);
+                    }
                     if (r.Template_Recommend != null)
                     {
                         foreach (string site in r.Template_Recommend)

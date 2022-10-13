@@ -37,15 +37,19 @@ namespace DicomTemplateMakerGUI.Windows
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
+        public List<ReadAirTable> AirTables;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
         List<OntologyCodeClass> ontology_list = new List<OntologyCodeClass>();
-        public MakeTemplateWindow(string folder, TemplateMaker template_maker)
+        public MakeTemplateWindow(string folder, TemplateMaker template_maker, List<ReadAirTable> airTables)
         {
+            AirTables = airTables;
             out_path = folder;
             InitializeComponent();
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
+            AirTableComboBox.ItemsSource = airTables;
+            AirTableComboBox.DisplayMemberPath = "AirTableName";
             InterpComboBox.SelectedIndex = 0;
             foreach (OntologyCodeClass o in template_maker.Ontologies)
             {
@@ -341,6 +345,16 @@ namespace DicomTemplateMakerGUI.Windows
                 roi.Include = false;
             }
             add_roi_rows();
+        }
+
+        private void WriteToAirTable_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)

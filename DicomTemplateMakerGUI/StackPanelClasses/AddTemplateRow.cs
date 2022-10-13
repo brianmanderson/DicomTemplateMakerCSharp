@@ -23,10 +23,12 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private Button DeleteButton;
         private CheckBox DeleteCheckBox;
         private Button edit_rois_button;
+        public List<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public AddTemplateRow(TemplateMaker template_maker)
+        public AddTemplateRow(TemplateMaker template_maker, List<ReadAirTable> airTables)
         {
+            AirTables = airTables;
             this.template_maker = template_maker;
             Label template_label = new Label();
             template_label.Content = template_maker.template_name;
@@ -75,7 +77,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
-            MakeTemplateWindow template_window = new MakeTemplateWindow(template_maker.path, template_maker);
+            MakeTemplateWindow template_window = new MakeTemplateWindow(template_maker.path, template_maker, AirTables);
             template_window.ShowDialog();
             if (template_maker.Paths.Count != 0)
             {

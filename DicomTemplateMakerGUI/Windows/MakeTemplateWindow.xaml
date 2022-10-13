@@ -39,5 +39,7 @@
         <Label Content="Interpreted Type" HorizontalAlignment="Left" Height="43" Margin="528,264,0,0" VerticalAlignment="Top" Width="147"/>
         <Button x:Name="Select_All_Button" Content="Select Include All" HorizontalAlignment="Left" Height="34" Margin="592,226,0,0" VerticalAlignment="Top" Width="140" Click="SelectAll_Click" IsEnabled="False"/>
         <Button x:Name="UnSelect_All_Button" Content="Unselect Include All" HorizontalAlignment="Left" Height="34" Margin="737,226,0,0" VerticalAlignment="Top" Width="140" Click="UnSelectAll_Click" IsEnabled="False"/>
+        <ComboBox x:Name="AirTableComboBox" IsEnabled="False" HorizontalAlignment="Left" Height="37" Margin="858,36,0,0" VerticalAlignment="Top" Width="276" SelectionChanged="AirTableSelectionChanged"/>
+        <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="37" Margin="858,89,0,0" VerticalAlignment="Top" Width="276" Click="WriteToAirTable_Click" IsEnabled="False"/>
     </Grid>
 </Window>

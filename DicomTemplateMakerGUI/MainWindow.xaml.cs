@@ -197,7 +197,7 @@ namespace DicomTemplateMakerGUI
                         RunDICOMServerButton.IsEnabled = true;
                     }
                     MakeRTFolderButton.IsEnabled = true;
-                    AddTemplateRow new_row = new AddTemplateRow(evaluator);
+                    AddTemplateRow new_row = new AddTemplateRow(evaluator, airtables);
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
                     myborder.BorderThickness = new Thickness(5);
@@ -220,7 +220,7 @@ namespace DicomTemplateMakerGUI
             TemplateMaker template_maker = new TemplateMaker();
             template_maker.set_onto_path(Path.Combine(folder_location, "Ontologies"));
             template_maker = update_ontology_reader(template_maker);
-            MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker);
+            MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker, airtables);
             template_window.ShowDialog();
             Rebuild_From_Folders();
         }
