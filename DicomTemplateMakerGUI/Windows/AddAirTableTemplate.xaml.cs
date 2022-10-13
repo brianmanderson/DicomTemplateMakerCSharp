@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.Windows
@@ -46,6 +45,13 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void AddAirTableButton_Click(object sender, RoutedEventArgs e)
         {
+            string airtable_directory = Path.Combine(@".", "AirTables");
+            if (!Directory.Exists(airtable_directory))
+            {
+                Directory.CreateDirectory(airtable_directory);
+            }
+            File.WriteAllText(Path.Combine(airtable_directory, $"{TableName_TextBox.Text}.txt"),
+                $"{API_TextBox.Text}\n{Base_TextBox.Text}\n{TableName_TextBox.Text}");
             ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
             ratb.read_records();
             airtables.Add(ratb);

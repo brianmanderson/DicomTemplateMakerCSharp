@@ -28,7 +28,6 @@ namespace DicomTemplateMakerGUI.Windows
         string onto_path;
         bool finished = false;
         List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
-        List<string> airtable_names;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
@@ -43,14 +42,9 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void build_combobox()
         {
-            airtable_names = new List<string>();
-            foreach (ReadAirTable r in airtables)
-            {
-                airtable_names.Add(r.AirTableName);
-            }
-            //Template_ComboBox.DisplayMemberPath = "Test";
-            Template_ComboBox.ItemsSource = airtable_names;
-            if (airtable_names.Count > 0)
+            Template_ComboBox.DisplayMemberPath = "AirTableName";
+            Template_ComboBox.ItemsSource = airtables;
+            if (airtables.Count > 0)
             {
                 Template_ComboBox.SelectedIndex = 0;
             }
@@ -81,13 +75,7 @@ namespace DicomTemplateMakerGUI.Windows
             BuildButton.IsEnabled = false;
             StackDefaultAirtablePanel.Children.Clear();
             default_airtable_list = new List<AddAirTableRow>();
-            foreach (ReadAirTable airtable in airtables)
-            {
-                if (airtable.AirTableName == (string)Template_ComboBox.SelectedItem)
-                {
-                    BuildTable(airtable);
-                }
-            }
+            BuildTable((ReadAirTable)Template_ComboBox.SelectedItem);
         }
         public async void BuildTable(ReadAirTable airtable)
         {
@@ -187,16 +175,10 @@ namespace DicomTemplateMakerGUI.Windows
         {
             DeleteButton.IsEnabled = false;
             Delete_CheckBox.IsChecked = false;
-            foreach (ReadAirTable airtable in airtables)
-            {
-                if (airtable.AirTableName == (string)Template_ComboBox.SelectedItem)
-                {
-                    airtable.Delete();
-                    airtables.Remove(airtable);
-                    build_combobox();
-                    break;
-                }
-            }
+            ReadAirTable airtable = (ReadAirTable)Template_ComboBox.SelectedItem;
+            airtable.Delete();
+            airtables.Remove(airtable);
+            build_combobox();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)

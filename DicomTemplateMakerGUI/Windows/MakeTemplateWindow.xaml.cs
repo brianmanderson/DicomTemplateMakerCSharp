@@ -40,7 +40,6 @@ namespace DicomTemplateMakerGUI.Windows
         public List<ReadAirTable> AirTables;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
-        List<OntologyCodeClass> ontology_list = new List<OntologyCodeClass>();
         public MakeTemplateWindow(string folder, TemplateMaker template_maker, List<ReadAirTable> airTables)
         {
             AirTables = airTables;
@@ -48,16 +47,14 @@ namespace DicomTemplateMakerGUI.Windows
             InitializeComponent();
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
-            AirTableComboBox.ItemsSource = airTables;
-            AirTableComboBox.DisplayMemberPath = "AirTableName";
             InterpComboBox.SelectedIndex = 0;
-            foreach (OntologyCodeClass o in template_maker.Ontologies)
-            {
-                ontology_list.Add(o);
-            }
             OntologyComboBox.DisplayMemberPath = "CodeMeaning";
-            OntologyComboBox.ItemsSource = ontology_list;
+            OntologyComboBox.ItemsSource = template_maker.Ontologies;
             OntologyComboBox.SelectedIndex = 0;
+
+            AirTableComboBox.ItemsSource = AirTables;
+            AirTableComboBox.DisplayMemberPath = "AirTableName";
+            AirTableComboBox.SelectedIndex = 0;
             R = byte.Parse("0");
             G = byte.Parse("255");
             B = byte.Parse("255");
@@ -317,15 +314,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void OntologyNameChanged(object sender, TextChangedEventArgs e)
         {
             string text = Ontology_TextBox.Text.ToLower();
-            ontology_list = new List<OntologyCodeClass>();
-            foreach (OntologyCodeClass onto in template_maker.Ontologies)
-            {
-                if (onto.CodeMeaning.ToLower().Contains(text))
-                {
-                    ontology_list.Add(onto);
-                }
-            }
-            OntologyComboBox.ItemsSource = ontology_list;
+            OntologyComboBox.ItemsSource = template_maker.Ontologies;
             OntologyComboBox.SelectedIndex = 0;
         }
 

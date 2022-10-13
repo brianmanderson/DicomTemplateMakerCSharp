@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using AirtableApiClient;
-using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -57,9 +57,18 @@ namespace DicomTemplateMakerGUI.Services
     }
     public class ReadAirTable
     {
-        public string AirTableName = "TG263_AirTable";
+        private string airtableName = "TG263_AirTable";
+        public string AirTableName
+        {
+            get { return airtableName; }
+            set
+            {
+                airtableName = value;
+                OnPropertyChanged("AirTableName");
+            }
+        }
         bool writeable = false;
-        string APIKey = "keyfXbWgL96FyPUYH";
+        string APIKey = "keyNr4aIdTYupQOJG";
         string BaseKey = "appczNMj8RE4CKjtp";
         //string BaseKey = "appTUL6ZaSepTawFw";
         string TableKey = "tblR6fpTrCnJb4dWy";
@@ -268,6 +277,15 @@ namespace DicomTemplateMakerGUI.Services
                     }
                 }
                 return records;
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string info)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(info));
             }
         }
     }
