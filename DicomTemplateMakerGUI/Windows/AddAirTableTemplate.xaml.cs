@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.ComponentModel;
 using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.Windows
@@ -19,11 +19,20 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class AddAirTableTemplate : Window
     {
-        public List<ReadAirTable> airtables;
+        private List<ReadAirTable> airtables;
+        public List<ReadAirTable> AirTables
+        {
+            get { return airtables; }
+            set
+            {
+                airtables = value;
+                OnPropertyChanged("AirTables");
+            }
+        }
         public AddAirTableTemplate(List<ReadAirTable> ats)
         {
             InitializeComponent();
-            airtables = ats;
+            AirTables = ats;
         }
         private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
         {
@@ -54,8 +63,17 @@ namespace DicomTemplateMakerGUI.Windows
                 $"{API_TextBox.Text}\n{Base_TextBox.Text}\n{TableName_TextBox.Text}");
             ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
             ratb.read_records();
-            airtables.Add(ratb);
+            AirTables.Add(ratb);
             Close();
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string info)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }

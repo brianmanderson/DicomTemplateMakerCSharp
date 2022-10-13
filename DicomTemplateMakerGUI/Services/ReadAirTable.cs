@@ -69,10 +69,8 @@ namespace DicomTemplateMakerGUI.Services
         }
         bool writeable = false;
         string APIKey = "keyNr4aIdTYupQOJG";
-        string BaseKey = "appczNMj8RE4CKjtp";
-        //string BaseKey = "appTUL6ZaSepTawFw";
-        string TableKey = "tblR6fpTrCnJb4dWy";
-        //string TableKey = "tblex7IPsmm8hvVEc";
+        string BaseKey = "appTUL6ZaSepTawFw";
+        string TableKey = "tblex7IPsmm8hvVEc";
         private AirtableBase airtableBase;
         public string file_path;
         public Task<List<AirtableRecord>> records_task;
@@ -165,11 +163,20 @@ namespace DicomTemplateMakerGUI.Services
             foreach (ROIClass roi in roi_dictionary[site])
             {
                 AirTableEntry new_entry = new AirTableEntry(roi);
+                new_entry.Id = "0";
                 var records = AirTableEntry_List.Where(x => x.Structure == roi.ROIName);
                 if (records.Any())
                 {
                     AirTableEntry entry = records.First();
                     new_entry.Id = entry.Id;
+                }
+                else
+                {
+                    Fields new_field = new Fields();
+                    foreach (System.Reflection.PropertyInfo propertyInfo in new_entry.GetType().GetProperties())
+                    {
+                        new_field.AddField(propertyInfo.Name, propertyInfo.GetValue(new_entry));
+                    }
                 }
             }
         }

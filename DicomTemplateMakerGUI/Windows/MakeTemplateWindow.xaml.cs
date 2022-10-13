@@ -104,6 +104,11 @@ namespace DicomTemplateMakerGUI.Windows
         private void add_roi_rows()
         {
             ROIStackPanel.Children.Clear();
+            WriteToAirTable_Button.IsEnabled = false;
+            if (template_maker.ROIs.Count > 0)
+            {
+                WriteToAirTable_Button.IsEnabled = true;
+            }
             //ROIStackPanel.Children.Add(TopRow());
             List<ROIClass> PTVs = new List<ROIClass>();
             List<ROIClass> CTVs = new List<ROIClass>();
@@ -338,7 +343,8 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
-
+            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
+            table.WriteToAirTable(TemplateTextBox.Text);
         }
 
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)

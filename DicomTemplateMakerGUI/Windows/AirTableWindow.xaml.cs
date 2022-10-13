@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using AirtableApiClient;
@@ -20,10 +21,19 @@ namespace DicomTemplateMakerGUI.Windows
     /// <summary>
     /// Interaction logic for AirTableWindow.xaml
     /// </summary>
-    public partial class AirTableWindow : Window
+    public partial class AirTableWindow : Window, INotifyPropertyChanged
     {
         public ReadAirTable airtable;
-        public List<ReadAirTable> airtables;
+        private List<ReadAirTable> airtables;
+        public List<ReadAirTable> AirTables
+        {
+            get { return airtables; }
+            set
+            {
+                airtables = value;
+                OnPropertyChanged("AirTables");
+            }
+        }
         string folder_location;
         string onto_path;
         bool finished = false;
@@ -37,14 +47,17 @@ namespace DicomTemplateMakerGUI.Windows
             InitializeComponent();
             this.folder_location = folder_location;
             this.onto_path = onto_path;
-            airtables = ats;
+            AirTables = ats;
             build_combobox();
         }
         private void build_combobox()
         {
             Template_ComboBox.DisplayMemberPath = "AirTableName";
-            Template_ComboBox.ItemsSource = airtables;
-            if (airtables.Count > 0)
+            Binding source_binding = new Binding("AirTables");
+            source_binding.Source = this;
+            Template_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, source_binding);
+            Template_ComboBox.SelectedIndex = -1;
+            if (AirTables.Count > 0)
             {
                 Template_ComboBox.SelectedIndex = 0;
             }
@@ -168,7 +181,11 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Delete_CheckBox.IsChecked = false;
             DeleteButton.IsEnabled = false;
-            BuildTables();
+            if (Template_ComboBox.SelectedIndex != -1)
+            {
+                BuildTables();
+            }
+
         }
 
         private void DeleteTemplate_Click(object sender, RoutedEventArgs e)
@@ -177,7 +194,7 @@ namespace DicomTemplateMakerGUI.Windows
             Delete_CheckBox.IsChecked = false;
             ReadAirTable airtable = (ReadAirTable)Template_ComboBox.SelectedItem;
             airtable.Delete();
-            airtables.Remove(airtable);
+            AirTables.Remove(airtable);
             build_combobox();
         }
 
@@ -192,7 +209,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddAirTable_Click(object sender, RoutedEventArgs e)
         {
-            AddAirTableTemplate at_window = new AddAirTableTemplate(airtables);
+            AddAirTableTemplate at_window = new AddAirTableTemplate(AirTables);
             at_window.ShowDialog();
             build_combobox();
         }
@@ -202,6 +219,15 @@ namespace DicomTemplateMakerGUI.Windows
             foreach (AddAirTableRow row in default_airtable_list)
             {
                 row.check_box.IsChecked = true;
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string info)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(info));
             }
         }
     }

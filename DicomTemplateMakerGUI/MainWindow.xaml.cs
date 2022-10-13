@@ -58,7 +58,16 @@ namespace DicomTemplateMakerGUI
         string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public List<ReadAirTable> airtables = new List<ReadAirTable>();
+        private List<ReadAirTable> airtables = new List<ReadAirTable>();
+        public List<ReadAirTable> AirTables
+        {
+            get { return airtables; }
+            set
+            {
+                airtables = value;
+                OnPropertyChanged("AirTables");
+            }
+        }
         bool running;
         DicomRunner runner;
         List<AddTemplateRow> template_rows;
@@ -132,14 +141,14 @@ namespace DicomTemplateMakerGUI
                 {
                     ReadAirTable airtable = new ReadAirTable(file);
                     airtable.read_records();
-                    airtables.Add(airtable);
+                    AirTables.Add(airtable);
                 }
             }
             ReadingAirTable();
         }
         public async void ReadingAirTable()
         {
-            if (airtables.Count > 0)
+            if (AirTables.Count > 0)
             {
                 ReadAirTableButton.Content = "Load Online Templates";
                 ReadAirTableButton.Background = lightgreen;
@@ -197,7 +206,7 @@ namespace DicomTemplateMakerGUI
                         RunDICOMServerButton.IsEnabled = true;
                     }
                     MakeRTFolderButton.IsEnabled = true;
-                    AddTemplateRow new_row = new AddTemplateRow(evaluator, airtables);
+                    AddTemplateRow new_row = new AddTemplateRow(evaluator, AirTables);
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
                     myborder.BorderThickness = new Thickness(5);
@@ -220,7 +229,7 @@ namespace DicomTemplateMakerGUI
             TemplateMaker template_maker = new TemplateMaker();
             template_maker.set_onto_path(Path.Combine(folder_location, "Ontologies"));
             template_maker = update_ontology_reader(template_maker);
-            MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker, airtables);
+            MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker, AirTables);
             template_window.ShowDialog();
             Rebuild_From_Folders();
         }
@@ -277,7 +286,7 @@ namespace DicomTemplateMakerGUI
 
         private void Read_Airtable(object sender, RoutedEventArgs e)
         {
-            AirTableWindow airtable_window = new AirTableWindow(airtables, folder_location, onto_path);
+            AirTableWindow airtable_window = new AirTableWindow(AirTables, folder_location, onto_path);
             airtable_window.ShowDialog();
             Rebuild_From_Folders();
         }
