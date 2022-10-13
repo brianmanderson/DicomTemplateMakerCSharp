@@ -319,7 +319,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void OntologyNameChanged(object sender, TextChangedEventArgs e)
         {
             string text = Ontology_TextBox.Text.ToLower();
-            OntologyComboBox.ItemsSource = template_maker.Ontologies;
+            OntologyComboBox.ItemsSource = template_maker.Ontologies.Where(x => x.CodeMeaning.ToLower().Contains(text));
             OntologyComboBox.SelectedIndex = 0;
         }
 
