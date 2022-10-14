@@ -54,7 +54,12 @@ namespace DicomTemplateMakerGUI.Windows
 
             AirTableComboBox.ItemsSource = AirTables;
             AirTableComboBox.DisplayMemberPath = "AirTableName";
-            AirTableComboBox.SelectedIndex = 0;
+            if (AirTables.Count > 0)
+            {
+                AirTableComboBox.SelectedIndex = 0;
+                check_airtables((ReadAirTable)AirTableComboBox.SelectedItem);
+            }
+            
             R = byte.Parse("0");
             G = byte.Parse("255");
             B = byte.Parse("255");
@@ -104,11 +109,6 @@ namespace DicomTemplateMakerGUI.Windows
         private void add_roi_rows()
         {
             ROIStackPanel.Children.Clear();
-            WriteToAirTable_Button.IsEnabled = false;
-            if (template_maker.ROIs.Count > 0)
-            {
-                WriteToAirTable_Button.IsEnabled = true;
-            }
             //ROIStackPanel.Children.Add(TopRow());
             List<ROIClass> PTVs = new List<ROIClass>();
             List<ROIClass> CTVs = new List<ROIClass>();
@@ -346,10 +346,26 @@ namespace DicomTemplateMakerGUI.Windows
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
             table.WriteToAirTable(TemplateTextBox.Text, template_maker.ROIs);
         }
+        private async void check_airtables(ReadAirTable airtable)
+        {
+            WriteToAirTable_Button.IsEnabled = false;
+            WriteToAirTable_Button.Content = "Still loading airtable...";
+            try
+            {
+                await airtable.finished_task;
+                WriteToAirTable_Button.IsEnabled = true;
+                WriteToAirTable_Button.Content = "Write to AirTable";
+            }
+            catch
+            {
+                WriteToAirTable_Button.Content = "Could not load...";
+            }
+        }
 
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
+            check_airtables(table);
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)

@@ -60,7 +60,7 @@ namespace DicomTemplateMakerGUI.Windows
                 Directory.CreateDirectory(airtable_directory);
             }
             File.WriteAllText(Path.Combine(airtable_directory, $"{TableName_TextBox.Text}.txt"),
-                $"{API_TextBox.Text}\n{Base_TextBox.Text}\n{TableName_TextBox.Text}");
+                $"{API_TextBox.Text}\n{Base_TextBox.Text}\n{Table_TextBox.Text}");
             ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
             ratb.read_records();
             AirTables.Add(ratb);
