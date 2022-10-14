@@ -53,7 +53,7 @@ namespace DicomTemplateMakerGUI.Services
             ContextUID = o.ContextUID;
             Structure = roi.ROIName;
             Type = roi.ROI_Interpreted_type;
-            Colors_RGB = new List<string>() { $":{roi.R},{roi.G},{roi.B}" };
+            Colors_RGB = new List<string>() { $"Auto:{roi.R},{roi.G},{roi.B}" };
         }
     }
     public class ReadAirTable
@@ -76,6 +76,7 @@ namespace DicomTemplateMakerGUI.Services
         public string file_path;
         public Task<List<AirtableRecord>> records_task;
         public Task<bool> finished_task;
+        public Task<bool> finished_write;
         public List<AirTableEntry> AirTableEntry_List = new List<AirTableEntry>();
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
         public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
@@ -123,11 +124,6 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void add_roi(string site, AirTableEntry r, bool include)
         {
-            Console.WriteLine(r.Structure);
-            if (r.Structure == "Bowel_Sigmoid")
-            {
-                int kk = 2;
-            }
             if (!template_dictionary.ContainsKey(site))
             {
                 template_dictionary.Add(site, new List<AirTableEntry>());
@@ -168,9 +164,13 @@ namespace DicomTemplateMakerGUI.Services
         {
             await airtableBase.UpdateRecord(TableKey, new_field, id, typecast);
         }
-        public async void WriteToAirTable(string site, List<ROIClass> rois)
+        public void WriteToAirTable(string site, List<ROIClass> rois)
         {
-            int baseint = 0;
+            finished_write = WriteToAirTableTask(site, rois);
+        }
+        public async Task<bool> WriteToAirTableTask(string site, List<ROIClass> rois)
+        {
+            bool output = true;
             foreach (ROIClass roi in rois)
             {
                 AirTableEntry new_entry = new AirTableEntry(roi);
@@ -191,32 +191,32 @@ namespace DicomTemplateMakerGUI.Services
                     if (!(entry == new_entry))
                     {
                         Fields new_field = new Fields();
-                        int i = baseint;
-                        baseint--;
                         Console.WriteLine(roi.ROIName);
                         foreach (System.Reflection.PropertyInfo propertyInfo in new_entry.GetType().GetProperties())
                         {
                             var value = propertyInfo.GetValue(new_entry);
+                            var previous_value = propertyInfo.GetValue(entry);
                             if (value != null)
                             {
-                                Console.WriteLine(propertyInfo.Name);
                                 if (value is IList<string>)
                                 {
-                                    new_field.AddField(propertyInfo.Name, (List<string>)value);
+                                    if (previous_value != null)
+                                    {
+                                        new_field.AddField(propertyInfo.Name, ((List<string>)value).Union((List<string>)previous_value).ToList());
+                                    }
+                                    else
+                                    {
+                                        new_field.AddField(propertyInfo.Name, (List<string>)value);
+                                    }
                                 }
                                 else
                                 {
                                     new_field.AddField(propertyInfo.Name, value);
                                 }
                             }
-                            i++;
-                            if (i > 1)
-                            {
-                                break;
-                            }
                         }
-                        await airtableBase.UpdateRecord(TableKey, new_field, entry.Id, true);
-                        //UpdateRecord(TableKey, new_field, entry.Id, true);
+                        //await airtableBase.UpdateRecord(TableKey, new_field, entry.Id, true);
+                        UpdateRecord(TableKey, new_field, entry.Id, true);
                     }
 
                 }
@@ -231,6 +231,7 @@ namespace DicomTemplateMakerGUI.Services
                     await airtableBase.CreateRecord(TableKey, new_field, false);
                 }
             }
+            return output;
         }
         public async Task<bool> read_recordsAsync()
         {

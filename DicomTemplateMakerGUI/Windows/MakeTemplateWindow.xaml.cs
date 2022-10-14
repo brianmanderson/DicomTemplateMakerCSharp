@@ -341,10 +341,21 @@ namespace DicomTemplateMakerGUI.Windows
             add_roi_rows();
         }
 
-        private void WriteToAirTable_Click(object sender, RoutedEventArgs e)
+        private async void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
             table.WriteToAirTable(TemplateTextBox.Text, template_maker.ROIs);
+            WriteToAirTable_Button.IsEnabled = false;
+            WriteToAirTable_Button.Content = "Writing to Airtable...";
+            try
+            {
+                await table.finished_write;
+                WriteToAirTable_Button.Content = "Wrote to Airtable!";
+            }
+            catch
+            {
+                WriteToAirTable_Button.Content = "Failed writing to airtable...";
+            }
         }
         private async void check_airtables(ReadAirTable airtable)
         {
