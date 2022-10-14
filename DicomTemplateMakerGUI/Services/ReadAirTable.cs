@@ -163,9 +163,10 @@ namespace DicomTemplateMakerGUI.Services
         {
             await airtableBase.UpdateRecord(TableKey, new_field, id, typecast);
         }
-        public async void WriteToAirTable(string site)
+        public async void WriteToAirTable(string site, List<ROIClass> rois)
         {
-            foreach (ROIClass roi in roi_dictionary[site])
+            int baseint = 0;
+            foreach (ROIClass roi in rois)
             {
                 AirTableEntry new_entry = new AirTableEntry(roi);
                 new_entry.Id = "0";
@@ -185,13 +186,23 @@ namespace DicomTemplateMakerGUI.Services
                     if (!(entry == new_entry))
                     {
                         Fields new_field = new Fields();
-                        int i = 0;
+                        int i = baseint;
+                        baseint--;
+                        Console.WriteLine(roi.ROIName);
                         foreach (System.Reflection.PropertyInfo propertyInfo in new_entry.GetType().GetProperties())
                         {
                             var value = propertyInfo.GetValue(new_entry);
                             if (value != null)
                             {
-                                new_field.AddField(propertyInfo.Name, value);
+                                Console.WriteLine(propertyInfo.Name);
+                                if (value is IList<string>)
+                                {
+                                    new_field.AddField(propertyInfo.Name, ((List<string>)value)[0]);
+                                }
+                                else
+                                {
+                                    new_field.AddField(propertyInfo.Name, value);
+                                }
                             }
                             i++;
                             if (i > 1)
@@ -199,7 +210,8 @@ namespace DicomTemplateMakerGUI.Services
                                 break;
                             }
                         }
-                        UpdateRecord(TableKey, new_field, entry.Id, true);
+                        await airtableBase.UpdateRecord(TableKey, new_field, entry.Id, true);
+                        //UpdateRecord(TableKey, new_field, entry.Id, true);
                     }
 
                 }

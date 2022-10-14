@@ -344,7 +344,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-            table.WriteToAirTable(TemplateTextBox.Text);
+            table.WriteToAirTable(TemplateTextBox.Text, template_maker.ROIs);
         }
 
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
