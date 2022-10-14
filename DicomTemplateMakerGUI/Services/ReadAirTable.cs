@@ -27,8 +27,8 @@ namespace DicomTemplateMakerGUI.Services
         public string MappingResourceName { get; set; }
         public string MappingResourceUID { get; set; }
         public string ContextUID { get; set; }
-        public List<string> Template_Recommend { get; set; }
-        public List<string> Template_Consider { get; set; }
+        public List<string> Template_Recommend { get; set; } = new List<string>();
+        public List<string> Template_Consider { get; set; } = new List<string>();
         public AirTableEntry()
         {
             OntologyCodeClass o = new OntologyCodeClass();
@@ -44,6 +44,7 @@ namespace DicomTemplateMakerGUI.Services
         {
             OntologyCodeClass o = roi.Ontology_Class;
             Scheme = o.Scheme;
+            FMAID = o.CodeValue;
             ContextGroupVersion = o.ContextGroupVersion;
             MappingResource = o.MappingResource;
             ContextIdentifier = o.ContextIdentifier;
@@ -158,17 +159,49 @@ namespace DicomTemplateMakerGUI.Services
                 roi_dictionary[site].Add(roi);
             }
         }
-        public void WriteToAirTable(string site)
+        public async void UpdateRecord(string TableKey, Fields new_field, string id, bool typecast)
+        {
+            await airtableBase.UpdateRecord(TableKey, new_field, id, typecast);
+        }
+        public async void WriteToAirTable(string site)
         {
             foreach (ROIClass roi in roi_dictionary[site])
             {
                 AirTableEntry new_entry = new AirTableEntry(roi);
                 new_entry.Id = "0";
+                if (roi.Include)
+                {
+                    new_entry.Template_Recommend.Add(site);
+                }
+                else
+                {
+                    new_entry.Template_Consider.Add(site);
+                }
                 var records = AirTableEntry_List.Where(x => x.Structure == roi.ROIName);
                 if (records.Any())
                 {
                     AirTableEntry entry = records.First();
                     new_entry.Id = entry.Id;
+                    if (!(entry == new_entry))
+                    {
+                        Fields new_field = new Fields();
+                        int i = 0;
+                        foreach (System.Reflection.PropertyInfo propertyInfo in new_entry.GetType().GetProperties())
+                        {
+                            var value = propertyInfo.GetValue(new_entry);
+                            if (value != null)
+                            {
+                                new_field.AddField(propertyInfo.Name, value);
+                            }
+                            i++;
+                            if (i > 1)
+                            {
+                                break;
+                            }
+                        }
+                        UpdateRecord(TableKey, new_field, entry.Id, true);
+                    }
+
                 }
                 else
                 {
@@ -177,6 +210,8 @@ namespace DicomTemplateMakerGUI.Services
                     {
                         new_field.AddField(propertyInfo.Name, propertyInfo.GetValue(new_entry));
                     }
+
+                    await airtableBase.CreateRecord(TableKey, new_field, false);
                 }
             }
         }
