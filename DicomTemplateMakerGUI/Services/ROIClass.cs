@@ -15,7 +15,7 @@ namespace DicomTemplateMakerGUI.Services
         private Color roi_color;
         private Brush roi_brush;
         public string color_string;
-        private bool include = true;
+        private bool include;
         public bool Include
         {
             get { return include; }
@@ -115,6 +115,7 @@ namespace DicomTemplateMakerGUI.Services
             R = r;
             G = g;
             B = b;
+            Include = true;
             ROIColor = Color.FromRgb(R, G, B);
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
             ROI_Brush = new SolidColorBrush(ROIColor);
@@ -125,6 +126,7 @@ namespace DicomTemplateMakerGUI.Services
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
             roiname = name;
+            Include = true;
             color_string = color;
             string[] colors = color.Split('\\');
             R = Byte.Parse(colors[0]);
