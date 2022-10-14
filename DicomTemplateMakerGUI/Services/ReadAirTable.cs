@@ -225,10 +225,21 @@ namespace DicomTemplateMakerGUI.Services
                     Fields new_field = new Fields();
                     foreach (System.Reflection.PropertyInfo propertyInfo in new_entry.GetType().GetProperties())
                     {
-                        new_field.AddField(propertyInfo.Name, propertyInfo.GetValue(new_entry));
+                        var value = propertyInfo.GetValue(new_entry);
+                        if (value != null)
+                        {
+                            if (value is IList<string>)
+                            {
+                                new_field.AddField(propertyInfo.Name, (List<string>)value);
+                            }
+                            else
+                            {
+                                new_field.AddField(propertyInfo.Name, value);
+                            }
+                        }
                     }
 
-                    await airtableBase.CreateRecord(TableKey, new_field, false);
+                    await airtableBase.CreateRecord(TableKey, new_field, true);
                 }
             }
             return output;
