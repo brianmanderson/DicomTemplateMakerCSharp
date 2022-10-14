@@ -123,6 +123,11 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void add_roi(string site, AirTableEntry r, bool include)
         {
+            Console.WriteLine(r.Structure);
+            if (r.Structure == "Bowel_Sigmoid")
+            {
+                int kk = 2;
+            }
             if (!template_dictionary.ContainsKey(site))
             {
                 template_dictionary.Add(site, new List<AirTableEntry>());
@@ -197,7 +202,7 @@ namespace DicomTemplateMakerGUI.Services
                                 Console.WriteLine(propertyInfo.Name);
                                 if (value is IList<string>)
                                 {
-                                    new_field.AddField(propertyInfo.Name, ((List<string>)value)[0]);
+                                    new_field.AddField(propertyInfo.Name, (List<string>)value);
                                 }
                                 else
                                 {
@@ -238,7 +243,14 @@ namespace DicomTemplateMakerGUI.Services
                 Task<AirtableRetrieveRecordResponse<AirTableEntry>> task = airtableBase.RetrieveRecord<AirTableEntry>(TableKey, rr.Id);
                 while (!task.IsCompleted)
                 {
-                    await task;
+                    try
+                    {
+                        await task;
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                 }
                 var response = await task;
                 if (response.Success)

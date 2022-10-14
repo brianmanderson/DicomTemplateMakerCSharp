@@ -304,10 +304,10 @@
     <Resource Include="Pictures\EditPaths.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="AirTables\TG263_AirTable.txt">
+    <Content Include="AirTables\TG263_AirTable.txt" />
+    <Content Include="AirTables\UCSD_AirTable.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="AirTables\UCSD_AirTable.txt" />
     <Content Include="Template_Dicoms\AbdPelv_Anal.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
