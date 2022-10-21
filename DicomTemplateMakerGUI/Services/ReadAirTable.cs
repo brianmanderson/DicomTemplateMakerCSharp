@@ -7,9 +7,44 @@ using System.Threading;
 using System.Threading.Tasks;
 using AirtableApiClient;
 using System.ComponentModel;
+using System.Reflection;
+
 
 namespace DicomTemplateMakerGUI.Services
 {
+    class Variance
+    {
+        public string Prop { get; set; }
+        public object valA { get; set; }
+        public object valB { get; set; }
+    }
+    static class extentions
+    {
+        public static List<string> DetailedCompare<T>(this T val1, T val2)
+        {
+            List<string> variances = new List<string>();
+            foreach (System.Reflection.PropertyInfo propertyInfo in val1.GetType().GetProperties())
+            {
+                var value1 = propertyInfo.GetValue(val1);
+                var value2 = propertyInfo.GetValue(val2);
+                if (value1 is IList<string>)
+                {
+                    if (((List<string>)value1).All(((List<string>)value2).Contains) && ((List<string>)value1).Count == ((List<string>)value2).Count)
+                    {
+                        continue;
+                    }
+                }
+                else if ((string)value1 == (string)value2)
+                {
+                    continue;
+                }
+                variances.Add(propertyInfo.Name);
+            }
+            return variances;
+        }
+
+
+    }
     public class AirTableEntry
     {
         public string Structure { get; set; }
@@ -19,7 +54,6 @@ namespace DicomTemplateMakerGUI.Services
         public string RGB { get; set; }
         public List<string> Colors_RGB { get; set; }
 
-        public string Color_RGB;
         public string Scheme { get; set; }
         public string ContextGroupVersion { get; set; }
         public string MappingResource { get; set; }
@@ -27,12 +61,14 @@ namespace DicomTemplateMakerGUI.Services
         public string MappingResourceName { get; set; }
         public string MappingResourceUID { get; set; }
         public string ContextUID { get; set; }
+        public string CommonName { get; set; }
         public List<string> Template_Recommend { get; set; } = new List<string>();
         public List<string> Template_Consider { get; set; } = new List<string>();
         public AirTableEntry()
         {
             OntologyCodeClass o = new OntologyCodeClass();
             Scheme = o.Scheme;
+            CommonName = null;
             ContextGroupVersion = o.ContextGroupVersion;
             MappingResource = o.MappingResource;
             ContextIdentifier = o.ContextIdentifier;
@@ -45,6 +81,7 @@ namespace DicomTemplateMakerGUI.Services
             OntologyCodeClass o = roi.Ontology_Class;
             Scheme = o.Scheme;
             FMAID = o.CodeValue;
+            CommonName = o.CodeMeaning;
             ContextGroupVersion = o.ContextGroupVersion;
             MappingResource = o.MappingResource;
             ContextIdentifier = o.ContextIdentifier;
@@ -138,7 +175,12 @@ namespace DicomTemplateMakerGUI.Services
             }
             if (!roi_dictionary[site].Where(p => p.ROIName == r.Structure).Any())
             {
-                OntologyCodeClass o = new OntologyCodeClass(name: r.Structure, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
+                string code_meaning = r.Structure;
+                if (r.CommonName != null)
+                {
+                    code_meaning = r.CommonName;
+                }
+                OntologyCodeClass o = new OntologyCodeClass(name: code_meaning, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
                     group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
                     mapping_resource_name: r.MappingResourceName);
                 string[] colors;
@@ -188,7 +230,8 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     AirTableEntry entry = records.First();
                     new_entry.Id = entry.Id;
-                    if (!(entry == new_entry))
+                    var t = extentions.DetailedCompare(entry, new_entry);
+                    if (t.Count > 0)
                     {
                         Fields new_field = new Fields();
                         Console.WriteLine(roi.ROIName);
@@ -231,15 +274,18 @@ namespace DicomTemplateMakerGUI.Services
                             if (value is IList<string>)
                             {
                                 new_field.AddField(propertyInfo.Name, (List<string>)value);
+                                //new_entry[propertyInfo.Name] = (List<string>)value;
                             }
                             else
                             {
                                 new_field.AddField(propertyInfo.Name, value);
+                                //new_entry[propertyInfo.Name] = value;
                             }
                         }
                     }
 
-                    await airtableBase.CreateRecord(TableKey, new_field, true);
+                    var k = await airtableBase.CreateRecord(TableKey, new_field, true);
+                    AirTableEntry_List.Add(new_entry);
                 }
             }
             return output;
