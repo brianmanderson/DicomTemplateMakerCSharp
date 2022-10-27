@@ -258,8 +258,29 @@ namespace DicomTemplateMakerGUI.Services
                                 }
                             }
                         }
-                        //await airtableBase.UpdateRecord(TableKey, new_field, entry.Id, true);
-                        UpdateRecord(TableKey, new_field, entry.Id, true);
+                        if (new_field.FieldsCollection.ContainsKey("Template_Recommend"))
+                        {
+                            if (!roi.Include)
+                            {
+                                if (((List<string>)new_field.FieldsCollection["Template_Recommend"]).Contains(site))
+                                {
+                                    ((List<string>)new_field.FieldsCollection["Template_Recommend"]).Remove(site);
+                                }
+                            }
+                            else
+                            {
+                                if (((List<string>)new_field.FieldsCollection["Template_Consider"]).Contains(site))
+                                {
+                                    ((List<string>)new_field.FieldsCollection["Template_Consider"]).Remove(site);
+                                }
+                            }
+                        }
+                        await airtableBase.UpdateRecord(TableKey, new_field, entry.Id, true);
+                        //UpdateRecord(TableKey, new_field, entry.Id, true);
+                        new_entry.Template_Consider = new_entry.Template_Consider.Union(entry.Template_Consider.ToList()).ToList();
+                        new_entry.Template_Recommend = new_entry.Template_Recommend.Union(entry.Template_Recommend.ToList()).ToList();
+                        AirTableEntry_List.Remove(entry);
+                        AirTableEntry_List.Add(new_entry);
                     }
 
                 }
@@ -283,8 +304,12 @@ namespace DicomTemplateMakerGUI.Services
                             }
                         }
                     }
-
+                    // A bit round about... but we have to create the record to get an Id for the record...
                     var k = await airtableBase.CreateRecord(TableKey, new_field, true);
+                    new_entry.Id = k.Record.Id;
+                    new_field = new Fields();
+                    new_field.AddField("Id", k.Record.Id);
+                    await airtableBase.UpdateRecord(TableKey, new_field, new_entry.Id, true);
                     AirTableEntry_List.Add(new_entry);
                 }
             }
