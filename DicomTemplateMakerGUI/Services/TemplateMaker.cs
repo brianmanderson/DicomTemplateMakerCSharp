@@ -35,6 +35,10 @@ namespace DicomTemplateMakerGUI.Services
         {
             this.onto_path = onto_path;
         }
+        public void write_roi(ROIClass roi)
+        {
+
+        }
         public void write_ontology(OntologyCodeClass onto)
         {
             try

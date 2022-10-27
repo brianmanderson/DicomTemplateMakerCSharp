@@ -133,7 +133,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void rebuild_text()
         {
-            OntologyCodeClass onto = roi.Ontology_Class;
+            OntologyCodeClass i = roi.Ontology_Class;
             if (!Directory.Exists(roi_path))
             {
                 Directory.CreateDirectory(roi_path);
@@ -142,9 +142,11 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
                     $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                    $"{onto.CodeMeaning}\\{onto.CodeValue}\\{onto.Scheme}\\{onto.ContextGroupVersion}\\" +
-                    $"{onto.MappingResource}\\{onto.ContextIdentifier}\\{onto.MappingResourceName}\\{onto.MappingResourceUID}\\{onto.ContextUID}\n" +
-                    $"{roi.ROI_Interpreted_type}");
+                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
+                    $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
+                    $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
+                    $"{roi.ROI_Interpreted_type}\n" +
+                    $"{roi.Include}");
             }
             catch
             {
