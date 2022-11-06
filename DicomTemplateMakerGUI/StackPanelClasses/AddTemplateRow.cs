@@ -21,7 +21,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private Label rois_present_label;
         public TemplateMaker template_maker;
         private Button DeleteButton;
-        private CheckBox DeleteCheckBox;
+        public CheckBox DeleteCheckBox;
         private Button edit_rois_button;
         public List<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
@@ -94,7 +94,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 DeleteButton.IsEnabled = true;
             }
         }
-        private void DeleteButton_Click(object sender, System.EventArgs e)
+        public void Delete()
         {
             template_maker.define_output(template_maker.path);
             template_maker.clear_folder();
@@ -108,6 +108,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             }
             Directory.Delete(template_maker.path);
             Children.Clear();
+        }
+        private void DeleteButton_Click(object sender, System.EventArgs e)
+        {
+            Delete();
         }
     }
 }

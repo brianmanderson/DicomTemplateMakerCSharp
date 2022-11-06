@@ -325,6 +325,25 @@ namespace DicomTemplateMakerGUI
             }
         }
 
+        private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (AddTemplateRow row in template_rows)
+            {
+                row.DeleteCheckBox.IsChecked = true;
+            }
+        }
+
+        private void Deleted_Selected_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (AddTemplateRow row in template_rows)
+            {
+                if ((bool)row.DeleteCheckBox.IsChecked)
+                {
+                    row.Delete();
+                }
+            }
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
