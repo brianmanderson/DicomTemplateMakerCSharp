@@ -51,8 +51,15 @@ namespace DicomTemplateMakerGUI.Windows
             OntologyComboBox.DisplayMemberPath = "CodeMeaning";
             OntologyComboBox.ItemsSource = template_maker.Ontologies;
             OntologyComboBox.SelectedIndex = 0;
-
-            AirTableComboBox.ItemsSource = AirTables;
+            List<ReadAirTable> loadable_airtables = new List<ReadAirTable>();
+            foreach (ReadAirTable at in AirTables)
+            {
+                if (at.AirTableName != "TG263_AirTable")
+                {
+                    loadable_airtables.Add(at);
+                }
+            }
+            AirTableComboBox.ItemsSource = loadable_airtables;
             AirTableComboBox.DisplayMemberPath = "AirTableName";
             if (AirTables.Count > 0)
             {
