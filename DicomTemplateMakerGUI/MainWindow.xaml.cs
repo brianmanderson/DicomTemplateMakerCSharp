@@ -344,6 +344,16 @@ namespace DicomTemplateMakerGUI
             }
         }
 
+        private void DeleteROIs_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Deleted_Selected_Button.Content = "Deleting ROIs...";
+            Deleted_Selected_Button.IsEnabled = false;
+            DicomTemplateRunner runner = new DicomTemplateRunner(Path.GetFullPath(folder_location));
+            runner.delete_rts();
+            Deleted_Selected_Button.Content = "Delete previously generated RTs";
+            Deleted_Selected_Button.IsEnabled = true;
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();

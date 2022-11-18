@@ -101,7 +101,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 }
             }
         }
-        public void run_for_path(string template_name, string path)
+        public void run_for_path(string template_name, string path, bool delete_RT)
         {
             if (!Directory.Exists(path))
             {
@@ -113,8 +113,16 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             foreach (string directory in all_directories)
             {
                 string status_file = Path.Combine(directory, $"CreatedRT_{template_name}.txt");
-                if (Directory.GetFiles(directory, $"{template_name}_UID*").Any())
+                string[] temp_dcm_files = Directory.GetFiles(directory, $"{template_name}_UID*");
+                if (temp_dcm_files.Any())
                 {
+                    if (delete_RT)
+                    {
+                        foreach (string tmp_file in temp_dcm_files)
+                        {
+                            File.Delete(tmp_file);
+                        }
+                    }
                     continue;
                 }
                 List<string> dicom_files = Directory.GetFiles(directory, "*.dcm").ToList();
@@ -313,13 +321,13 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 }
             }
         }
-        public void run_for_template_key(string template_name)
+        public void run_for_template_key(string template_name, bool delete_RT)
         {
             foreach (string path in paths_dictionary[template_name])
             {
                 try
                 {
-                    run_for_path(template_name, path);
+                    run_for_path(template_name, path, delete_RT);
                 }
                 catch
                 {
@@ -327,13 +335,13 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 }
             }
         }
-        public void walk_down_folders()
+        public void walk_down_folders(bool delete_RT)
         {
             foreach (string template_name in template_dictionary.Keys)
             {
                 try
                 {
-                    run_for_template_key(template_name);
+                    run_for_template_key(template_name, delete_RT);
                 }
                 catch
                 {
@@ -342,13 +350,18 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             }
 
         }
+        public void delete_rts()
+        {
+            build_dictionary();
+            walk_down_folders(true);
+        }
         public void run()
         {
             while (true)
             {
                 Thread.Sleep(3000);
                 build_dictionary();
-                walk_down_folders();
+                walk_down_folders(false);
             }
         }
     }
