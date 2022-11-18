@@ -62,27 +62,6 @@ namespace DicomTemplateMakerGUI.Windows
                 Template_ComboBox.SelectedIndex = 0;
             }
         }
-        private StackPanel TopRow()
-        {
-            StackPanel top_row = new StackPanel();
-            top_row.Orientation = Orientation.Horizontal;
-
-            Label name_label = new Label();
-            name_label.Width = 200;
-            name_label.Content = "Template Name";
-            top_row.Children.Add(name_label);
-
-            Label code_value = new Label();
-            code_value.Width = 200;
-            code_value.Content = "Include in build?";
-            top_row.Children.Add(code_value);
-
-            Label code_scheme = new Label();
-            code_scheme.Width = 150;
-            code_scheme.Content = "Check box";
-            top_row.Children.Add(code_scheme);
-            return top_row;
-        }
         private void BuildTables()
         {
             BuildButton.IsEnabled = false;
@@ -110,7 +89,6 @@ namespace DicomTemplateMakerGUI.Windows
                 Status_Label.Visibility = Visibility.Visible;
                 return;
             }
-            //StackDefaultAirtablePanel.Children.Add(TopRow());
             foreach (string site in airtable.template_dictionary.Keys)
             {
                 AddAirTableRow atrow = new AddAirTableRow(site, airtable);
