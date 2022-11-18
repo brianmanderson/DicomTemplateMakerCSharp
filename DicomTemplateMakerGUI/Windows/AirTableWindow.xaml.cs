@@ -89,35 +89,39 @@ namespace DicomTemplateMakerGUI.Windows
                 Status_Label.Visibility = Visibility.Visible;
                 return;
             }
-            foreach (string site in airtable.template_dictionary.Keys)
+            if (airtable.AirTableName == ((ReadAirTable)Template_ComboBox.SelectedItem).AirTableName)
             {
-                AddAirTableRow atrow = new AddAirTableRow(site, airtable);
-                Border myborder = new Border();
-                myborder.Background = Brushes.Black;
-                myborder.BorderThickness = new Thickness(5);
-                StackDefaultAirtablePanel.Children.Add(myborder);
-                StackDefaultAirtablePanel.Children.Add(atrow);
-                default_airtable_list.Add(atrow);
+                foreach (string site in airtable.template_dictionary.Keys)
+                {
+                    AddAirTableRow atrow = new AddAirTableRow(site, airtable);
+                    Border myborder = new Border();
+                    myborder.Background = Brushes.Black;
+                    myborder.BorderThickness = new Thickness(5);
+                    StackDefaultAirtablePanel.Children.Add(myborder);
+                    StackDefaultAirtablePanel.Children.Add(atrow);
+                    default_airtable_list.Add(atrow);
+                }
+                if (airtable.template_dictionary.Keys.Count > 0)
+                {
+                    BuildButton.IsEnabled = true;
+                    SelectAllButton.IsEnabled = true;
+                    Status_Label.Content = "Ready!";
+                    BuildButton.Background = lightgreen;
+                    Status_Label.Visibility = Visibility.Hidden;
+                    CheckBoxLabel.Visibility = Visibility.Visible;
+                    IncludeLabel.Visibility = Visibility.Visible;
+                    TemplateNameLabel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    Status_Label.Content = "No records found!";
+                    BuildButton.IsEnabled = false;
+                    SelectAllButton.IsEnabled = false;
+                    Status_Label.Background = red;
+                    Status_Label.Visibility = Visibility.Visible;
+                }
             }
-            if (airtable.template_dictionary.Keys.Count > 0)
-            {
-                BuildButton.IsEnabled = true;
-                SelectAllButton.IsEnabled = true;
-                Status_Label.Content = "Ready!";
-                BuildButton.Background = lightgreen;
-                Status_Label.Visibility = Visibility.Hidden;
-                CheckBoxLabel.Visibility = Visibility.Visible;
-                IncludeLabel.Visibility = Visibility.Visible;
-                TemplateNameLabel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                Status_Label.Content = "No records found!";
-                BuildButton.IsEnabled = false;
-                SelectAllButton.IsEnabled = false;
-                Status_Label.Background = red;
-                Status_Label.Visibility = Visibility.Visible;
-            }
+
             
         }
         public async Task Main(ReadAirTable airTable)
