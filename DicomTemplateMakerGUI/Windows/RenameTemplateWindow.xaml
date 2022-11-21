@@ -7,12 +7,13 @@
         mc:Ignorable="d"
         Title="RenameTemplateWindow" Height="150" Width="400">
     <Grid>
-        <TextBox Name="NewName_TextBox" HorizontalAlignment="Left" Height="23" Margin="160,45,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="155"/>
+        <TextBox Name="NewName_TextBox" HorizontalAlignment="Left" Height="23" Margin="160,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" TextChanged="NewName_TextBox_TextChanged"/>
         <Label Content="Previous Name" HorizontalAlignment="Left" Height="23" Margin="19,15,0,0" VerticalAlignment="Top" Width="97"/>
         <Label Content="New Name" HorizontalAlignment="Left" Height="23" Margin="160,15,0,0" VerticalAlignment="Top" Width="97"/>
         <TextBox Name="PreviousName_Textbox" HorizontalAlignment="Left" Height="23" Margin="19,45,0,0" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalAlignment="Top" Width="136"/>
-        <Button x:Name="Rename_Button" Content="Rename" HorizontalAlignment="Left" Height="23" Margin="328,45,0,0" VerticalAlignment="Top" Width="55" Click="Rename_Button_Click"/>
+        <Button x:Name="Rename_Button" IsEnabled="False" Content="Rename" HorizontalAlignment="Left" Height="23" Margin="328,45,0,0" VerticalAlignment="Top" Width="55" Click="Rename_Button_Click"/>
         <Button x:Name="Cancel_Button" Content="Cancel" HorizontalAlignment="Left" Height="23" Margin="328,88,0,0" VerticalAlignment="Top" Width="55" Click="Cancel_Button_Click"/>
+        <Label Name="Status_Label" Content="Status:" HorizontalAlignment="Left" Height="23" Margin="19,73,0,0" VerticalAlignment="Top" Width="97"/>
 
     </Grid>
 </Window>

@@ -227,6 +227,9 @@
     <Compile Include="Windows\OutDatedWindow.xaml.cs">
       <DependentUpon>OutDatedWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\RenameTemplateWindow.xaml.cs">
+      <DependentUpon>RenameTemplateWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -268,6 +271,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\OutDatedWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\RenameTemplateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

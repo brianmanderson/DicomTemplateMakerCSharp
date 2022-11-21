@@ -388,7 +388,8 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Rename_template_Click(object sender, RoutedEventArgs e)
         {
-
+            RenameTemplateWindow rename_window = new RenameTemplateWindow(Path.GetDirectoryName(out_path), out_path);
+            rename_window.ShowDialog();
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)

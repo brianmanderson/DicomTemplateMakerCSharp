@@ -16,8 +16,8 @@
             </StackPanel>
         </ScrollViewer>
         <Button x:Name="AddOntology" Content="Edit Ontologies" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Add_Ontology_Button"/>
-        <Button Content="Help!" HorizontalAlignment="Left" Margin="876,8,0,0" VerticalAlignment="Top" Width="157" Height="106" Click="Button_Click"/>
-        <Label Content="Need help? Click here!" HorizontalAlignment="Left" Margin="742,66,0,0" VerticalAlignment="Top"/>
+        <Button Content="Help!" HorizontalAlignment="Left" Margin="876,29,0,0" VerticalAlignment="Top" Width="157" Height="106" Click="Button_Click"/>
+        <Label Content="Need help? Click here!" HorizontalAlignment="Left" Margin="884,3,0,0" VerticalAlignment="Top"/>
         <Button Visibility="Hidden" x:Name="BuildDefault_Button" Content="Make default templates" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="MakeDefault_Button"/>
         <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,140,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
         <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="498"/>
