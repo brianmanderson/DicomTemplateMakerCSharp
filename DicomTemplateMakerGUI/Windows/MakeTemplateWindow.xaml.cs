@@ -386,6 +386,11 @@ namespace DicomTemplateMakerGUI.Windows
             check_airtables(table);
         }
 
+        private void Rename_template_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void AddROI_Click(object sender, RoutedEventArgs e)
         {
             OntologyCodeClass code_class = (OntologyCodeClass)OntologyComboBox.SelectedItem;
