@@ -22,7 +22,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     {
         private Label rois_present_label;
         public TemplateMaker templateMaker;
-        private Button DeleteButton;
+        private Button DeleteButton, CopyButton;
         public CheckBox DeleteCheckBox;
         private Button edit_rois_button;
         public List<ReadAirTable> AirTables;
@@ -55,6 +55,29 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             edit_rois_button.Click += EditROIButton_Click;
             Children.Add(edit_rois_button);
 
+            StackPanel copy_panel = new StackPanel();
+            copy_panel.Orientation = Orientation.Horizontal;
+            Label copy_label = new Label();
+            copy_label.Content = "Copy?";
+            copy_label.Width = 100;
+            copy_panel.Children.Add(copy_label);
+
+            DeleteCheckBox = new CheckBox();
+            DeleteCheckBox.Checked += CheckBox_DataContextChanged;
+            DeleteCheckBox.Unchecked += CheckBox_DataContextChanged;
+            copy_panel.Children.Add(DeleteCheckBox);
+
+            Label padding_label = new Label();
+            padding_label.Width = 100;
+
+            CopyButton = new Button();
+            CopyButton.Width = 125;
+            CopyButton.IsEnabled = false;
+            CopyButton.Click += DeleteButton_Click;
+            CopyButton.Content = "Copy Template";
+            copy_panel.Children.Add(CopyButton);
+            Children.Add(copy_panel);
+
             StackPanel delete_panel = new StackPanel();
             delete_panel.Orientation = Orientation.Horizontal;
             Label delete_label = new Label();
@@ -66,10 +89,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteCheckBox.Checked += CheckBox_DataContextChanged;
             DeleteCheckBox.Unchecked += CheckBox_DataContextChanged;
             delete_panel.Children.Add(DeleteCheckBox);
-
-            Label padding_label = new Label();
-            delete_label.Width = 100;
-            delete_panel.Children.Add(padding_label);
+            padding_label = new Label();
+            padding_label.Width = 100;
 
             DeleteButton = new Button();
             DeleteButton.IsEnabled = false;
@@ -93,9 +114,11 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             bool delete_checked = DeleteCheckBox.IsChecked ?? false;
             DeleteButton.IsEnabled = false;
+            CopyButton.IsEnabled = false;
             if (delete_checked)
             {
                 DeleteButton.IsEnabled = true;
+                CopyButton.IsEnabled = true;
             }
         }
         public void Delete()
