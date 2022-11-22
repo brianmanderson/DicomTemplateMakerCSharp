@@ -399,6 +399,7 @@ namespace DicomTemplateMakerGUI.Windows
             rename_window.ShowDialog();
             if (rename_window.rename)
             {
+                template_maker.TemplateName = rename_window.NewName_TextBox.Text;
                 TemplateTextBox.Text = rename_window.NewName_TextBox.Text;
                 Directory.Move(out_path, Path.Combine(Path.GetDirectoryName(out_path), rename_window.NewName_TextBox.Text));
                 out_path = Path.GetDirectoryName(out_path);

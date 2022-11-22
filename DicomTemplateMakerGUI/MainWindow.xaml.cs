@@ -273,7 +273,7 @@ namespace DicomTemplateMakerGUI
             TemplateStackPanel.Children.Clear();
             foreach (AddTemplateRow temp_row in template_rows)
             {
-                if (temp_row.template_maker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
@@ -313,10 +313,10 @@ namespace DicomTemplateMakerGUI
                 }
                 foreach (AddTemplateRow template_row in template_rows)
                 {
-                    if (!template_row.template_maker.Paths.Contains(output_directory))
+                    if (!template_row.templateMaker.Paths.Contains(output_directory))
                     {
-                        template_row.template_maker.Paths.Add(output_directory);
-                        template_row.template_maker.make_template();
+                        template_row.templateMaker.Paths.Add(output_directory);
+                        template_row.templateMaker.make_template();
                     }
                 }
                 Rebuild_From_Folders();
