@@ -13,33 +13,37 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.Windows;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
-    class AddTemplateRow : StackPanel
+    public class AddTemplateRow : StackPanel
     {
         private Label rois_present_label;
-        public TemplateMaker template_maker;
+        public TemplateMaker templateMaker;
         private Button DeleteButton;
         public CheckBox DeleteCheckBox;
         private Button edit_rois_button;
         public List<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public AddTemplateRow(TemplateMaker template_maker, List<ReadAirTable> airTables)
+        public AddTemplateRow(TemplateMaker tm, List<ReadAirTable> airTables)
         {
             AirTables = airTables;
-            this.template_maker = template_maker;
+            templateMaker = tm;
             Label template_label = new Label();
-            template_label.Content = template_maker.template_name;
+            Binding template_name_binding = new Binding("TemplateName");
+            template_name_binding.Source = templateMaker;
+            template_label.SetBinding(Label.ContentProperty, template_name_binding);
             Children.Add(template_label);
 
             rois_present_label = new Label();
-            rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
+            rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
             Children.Add(rois_present_label);
 
             edit_rois_button = new Button();
-            if (template_maker.Paths.Count == 0)
+            if (templateMaker.Paths.Count == 0)
             {
                 edit_rois_button.Background = lightred;
             }
@@ -77,13 +81,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
-            MakeTemplateWindow template_window = new MakeTemplateWindow(template_maker.path, template_maker, AirTables);
+            MakeTemplateWindow template_window = new MakeTemplateWindow(templateMaker.path, templateMaker, AirTables);
             template_window.ShowDialog();
-            if (template_maker.Paths.Count != 0)
+            if (templateMaker.Paths.Count != 0)
             {
                 edit_rois_button.Background = lightgray;
             }
-            rois_present_label.Content = $"{template_maker.ROIs.Count} ROIs present in template";
+            rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
         }
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
@@ -96,17 +100,18 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         public void Delete()
         {
-            template_maker.define_output(template_maker.path);
-            template_maker.clear_folder();
-            foreach (string path in Directory.GetFiles(template_maker.path))
+            templateMaker.define_output(templateMaker.path);
+            templateMaker.define_path(templateMaker.path);
+            templateMaker.clear_folder();
+            foreach (string path in Directory.GetFiles(templateMaker.path))
             {
                 File.Delete(path);
             }
-            if (Directory.Exists(Path.Combine(template_maker.path, "ROIs")))
+            if (Directory.Exists(Path.Combine(templateMaker.path, "ROIs")))
             {
-                Directory.Delete(Path.Combine(template_maker.path, "ROIs"));
+                Directory.Delete(Path.Combine(templateMaker.path, "ROIs"));
             }
-            Directory.Delete(template_maker.path);
+            Directory.Delete(templateMaker.path);
             Children.Clear();
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)

@@ -9,9 +9,29 @@ using System.ComponentModel;
 
 namespace DicomTemplateMakerGUI.Services
 {
-    public class TemplateMaker
+    public class TemplateMaker : INotifyPropertyChanged
     {
-        public string template_name;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
+        private string template_name;
+        public string TemplateName
+        {
+            get { return template_name; }
+            set
+            {
+                template_name = value;
+                OnPropertyChanged("TemplateName");
+            }
+        }
         public string path;
         private string onto_path;
         public string color, interperter;
@@ -246,7 +266,7 @@ namespace DicomTemplateMakerGUI.Services
             if (Directory.Exists(Path.Combine(path, "ROIs")))
             {
                 is_template = true;
-                template_name = Path.GetFileName(path);
+                TemplateName = Path.GetFileName(path);
                 string[] roi_files = Directory.GetFiles(Path.Combine(path, "ROIs"), "*.txt");
                 foreach (string roi_file in roi_files)
                 {

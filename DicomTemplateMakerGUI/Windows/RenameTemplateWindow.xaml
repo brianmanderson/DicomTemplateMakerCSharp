@@ -1,0 +1,19 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.RenameTemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="RenameTemplateWindow" Height="175" Width="500">
+    <Grid>
+        <TextBox Name="NewName_TextBox" HorizontalAlignment="Left" Height="23" Margin="223,45,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" TextChanged="NewName_TextBox_TextChanged"/>
+        <Label Content="Previous Name" HorizontalAlignment="Left" Height="23" Margin="19,15,0,0" VerticalAlignment="Top" Width="97"/>
+        <Label Content="New Name" HorizontalAlignment="Left" Height="23" Margin="223,15,0,0" VerticalAlignment="Top" Width="97"/>
+        <TextBox Name="PreviousName_Textbox" HorizontalAlignment="Left" Height="23" Margin="19,45,0,0" TextWrapping="Wrap" Text="" IsReadOnly="True" VerticalAlignment="Top" Width="199"/>
+        <Button x:Name="Rename_Button" IsEnabled="False" Content="Rename" HorizontalAlignment="Left" Height="23" Margin="428,45,0,0" VerticalAlignment="Top" Width="55" Click="Rename_Button_Click"/>
+        <Button x:Name="Cancel_Button" Content="Cancel" HorizontalAlignment="Left" Height="23" Margin="428,112,0,0" VerticalAlignment="Top" Width="55" Click="Cancel_Button_Click"/>
+        <Label Name="Status_Label" Content="Status:" HorizontalAlignment="Left" Height="23" Margin="19,86,0,0" VerticalAlignment="Top" Width="296"/>
+
+    </Grid>
+</Window>

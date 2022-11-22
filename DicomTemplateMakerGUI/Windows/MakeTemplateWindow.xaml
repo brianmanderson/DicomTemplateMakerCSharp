@@ -12,9 +12,9 @@
         <Label Name="FileLocationLabel" Visibility="Hidden" Content="" HorizontalAlignment="Left" Height="37" Margin="287,40,0,0" VerticalAlignment="Top" Width="481" Grid.ColumnSpan="3"/>
         <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,36,0,0" VerticalAlignment="Top" Width="137"/>
         <Label Name="ROINameLabel" Content="ROI Name" HorizontalAlignment="Left" Height="44" Margin="500,131,0,0" VerticalAlignment="Top" Width="170"/>
-        <TextBox x:Name="TemplateTextBox" Background="LightGreen" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="168,32,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="395"/>
+        <TextBox x:Name="TemplateTextBox" Background="LightGreen" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="168,32,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="292"/>
         <TextBox x:Name="ROITextBox" IsEnabled="False" TextChanged="ROINameChanged" HorizontalAlignment="Left" Height="45" Margin="500,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
-        <Button x:Name="BuildButton" Background="LightGreen" Content="Build Template!" HorizontalAlignment="Left" Height="41" Margin="592,32,0,0" VerticalAlignment="Top" Width="210" Click="Build_Button_Click"/>
+        <Button x:Name="BuildButton" Background="LightGreen" Content="Build Template!" HorizontalAlignment="Left" Height="41" Margin="465,32,0,0" VerticalAlignment="Top" Width="210" Click="Build_Button_Click"/>
         <Button x:Name="AddROIButton" Content="Add ROI" HorizontalAlignment="Left" Height="45" Margin="973,165,0,0" VerticalAlignment="Top" Width="210" Click="AddROI_Click" IsEnabled="False"/>
         <Button x:Name="ColorButton" IsEnabled="False" Content="" HorizontalAlignment="Left" Height="45" Margin="888,165,0,0" VerticalAlignment="Top" Width="80" Click="ChangeColor_Click"/>
         <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="34" Margin="423,226,0,0" VerticalAlignment="Top" Width="140" Click="Refresh_Click" IsEnabled="False"/>
@@ -41,5 +41,6 @@
         <Button x:Name="UnSelect_All_Button" Content="Unselect Include All" HorizontalAlignment="Left" Height="34" Margin="737,226,0,0" VerticalAlignment="Top" Width="140" Click="UnSelectAll_Click" IsEnabled="False"/>
         <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="37" Margin="858,36,0,0" VerticalAlignment="Top" Width="276" SelectionChanged="AirTableSelectionChanged"/>
         <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="37" Margin="858,89,0,0" VerticalAlignment="Top" Width="276" Click="WriteToAirTable_Click" IsEnabled="False"/>
+        <Button x:Name="Rename_Button" Content="Rename template" HorizontalAlignment="Left" Height="41" Margin="680,32,0,0" VerticalAlignment="Top" Width="165" Click="Rename_template_Click"/>
     </Grid>
 </Window>
