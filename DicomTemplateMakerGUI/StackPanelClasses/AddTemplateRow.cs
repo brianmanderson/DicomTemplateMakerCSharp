@@ -31,7 +31,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             AirTables = airTables;
             this.template_maker = template_maker;
             Label template_label = new Label();
-            template_label.Content = template_maker.template_name;
+            Binding template_name_binding = new Binding("TemplateName");
+            template_name_binding.Source = template_maker;
+            template_label.SetBinding(Label.ContentProperty, template_name_binding);
+            //template_label.Content = template_maker.TemplateName;
             Children.Add(template_label);
 
             rois_present_label = new Label();

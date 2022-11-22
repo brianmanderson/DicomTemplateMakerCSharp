@@ -273,7 +273,7 @@ namespace DicomTemplateMakerGUI
             TemplateStackPanel.Children.Clear();
             foreach (AddTemplateRow temp_row in template_rows)
             {
-                if (temp_row.template_maker.template_name.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                if (temp_row.template_maker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
