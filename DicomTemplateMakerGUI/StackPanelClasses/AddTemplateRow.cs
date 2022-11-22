@@ -101,6 +101,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public void Delete()
         {
             templateMaker.define_output(templateMaker.path);
+            templateMaker.define_path(templateMaker.path);
             templateMaker.clear_folder();
             foreach (string path in Directory.GetFiles(templateMaker.path))
             {

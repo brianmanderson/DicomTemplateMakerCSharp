@@ -222,6 +222,7 @@ namespace DicomTemplateMakerGUI.Windows
             Update_and_ExitButton.IsEnabled = true;
             out_path = Path.Combine(out_path, TemplateTextBox.Text);
             template_maker.define_output(out_path);
+            template_maker.define_path(out_path);
             template_maker.make_template();
             check_status();
         }
