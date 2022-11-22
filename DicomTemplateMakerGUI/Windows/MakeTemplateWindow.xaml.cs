@@ -208,7 +208,7 @@ namespace DicomTemplateMakerGUI.Windows
             top_row.Children.Add(code_scheme);
             return top_row;
         }
-        private void Build_Button_Click(object sender, RoutedEventArgs e)
+        private void Build()
         {
             UpdateButton.IsEnabled = true;
             pathsButton.IsEnabled = true;
@@ -224,6 +224,10 @@ namespace DicomTemplateMakerGUI.Windows
             template_maker.define_output(out_path);
             template_maker.make_template();
             check_status();
+        }
+        private void Build_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Build();
         }
         private void check_status()
         {
@@ -266,8 +270,7 @@ namespace DicomTemplateMakerGUI.Windows
                 }
             }
         }
-
-        private void TemplateNameChanged(object sender, TextChangedEventArgs e)
+        private void templatenameChanged()
         {
             check_status();
             write_path = Path.Combine(out_path, TemplateTextBox.Text);
@@ -277,6 +280,10 @@ namespace DicomTemplateMakerGUI.Windows
             pathsButton.IsEnabled = false;
             Update_and_ExitButton.IsEnabled = false;
             check_status();
+        }
+        private void TemplateNameChanged(object sender, TextChangedEventArgs e)
+        {
+            templatenameChanged();
         }
 
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
@@ -303,7 +310,7 @@ namespace DicomTemplateMakerGUI.Windows
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
         {
             Save_Changes_Click(sender, e);
-            this.Close();
+            Close();
         }
 
         private void PathsButtonClick(object sender, RoutedEventArgs e)
@@ -388,8 +395,15 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Rename_template_Click(object sender, RoutedEventArgs e)
         {
-            RenameTemplateWindow rename_window = new RenameTemplateWindow(Path.GetDirectoryName(out_path), out_path);
+            RenameTemplateWindow rename_window = new RenameTemplateWindow(Path.GetFileName(out_path), Path.GetDirectoryName(out_path));
             rename_window.ShowDialog();
+            if (rename_window.rename)
+            {
+                TemplateTextBox.Text = rename_window.NewName_TextBox.Text;
+                Directory.Move(out_path, Path.Combine(Path.GetDirectoryName(out_path), rename_window.NewName_TextBox.Text));
+                out_path = Path.GetDirectoryName(out_path);
+                Build();
+            }
         }
 
         private void AddROI_Click(object sender, RoutedEventArgs e)
