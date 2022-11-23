@@ -72,7 +72,7 @@ namespace DicomTemplateMakerGUI.Windows
             Template_ComboBox.SelectedIndex = -1;
             if (AirTables.Count > 0)
             {
-                Template_ComboBox.SelectedIndex = AirTables.Count;
+                Template_ComboBox.SelectedIndex = 0;
             }
         }
         private void BuildTables()
@@ -190,6 +190,7 @@ namespace DicomTemplateMakerGUI.Windows
             ReadAirTable at = (ReadAirTable)Template_ComboBox.SelectedItem;
             at.Delete();
             AirTables.Remove(at);
+            build_combobox();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -205,7 +206,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             AddAirTableTemplate at_window = new AddAirTableTemplate(AirTables);
             at_window.ShowDialog();
-            //build_combobox();
+            build_combobox();
         }
 
         private void SelectAll_Click(object sender, RoutedEventArgs e)
