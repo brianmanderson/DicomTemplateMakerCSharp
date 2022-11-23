@@ -47,17 +47,6 @@ namespace DicomTemplateMakerGUI.Windows
                 OnPropertyChanged("AirTables");
             }
         }
-        protected void Notify(string propName)
-        {
-            if (this.PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
-        }
-        private void AirTables_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Notify("AirTables");
-        }
         string folder_location;
         string onto_path;
         bool finished = false;
@@ -72,7 +61,6 @@ namespace DicomTemplateMakerGUI.Windows
             this.folder_location = folder_location;
             this.onto_path = onto_path;
             AirTables = ats;
-            AirTables.CollectionChanged += AirTables_CollectionChanged;
             Template_ComboBox.DisplayMemberPath = "AirTableName";
             Binding source_binding = new Binding("AirTables");
             source_binding.Source = this;
@@ -201,8 +189,7 @@ namespace DicomTemplateMakerGUI.Windows
             Delete_CheckBox.IsChecked = false;
             ReadAirTable at = (ReadAirTable)Template_ComboBox.SelectedItem;
             at.Delete();
-            AirTables.Remove(airtable);
-            build_combobox();
+            AirTables.Remove(at);
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
