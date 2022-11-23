@@ -18,6 +18,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
+using System.Collections.ObjectModel;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -37,10 +38,10 @@ namespace DicomTemplateMakerGUI.Windows
         public TemplateMaker template_maker;
         private byte R, G, B;
         bool file_selected;
-        public List<ReadAirTable> AirTables;
+        public ObservableCollection<ReadAirTable> AirTables;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
-        public MakeTemplateWindow(string folder, TemplateMaker template_maker, List<ReadAirTable> airTables)
+        public MakeTemplateWindow(string folder, TemplateMaker template_maker, ObservableCollection<ReadAirTable> airTables)
         {
             AirTables = airTables;
             out_path = folder;
@@ -48,6 +49,7 @@ namespace DicomTemplateMakerGUI.Windows
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
             InterpComboBox.SelectedIndex = 0;
+            
             OntologyComboBox.DisplayMemberPath = "CodeMeaning";
             OntologyComboBox.ItemsSource = template_maker.Ontologies;
             OntologyComboBox.SelectedIndex = 0;

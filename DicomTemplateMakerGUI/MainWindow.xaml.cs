@@ -19,6 +19,7 @@ using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using DicomTemplateMakerGUI.DicomTemplateServices;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace DicomTemplateMakerGUI
 {
@@ -58,8 +59,8 @@ namespace DicomTemplateMakerGUI
         string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        private List<ReadAirTable> airtables = new List<ReadAirTable>();
-        public List<ReadAirTable> AirTables
+        private ObservableCollection<ReadAirTable> airtables = new ObservableCollection<ReadAirTable>();
+        public ObservableCollection<ReadAirTable> AirTables
         {
             get { return airtables; }
             set
