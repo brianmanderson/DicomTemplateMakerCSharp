@@ -11,16 +11,28 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.ComponentModel;
 using DicomTemplateMakerGUI.Services;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace DicomTemplateMakerGUI.Windows
 {
     /// <summary>
     /// Interaction logic for AddAirTableTemplate.xaml
     /// </summary>
-    public partial class AddAirTableTemplate : Window
+    public partial class AddAirTableTemplate : Window, INotifyPropertyChanged
     {
-        private List<ReadAirTable> airtables;
-        public List<ReadAirTable> AirTables
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
+        private ObservableCollection<ReadAirTable> airtables;
+        public ObservableCollection<ReadAirTable> AirTables
         {
             get { return airtables; }
             set
@@ -29,7 +41,7 @@ namespace DicomTemplateMakerGUI.Windows
                 OnPropertyChanged("AirTables");
             }
         }
-        public AddAirTableTemplate(List<ReadAirTable> ats)
+        public AddAirTableTemplate(ObservableCollection<ReadAirTable> ats)
         {
             InitializeComponent();
             AirTables = ats;
@@ -65,15 +77,6 @@ namespace DicomTemplateMakerGUI.Windows
             ratb.read_records();
             AirTables.Add(ratb);
             Close();
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string info)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(info));
-            }
         }
     }
 }

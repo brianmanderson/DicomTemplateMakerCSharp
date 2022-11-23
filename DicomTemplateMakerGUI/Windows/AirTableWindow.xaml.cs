@@ -15,6 +15,9 @@ using System.ComponentModel;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using AirtableApiClient;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -23,9 +26,19 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class AirTableWindow : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
         public ReadAirTable airtable;
-        private List<ReadAirTable> airtables;
-        public List<ReadAirTable> AirTables
+        private ObservableCollection<ReadAirTable> airtables;
+        public ObservableCollection<ReadAirTable> AirTables
         {
             get { return airtables; }
             set
@@ -33,6 +46,17 @@ namespace DicomTemplateMakerGUI.Windows
                 airtables = value;
                 OnPropertyChanged("AirTables");
             }
+        }
+        protected void Notify(string propName)
+        {
+            if (this.PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
+        private void AirTables_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            Notify("AirTables");
         }
         string folder_location;
         string onto_path;
@@ -42,24 +66,25 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-        public AirTableWindow(List<ReadAirTable> ats, string folder_location, string onto_path)
+        public AirTableWindow(ObservableCollection<ReadAirTable> ats, string folder_location, string onto_path)
         {
             InitializeComponent();
             this.folder_location = folder_location;
             this.onto_path = onto_path;
             AirTables = ats;
-            build_combobox();
-        }
-        private void build_combobox()
-        {
+            AirTables.CollectionChanged += AirTables_CollectionChanged;
             Template_ComboBox.DisplayMemberPath = "AirTableName";
             Binding source_binding = new Binding("AirTables");
             source_binding.Source = this;
             Template_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, source_binding);
+            build_combobox();
+        }
+        private void build_combobox()
+        {
             Template_ComboBox.SelectedIndex = -1;
             if (AirTables.Count > 0)
             {
-                Template_ComboBox.SelectedIndex = 0;
+                Template_ComboBox.SelectedIndex = AirTables.Count;
             }
         }
         private void BuildTables()
@@ -174,15 +199,15 @@ namespace DicomTemplateMakerGUI.Windows
         {
             DeleteButton.IsEnabled = false;
             Delete_CheckBox.IsChecked = false;
-            ReadAirTable airtable = (ReadAirTable)Template_ComboBox.SelectedItem;
-            airtable.Delete();
+            ReadAirTable at = (ReadAirTable)Template_ComboBox.SelectedItem;
+            at.Delete();
             AirTables.Remove(airtable);
             build_combobox();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
-                DeleteButton.IsEnabled = true;
+            DeleteButton.IsEnabled = true;
         }
         private void CheckBox_UnChecked(object sender, RoutedEventArgs e)
         {
@@ -193,7 +218,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             AddAirTableTemplate at_window = new AddAirTableTemplate(AirTables);
             at_window.ShowDialog();
-            build_combobox();
+            //build_combobox();
         }
 
         private void SelectAll_Click(object sender, RoutedEventArgs e)
@@ -201,15 +226,6 @@ namespace DicomTemplateMakerGUI.Windows
             foreach (AddAirTableRow row in default_airtable_list)
             {
                 row.check_box.IsChecked = true;
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string info)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(info));
             }
         }
     }

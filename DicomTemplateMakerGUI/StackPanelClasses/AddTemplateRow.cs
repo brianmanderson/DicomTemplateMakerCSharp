@@ -15,6 +15,7 @@ using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
@@ -25,10 +26,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private Button DeleteButton, CopyButton;
         public CheckBox DeleteCheckBox;
         private Button edit_rois_button;
-        public List<ReadAirTable> AirTables;
+        public ObservableCollection<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public AddTemplateRow(TemplateMaker tm, List<ReadAirTable> airTables)
+        public AddTemplateRow(TemplateMaker tm, ObservableCollection<ReadAirTable> airTables)
         {
             AirTables = airTables;
             templateMaker = tm;
