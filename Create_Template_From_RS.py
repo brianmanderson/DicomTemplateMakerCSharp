@@ -1,6 +1,6 @@
 import pydicom
 import os
-
+from DicomRTTool.ReaderWriter import DicomReaderWriter
 
 def main(rs_path=r'C:\Users\b5anderson\Modular_Projects\Template_Folder\Abdomen_Template.dcm'):
     ds = pydicom.read_file(rs_path)

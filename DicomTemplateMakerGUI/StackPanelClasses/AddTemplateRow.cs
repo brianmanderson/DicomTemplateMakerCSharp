@@ -24,7 +24,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private Label rois_present_label;
         public TemplateMaker templateMaker;
         private Button DeleteButton, CopyButton;
-        public CheckBox DeleteCheckBox;
+        public CheckBox DeleteCheckBox, CopyCheckBox;
         private Button edit_rois_button;
         public ObservableCollection<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
@@ -63,10 +63,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             copy_label.Width = 100;
             copy_panel.Children.Add(copy_label);
 
-            DeleteCheckBox = new CheckBox();
-            DeleteCheckBox.Checked += CheckBox_DataContextChanged;
-            DeleteCheckBox.Unchecked += CheckBox_DataContextChanged;
-            copy_panel.Children.Add(DeleteCheckBox);
+            CopyCheckBox = new CheckBox();
+            CopyCheckBox.Checked += CheckBox_DataContextChanged;
+            CopyCheckBox.Unchecked += CheckBox_DataContextChanged;
+            copy_panel.Children.Add(CopyCheckBox);
 
             Label padding_label = new Label();
             padding_label.Width = 100;
@@ -74,7 +74,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             CopyButton = new Button();
             CopyButton.Width = 125;
             CopyButton.IsEnabled = false;
-            CopyButton.Click += DeleteButton_Click;
+            CopyButton.Click += CopyButton_Click;
             CopyButton.Content = "Copy Template";
             copy_panel.Children.Add(CopyButton);
             Children.Add(copy_panel);
@@ -114,11 +114,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
             bool delete_checked = DeleteCheckBox.IsChecked ?? false;
+            bool copy_checked = CopyCheckBox.IsChecked ?? false;
             DeleteButton.IsEnabled = false;
             CopyButton.IsEnabled = false;
             if (delete_checked)
             {
                 DeleteButton.IsEnabled = true;
+            }
+            if (copy_checked)
+            {
                 CopyButton.IsEnabled = true;
             }
         }
@@ -139,6 +143,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Children.Clear();
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)
+        {
+            Delete();
+        }
+        private void CopyButton_Click(object sender, System.EventArgs e)
         {
             Delete();
         }
