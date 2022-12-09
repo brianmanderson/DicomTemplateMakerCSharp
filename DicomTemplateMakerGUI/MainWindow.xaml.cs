@@ -335,15 +335,21 @@ namespace DicomTemplateMakerGUI
         {
             foreach (AddTemplateRow row in visible_template_rows)
             {
-                row.DeleteCheckBox.IsChecked = true;
+                row.SelectCheckBox.IsChecked = true;
             }
         }
-
+        private void UnselectAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (AddTemplateRow row in visible_template_rows)
+            {
+                row.SelectCheckBox.IsChecked = false;
+            }
+        }
         private void Deleted_Selected_Button_Click(object sender, RoutedEventArgs e)
         {
             foreach (AddTemplateRow row in template_rows)
             {
-                if ((bool)row.DeleteCheckBox.IsChecked)
+                if ((bool)row.SelectCheckBox.IsChecked)
                 {
                     row.Delete();
                 }
@@ -364,6 +370,8 @@ namespace DicomTemplateMakerGUI
         {
 
         }
+
+
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
