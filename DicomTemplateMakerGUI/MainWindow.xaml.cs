@@ -72,6 +72,7 @@ namespace DicomTemplateMakerGUI
         bool running;
         DicomRunner runner;
         List<AddTemplateRow> template_rows;
+        List<AddTemplateRow> visible_template_rows;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -191,6 +192,7 @@ namespace DicomTemplateMakerGUI
             RunDICOMServerButton.IsEnabled = false;
             MakeRTFolderButton.IsEnabled = false;
             template_rows = new List<AddTemplateRow>();
+            visible_template_rows = new List<AddTemplateRow>();
             foreach (string directory in directories)
             {
                 TemplateMaker evaluator = new TemplateMaker();
@@ -214,6 +216,7 @@ namespace DicomTemplateMakerGUI
                     TemplateStackPanel.Children.Add(myborder);
                     TemplateStackPanel.Children.Add(new_row);
                     template_rows.Add(new_row);
+                    visible_template_rows.Add(new_row);
                 }
             }
             if (template_rows.Count == 0)
@@ -272,10 +275,12 @@ namespace DicomTemplateMakerGUI
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
         {
             TemplateStackPanel.Children.Clear();
+            visible_template_rows = new List<AddTemplateRow>();
             foreach (AddTemplateRow temp_row in template_rows)
             {
                 if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
+                    visible_template_rows.Add(temp_row);
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
                     myborder.BorderThickness = new Thickness(5);
@@ -328,7 +333,7 @@ namespace DicomTemplateMakerGUI
 
         private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
         {
-            foreach (AddTemplateRow row in template_rows)
+            foreach (AddTemplateRow row in visible_template_rows)
             {
                 row.DeleteCheckBox.IsChecked = true;
             }
