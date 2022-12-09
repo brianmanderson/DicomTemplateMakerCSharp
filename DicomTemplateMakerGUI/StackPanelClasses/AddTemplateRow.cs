@@ -23,8 +23,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     {
         private Label rois_present_label;
         public TemplateMaker templateMaker;
-        private Button DeleteButton, CopyButton;
-        public CheckBox DeleteCheckBox, CopyCheckBox;
+        public CheckBox SelectCheckBox;
         private Button edit_rois_button;
         public ObservableCollection<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
@@ -56,50 +55,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             edit_rois_button.Click += EditROIButton_Click;
             Children.Add(edit_rois_button);
 
-            StackPanel copy_panel = new StackPanel();
-            copy_panel.Orientation = Orientation.Horizontal;
-            Label copy_label = new Label();
-            copy_label.Content = "Copy?";
-            copy_label.Width = 100;
-            copy_panel.Children.Add(copy_label);
-
-            CopyCheckBox = new CheckBox();
-            CopyCheckBox.Checked += CheckBox_DataContextChanged;
-            CopyCheckBox.Unchecked += CheckBox_DataContextChanged;
-            copy_panel.Children.Add(CopyCheckBox);
-
             Label padding_label = new Label();
             padding_label.Width = 100;
 
-            CopyButton = new Button();
-            CopyButton.Width = 125;
-            CopyButton.IsEnabled = false;
-            CopyButton.Click += CopyButton_Click;
-            CopyButton.Content = "Copy Template";
-            copy_panel.Children.Add(CopyButton);
-            Children.Add(copy_panel);
-
-            StackPanel delete_panel = new StackPanel();
-            delete_panel.Orientation = Orientation.Horizontal;
-            Label delete_label = new Label();
-            delete_label.Content = "Delete?";
-            delete_label.Width = 100;
-            delete_panel.Children.Add(delete_label);
-
-            DeleteCheckBox = new CheckBox();
-            DeleteCheckBox.Checked += CheckBox_DataContextChanged;
-            DeleteCheckBox.Unchecked += CheckBox_DataContextChanged;
-            delete_panel.Children.Add(DeleteCheckBox);
+            SelectCheckBox = new CheckBox();
+            SelectCheckBox.Content = "Select?";
             padding_label = new Label();
             padding_label.Width = 100;
 
-            DeleteButton = new Button();
-            DeleteButton.IsEnabled = false;
-            DeleteButton.Width = 100;
-            DeleteButton.Click += DeleteButton_Click;
-            DeleteButton.Content = "Delete";
-            delete_panel.Children.Add(DeleteButton);
-            Children.Add(delete_panel);
+            Children.Add(SelectCheckBox);
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
@@ -110,21 +74,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 edit_rois_button.Background = lightgray;
             }
             rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
-        }
-        private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
-        {
-            bool delete_checked = DeleteCheckBox.IsChecked ?? false;
-            bool copy_checked = CopyCheckBox.IsChecked ?? false;
-            DeleteButton.IsEnabled = false;
-            CopyButton.IsEnabled = false;
-            if (delete_checked)
-            {
-                DeleteButton.IsEnabled = true;
-            }
-            if (copy_checked)
-            {
-                CopyButton.IsEnabled = true;
-            }
         }
         public void Delete()
         {
@@ -143,10 +92,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Children.Clear();
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)
-        {
-            Delete();
-        }
-        private void CopyButton_Click(object sender, System.EventArgs e)
         {
             Delete();
         }
