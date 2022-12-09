@@ -11,7 +11,7 @@
         <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="66" Margin="381,10,0,0" VerticalAlignment="Top" Width="288" Click="ClickRunDicomserver"/>
         <Button Name="ChangeTemplateButton" Visibility="Hidden" Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
         <Label Name="TemplateBaseLabel" Content="." Visibility="Hidden" HorizontalAlignment="Left" Height="34" Margin="256,18,0,0" VerticalAlignment="Top" Width="699"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,166,0,0">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,208,0,0">
             <StackPanel Margin="23,27,41,88" x:Name="TemplateStackPanel">
             </StackPanel>
         </ScrollViewer>
@@ -20,11 +20,14 @@
         <Label Content="Need help? Click here!" HorizontalAlignment="Left" Margin="884,3,0,0" VerticalAlignment="Top"/>
         <Button Visibility="Hidden" x:Name="BuildDefault_Button" Content="Make default templates" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="MakeDefault_Button"/>
         <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,140,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="498"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="633"/>
         <Button x:Name="ReadAirTableButton" Content="Load Online Templates" Background="LightGreen" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="Read_Airtable"/>
         <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,81,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
-        <Button x:Name="SelectAll_Button" Content="Select all?" HorizontalAlignment="Left" Margin="742,140,0,0" VerticalAlignment="Top" Width="129" Height="26" Click="SelectAll_Button_Click"/>
-        <Button x:Name="Deleted_Selected_Button" Content="Delete selected" HorizontalAlignment="Left" Margin="876,140,0,0" VerticalAlignment="Top" Width="157" Height="26" Click="Deleted_Selected_Button_Click"/>
+        <Button x:Name="SelectAll_Button" Content="Select all?" HorizontalAlignment="Left" Margin="32,177,0,0" VerticalAlignment="Top" Width="129" Height="26" Click="SelectAll_Button_Click"/>
+        <Button x:Name="Deleted_Selected_Button" IsEnabled="False" Content="Delete selected" HorizontalAlignment="Left" Margin="527,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Deleted_Selected_Button_Click"/>
         <Button x:Name="DeleteROIs_Button" Content="Delete previously generated RTs" HorizontalAlignment="Left" Height="42" Margin="674,10,0,0" VerticalAlignment="Top" Width="197" Click="DeleteROIs_Button_Click"/>
+        <Button x:Name="Copy_Selected_Button" IsEnabled="False" Content="Copy selected" HorizontalAlignment="Left" Margin="284,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Copy_Selected_Button_Click"/>
+        <CheckBox x:Name="Delete_Checkbox" Content="Delete?" HorizontalAlignment="Left" Margin="457,183,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="Copy_CheckBox" Content="Copy?" HorizontalAlignment="Left" Margin="216,183,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
