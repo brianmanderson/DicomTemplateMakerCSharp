@@ -360,6 +360,11 @@ namespace DicomTemplateMakerGUI
             Deleted_Selected_Button.IsEnabled = true;
         }
 
+        private void Copy_Selected_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
