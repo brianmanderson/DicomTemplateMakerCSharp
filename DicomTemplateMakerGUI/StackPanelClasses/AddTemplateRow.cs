@@ -31,20 +31,41 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public AddTemplateRow(TemplateMaker tm, ObservableCollection<ReadAirTable> airTables)
         {
+            this.Orientation = Orientation.Horizontal;
+            StackPanel left_panel = new StackPanel();
+            left_panel.Orientation = Orientation.Vertical;
             template_name = tm.TemplateName;
             AirTables = airTables;
             templateMaker = tm;
             Label template_label = new Label();
+            template_label.Width = 250;
             Binding template_name_binding = new Binding("TemplateName");
             template_name_binding.Source = templateMaker;
             template_label.SetBinding(Label.ContentProperty, template_name_binding);
-            Children.Add(template_label);
+            left_panel.Children.Add(template_label);
 
             rois_present_label = new Label();
             rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
-            Children.Add(rois_present_label);
+            left_panel.Children.Add(rois_present_label);
+
+
+            Label padding_label = new Label();
+            padding_label.Width = 100;
+
+            SelectCheckBox = new CheckBox();
+            SelectCheckBox.Content = "Select?";
+            padding_label = new Label();
+            padding_label.Width = 100;
+
+            left_panel.Children.Add(SelectCheckBox);
+
+            Children.Add(left_panel);
+
+            StackPanel right_panel = new StackPanel();
+            right_panel.Orientation = Orientation.Horizontal;
 
             edit_rois_button = new Button();
+            edit_rois_button.Width = 250;
             if (templateMaker.Paths.Count == 0)
             {
                 edit_rois_button.Background = lightred;
@@ -55,17 +76,9 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             }
             edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
             edit_rois_button.Click += EditROIButton_Click;
-            Children.Add(edit_rois_button);
+            right_panel.Children.Add(edit_rois_button);
+            Children.Add(right_panel);
 
-            Label padding_label = new Label();
-            padding_label.Width = 100;
-
-            SelectCheckBox = new CheckBox();
-            SelectCheckBox.Content = "Select?";
-            padding_label = new Label();
-            padding_label.Width = 100;
-
-            Children.Add(SelectCheckBox);
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
