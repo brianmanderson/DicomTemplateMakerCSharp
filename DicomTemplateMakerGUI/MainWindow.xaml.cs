@@ -73,6 +73,7 @@ namespace DicomTemplateMakerGUI
         DicomRunner runner;
         List<AddTemplateRow> template_rows;
         List<AddTemplateRow> visible_template_rows;
+        List<AddTemplateRow> copy_template_rows;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -210,11 +211,6 @@ namespace DicomTemplateMakerGUI
                     }
                     MakeRTFolderButton.IsEnabled = true;
                     AddTemplateRow new_row = new AddTemplateRow(evaluator, AirTables);
-                    Border myborder = new Border();
-                    myborder.Background = Brushes.Black;
-                    myborder.BorderThickness = new Thickness(5);
-                    TemplateStackPanel.Children.Add(myborder);
-                    TemplateStackPanel.Children.Add(new_row);
                     template_rows.Add(new_row);
                     visible_template_rows.Add(new_row);
                 }
@@ -227,6 +223,7 @@ namespace DicomTemplateMakerGUI
             {
                 BuildDefault_Button.Background = lightgray;
             }
+            DisplayRows();
         }
         private void Click_Build(object sender, RoutedEventArgs e)
         {
@@ -271,9 +268,21 @@ namespace DicomTemplateMakerGUI
             window.ShowDialog();
             Rebuild_From_Folders();
         }
+        private void DisplayRows()
+        {
+            visible_template_rows = visible_template_rows.OrderBy(x => x.template_name).ToList();
+            TemplateStackPanel.Children.Clear();
+            foreach (AddTemplateRow temp_row in visible_template_rows)
+            {
+                Border myborder = new Border();
+                myborder.Background = Brushes.Black;
+                myborder.BorderThickness = new Thickness(5);
+                TemplateStackPanel.Children.Add(myborder);
+                TemplateStackPanel.Children.Add(temp_row);
+            }
+        }
         private void UpdateText()
         {
-            TemplateStackPanel.Children.Clear();
             visible_template_rows = new List<AddTemplateRow>();
             foreach (AddTemplateRow temp_row in template_rows)
             {
@@ -288,13 +297,9 @@ namespace DicomTemplateMakerGUI
                 if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     visible_template_rows.Add(temp_row);
-                    Border myborder = new Border();
-                    myborder.Background = Brushes.Black;
-                    myborder.BorderThickness = new Thickness(5);
-                    TemplateStackPanel.Children.Add(myborder);
-                    TemplateStackPanel.Children.Add(temp_row);
                 }
             }
+            DisplayRows();
         }
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
         {
@@ -381,39 +386,58 @@ namespace DicomTemplateMakerGUI
 
         private void Copy_Selected_Button_Click(object sender, RoutedEventArgs e)
         {
+            copy_template_rows = new List<AddTemplateRow>();
             foreach (AddTemplateRow row in template_rows)
             {
                 if ((bool)row.SelectCheckBox.IsChecked)
                 {
-                    int copy_number = 0;
-                    string new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
-                    while (Directory.Exists(Path.Combine(folder_location, new_template_name)))
-                    {
-                        copy_number++;
-                        new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
-                    }
-                    string new_template_path = Path.Combine(folder_location, new_template_name);
-                    try
-                    {
-                        Directory.CreateDirectory(new_template_path);
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                    foreach (string dirPath in Directory.GetDirectories(row.templateMaker.path, "*", SearchOption.AllDirectories))
-                    {
-                        Directory.CreateDirectory(dirPath.Replace(row.templateMaker.path, new_template_path));
-                    }
-
-                    //Copy all the files & Replaces any files with the same name
-                    foreach (string newPath in Directory.GetFiles(row.templateMaker.path, "*.*", SearchOption.AllDirectories))
-                    {
-                        File.Copy(newPath, newPath.Replace(row.templateMaker.path, new_template_path), true);
-                    }
+                    copy_template_rows.Add(row);
                 }
             }
-            Rebuild_From_Folders();
+            foreach (AddTemplateRow row in copy_template_rows)
+            { 
+                int copy_number = 0;
+                string new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
+                while (Directory.Exists(Path.Combine(folder_location, new_template_name)))
+                {
+                    copy_number++;
+                    new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
+                }
+                string new_template_path = Path.Combine(folder_location, new_template_name);
+                try
+                {
+                    Directory.CreateDirectory(new_template_path);
+                }
+                catch
+                {
+                    continue;
+                }
+                foreach (string dirPath in Directory.GetDirectories(row.templateMaker.path, "*", SearchOption.AllDirectories))
+                {
+                    Directory.CreateDirectory(dirPath.Replace(row.templateMaker.path, new_template_path));
+                }
+
+                //Copy all the files & Replaces any files with the same name
+                foreach (string newPath in Directory.GetFiles(row.templateMaker.path, "*.*", SearchOption.AllDirectories))
+                {
+                    File.Copy(newPath, newPath.Replace(row.templateMaker.path, new_template_path), true);
+                }
+                TemplateMaker evaluator = new TemplateMaker();
+                evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
+                evaluator = update_ontology_reader(evaluator);
+                evaluator.define_path(new_template_path);
+                evaluator.define_output(new_template_path);
+                evaluator.categorize_folder();
+                AddTemplateRow new_row = new AddTemplateRow(evaluator, AirTables);
+                new_row.SelectCheckBox.IsChecked = true;
+                Border myborder = new Border();
+                myborder.Background = Brushes.Black;
+                myborder.BorderThickness = new Thickness(5);
+                TemplateStackPanel.Children.Add(myborder);
+                TemplateStackPanel.Children.Add(new_row);
+                template_rows.Add(new_row);
+                visible_template_rows.Add(new_row);
+            }
             UpdateText();
         }
 

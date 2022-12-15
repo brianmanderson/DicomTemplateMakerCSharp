@@ -22,6 +22,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     public class AddTemplateRow : StackPanel
     {
         private Label rois_present_label;
+        public string template_name;
         public TemplateMaker templateMaker;
         public CheckBox SelectCheckBox;
         private Button edit_rois_button;
@@ -30,6 +31,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public AddTemplateRow(TemplateMaker tm, ObservableCollection<ReadAirTable> airTables)
         {
+            template_name = tm.TemplateName;
             AirTables = airTables;
             templateMaker = tm;
             Label template_label = new Label();
