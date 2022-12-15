@@ -271,13 +271,20 @@ namespace DicomTemplateMakerGUI
             window.ShowDialog();
             Rebuild_From_Folders();
         }
-
-        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        private void UpdateText()
         {
             TemplateStackPanel.Children.Clear();
             visible_template_rows = new List<AddTemplateRow>();
             foreach (AddTemplateRow temp_row in template_rows)
             {
+                if ((bool)Selected_CheckBox.IsChecked)
+                {
+                    if (!(bool)temp_row.SelectCheckBox.IsChecked)
+                    {
+                        continue;
+                    }
+
+                }
                 if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     visible_template_rows.Add(temp_row);
@@ -288,6 +295,10 @@ namespace DicomTemplateMakerGUI
                     TemplateStackPanel.Children.Add(temp_row);
                 }
             }
+        }
+        private void SearchTextUpdate(object sender, TextChangedEventArgs e)
+        {
+            UpdateText();
         }
 
         private void Read_Airtable(object sender, RoutedEventArgs e)
@@ -354,6 +365,8 @@ namespace DicomTemplateMakerGUI
                     row.Delete();
                 }
             }
+            Rebuild_From_Folders();
+            UpdateText();
         }
 
         private void DeleteROIs_Button_Click(object sender, RoutedEventArgs e)
@@ -368,10 +381,60 @@ namespace DicomTemplateMakerGUI
 
         private void Copy_Selected_Button_Click(object sender, RoutedEventArgs e)
         {
+            foreach (AddTemplateRow row in template_rows)
+            {
+                if ((bool)row.SelectCheckBox.IsChecked)
+                {
+                    int copy_number = 0;
+                    string new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
+                    while (Directory.Exists(Path.Combine(folder_location, new_template_name)))
+                    {
+                        copy_number++;
+                        new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
+                    }
+                    string new_template_path = Path.Combine(folder_location, new_template_name);
+                    try
+                    {
+                        Directory.CreateDirectory(new_template_path);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                    foreach (string dirPath in Directory.GetDirectories(row.templateMaker.path, "*", SearchOption.AllDirectories))
+                    {
+                        Directory.CreateDirectory(dirPath.Replace(row.templateMaker.path, new_template_path));
+                    }
 
+                    //Copy all the files & Replaces any files with the same name
+                    foreach (string newPath in Directory.GetFiles(row.templateMaker.path, "*.*", SearchOption.AllDirectories))
+                    {
+                        File.Copy(newPath, newPath.Replace(row.templateMaker.path, new_template_path), true);
+                    }
+                }
+            }
+            Rebuild_From_Folders();
+            UpdateText();
         }
 
+        private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
+        {
+            Copy_Selected_Button.IsEnabled = false;
+            Deleted_Selected_Button.IsEnabled = false;
+            if ((bool)Copy_CheckBox.IsChecked)
+            {
+                Copy_Selected_Button.IsEnabled = true;
+            }
+            if ((bool)Delete_Checkbox.IsChecked)
+            {
+                Deleted_Selected_Button.IsEnabled = true;
+            }
+        }
 
+        private void Selected_DataContextChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateText();
+        }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {

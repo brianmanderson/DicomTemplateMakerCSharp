@@ -24,11 +24,12 @@
         <Button x:Name="ReadAirTableButton" Content="Load Online Templates" Background="LightGreen" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="Read_Airtable"/>
         <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,81,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
         <Button x:Name="SelectAll_Button" Content="Select all?" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="SelectAll_Button_Click"/>
-        <Button x:Name="Deleted_Selected_Button" IsEnabled="False" Content="Delete selected" HorizontalAlignment="Left" Margin="693,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Deleted_Selected_Button_Click"/>
+        <Button x:Name="Deleted_Selected_Button" IsEnabled="False" Content="Delete selected" HorizontalAlignment="Left" Margin="790,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Deleted_Selected_Button_Click"/>
         <Button x:Name="DeleteROIs_Button" Content="Delete previously generated RTs" HorizontalAlignment="Left" Height="42" Margin="674,10,0,0" VerticalAlignment="Top" Width="197" Click="DeleteROIs_Button_Click"/>
-        <Button x:Name="Copy_Selected_Button" IsEnabled="False" Content="Copy selected" HorizontalAlignment="Left" Margin="457,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Copy_Selected_Button_Click"/>
-        <CheckBox x:Name="Delete_Checkbox" Content="Delete?" HorizontalAlignment="Left" Margin="628,183,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="Copy_CheckBox" Content="Copy?" HorizontalAlignment="Left" Margin="399,183,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="SelectAll_Button_Copy" Content="Unselect all?" HorizontalAlignment="Left" Margin="199,177,0,0" VerticalAlignment="Top" Width="148" Height="26" Click="SelectAll_Button_Click"/>
+        <Button x:Name="Copy_Selected_Button" IsEnabled="False" Content="Copy selected" HorizontalAlignment="Left" Margin="564,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Copy_Selected_Button_Click"/>
+        <CheckBox x:Name="Delete_Checkbox" Content="Delete?" HorizontalAlignment="Left" Checked="CheckBox_DataContextChanged" Unchecked="CheckBox_DataContextChanged" Margin="725,183,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="Copy_CheckBox" Content="Copy?" HorizontalAlignment="Left" Margin="497,183,0,0" VerticalAlignment="Top" Checked="CheckBox_DataContextChanged" Unchecked="CheckBox_DataContextChanged"/>
+        <Button x:Name="UnSelectAll_Button" Content="Unselect all?" HorizontalAlignment="Left" Margin="199,177,0,0" VerticalAlignment="Top" Width="148" Height="26" Click="UnselectAll_Button_Click"/>
+        <CheckBox x:Name="Selected_CheckBox" Content="Show selected only?" HorizontalAlignment="Left" Margin="365,183,0,0" VerticalAlignment="Top" Checked="Selected_DataContextChanged" Unchecked="Selected_DataContextChanged"/>
     </Grid>
 </Window>
