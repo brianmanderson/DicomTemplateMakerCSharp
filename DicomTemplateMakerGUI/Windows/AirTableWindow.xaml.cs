@@ -208,6 +208,13 @@ namespace DicomTemplateMakerGUI.Windows
                             }
                         }
                     }
+                    else if (Laterality_CheckBox.Visibility == Visibility.Visible)
+                    {
+                        foreach (ROIWrapper r_wrapper in row.airtable.roi_dictionary[row.site_name])
+                        {
+                            r_wrapper.Set_English((bool)Laterality_CheckBox.IsChecked);
+                        }
+                    }
                     evaluator.ROIs = row.airtable.roi_dictionary[row.site_name].Select(x => x.roi).ToList();
                     evaluator.make_template();
                 }
