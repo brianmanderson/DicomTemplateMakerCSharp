@@ -179,93 +179,84 @@ namespace DicomTemplateMakerGUI.Services
             english_name_reverse = name_r;
             spanish_name_reverse = spanish_r;
             french_name_reverse = french_r;
-            if (english_name_reverse != "")
+            if (english_name_reverse != null)
             {
                 has_lateral = true;
             }
-            if (spanish_name_reverse != "")
-            {
-                has_lateral = true;
-                has_other_lanuages = true;
-            }
-            if (french_name_reverse != "")
+            if (spanish_name_reverse != null)
             {
                 has_lateral = true;
                 has_other_lanuages = true;
             }
-            if (french_name != "")
+            if (french_name_reverse != null)
+            {
+                has_lateral = true;
+                has_other_lanuages = true;
+            }
+            if (french_name != null)
             {
                 has_other_lanuages = true;
             }
-            if (spanish_name != "")
+            if (spanish_name != null)
             {
                 has_other_lanuages = true;
             }
         }
         public void Set_Spanish()
         {
-            if (spanish_name != "")
+            if (spanish_name != null)
             {
                 roi.ROIName = spanish_name;
             }
         }
         public void Set_Spanish(bool reverse)
         {
+            Set_Spanish();
             if (reverse)
             {
-                if (spanish_name_reverse != "")
+                if (spanish_name_reverse != null)
                 {
                     roi.ROIName = spanish_name_reverse;
 
                 }
             }
-            else if (spanish_name != "")
-            {
-                roi.ROIName = spanish_name;
-            }
         }
         public void Set_French()
         {
-            if (french_name != "")
+            if (french_name != null)
             {
                 roi.ROIName = french_name;
             }
         }
         public void Set_French(bool reverse)
         {
+            Set_French();
             if (reverse)
             {
-                if (french_name_reverse != "")
+                if (french_name_reverse != null)
                 {
                     roi.ROIName = french_name_reverse;
 
                 }
             }
-            else if (french_name != "")
-            {
-                roi.ROIName = french_name;
-            }
         }
         public void Set_English()
         {
-            if (english_name != "")
+            if (english_name != null)
             {
                 roi.ROIName = english_name;
             }
         }
         public void Set_English(bool reverse)
         {
+            Set_English();
             if (reverse)
             {
-                if (english_name_reverse != "")
+                if (english_name_reverse != null)
                 {
                     roi.ROIName = english_name_reverse;
 
                 }
-            }
-            else if (english_name != "")
-            {
-                roi.ROIName = english_name;
             }
         }
     }
