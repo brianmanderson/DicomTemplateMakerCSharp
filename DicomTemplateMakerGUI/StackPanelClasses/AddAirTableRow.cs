@@ -27,9 +27,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Label label = new Label();
             label.Content = "Build template?";
             label.Width = 200;
-            Children.Add(label);
+            //Children.Add(label);
 
             check_box = new CheckBox();
+            check_box.Content = "Build template?";
             Children.Add(check_box);
         }
     }

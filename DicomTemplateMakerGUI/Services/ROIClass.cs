@@ -158,4 +158,115 @@ namespace DicomTemplateMakerGUI.Services
         }
 
     }
+
+    public class ROIWrapper
+    {
+        private string english_name;
+        private string english_name_reverse;
+        private string spanish_name;
+        private string spanish_name_reverse;
+        private string french_name;
+        private string french_name_reverse;
+        public bool has_other_lanuages = false;
+        public bool has_lateral = false;
+        public ROIClass roi;
+        public ROIWrapper(ROIClass base_ROI, string name, string name_r, string spanish, string spanish_r, string french, string french_r)
+        {
+            roi = base_ROI;
+            english_name = name;
+            spanish_name = spanish;
+            french_name = french;
+            english_name_reverse = name_r;
+            spanish_name_reverse = spanish_r;
+            french_name_reverse = french_r;
+            if (english_name_reverse != "")
+            {
+                has_lateral = true;
+            }
+            if (spanish_name_reverse != "")
+            {
+                has_lateral = true;
+                has_other_lanuages = true;
+            }
+            if (french_name_reverse != "")
+            {
+                has_lateral = true;
+                has_other_lanuages = true;
+            }
+            if (french_name != "")
+            {
+                has_other_lanuages = true;
+            }
+            if (spanish_name != "")
+            {
+                has_other_lanuages = true;
+            }
+        }
+        public void Set_Spanish()
+        {
+            if (spanish_name != "")
+            {
+                roi.ROIName = spanish_name;
+            }
+        }
+        public void Set_Spanish(bool reverse)
+        {
+            if (reverse)
+            {
+                if (spanish_name_reverse != "")
+                {
+                    roi.ROIName = spanish_name_reverse;
+
+                }
+            }
+            else if (spanish_name != "")
+            {
+                roi.ROIName = spanish_name;
+            }
+        }
+        public void Set_French()
+        {
+            if (french_name != "")
+            {
+                roi.ROIName = french_name;
+            }
+        }
+        public void Set_French(bool reverse)
+        {
+            if (reverse)
+            {
+                if (french_name_reverse != "")
+                {
+                    roi.ROIName = french_name_reverse;
+
+                }
+            }
+            else if (french_name != "")
+            {
+                roi.ROIName = french_name;
+            }
+        }
+        public void Set_English()
+        {
+            if (english_name != "")
+            {
+                roi.ROIName = english_name;
+            }
+        }
+        public void Set_English(bool reverse)
+        {
+            if (reverse)
+            {
+                if (english_name_reverse != "")
+                {
+                    roi.ROIName = english_name_reverse;
+
+                }
+            }
+            else if (english_name != "")
+            {
+                roi.ROIName = english_name;
+            }
+        }
+    }
 }

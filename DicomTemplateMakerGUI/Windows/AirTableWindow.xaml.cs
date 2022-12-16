@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -55,9 +55,12 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        List<string> languages = new List<string> {"English/Ingles/Anglais", "Spanish/Espanol/Espagnol", "French/Fracnes/Francais"};
         public AirTableWindow(ObservableCollection<ReadAirTable> ats, string folder_location, string onto_path)
         {
             InitializeComponent();
+            Language_ComboBox.Visibility = Visibility.Hidden;
+            Laterality_CheckBox.Visibility = Visibility.Hidden;
             this.folder_location = folder_location;
             this.onto_path = onto_path;
             AirTables = ats;
@@ -65,6 +68,8 @@ namespace DicomTemplateMakerGUI.Windows
             Binding source_binding = new Binding("AirTables");
             source_binding.Source = this;
             Template_ComboBox.SetBinding(ComboBox.ItemsSourceProperty, source_binding);
+            Language_ComboBox.ItemsSource = languages;
+            Language_ComboBox.SelectedIndex = 0;
             build_combobox();
         }
         private void build_combobox()
@@ -90,6 +95,8 @@ namespace DicomTemplateMakerGUI.Windows
             CheckBoxLabel.Visibility = Visibility.Hidden;
             IncludeLabel.Visibility = Visibility.Hidden;
             TemplateNameLabel.Visibility = Visibility.Hidden;
+            Laterality_CheckBox.Visibility = Visibility.Hidden;
+            Language_ComboBox.Visibility = Visibility.Hidden;
             try
             {
                 await airtable.finished_task;
@@ -107,6 +114,16 @@ namespace DicomTemplateMakerGUI.Windows
                 foreach (string site in airtable.template_dictionary.Keys)
                 {
                     AddAirTableRow atrow = new AddAirTableRow(site, airtable);
+                    Laterality_CheckBox.Visibility = Visibility.Hidden;
+                    if (atrow.airtable.roi_dictionary[site].FindAll(x => x.has_lateral).Count > 0)
+                    {
+                        Laterality_CheckBox.Visibility = Visibility.Visible;
+                    }
+                    Language_ComboBox.Visibility = Visibility.Hidden;
+                    if (atrow.airtable.roi_dictionary[site].FindAll(x => x.has_other_lanuages).Count > 0)
+                    {
+                        Language_ComboBox.Visibility = Visibility.Visible;
+                    }
                     Border myborder = new Border();
                     myborder.Background = Brushes.Black;
                     myborder.BorderThickness = new Thickness(5);
@@ -151,7 +168,47 @@ namespace DicomTemplateMakerGUI.Windows
                     TemplateMaker evaluator = new TemplateMaker();
                     evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                     evaluator.define_output(Path.Combine(folder_location, row.site_name));
-                    evaluator.ROIs = row.airtable.roi_dictionary[row.site_name];
+                    // We only have to check for French or Spanish, it defaults to english and closes after this
+                    if (Language_ComboBox.Visibility == Visibility.Visible)
+                    {
+                        if (Laterality_CheckBox.Visibility == Visibility.Visible)
+                        {
+                            foreach (ROIWrapper r_wrapper in row.airtable.roi_dictionary[row.site_name])
+                            {
+                                if (((string)Language_ComboBox.SelectedItem).Contains("French"))
+                                {
+                                    r_wrapper.Set_French((bool)Laterality_CheckBox.IsChecked);
+                                }
+                                else if (((string)Language_ComboBox.SelectedItem).Contains("Spanish"))
+                                {
+                                    r_wrapper.Set_Spanish((bool)Laterality_CheckBox.IsChecked);
+                                }
+                                else if (((string)Language_ComboBox.SelectedItem).Contains("English"))
+                                {
+                                    r_wrapper.Set_English((bool)Laterality_CheckBox.IsChecked);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (ROIWrapper r_wrapper in row.airtable.roi_dictionary[row.site_name])
+                            {
+                                if (((string)Language_ComboBox.SelectedItem).Contains("French"))
+                                {
+                                    r_wrapper.Set_French();
+                                }
+                                else if (((string)Language_ComboBox.SelectedItem).Contains("Spanish"))
+                                {
+                                    r_wrapper.Set_Spanish();
+                                }
+                                else if (((string)Language_ComboBox.SelectedItem).Contains("English"))
+                                {
+                                    r_wrapper.Set_English();
+                                }
+                            }
+                        }
+                    }
+                    evaluator.ROIs = row.airtable.roi_dictionary[row.site_name].Select(x => x.roi).ToList();
                     evaluator.make_template();
                 }
             }
@@ -215,6 +272,11 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 row.check_box.IsChecked = true;
             }
+        }
+
+        private void Language_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -48,6 +48,11 @@ namespace DicomTemplateMakerGUI.Services
     public class AirTableEntry
     {
         public string Structure { get; set; }
+        public string TG_263R { get; set; }
+        public string TG_263_Spanish { get; set; }
+        public string TG_263_SpanishR { get; set; }
+        public string TG_263_French { get; set; }
+        public string TG_263_FrenchR { get; set; }
         public string Id { get; set; }
         public string Type { get; set; }
         public string FMAID { get; set; }
@@ -116,7 +121,7 @@ namespace DicomTemplateMakerGUI.Services
         public Task<bool> finished_write;
         public List<AirTableEntry> AirTableEntry_List = new List<AirTableEntry>();
         public Dictionary<string, List<AirTableEntry>> template_dictionary = new Dictionary<string, List<AirTableEntry>>();
-        public Dictionary<string, List<ROIClass>> roi_dictionary = new Dictionary<string, List<ROIClass>>();
+        public Dictionary<string, List<ROIWrapper>> roi_dictionary = new Dictionary<string, List<ROIWrapper>>();
         public ReadAirTable()
         {
         }
@@ -171,9 +176,9 @@ namespace DicomTemplateMakerGUI.Services
             }
             if (!roi_dictionary.ContainsKey(site))
             {
-                roi_dictionary.Add(site, new List<ROIClass>());
+                roi_dictionary.Add(site, new List<ROIWrapper>());
             }
-            if (!roi_dictionary[site].Where(p => p.ROIName == r.Structure).Any())
+            if (!roi_dictionary[site].Where(p => p.roi.ROIName == r.Structure).Any())
             {
                 string code_meaning = r.Structure;
                 if (r.CommonName != null)
@@ -199,7 +204,8 @@ namespace DicomTemplateMakerGUI.Services
                 }
                 ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Structure, roi_interpreted_type: r.Type, identification_code_class: o);
                 roi.Include = include;
-                roi_dictionary[site].Add(roi);
+                ROIWrapper wrapper_roi = new ROIWrapper(roi, r.Structure, r.TG_263R, r.TG_263_Spanish, r.TG_263_SpanishR, r.TG_263_French, r.TG_263_FrenchR);
+                roi_dictionary[site].Add(wrapper_roi);
             }
         }
         public async void UpdateRecord(string TableKey, Fields new_field, string id, bool typecast)
