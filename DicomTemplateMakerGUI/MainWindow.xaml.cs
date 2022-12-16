@@ -372,6 +372,8 @@ namespace DicomTemplateMakerGUI
             }
             Rebuild_From_Folders();
             UpdateText();
+            Delete_Checkbox.IsChecked = false;
+            Deleted_Selected_Button.IsEnabled = false;
         }
 
         private void DeleteROIs_Button_Click(object sender, RoutedEventArgs e)
@@ -439,6 +441,8 @@ namespace DicomTemplateMakerGUI
                 visible_template_rows.Add(new_row);
             }
             UpdateText();
+            Copy_CheckBox.IsChecked = false;
+            Copy_Selected_Button.IsEnabled = false;
         }
 
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
