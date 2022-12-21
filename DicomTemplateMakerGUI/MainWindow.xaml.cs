@@ -89,6 +89,21 @@ namespace DicomTemplateMakerGUI
         {
             InitializeComponent();
             load_airtables();
+            List<ReadAirTable> loadable_airtables = new List<ReadAirTable>();
+            foreach (ReadAirTable at in AirTables)
+            {
+                if (at.AirTableName != "TG263_AirTable")
+                {
+                    loadable_airtables.Add(at);
+                }
+            }
+            AirTableComboBox.ItemsSource = loadable_airtables;
+            AirTableComboBox.DisplayMemberPath = "AirTableName";
+            if (AirTables.Count > 0)
+            {
+                AirTableComboBox.SelectedIndex = 0;
+                check_airtables((ReadAirTable)AirTableComboBox.SelectedItem);
+            }
             folder_location = @".";
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -462,6 +477,63 @@ namespace DicomTemplateMakerGUI
         private void Selected_DataContextChanged(object sender, RoutedEventArgs e)
         {
             UpdateText();
+        }
+        private async void writeAirTable(ReadAirTable table, TemplateMaker template_maker)
+        {
+            table.WriteToAirTable(template_maker.TemplateName, template_maker.ROIs);
+            try
+            {
+                await table.finished_write;
+                WriteToAirTable_Button.Content = "Wrote to Airtable!";
+            }
+            catch
+            {
+                WriteToAirTable_Button.Content = "Failed writing to airtable...";
+            }
+        }
+        private async void WriteToAirTable_Click(object sender, RoutedEventArgs e)
+        {
+            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
+            WriteToAirTable_Button.IsEnabled = false;
+            foreach (AddTemplateRow row in template_rows)
+            {
+                if ((bool)row.SelectCheckBox.IsChecked)
+                {
+                    WriteToAirTable_Button.Content = "Writing to Airtable...";
+                    table.WriteToAirTable(row.templateMaker.TemplateName, row.templateMaker.ROIs);
+                    try
+                    {
+                        await table.finished_write;
+                        WriteToAirTable_Button.Content = "Wrote to Airtable!";
+                    }
+                    catch
+                    {
+                        WriteToAirTable_Button.Content = "Failed writing to airtable...";
+                    }
+                }
+            }
+            WriteToAirTable_Button.IsEnabled = true;
+
+        }
+        private async void check_airtables(ReadAirTable airtable)
+        {
+            WriteToAirTable_Button.IsEnabled = false;
+            WriteToAirTable_Button.Content = "Still loading airtable...";
+            try
+            {
+                await airtable.finished_task;
+                WriteToAirTable_Button.IsEnabled = true;
+                WriteToAirTable_Button.Content = "Write to AirTable";
+            }
+            catch
+            {
+                WriteToAirTable_Button.Content = "Could not load...";
+            }
+        }
+        private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
+            check_airtables(table);
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
