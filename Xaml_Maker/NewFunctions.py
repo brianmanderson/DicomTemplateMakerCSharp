@@ -18,10 +18,23 @@ def make_dataframe_dict(file_path):
         new_dict["StrID"].append(data[0])
         new_dict["Type"].append(roi_type)
         new_dict["TypeIdx"].append(2)
+        num_zeros = 0
         for i in range(3):
             while len(colors[i]) < 3:
                 colors[i] = ' ' + colors[i]
-        new_dict["Color"].append(f"RGB{colors[0]}{colors[1]}{colors[2]}")
+            if colors[i] == "  0":
+                num_zeros += 1
+        if num_zeros == 2:
+            if colors[0] == "255":
+                new_dict["Color"].append("Segment - Red")
+            elif colors[1] == "255":
+                new_dict["Color"].append("Segment - Green")
+            elif colors[2] == "255":
+                new_dict["Color"].append("Segment - Blue")
+            else:
+                new_dict["Color"].append(f"RGB{colors[0]}{colors[1]}{colors[2]}")
+        else:
+            new_dict["Color"].append(f"RGB{colors[0]}{colors[1]}{colors[2]}")
         new_dict["DVHLS"].append(0)
         new_dict["DVHLC"].append(-16777216)
         new_dict["DVHLW"].append(1)
