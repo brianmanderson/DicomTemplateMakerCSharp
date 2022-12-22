@@ -86,46 +86,45 @@ def structure(idx,data,tree,root,filename):
     #data: Structure ID, volume type, type index, Color and style, Search CT low, search CT high, DVH line style DVh line color
     #DVH line width, EUDAlpha, TCPAlpha, TCPBeta,TCPGamma
 
-    Structure = ET.SubElement(root.find('.//Structures'),'Structure')
+    """
+    Note that these have to be in order... a bit ridiculous
+    """
+    Structure = ET.SubElement(root.find('.//Structures'), 'Structure')
+    Structure.set("ID", data.StrID)
+    Structure.set("Name", data.StrID)
     Identification = ET.SubElement(Structure,'Identification')
     VolumeID = ET.SubElement(Identification,'VolumeID')
     VolumeCode = ET.SubElement(Identification,'VolumeCode')
     VolumeType = ET.SubElement(Identification,'VolumeType')
+    VolumeType.text = data.Type
     VolumeCodeTable = ET.SubElement(Identification,'VolumeCodeTable')
+    StructureCode = ET.SubElement(Identification,'StructureCode')
+    StructureCode.set('Code', data.iCode)
+    StructureCode.set('CodeScheme', data.iCodeScheme)
+    StructureCode.set('CodeSchemeVersion', "3.2")
     TypeIndex = ET.SubElement(Structure,'TypeIndex')
+    TypeIndex.text = str(data.TypeIdx)
     ColorAndStyle = ET.SubElement(Structure,'ColorAndStyle')
+    ColorAndStyle.text = data.Color
     SearchCTLow = ET.SubElement(Structure,'SearchCTLow')
+    SearchCTLow.set('xsi:nil', 'true')
     SearchCTHigh = ET.SubElement(Structure,'SearchCTHigh')
+    SearchCTHigh.set('xsi:nil', 'true')
     DVHLineStyle = ET.SubElement(Structure,'DVHLineStyle')
+    DVHLineStyle.text = str(data.DVHLS)
     DVHLineColor = ET.SubElement(Structure,'DVHLineColor')
+    DVHLineColor.text = str(data.DVHLC)
     DVHLineWidth = ET.SubElement(Structure,'DVHLineWidth')
+    DVHLineWidth.text = str(data.DVHLW)
     EUDAlpha = ET.SubElement(Structure,'EUDAlpha')
+    EUDAlpha.set('xsi:nil', 'true')
     TCPAlpha = ET.SubElement(Structure,'TCPAlpha')
+    TCPAlpha.set('xsi:nil', 'true')
     TCPBeta = ET.SubElement(Structure,'TCPBeta')
+    TCPBeta.set('xsi:nil', 'true')
     TCPGamma = ET.SubElement(Structure,'TCPGamma')
+    TCPGamma.set('xsi:nil', 'true')
 
-    #this is how you would change the item ID (or any element's attribute)
-    root.find('.//Structures//Structure['+str(idx)+']').set('ID', data[0])
-    root.find('.//Structures//Structure['+str(idx)+']').set('Name', '')
-    
-    #Set Identification sub-element values
-#     root.find('.//Structures//Structure['+str(idx)+']//Identification//VolumeID').text = str(data[1])   
-#     root.find('.//Structures//Structure['+str(idx)+']//Identification//VolumeCode').text = str(data[2])   
-    root.find('.//Structures//Structure['+str(idx)+']//Identification//VolumeType').text = str(data[1])      
-#     root.find('.//Structures//Structure['+str(idx)+']//Identification//VolumeCodeTable').text = str(data[2])      
-    
-    #Set the value for the rest of the Structure sub-elements
-    root.find('.//Structures//Structure['+str(idx)+']//TypeIndex').text = str(data[2])
-    root.find('.//Structures//Structure['+str(idx)+']//ColorAndStyle').text = str(data[3])
-    root.find('.//Structures//Structure['+str(idx)+']//SearchCTLow').set('xsi:nil', 'true')
-    root.find('.//Structures//Structure['+str(idx)+']//SearchCTHigh').set('xsi:nil', 'true')
-    root.find('.//Structures//Structure['+str(idx)+']//DVHLineStyle').text = str(data[4])
-    root.find('.//Structures//Structure['+str(idx)+']//DVHLineColor').text = str(data[5])
-    root.find('.//Structures//Structure['+str(idx)+']//DVHLineWidth').text = str(data[6])
-    root.find('.//Structures//Structure['+str(idx)+']//EUDAlpha').set('xsi:nil', 'true')
-    root.find('.//Structures//Structure['+str(idx)+']//TCPAlpha').set('xsi:nil', 'true')
-    root.find('.//Structures//Structure['+str(idx)+']//TCPBeta').set('xsi:nil', 'true')
-    root.find('.//Structures//Structure['+str(idx)+']//TCPGamma').set('xsi:nil', 'true')
     
     tree.write(filename)
 
