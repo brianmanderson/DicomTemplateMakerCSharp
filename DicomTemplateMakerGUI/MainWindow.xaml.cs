@@ -542,6 +542,7 @@ namespace DicomTemplateMakerGUI
                     }
                 }
             }
+
             AirTableComboBox.IsEnabled = true;
             WriteToAirTable_Button.IsEnabled = false;
             AirTableCheckbox.IsChecked = false;
