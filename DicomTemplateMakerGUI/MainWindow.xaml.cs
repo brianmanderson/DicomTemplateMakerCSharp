@@ -474,7 +474,19 @@ namespace DicomTemplateMakerGUI
                 Deleted_Selected_Button.IsEnabled = true;
             }
         }
-
+        private async void AirTableCheckBox_DataContextChanged(object sender, RoutedEventArgs e)
+        {
+            if ((bool)AirTableCheckbox.IsChecked)
+            {
+                ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
+                await table.finished_task;
+                WriteToAirTable_Button.IsEnabled = true;
+            }
+            else
+            {
+                WriteToAirTable_Button.IsEnabled = false;
+            }
+        }
         private void Selected_DataContextChanged(object sender, RoutedEventArgs e)
         {
             UpdateText();
@@ -526,7 +538,10 @@ namespace DicomTemplateMakerGUI
             try
             {
                 await airtable.finished_task;
-                WriteToAirTable_Button.IsEnabled = true;
+                if ((bool)AirTableCheckbox.IsChecked)
+                {
+                    WriteToAirTable_Button.IsEnabled = true;
+                }
                 WriteToAirTable_Button.Content = "Write to AirTable";
             }
             catch
