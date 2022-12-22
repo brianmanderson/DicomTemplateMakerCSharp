@@ -464,6 +464,7 @@ namespace DicomTemplateMakerGUI
         {
             Copy_Selected_Button.IsEnabled = false;
             Deleted_Selected_Button.IsEnabled = false;
+            WriteToAirTable_Button.IsEnabled = false;
             if ((bool)Copy_CheckBox.IsChecked)
             {
                 Copy_Selected_Button.IsEnabled = true;
@@ -495,8 +496,11 @@ namespace DicomTemplateMakerGUI
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
             WriteToAirTable_Button.IsEnabled = false;
+            int i = 0;
             foreach (AddTemplateRow row in template_rows)
             {
+                ProgressBar.Value = (i / template_rows.Count) * 100;
+                i++;
                 if ((bool)row.SelectCheckBox.IsChecked)
                 {
                     WriteToAirTable_Button.Content = "Writing to Airtable...";
