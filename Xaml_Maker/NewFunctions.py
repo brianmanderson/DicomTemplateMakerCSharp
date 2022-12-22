@@ -73,7 +73,7 @@ def main():
             continue
         if df.Type[x] != 0:
 
-            structure(idxs, data, tree, root, filename)
+            structure(data, tree, root, filename)
             idxs = idxs + 1
             print('success!!! ' + str(x) + ':' + data[0])
 

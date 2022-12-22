@@ -80,7 +80,7 @@ def convert_bottomI(idx,data,tree,root,filename):
     
     tree.write(filename)   
     
-def structure(idx,data,tree,root,filename):
+def structure(data,tree,root,filename):
     
     #NOTE THAT THE DATA SET HERE SHOULD BE FOR STRUCTURE INFO NOT DOSE CONSTRAINTS.
     #data: Structure ID, volume type, type index, Color and style, Search CT low, search CT high, DVH line style DVh line color
