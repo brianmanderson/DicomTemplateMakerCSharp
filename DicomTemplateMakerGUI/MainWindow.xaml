@@ -34,9 +34,9 @@
         <CheckBox x:Name="Copy_CheckBox" Content="Copy?" HorizontalAlignment="Left" Margin="8,220,0,0" VerticalAlignment="Top" Checked="CheckBox_DataContextChanged" Unchecked="CheckBox_DataContextChanged"/>
         <Button x:Name="UnSelectAll_Button" Content="Unselect all?" HorizontalAlignment="Left" Margin="199,177,0,0" VerticalAlignment="Top" Width="148" Height="26" Click="UnselectAll_Button_Click"/>
         <CheckBox x:Name="Selected_CheckBox" Content="Show selected only?" HorizontalAlignment="Left" Margin="365,183,0,0" VerticalAlignment="Top" Checked="Selected_DataContextChanged" Unchecked="Selected_DataContextChanged"/>
-        <ProgressBar x:Name="ProgressBar" HorizontalAlignment="Left" Height="15" Margin="598,231,0,0" VerticalAlignment="Top" Width="230" Visibility="Hidden"/>
-        <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="26" Margin="598,214,0,0" VerticalAlignment="Top" Width="230" SelectionChanged="AirTableSelectionChanged"/>
-        <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="26" Margin="598,185,0,0" VerticalAlignment="Top" Width="230" Click="WriteToAirTable_Click" IsEnabled="False"/>
-        <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="494,220,0,0" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="ProgressBar" HorizontalAlignment="Left" Height="15" Margin="598,231,0,0" VerticalAlignment="Top" Width="230" Visibility="Visible"/>
+        <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="26" Margin="598,204,0,0" VerticalAlignment="Top" Width="230" SelectionChanged="AirTableSelectionChanged"/>
+        <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="26" Margin="598,175,0,0" VerticalAlignment="Top" Width="230" Click="WriteToAirTable_Click" IsEnabled="False"/>
+        <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="494,208,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

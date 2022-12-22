@@ -508,28 +508,44 @@ namespace DicomTemplateMakerGUI
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
             WriteToAirTable_Button.IsEnabled = false;
-            int i = 0;
+            ProgressBar.Visibility = Visibility.Hidden;
+            float i = 0;
+            int total = 0;
             foreach (AddTemplateRow row in template_rows)
             {
-                ProgressBar.Value = (i / template_rows.Count) * 100;
-                i++;
                 if ((bool)row.SelectCheckBox.IsChecked)
                 {
+                    total++;
                     WriteToAirTable_Button.Content = "Writing to Airtable...";
-                    table.WriteToAirTable(row.templateMaker.TemplateName, row.templateMaker.ROIs);
+                }
+            }
+            AirTableComboBox.IsEnabled = false;
+            AirTableCheckbox.IsEnabled = false;
+            foreach (AddTemplateRow row in template_rows)
+            {
+                if ((bool)row.SelectCheckBox.IsChecked)
+                {
+                    ProgressBar.Visibility = Visibility.Visible;
+                    i++;
+                    ProgressBar.Value = i / total * 100;
+                    WriteToAirTable_Button.Content = "Writing to Airtable...";
                     try
                     {
+                        table.WriteToAirTable(row.templateMaker.TemplateName, row.templateMaker.ROIs);
                         await table.finished_write;
                         WriteToAirTable_Button.Content = "Wrote to Airtable!";
                     }
                     catch
                     {
                         WriteToAirTable_Button.Content = "Failed writing to airtable...";
+                        break;
                     }
                 }
             }
-            WriteToAirTable_Button.IsEnabled = true;
-
+            AirTableComboBox.IsEnabled = true;
+            WriteToAirTable_Button.IsEnabled = false;
+            AirTableCheckbox.IsChecked = false;
+            AirTableCheckbox.IsEnabled = true;
         }
         private async void check_airtables(ReadAirTable airtable)
         {
