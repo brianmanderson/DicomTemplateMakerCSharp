@@ -12,46 +12,76 @@ namespace XamlMakerCsharp
         {
             XDocument doc = XDocument.Load(Path.Combine(@".", "Structure Template.xml"));
             XElement root = doc.Root;
+            XElement preview = root.Element("Preview");
+            preview.SetAttributeValue("AssignedUsers", "b5anderson");
+            preview.SetAttributeValue("ID", "Test TemplateBMA");
             XElement base_struct = root.Element("Structures");
             XElement Structure = new XElement(base_struct.Element("Structure"));
-            Structure.SetAttributeValue("ID", "Test");
-            Structure.SetAttributeValue("Name", "Test");
+            XElement new_structure = new XElement("Structure");
+            new_structure.SetAttributeValue("ID", "Test");
+            new_structure.SetAttributeValue("Name", "Test");
 
-            XElement Identification = Structure.Element("Identification");
-            XElement VolumeType = Identification.Element("VolumeType");
+            XElement Identification = new XElement("Identification");
+            Identification.Add(new XElement("VolumeID"));
+            Identification.Add(new XElement("VolumeCode"));
+            XElement VolumeType = new XElement("VolumeType");
             VolumeType.Value = "PTV";
+            Identification.Add(VolumeType);
+            Identification.Add(new XElement("VolumeCodeTable"));
 
-            XElement StructureCode = Identification.Element("StructureCode");
+            XElement StructureCode = new XElement("StructureCode");
             StructureCode.SetAttributeValue("Code", "123");
             StructureCode.SetAttributeValue("CodeScheme", "FMA");
             StructureCode.SetAttributeValue("CodeSchemeVersion", "3.2");
+            Identification.Add(StructureCode);
+            new_structure.Add(Identification);
 
-            Structure.SetElementValue("TypeIndex", "3");
+            XElement TypeIndex = new XElement("TypeIndex");
+            TypeIndex.Value = "3";
+            new_structure.Add(TypeIndex);
 
-            Structure.Element("ColorAndStyle").Value = "Red";
+            XElement ColorAndStyle = new XElement("ColorAndStyle");
+            ColorAndStyle.Value = "Blue";
+            new_structure.Add(ColorAndStyle);
 
-            XElement SearchCTLow = Structure.Element("SearchCTLow");
-            SearchCTLow.FirstAttribute.Value = "true";
+            XNamespace ab = "http://www.w3.org/2001/XMLSchema-instance";
+            XElement SearchCTLow = new XElement("SearchCTLow");
+            SearchCTLow.SetAttributeValue(ab + "nil", "true");
+            new_structure.Add(SearchCTLow);
 
-            XElement SearchCTHigh = Structure.Element("SearchCTHigh");
-            SearchCTHigh.FirstAttribute.Value = "true";
+            XElement SearchCTHigh = new XElement("SearchCTHigh");
+            SearchCTHigh.SetAttributeValue(ab + "nil", "true");
+            new_structure.Add(SearchCTHigh);
 
-            Structure.SetElementValue("DVHLineStyle", "0");
-            Structure.SetElementValue("DVHLineColor", "-16777216");
-            Structure.SetElementValue("DVHLineWidth", "1");
+            XElement DVHLineStyle = new XElement("DVHLineStyle");
+            DVHLineStyle.Value = "0";
+            new_structure.Add(DVHLineStyle);
 
-            XElement EUDAlpha = Structure.Element("EUDAlpha");
-            EUDAlpha.FirstAttribute.Value = "true";
+            XElement DVHLineColor = new XElement("DVHLineColor");
+            DVHLineColor.Value = "-16777216";
+            new_structure.Add(DVHLineColor);
 
-            XElement TCPAlpha = Structure.Element("TCPAlpha");
-            TCPAlpha.FirstAttribute.Value = "true";
+            XElement DVHLineWidth = new XElement("DVHLineWidth");
+            DVHLineWidth.Value = "1";
+            new_structure.Add(DVHLineWidth);
 
-            XElement TCPBeta = Structure.Element("TCPBeta");
-            TCPBeta.FirstAttribute.Value = "true";
+            XElement EUDAlpha = new XElement("EUDAlpha");
+            EUDAlpha.SetAttributeValue(ab + "nil", "true");
+            new_structure.Add(EUDAlpha);
 
-            XElement TCPGamma = Structure.Element("TCPGamma");
-            TCPGamma.FirstAttribute.Value = "true";
-            base_struct.Add(Structure);
+            XElement TCPAlpha = new XElement("TCPAlpha");
+            TCPAlpha.SetAttributeValue(ab + "nil", "true");
+            new_structure.Add(TCPAlpha);
+
+            XElement TCPBeta = new XElement("TCPBeta");
+            TCPBeta.SetAttributeValue(ab + "nil", "true");
+            new_structure.Add(TCPBeta);
+
+            XElement TCPGamma = new XElement("TCPGamma");
+            TCPGamma.SetAttributeValue(ab + "nil", "true");
+            new_structure.Add(TCPGamma);
+
+            base_struct.Add(new_structure);
             XmlWriter writer = XmlWriter.Create("test.xml");
             doc.WriteTo(writer);
             writer.Close();
