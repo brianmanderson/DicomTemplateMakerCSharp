@@ -196,6 +196,7 @@
     <Compile Include="Services\ROIClass.cs" />
     <Compile Include="Services\TemplateEvaluator.cs" />
     <Compile Include="Services\TemplateMaker.cs" />
+    <Compile Include="Services\VarianXmlWriter.cs" />
     <Compile Include="StackPanelClasses\AddAirTableRow.cs" />
     <Compile Include="StackPanelClasses\AddDefaultTemplateRow.cs" />
     <Compile Include="StackPanelClasses\AddOntologyRow.cs" />
@@ -315,6 +316,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="AirTables\UCSD_AirTable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Structure Template.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="template_RS.dcm">

@@ -22,10 +22,10 @@
         <Button x:Name="AddOntology" Content="Edit Ontologies" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Add_Ontology_Button"/>
         <Button Content="Help!" HorizontalAlignment="Left" Margin="692,60,0,0" VerticalAlignment="Top" Width="157" Height="106" Click="Button_Click"/>
         <Button Visibility="Hidden" x:Name="BuildDefault_Button" Content="Make default templates" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="MakeDefault_Button"/>
-        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,140,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,140,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="453"/>
+        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,146,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,146,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="453"/>
         <Button x:Name="ReadAirTableButton" Content="Load Online Templates" Background="LightGreen" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="Read_Airtable"/>
-        <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,81,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
+        <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,77,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
         <Button x:Name="SelectAll_Button" Content="Select all?" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="SelectAll_Button_Click"/>
         <Button x:Name="Deleted_Selected_Button" IsEnabled="False" Content="Delete selected" HorizontalAlignment="Left" Margin="309,214,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Deleted_Selected_Button_Click"/>
         <Button x:Name="DeleteROIs_Button" Content="Delete previously generated RTs" HorizontalAlignment="Left" Height="42" Margin="674,10,0,0" VerticalAlignment="Top" Width="197" Click="DeleteROIs_Button_Click"/>
@@ -38,5 +38,6 @@
         <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="26" Margin="598,204,0,0" VerticalAlignment="Top" Width="230" SelectionChanged="AirTableSelectionChanged"/>
         <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="26" Margin="598,175,0,0" VerticalAlignment="Top" Width="230" Click="WriteToAirTable_Click" IsEnabled="False"/>
         <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="494,208,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="MakeVarianXmlFolderButton" Content="Create folder with loadable Varian Xmls" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="381,116,0,0" VerticalAlignment="Top" Width="288" Click="CreateVarianXml_Click"/>
     </Grid>
 </Window>

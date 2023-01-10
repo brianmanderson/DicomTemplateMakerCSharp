@@ -225,6 +225,7 @@ namespace DicomTemplateMakerGUI
                         RunDICOMServerButton.IsEnabled = true;
                     }
                     MakeRTFolderButton.IsEnabled = true;
+                    MakeVarianXmlFolderButton.IsEnabled = true;
                     AddTemplateRow new_row = new AddTemplateRow(evaluator, AirTables);
                     template_rows.Add(new_row);
                     visible_template_rows.Add(new_row);
@@ -358,7 +359,6 @@ namespace DicomTemplateMakerGUI
                 }
                 Rebuild_From_Folders();
                 ClickRunDicomserver(sender, e);
-
             }
         }
 
@@ -570,6 +570,27 @@ namespace DicomTemplateMakerGUI
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
             check_airtables(table);
+        }
+
+        private void CreateVarianXml_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
+            dialog.InitialDirectory = ".";
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string output_directory = Path.Combine(dialog.FileName, "Template_Output_VarianXml");
+                if (!Directory.Exists(output_directory))
+                {
+                    Directory.CreateDirectory(output_directory);
+                }
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    VarianXmlWriter xmlwriter = new VarianXmlWriter();
+                    xmlwriter.LoadROIsFromPath(template_row.templateMaker.path);
+                    xmlwriter.SaveFile(Path.Combine(output_directory,$"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
+                }
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
