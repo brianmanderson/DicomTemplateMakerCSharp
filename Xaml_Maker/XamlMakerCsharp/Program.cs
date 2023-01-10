@@ -3,6 +3,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
 using System.IO;
+using System.Runtime;
 
 namespace XamlMakerCsharp
 {
@@ -10,13 +11,20 @@ namespace XamlMakerCsharp
     {
         static void Main(string[] args)
         {
+            XNamespace ab = "http://www.w3.org/2001/XMLSchema-instance";
+
             XDocument doc = XDocument.Load(Path.Combine(@".", "Structure Template.xml"));
             XElement root = doc.Root;
             XElement preview = root.Element("Preview");
             preview.SetAttributeValue("AssignedUsers", "b5anderson");
             preview.SetAttributeValue("ID", "Test TemplateBMA");
+            DateTime now = DateTime.Now;
+            preview.SetAttributeValue("ApprovalHistory", $"b5anderson Created [ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]");
+            preview.SetAttributeValue("Description", "Auto-generated xml file");
+            preview.SetAttributeValue("LastModified", $"[ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]");
+
             XElement base_struct = root.Element("Structures");
-            XElement Structure = new XElement(base_struct.Element("Structure"));
+            base_struct.RemoveAll();
             XElement new_structure = new XElement("Structure");
             new_structure.SetAttributeValue("ID", "Test");
             new_structure.SetAttributeValue("Name", "Test");
@@ -44,7 +52,6 @@ namespace XamlMakerCsharp
             ColorAndStyle.Value = "Blue";
             new_structure.Add(ColorAndStyle);
 
-            XNamespace ab = "http://www.w3.org/2001/XMLSchema-instance";
             XElement SearchCTLow = new XElement("SearchCTLow");
             SearchCTLow.SetAttributeValue(ab + "nil", "true");
             new_structure.Add(SearchCTLow);
@@ -82,7 +89,7 @@ namespace XamlMakerCsharp
             new_structure.Add(TCPGamma);
 
             base_struct.Add(new_structure);
-            XmlWriter writer = XmlWriter.Create("test.xml");
+            XmlWriter writer = XmlWriter.Create(@"K:\test.xml");
             doc.WriteTo(writer);
             writer.Close();
             int x = 1;
