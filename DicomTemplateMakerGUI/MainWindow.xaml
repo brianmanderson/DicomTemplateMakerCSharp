@@ -11,33 +11,33 @@
             <RowDefinition Height="317*"/>
             <RowDefinition Height="452*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="AddTemplateButton" Content="Add a new template" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
-        <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="66" Margin="381,10,0,0" VerticalAlignment="Top" Width="288" Click="ClickRunDicomserver"/>
+        <Button x:Name="AddTemplateButton" Content="Add a new template" HorizontalAlignment="Left" Height="63" Margin="10,10,0,0" VerticalAlignment="Top" Width="221" Click="Click_Build"/>
+        <Button x:Name="RunDICOMServerButton" Content="Run DICOM server" IsEnabled="False" HorizontalAlignment="Left" Height="50" Margin="381,10,0,0" VerticalAlignment="Top" Width="288" Click="ClickRunDicomserver"/>
         <Button Name="ChangeTemplateButton" Visibility="Hidden" Content="Change Template Path" HorizontalAlignment="Left" Height="34" Margin="10,18,0,0" VerticalAlignment="Top" Width="221" Click="ChangeTemplateClick"/>
         <Label Name="TemplateBaseLabel" Content="." Visibility="Hidden" HorizontalAlignment="Left" Height="34" Margin="256,18,0,0" VerticalAlignment="Top" Width="699"/>
         <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,245,22,0" Grid.RowSpan="2">
             <StackPanel Margin="23,27,41,88" x:Name="TemplateStackPanel">
             </StackPanel>
         </ScrollViewer>
-        <Button x:Name="AddOntology" Content="Edit Ontologies" HorizontalAlignment="Left" Height="50" Margin="10,66,0,0" VerticalAlignment="Top" Width="221" Click="Add_Ontology_Button"/>
+        <Button x:Name="AddOntology" Content="Edit Ontologies" HorizontalAlignment="Left" Height="50" Margin="10,78,0,0" VerticalAlignment="Top" Width="221" Click="Add_Ontology_Button"/>
         <Button Content="Help!" HorizontalAlignment="Left" Margin="692,60,0,0" VerticalAlignment="Top" Width="157" Height="106" Click="Button_Click"/>
         <Button Visibility="Hidden" x:Name="BuildDefault_Button" Content="Make default templates" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="MakeDefault_Button"/>
-        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,146,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,146,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="453"/>
-        <Button x:Name="ReadAirTableButton" Content="Load Online Templates" Background="LightGreen" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="Read_Airtable"/>
-        <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,77,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
-        <Button x:Name="SelectAll_Button" Content="Select all?" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="SelectAll_Button_Click"/>
+        <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,138,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
+        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="453"/>
+        <Button x:Name="ReadAirTableButton" Content="Load Online Templates" Background="LightGreen" HorizontalAlignment="Left" Height="117" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="Read_Airtable"/>
+        <Button x:Name="MakeRTFolderButton" Content="Create folder with loadable RTs" IsEnabled="False" HorizontalAlignment="Left" Height="35" Margin="381,62,0,0" VerticalAlignment="Top" Width="288" Click="CreateFolderRT_Click"/>
+        <Button x:Name="SelectAll_Button" Content="Select all?" HorizontalAlignment="Left" Margin="10,175,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="SelectAll_Button_Click"/>
         <Button x:Name="Deleted_Selected_Button" IsEnabled="False" Content="Delete selected" HorizontalAlignment="Left" Margin="309,214,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Deleted_Selected_Button_Click"/>
         <Button x:Name="DeleteROIs_Button" Content="Delete previously generated RTs" HorizontalAlignment="Left" Height="42" Margin="674,10,0,0" VerticalAlignment="Top" Width="197" Click="DeleteROIs_Button_Click"/>
         <Button x:Name="Copy_Selected_Button" IsEnabled="False" Content="Copy selected" HorizontalAlignment="Left" Margin="75,214,0,0" VerticalAlignment="Top" Width="156" Height="26" Click="Copy_Selected_Button_Click"/>
         <CheckBox x:Name="Delete_Checkbox" Content="Delete?" HorizontalAlignment="Left" Checked="CheckBox_DataContextChanged" Unchecked="CheckBox_DataContextChanged" Margin="244,220,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="Copy_CheckBox" Content="Copy?" HorizontalAlignment="Left" Margin="8,220,0,0" VerticalAlignment="Top" Checked="CheckBox_DataContextChanged" Unchecked="CheckBox_DataContextChanged"/>
-        <Button x:Name="UnSelectAll_Button" Content="Unselect all?" HorizontalAlignment="Left" Margin="199,177,0,0" VerticalAlignment="Top" Width="148" Height="26" Click="UnselectAll_Button_Click"/>
-        <CheckBox x:Name="Selected_CheckBox" Content="Show selected only?" HorizontalAlignment="Left" Margin="365,183,0,0" VerticalAlignment="Top" Checked="Selected_DataContextChanged" Unchecked="Selected_DataContextChanged"/>
+        <Button x:Name="UnSelectAll_Button" Content="Unselect all?" HorizontalAlignment="Left" Margin="199,175,0,0" VerticalAlignment="Top" Width="148" Height="26" Click="UnselectAll_Button_Click"/>
+        <CheckBox x:Name="Selected_CheckBox" Content="Show selected only?" HorizontalAlignment="Left" Margin="359,183,0,0" VerticalAlignment="Top" Checked="Selected_DataContextChanged" Unchecked="Selected_DataContextChanged"/>
         <ProgressBar x:Name="ProgressBar" HorizontalAlignment="Left" Height="15" Margin="598,231,0,0" VerticalAlignment="Top" Width="230" Visibility="Visible"/>
         <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="26" Margin="598,204,0,0" VerticalAlignment="Top" Width="230" SelectionChanged="AirTableSelectionChanged"/>
         <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="26" Margin="598,175,0,0" VerticalAlignment="Top" Width="230" Click="WriteToAirTable_Click" IsEnabled="False"/>
-        <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="494,208,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="MakeVarianXmlFolderButton" Content="Create folder with loadable Varian Xmls" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="381,116,0,0" VerticalAlignment="Top" Width="288" Click="CreateVarianXml_Click"/>
+        <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="492,183,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="MakeVarianXmlFolderButton" Content="Create folder with loadable Varian Xmls" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="381,100,0,0" VerticalAlignment="Top" Width="288" Click="CreateVarianXml_Click"/>
     </Grid>
 </Window>
