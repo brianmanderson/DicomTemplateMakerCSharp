@@ -205,6 +205,7 @@ namespace DicomTemplateMakerGUI.Services
                 try
                 {
                     OntologyCodeClass i = roi.Ontology_Class;
+                    //write_ontology(i);
                     File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
                     $"{roi.R}\\{roi.G}\\{roi.B}\n" +
                     $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +

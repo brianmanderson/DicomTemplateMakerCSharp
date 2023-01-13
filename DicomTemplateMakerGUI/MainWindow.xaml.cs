@@ -60,6 +60,7 @@ namespace DicomTemplateMakerGUI
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         private ObservableCollection<ReadAirTable> airtables = new ObservableCollection<ReadAirTable>();
+        private ObservableCollection<ReadAirTable> writeable_airtables = new ObservableCollection<ReadAirTable>();
         public ObservableCollection<ReadAirTable> AirTables
         {
             get { return airtables; }
@@ -67,6 +68,15 @@ namespace DicomTemplateMakerGUI
             {
                 airtables = value;
                 OnPropertyChanged("AirTables");
+            }
+        }
+        public ObservableCollection<ReadAirTable> WriteableAirTables
+        {
+            get { return writeable_airtables; }
+            set
+            {
+                writeable_airtables = value;
+                OnPropertyChanged("WriteableAirTables");
             }
         }
         bool running;
@@ -85,19 +95,25 @@ namespace DicomTemplateMakerGUI
                 handler(this, e);
             }
         }
-        public MainWindow()
+        public void load_writeable_airtables()
         {
-            InitializeComponent();
-            load_airtables();
-            List<ReadAirTable> loadable_airtables = new List<ReadAirTable>();
+            WriteableAirTables = new ObservableCollection<ReadAirTable>();
             foreach (ReadAirTable at in AirTables)
             {
                 if (at.AirTableName != "TG263_AirTable")
                 {
-                    loadable_airtables.Add(at);
+                    WriteableAirTables.Add(at);
                 }
             }
-            AirTableComboBox.ItemsSource = loadable_airtables;
+            AirTableComboBox.ItemsSource = WriteableAirTables;
+            AirTableComboBox.DisplayMemberPath = "AirTableName";
+        }
+        public MainWindow()
+        {
+            InitializeComponent();
+            load_airtables();
+            load_writeable_airtables();
+            AirTableComboBox.ItemsSource = WriteableAirTables;
             AirTableComboBox.DisplayMemberPath = "AirTableName";
             if (AirTables.Count > 0)
             {
@@ -327,6 +343,7 @@ namespace DicomTemplateMakerGUI
         {
             AirTableWindow airtable_window = new AirTableWindow(AirTables, folder_location, onto_path);
             airtable_window.ShowDialog();
+            load_writeable_airtables();
             Rebuild_From_Folders();
         }
 
@@ -555,6 +572,10 @@ namespace DicomTemplateMakerGUI
             WriteToAirTable_Button.Content = "Still loading airtable...";
             try
             {
+                if (airtable is null)
+                {
+                    return;
+                }
                 await airtable.finished_task;
                 if ((bool)AirTableCheckbox.IsChecked)
                 {
