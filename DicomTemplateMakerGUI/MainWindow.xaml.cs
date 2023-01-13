@@ -207,6 +207,7 @@ namespace DicomTemplateMakerGUI
             AddTemplateButton.Background = lightgreen;
             RunDICOMServerButton.IsEnabled = false;
             MakeRTFolderButton.IsEnabled = false;
+            MakeVarianXmlFolderButton.IsEnabled = false;
             template_rows = new List<AddTemplateRow>();
             visible_template_rows = new List<AddTemplateRow>();
             foreach (string directory in directories)

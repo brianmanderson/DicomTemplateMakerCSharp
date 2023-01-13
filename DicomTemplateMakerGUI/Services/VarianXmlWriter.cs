@@ -11,6 +11,10 @@ namespace DicomTemplateMakerGUI.Services
 {
     public class VarianXmlWriter
     {
+        static string ReturnUppercaseWord(string word)
+        {
+            return $"{word.FirstOrDefault().ToString().ToUpper()}{word.Substring(1).ToLower()}";
+        }
         private XNamespace ab = "http://www.w3.org/2001/XMLSchema-instance";
         public XDocument doc;
         public XElement root;
