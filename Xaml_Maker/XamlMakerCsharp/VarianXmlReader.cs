@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using System.Linq;
 using System.IO;
 using System.Runtime;
+using XamlMakerCsharp;
 
 namespace XamlMakerCsharp
 {
@@ -32,8 +33,26 @@ namespace XamlMakerCsharp
                 Directory.CreateDirectory(Path.Combine(output_path, template_name));
             }
             XElement structures = root.Element("Structures");
-            foreach (XElement structure in structures.Elements())
+            foreach (XElement s in structures.Elements())
             {
+                string roi_name = s.Attribute("Name").Value;
+                string roi_id = s.Attribute("ID").Value;
+                
+                XElement Identification = s.Element("Identification");
+                string volume_type = Identification.Element("VolumeType").Value;
+                XElement StructureCode = Identification.Element("StructureCode");
+                string code = StructureCode.Attribute("Code").Value;
+                string code_scheme = StructureCode.Attribute("CodeScheme").Value;
+                string code_scheme_version = StructureCode.Attribute("CodeSchemeVersion").Value;
+
+                string type_index = s.Element("TypeIndex").Value;
+                string color_and_style = s.Element("ColorAndStyle").Value;
+                
+                if (color_and_style.StartsWith("RGB"))
+                {
+
+                }
+                string dvh_line_style = s.Element("DVHLineStyle").Value;
                 int x = 1;
             }
         }
