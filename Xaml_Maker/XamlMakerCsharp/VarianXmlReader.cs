@@ -18,29 +18,31 @@ namespace XamlMakerCsharp
         public XElement root;
         public XElement base_struct;
         public XElement preview;
-        public VarianXmlReader(string xml_path)
+        string xml_path;
+        public VarianXmlReader(string doc_path)
         {
+            xml_path = doc_path;
             doc = XDocument.Load(xml_path);
             root = doc.Root;
             preview = root.Element("Preview");
         }
-        public void XmlToROI(string output_path)
+        public void AddToTemplateMaker(TemplateMaker maker, XElement s)
         {
-            //string description = preview.Elements("ID");
-            string template_name = preview.Attribute("ID").Value.Replace(' ', '_');
-            if (!Directory.Exists(Path.Combine(output_path, template_name)))
+            try
             {
-                Directory.CreateDirectory(Path.Combine(output_path, template_name));
-            }
-            XElement structures = root.Element("Structures");
-            foreach (XElement s in structures.Elements())
-            {
-                string roi_name = s.Attribute("Name").Value;
-                string roi_id = s.Attribute("ID").Value;
-                
+                string roi_id = s.Attribute("Name").Value;
+                string roi_name = s.Attribute("ID").Value;
+                if (roi_id == "")
+                {
+                    return;
+                }
                 XElement Identification = s.Element("Identification");
-                string volume_type = Identification.Element("VolumeType").Value;
+                string volume_type = Identification.Element("VolumeType").Value.ToUpper();
                 XElement StructureCode = Identification.Element("StructureCode");
+                if (StructureCode is null)
+                {
+                    return;
+                }
                 string code = StructureCode.Attribute("Code").Value;
                 string code_scheme = StructureCode.Attribute("CodeScheme").Value;
                 string code_scheme_version = StructureCode.Attribute("CodeSchemeVersion").Value;
@@ -57,17 +59,66 @@ namespace XamlMakerCsharp
                 }
                 else
                 {
-                    color.Add("255");
-                    color.Add("0");
-                    color.Add("0");
+                    List<string> splitup = color_and_style.Split(' ').ToList();
+                    string color_name = splitup.Last();
+                    if (color_name.ToLower().Contains("oran"))
+                    {
+                        color_name = "Orange";
+                    }
+                    else if (color_name.ToLower().Contains("magent"))
+                    {
+                        color_name = "Magenta";
+                    }
+                    else if (color_name.ToLower().Contains("yell"))
+                    {
+                        color_name = "Yellow";
+                    }
+                    else if (color_name.ToLower().Contains("brow"))
+                    {
+                        color_name = "Brown";
+                    }
+                    System.Drawing.Color k = System.Drawing.Color.FromName(color_name);
+                    if (k.IsKnownColor)
+                    {
+                        color.Add(k.R.ToString());
+                        color.Add(k.G.ToString());
+                        color.Add(k.B.ToString());
+                    }
+                    else
+                    {
+                        color.Add("255");
+                        color.Add("0");
+                        color.Add("0");
+                    }
                 }
                 string out_color = $"{color[0]}\\{color[1]}\\{color[2]}";
                 OntologyCodeClass ontology = new OntologyCodeClass(name: roi_id, code_value: code, scheme_designated: code_scheme_version);
                 ROIClass roi = new ROIClass(color: out_color, name: roi_name, roi_interpreted_type: volume_type,
                     identification_code_class: ontology);
+                maker.ROIs.Add(roi);
+                maker.Ontologies.Add(ontology);
                 string dvh_line_style = s.Element("DVHLineStyle").Value;
                 int x = 1;
             }
+            catch
+            {
+                return;
+            }
+        }
+        public void XmlToROI(string output_path)
+        {
+            //string description = preview.Elements("ID");
+            string template_name = preview.Attribute("ID").Value.Replace(' ', '_');
+            TemplateMaker templateMaker = new TemplateMaker();
+            templateMaker.define_output(Path.Combine(output_path, template_name));
+            templateMaker.set_onto_path(Path.Combine(output_path, "Ontologies"));
+            XElement structures = root.Element("Structures");
+            foreach (XElement s in structures.Elements())
+            {
+                AddToTemplateMaker(templateMaker, s);
+            }
+            templateMaker.make_template();
+            templateMaker.write_ontologies();
         }
     }
 }

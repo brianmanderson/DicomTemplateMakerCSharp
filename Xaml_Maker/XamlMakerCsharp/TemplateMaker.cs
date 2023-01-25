@@ -52,10 +52,17 @@ namespace XamlMakerCsharp
         public void set_onto_path(string onto_path)
         {
             this.onto_path = onto_path;
+            if (!Directory.Exists(onto_path))
+            {
+                Directory.CreateDirectory(onto_path);
+            }
         }
-        public void write_roi(ROIClass roi)
+        public void write_ontologies()
         {
-
+            foreach(OntologyCodeClass onto in Ontologies)
+            {
+                write_ontology(onto);
+            }
         }
         public void write_ontology(OntologyCodeClass onto)
         {

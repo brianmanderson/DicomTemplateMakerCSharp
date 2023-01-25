@@ -18,8 +18,8 @@ namespace XamlMakerCsharp
                 string out_path = @"C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\bin\x64\Debug";
                 foreach (string file in Directory.GetFiles(xml_path, "*.xml"))
                 {
-                    string new_file = @"K:\Template_Output_VarianXml\AbdPelv_Anal.xml";
-                    VarianXmlReader reader = new VarianXmlReader(new_file);
+                    //string new_file = @"K:\Template_Output_VarianXml\AbdPelv_Anal.xml";
+                    VarianXmlReader reader = new VarianXmlReader(file);
                     reader.XmlToROI(out_path);
                 }
             }
