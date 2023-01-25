@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 
-namespace DicomTemplateMakerGUI.Services
+namespace XamlMakerCsharp
 {
     public class OntologyCodeClass
     {

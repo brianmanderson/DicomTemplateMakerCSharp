@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace DicomTemplateMakerGUI.Services
+namespace XamlMakerCsharp
 {
     public class ROIClass
     {
