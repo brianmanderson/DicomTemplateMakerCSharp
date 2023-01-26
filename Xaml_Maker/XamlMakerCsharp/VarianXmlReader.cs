@@ -37,7 +37,7 @@ namespace XamlMakerCsharp
                     return;
                 }
                 XElement Identification = s.Element("Identification");
-                string volume_type = Identification.Element("VolumeType").Value.ToUpper();
+                string volume_type = Identification.Element("VolumeType").Value;//.ToUpper();
                 XElement StructureCode = Identification.Element("StructureCode");
                 if (StructureCode is null)
                 {
