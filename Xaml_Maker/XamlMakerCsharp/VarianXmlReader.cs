@@ -93,7 +93,7 @@ namespace XamlMakerCsharp
                 }
                 string out_color = $"{color[0]}\\{color[1]}\\{color[2]}";
                 OntologyCodeClass ontology = new OntologyCodeClass(name: roi_name, code_value: code, scheme_designated: code_scheme);
-                ROIClass roi = new ROIClass(color: out_color, name: roi_name, roi_interpreted_type: volume_type,
+                ROIClass roi = new ROIClass(color: out_color, name: roi_id, roi_interpreted_type: volume_type,
                     identification_code_class: ontology);
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
