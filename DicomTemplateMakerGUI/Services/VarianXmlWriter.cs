@@ -91,7 +91,7 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
             string[] code_values = instructions[1].Split('\\');
-            AddROI(ROIID: code_values[0], ROIName: roi_name, volumeType: instructions[2], code: code_values[1], codeScheme: code_values[2], colorAndStyle: color);
+            AddROI(ROIID: roi_name, ROIName: code_values[0], volumeType: instructions[2], code: code_values[1], codeScheme: code_values[2], colorAndStyle: color);
         }
         public void AddROI(string ROIID, string ROIName, string volumeType, string code, string codeScheme, string colorAndStyle)
         {
