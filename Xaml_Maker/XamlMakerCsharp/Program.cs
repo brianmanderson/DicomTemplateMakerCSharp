@@ -14,7 +14,7 @@ namespace XamlMakerCsharp
         {
             if (true)
             {
-                string xml_path = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
+                string xml_path = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure\Template_Output_VarianXml";
                 string out_path = @"C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\bin\x64\Debug";
                 foreach (string file in Directory.GetFiles(xml_path, "*.xml"))
                 {

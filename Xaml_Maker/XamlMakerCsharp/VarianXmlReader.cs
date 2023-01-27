@@ -30,8 +30,8 @@ namespace XamlMakerCsharp
         {
             try
             {
-                string roi_id = s.Attribute("Name").Value;
-                string roi_name = s.Attribute("ID").Value;
+                string roi_id = s.Attribute("ID").Value;
+                string roi_name = s.Attribute("Name").Value;
                 if (roi_id == "")
                 {
                     return;
@@ -92,7 +92,7 @@ namespace XamlMakerCsharp
                     }
                 }
                 string out_color = $"{color[0]}\\{color[1]}\\{color[2]}";
-                OntologyCodeClass ontology = new OntologyCodeClass(name: roi_id, code_value: code, scheme_designated: code_scheme_version);
+                OntologyCodeClass ontology = new OntologyCodeClass(name: roi_name, code_value: code, scheme_designated: code_scheme);
                 ROIClass roi = new ROIClass(color: out_color, name: roi_name, roi_interpreted_type: volume_type,
                     identification_code_class: ontology);
                 maker.ROIs.Add(roi);
