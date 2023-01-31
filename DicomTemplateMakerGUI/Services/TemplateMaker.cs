@@ -190,6 +190,13 @@ namespace DicomTemplateMakerGUI.Services
         {
             this.output = output;
         }
+        public void write_ontologies()
+        {
+            foreach (OntologyCodeClass onto in Ontologies)
+            {
+                write_ontology(onto);
+            }
+        }
         public void make_template()
         {
             if (!Directory.Exists(output))

@@ -615,6 +615,11 @@ namespace DicomTemplateMakerGUI
             }
         }
 
+        private void Load_XMLs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
