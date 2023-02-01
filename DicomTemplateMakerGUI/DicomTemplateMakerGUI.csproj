@@ -196,6 +196,7 @@
     <Compile Include="Services\ROIClass.cs" />
     <Compile Include="Services\TemplateEvaluator.cs" />
     <Compile Include="Services\TemplateMaker.cs" />
+    <Compile Include="Services\VarianXmlReader.cs" />
     <Compile Include="Services\VarianXmlWriter.cs" />
     <Compile Include="StackPanelClasses\AddAirTableRow.cs" />
     <Compile Include="StackPanelClasses\AddDefaultTemplateRow.cs" />

@@ -617,7 +617,33 @@ namespace DicomTemplateMakerGUI
 
         private void Load_XMLs_Click(object sender, RoutedEventArgs e)
         {
-
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.xml");
+            dialog.InitialDirectory = ".";
+            string suspected_directory = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
+            if (Directory.Exists(suspected_directory))
+            {
+                dialog.InitialDirectory = suspected_directory;
+                dialog.DefaultDirectory = suspected_directory;
+            }
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string xml_directory = dialog.FileName;
+                foreach (string file in Directory.GetFiles(xml_directory, "*.xml"))
+                {
+                    //string new_file = @"K:\Template_Output_VarianXml\AbdPelv_Anal.xml";
+                    try
+                    {
+                        VarianXmlReader reader = new VarianXmlReader(file);
+                        reader.XmlToROI(folder_location);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+                Rebuild_From_Folders();
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
