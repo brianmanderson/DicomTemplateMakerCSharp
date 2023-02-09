@@ -598,10 +598,16 @@ namespace DicomTemplateMakerGUI
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
             dialog.InitialDirectory = ".";
+            string suspected_directory = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
+            if (Directory.Exists(suspected_directory))
+            {
+                dialog.InitialDirectory = suspected_directory;
+                dialog.DefaultDirectory = suspected_directory;
+            }
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string output_directory = Path.Combine(dialog.FileName, "Template_Output_VarianXml");
+                string output_directory = dialog.FileName;
                 if (!Directory.Exists(output_directory))
                 {
                     Directory.CreateDirectory(output_directory);
