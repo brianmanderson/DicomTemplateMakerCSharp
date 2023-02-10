@@ -303,7 +303,14 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                 reader.update_dicom_tag(DicomTag.ManufacturerModelName, "Universal_RT_Creator");
                                 foreach (ROIClass roi in template_dictionary[template_name])
                                 {
-                                    reader.add_roi(roi);
+                                    try
+                                    {
+                                        reader.add_roi(roi);
+                                    }
+                                    catch
+                                    {
+                                        continue;
+                                    }
                                 }
                                 reader.save_RT(outpath);
                                 files_and_modality_dictionary.Remove(directory_key);
