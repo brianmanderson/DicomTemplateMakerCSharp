@@ -65,9 +65,9 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             roi_interp_combobox.SetBinding(ComboBox.SelectedItemProperty, interp_binding);
             roi_interp_combobox.ItemsSource = interpreters;
             roi_interp_combobox.SelectionChanged += SelectionChangedEvent;
-            if (interpreters.Contains(roi.ROI_Interpreted_type))
+            if (interpreters.Contains(roi.ROI_Interpreted_type.ToUpper()))
             {
-                roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type;
+                roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type.ToUpper();
             }
             roi_interp_combobox.Width = 200;
             Children.Add(roi_interp_combobox);

@@ -60,6 +60,7 @@ namespace DicomTemplateMakerGUI
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         private ObservableCollection<ReadAirTable> airtables = new ObservableCollection<ReadAirTable>();
+        private ObservableCollection<ReadAirTable> writeable_airtables = new ObservableCollection<ReadAirTable>();
         public ObservableCollection<ReadAirTable> AirTables
         {
             get { return airtables; }
@@ -67,6 +68,15 @@ namespace DicomTemplateMakerGUI
             {
                 airtables = value;
                 OnPropertyChanged("AirTables");
+            }
+        }
+        public ObservableCollection<ReadAirTable> WriteableAirTables
+        {
+            get { return writeable_airtables; }
+            set
+            {
+                writeable_airtables = value;
+                OnPropertyChanged("WriteableAirTables");
             }
         }
         bool running;
@@ -85,19 +95,25 @@ namespace DicomTemplateMakerGUI
                 handler(this, e);
             }
         }
-        public MainWindow()
+        public void load_writeable_airtables()
         {
-            InitializeComponent();
-            load_airtables();
-            List<ReadAirTable> loadable_airtables = new List<ReadAirTable>();
+            WriteableAirTables = new ObservableCollection<ReadAirTable>();
             foreach (ReadAirTable at in AirTables)
             {
                 if (at.AirTableName != "TG263_AirTable")
                 {
-                    loadable_airtables.Add(at);
+                    WriteableAirTables.Add(at);
                 }
             }
-            AirTableComboBox.ItemsSource = loadable_airtables;
+            AirTableComboBox.ItemsSource = WriteableAirTables;
+            AirTableComboBox.DisplayMemberPath = "AirTableName";
+        }
+        public MainWindow()
+        {
+            InitializeComponent();
+            load_airtables();
+            load_writeable_airtables();
+            AirTableComboBox.ItemsSource = WriteableAirTables;
             AirTableComboBox.DisplayMemberPath = "AirTableName";
             if (AirTables.Count > 0)
             {
@@ -207,6 +223,7 @@ namespace DicomTemplateMakerGUI
             AddTemplateButton.Background = lightgreen;
             RunDICOMServerButton.IsEnabled = false;
             MakeRTFolderButton.IsEnabled = false;
+            MakeVarianXmlFolderButton.IsEnabled = false;
             template_rows = new List<AddTemplateRow>();
             visible_template_rows = new List<AddTemplateRow>();
             foreach (string directory in directories)
@@ -225,6 +242,7 @@ namespace DicomTemplateMakerGUI
                         RunDICOMServerButton.IsEnabled = true;
                     }
                     MakeRTFolderButton.IsEnabled = true;
+                    MakeVarianXmlFolderButton.IsEnabled = true;
                     AddTemplateRow new_row = new AddTemplateRow(evaluator, AirTables);
                     template_rows.Add(new_row);
                     visible_template_rows.Add(new_row);
@@ -325,6 +343,7 @@ namespace DicomTemplateMakerGUI
         {
             AirTableWindow airtable_window = new AirTableWindow(AirTables, folder_location, onto_path);
             airtable_window.ShowDialog();
+            load_writeable_airtables();
             Rebuild_From_Folders();
         }
 
@@ -358,7 +377,6 @@ namespace DicomTemplateMakerGUI
                 }
                 Rebuild_From_Folders();
                 ClickRunDicomserver(sender, e);
-
             }
         }
 
@@ -554,6 +572,10 @@ namespace DicomTemplateMakerGUI
             WriteToAirTable_Button.Content = "Still loading airtable...";
             try
             {
+                if (airtable is null)
+                {
+                    return;
+                }
                 await airtable.finished_task;
                 if ((bool)AirTableCheckbox.IsChecked)
                 {
@@ -570,6 +592,27 @@ namespace DicomTemplateMakerGUI
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
             check_airtables(table);
+        }
+
+        private void CreateVarianXml_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
+            dialog.InitialDirectory = ".";
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string output_directory = Path.Combine(dialog.FileName, "Template_Output_VarianXml");
+                if (!Directory.Exists(output_directory))
+                {
+                    Directory.CreateDirectory(output_directory);
+                }
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    VarianXmlWriter xmlwriter = new VarianXmlWriter();
+                    xmlwriter.LoadROIsFromPath(template_row.templateMaker.path);
+                    xmlwriter.SaveFile(Path.Combine(output_directory,$"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
+                }
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
