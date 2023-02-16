@@ -12,8 +12,10 @@ namespace XamlMakerCsharp
         {
             XDocument doc = XDocument.Load(Path.Combine(@".", "Structure Template.xml"));
             XElement root = doc.Root;
+            root.SetAttributeValue("ID", "Test");
             XElement base_struct = root.Element("Structures");
             XElement Structure = new XElement(base_struct.Element("Structure"));
+            base_struct.AddAfterSelf(Structure);
             Structure.SetAttributeValue("ID", "Test");
             Structure.SetAttributeValue("Name", "Test");
 
@@ -51,9 +53,11 @@ namespace XamlMakerCsharp
 
             XElement TCPGamma = Structure.Element("TCPGamma");
             TCPGamma.FirstAttribute.Value = "true";
-            base_struct.Add(Structure);
+
+            //base_struct.Element("Structure").AddAfterSelf(Structure);
+            XmlWriterSettings settings = new XmlWriterSettings();
             XmlWriter writer = XmlWriter.Create("test.xml");
-            doc.WriteTo(writer);
+            base_struct.WriteTo(writer);
             writer.Close();
             int x = 1;
         }
