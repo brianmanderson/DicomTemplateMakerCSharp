@@ -163,25 +163,71 @@ namespace DicomTemplateMakerGUI.Windows
             PTVs = PTVs.OrderBy(o => o.ROIName).ToList();
             GTVs = GTVs.OrderBy(o => o.ROIName).ToList();
             CTVs = CTVs.OrderBy(o => o.ROIName).ToList();
+            // First, add the ROIs that are recommended
             foreach (ROIClass roi in PTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
             foreach (ROIClass roi in CTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
             foreach (ROIClass roi in GTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
             foreach (ROIClass roi in ROIs_list)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            // Now add the ROIs that are only consider
+            foreach (ROIClass roi in PTVs)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            foreach (ROIClass roi in CTVs)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            foreach (ROIClass roi in GTVs)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            foreach (ROIClass roi in ROIs_list)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
         }
         private StackPanel TopRow()
