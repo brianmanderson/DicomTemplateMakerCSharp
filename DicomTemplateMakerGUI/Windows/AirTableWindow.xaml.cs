@@ -280,10 +280,5 @@ namespace DicomTemplateMakerGUI.Windows
                 row.check_box.IsChecked = true;
             }
         }
-
-        private void Language_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
     }
 }
