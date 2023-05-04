@@ -56,7 +56,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ontology_combobox.Width = 250;
             Children.Add(ontology_combobox);
 
-            List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
+            List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "MARKER", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
             Binding interp_binding = new Binding("ROI_Interpreted_type");
             interp_binding.Source = roi;
