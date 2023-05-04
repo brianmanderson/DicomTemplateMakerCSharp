@@ -55,7 +55,7 @@ namespace DicomTemplateMakerGUI.Services
         public string TG_263FrenchR { get; set; }
         public string Id { get; set; }
         public string Type { get; set; }
-        public string FMAID { get; set; }
+        public string SchemeCode { get; set; }
         public string RGB { get; set; }
         public List<string> Colors_RGB { get; set; }
 
@@ -85,7 +85,7 @@ namespace DicomTemplateMakerGUI.Services
         {
             OntologyCodeClass o = roi.Ontology_Class;
             Scheme = o.Scheme;
-            FMAID = o.CodeValue;
+            SchemeCode = o.CodeValue;
             CommonName = o.CodeMeaning;
             ContextGroupVersion = o.ContextGroupVersion;
             MappingResource = o.MappingResource;
@@ -185,7 +185,7 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     code_meaning = r.CommonName;
                 }
-                OntologyCodeClass o = new OntologyCodeClass(name: code_meaning, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
+                OntologyCodeClass o = new OntologyCodeClass(name: code_meaning, code_value: r.SchemeCode, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
                     group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
                     mapping_resource_name: r.MappingResourceName);
                 string[] colors;
