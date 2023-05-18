@@ -209,6 +209,9 @@
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ChangeOntologyWindow.xaml.cs">
+      <DependentUpon>ChangeOntologyWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddAirTableTemplate.xaml.cs">
       <DependentUpon>AddAirTableTemplate.xaml</DependentUpon>
     </Compile>
@@ -248,6 +251,10 @@
     <Page Include="Windows\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ChangeOntologyWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\AddAirTableTemplate.xaml">
       <SubType>Designer</SubType>

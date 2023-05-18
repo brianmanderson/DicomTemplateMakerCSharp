@@ -652,6 +652,12 @@ namespace DicomTemplateMakerGUI
             }
         }
 
+        private void FMA_SNOMED_ComboBox_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows);
+            onto_window.ShowDialog();
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
             TemplateMaker template_maker = new TemplateMaker();
