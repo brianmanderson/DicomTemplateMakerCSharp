@@ -56,6 +56,8 @@ namespace DicomTemplateMakerGUI
     }
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public string default_ontology = "NA";
+        List<string> default_ontology_list = new List<string> { "Default ontology scheme?", "FMA", "SNOMED-CT" };
         string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
@@ -165,6 +167,8 @@ namespace DicomTemplateMakerGUI
             Rebuild_From_Folders();
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
+            FMA_SNOMED_ComboBox.ItemsSource = default_ontology_list;
+            FMA_SNOMED_ComboBox.SelectedIndex = 0;
         }
         public void load_airtables()
         {
@@ -650,6 +654,11 @@ namespace DicomTemplateMakerGUI
                 }
                 Rebuild_From_Folders();
             }
+        }
+
+        private void OntologyComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            default_ontology = (string)FMA_SNOMED_ComboBox.SelectedItem;
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

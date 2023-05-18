@@ -20,7 +20,7 @@
             </StackPanel>
         </ScrollViewer>
         <Button x:Name="AddOntology" Content="Edit Ontologies" HorizontalAlignment="Left" Height="50" Margin="10,78,0,0" VerticalAlignment="Top" Width="221" Click="Add_Ontology_Button"/>
-        <Button Content="Help!" HorizontalAlignment="Left" Margin="692,60,0,0" VerticalAlignment="Top" Width="157" Height="106" Click="Button_Click"/>
+        <Button Content="Help!" HorizontalAlignment="Left" Margin="674,114,0,0" VerticalAlignment="Top" Width="197" Height="52" Click="Button_Click"/>
         <Button Visibility="Hidden" x:Name="BuildDefault_Button" Content="Make default templates" HorizontalAlignment="Left" Height="105" Margin="236,11,0,0" VerticalAlignment="Top" Width="140" Click="MakeDefault_Button"/>
         <Label Content="Search by Template Name" HorizontalAlignment="Left" Margin="32,138,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
         <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="26" Margin="216,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="453"/>
@@ -40,5 +40,7 @@
         <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="492,183,0,0" VerticalAlignment="Top"/>
         <Button x:Name="MakeVarianXmlFolderButton" Content="Create folder with loadable Varian Xmls" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="381,100,0,0" VerticalAlignment="Top" Width="288" Click="CreateVarianXml_Click"/>
         <Button x:Name="ReadFromVarianXmlFolderButton" Content="Load from Xmls" Background="LightGreen" HorizontalAlignment="Left" Height="50" Margin="236,78,0,0" VerticalAlignment="Top" Width="140" Click="Load_XMLs_Click"/>
+        <ComboBox x:Name="FMA_SNOMED_ComboBox" HorizontalAlignment="Left" Height="31" Margin="674,78,0,0" VerticalAlignment="Top" Width="197" SelectionChanged="OntologyComboBoxSelectionChanged"/>
+        <Label Content="FMA or SNOMEDCT Ontology" HorizontalAlignment="Left" Margin="688,54,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
