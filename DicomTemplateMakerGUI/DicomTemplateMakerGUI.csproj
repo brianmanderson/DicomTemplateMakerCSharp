@@ -190,6 +190,7 @@
     <Compile Include="DicomTemplateServices\DicomTemplateRunner.cs" />
     <Compile Include="DicomTemplateServices\ROIClass.cs" />
     <Compile Include="DicomTemplateServices\FolderWatcher.cs" />
+    <Compile Include="Services\FMAID_SNOMED_OntologyClass.cs" />
     <Compile Include="Services\OntologyCodeClass.cs" />
     <Compile Include="Services\Making_Basic_Templates.cs" />
     <Compile Include="Services\ReadAirTable.cs" />
@@ -297,6 +298,9 @@
     </Compile>
     <Resource Include="license.txt" />
     <Resource Include="Image1.png" />
+    <Content Include="FMA_SNOMEDCT_Key.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="SmallCT\vhm.1001.dcm">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

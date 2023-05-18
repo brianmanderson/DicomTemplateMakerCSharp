@@ -40,7 +40,6 @@
         <CheckBox x:Name="AirTableCheckbox" Content="Airtable Write?" HorizontalAlignment="Left" Checked="AirTableCheckBox_DataContextChanged" Unchecked="AirTableCheckBox_DataContextChanged" Margin="492,183,0,0" VerticalAlignment="Top"/>
         <Button x:Name="MakeVarianXmlFolderButton" Content="Create folder with loadable Varian Xmls" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="381,100,0,0" VerticalAlignment="Top" Width="288" Click="CreateVarianXml_Click"/>
         <Button x:Name="ReadFromVarianXmlFolderButton" Content="Load from Xmls" Background="LightGreen" HorizontalAlignment="Left" Height="50" Margin="236,78,0,0" VerticalAlignment="Top" Width="140" Click="Load_XMLs_Click"/>
-        <ComboBox x:Name="FMA_SNOMED_ComboBox" HorizontalAlignment="Left" Height="31" Margin="674,78,0,0" VerticalAlignment="Top" Width="197" SelectionChanged="OntologyComboBoxSelectionChanged"/>
-        <Label Content="FMA or SNOMEDCT Ontology" HorizontalAlignment="Left" Margin="688,54,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="FMA_SNOMED_ComboBox" HorizontalAlignment="Left" Height="52" Margin="674,57,0,0" VerticalAlignment="Top" Width="197" SelectionChanged="OntologyComboBoxSelectionChanged"/>
     </Grid>
 </Window>

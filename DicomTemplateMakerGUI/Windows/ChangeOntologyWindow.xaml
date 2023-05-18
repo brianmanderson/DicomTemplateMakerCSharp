@@ -1,0 +1,14 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.Windows.ChangeOntologyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        mc:Ignorable="d"
+        Title="AddAirTableTemplate" Height="225" Width="500">
+    <Grid>
+        <Label Content="If you would like to change the default Ontology this will attempt to change the&#xD;&#xA; template ROI ontologies. It will convert from FMA to SNOMED-CT, or vice-versa" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="55" Width="480"/>
+        <Button x:Name="ConverterButton" Content="Convert" HorizontalAlignment="Center" Height="48" Margin="0,126,0,0" VerticalAlignment="Top" Width="72" Click="ConverterButton_Click"/>
+        <ComboBox Name="FMA_SNOMED_ComboBox" HorizontalAlignment="Center" Height="36" Margin="0,70,0,0" VerticalAlignment="Top" Width="296" SelectionChanged="FMA_SNOMED_ComboBox_SelectionChanged"/>
+    </Grid>
+</Window>
