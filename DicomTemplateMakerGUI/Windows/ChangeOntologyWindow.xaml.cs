@@ -22,14 +22,12 @@ namespace DicomTemplateMakerGUI.Windows
     {
         public FMAID_SNOMED_OntologyClass converter = new FMAID_SNOMED_OntologyClass();
         private List<AddTemplateRow> template_rows;
-        List<string> default_ontology_list = new List<string> { "Default ontology scheme?", "FMA", "SNOMED-CT" };
+        List<string> default_ontology_list = new List<string> { "FMA", "SNOMEDCT" };
         public ChangeOntologyWindow(List<AddTemplateRow> template_rows)
         {
             InitializeComponent();
             From_ComboBox.ItemsSource = default_ontology_list;
-            From_ComboBox.SelectedIndex = 0;
             To_ComboBox.ItemsSource = default_ontology_list;
-            To_ComboBox.SelectedIndex = 0;
             this.template_rows = template_rows;
         }
 
@@ -69,17 +67,17 @@ namespace DicomTemplateMakerGUI.Windows
                     template_maker.write_ontologies();
                 }
             }
-            From_ComboBox.SelectedIndex = 0;
-            To_ComboBox.SelectedIndex = 0;
+            From_ComboBox.SelectedIndex = -1;
+            To_ComboBox.SelectedIndex = -1;
             ConverterButton.IsEnabled = false;
         }
 
         private void ToFromComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ConverterButton.IsEnabled = false;
-            if (From_ComboBox.SelectedIndex != 0)
+            if (From_ComboBox.SelectedIndex != -1)
             {
-                if (To_ComboBox.SelectedIndex != 0)
+                if (To_ComboBox.SelectedIndex != -1)
                 {
                     ConverterButton.IsEnabled = true;
                 }
