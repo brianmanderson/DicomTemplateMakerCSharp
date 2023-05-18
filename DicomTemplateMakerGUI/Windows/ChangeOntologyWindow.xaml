@@ -9,6 +9,8 @@
     <Grid>
         <Label Content="If you would like to change the default Ontology this will attempt to change the&#xD;&#xA; template ROI ontologies. It will convert from FMA to SNOMED-CT, or vice-versa" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="55" Width="480"/>
         <Button x:Name="ConverterButton" Content="Convert" HorizontalAlignment="Center" Height="48" Margin="0,126,0,0" VerticalAlignment="Top" Width="72" Click="ConverterButton_Click"/>
-        <ComboBox Name="FMA_SNOMED_ComboBox" HorizontalAlignment="Center" Height="36" Margin="0,70,0,0" VerticalAlignment="Top" Width="296" SelectionChanged="FMA_SNOMED_ComboBox_SelectionChanged"/>
+        <ComboBox Name="From_ComboBox" HorizontalAlignment="Left" Height="36" Margin="10,69,0,0" VerticalAlignment="Top" Width="177" SelectionChanged="ToFromComboBox_SelectionChanged"/>
+        <ComboBox Name="To_ComboBox" HorizontalAlignment="Left" Height="36" Margin="298,69,0,0" VerticalAlignment="Top" Width="177" SelectionChanged="ToFromComboBox_SelectionChanged"/>
+        <Label Content="convert to" HorizontalAlignment="Left" Margin="214,74,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
