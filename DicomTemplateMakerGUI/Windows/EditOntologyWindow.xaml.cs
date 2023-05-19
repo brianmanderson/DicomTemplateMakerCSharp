@@ -28,16 +28,15 @@ namespace DicomTemplateMakerGUI.Windows
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         private string onto_path;
         public TemplateMaker template_maker;
-        public EditOntologyWindow(string path, TemplateMaker template_maker)
+        private List<AddTemplateRow> template_rows;
+        public EditOntologyWindow(string path, List<AddTemplateRow> template_rows)
         {
-            this.onto_path = Path.Combine(path, "Ontologies");
-            template_maker.set_onto_path(Path.Combine(path, "Ontologies"));
-            this.template_maker = template_maker;
+            onto_path = Path.Combine(path, "Ontologies");
+            this.template_rows = template_rows;
             if (!Directory.Exists(onto_path))
             {
                 Directory.CreateDirectory(onto_path);
             }
-            this.template_maker = template_maker;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
             BuildFromFolders();
@@ -186,6 +185,8 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void BuildFromFolders()
         {
+            template_maker = new TemplateMaker();
+            template_maker.set_onto_path(onto_path);
             string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
             foreach (string ontology_file in roi_files)
             {
@@ -210,6 +211,13 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Save_Changes_Click(sender, e);
             Close();
+        }
+
+        private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows);
+            onto_window.ShowDialog();
+            BuildFromFolders();
         }
     }
 }

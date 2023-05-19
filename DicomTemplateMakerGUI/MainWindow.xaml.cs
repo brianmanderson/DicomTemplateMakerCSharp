@@ -652,7 +652,7 @@ namespace DicomTemplateMakerGUI
             }
         }
 
-        private void FMA_SNOMED_ComboBox_Click(object sender, RoutedEventArgs e)
+        private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
         {
             ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows);
             onto_window.ShowDialog();
@@ -660,8 +660,7 @@ namespace DicomTemplateMakerGUI
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
-            TemplateMaker template_maker = new TemplateMaker();
-            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location, template_maker);
+            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location, template_rows);
             ontology_window.ShowDialog();
             Rebuild_From_Folders();
         }

@@ -35,6 +35,14 @@ namespace DicomTemplateMakerGUI.Windows
         {
             string from_onto = (string)From_ComboBox.SelectedItem;
             string to_onto = (string)To_ComboBox.SelectedItem;
+            if (from_onto == "SNOMEDCT")
+            {
+                from_onto = "SCT";
+            }
+            else if (to_onto == "SNOMEDCT")
+            {
+                to_onto = "SCT";
+            }
             Dictionary<string, string> convert_dict;
             if (from_onto == "FMA")
             {
