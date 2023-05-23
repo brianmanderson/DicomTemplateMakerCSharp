@@ -1,30 +1,32 @@
 import pandas as pd
 import os
-import numpy as np
 
-file_path = r'C:\Users\markb\Downloads\FMAID To SNOMED.xlsx'
-out_path = r'C:\Users\markb\Downloads\FMAID To SNOMED_Updated.xlsx'
-df = pd.read_excel(file_path, sheet_name='Base')
-airtable = pd.read_excel(file_path, sheet_name='AirTable')
-airtable_array = airtable[['FMAID', 'SNOMED']].dropna().to_numpy()
-fmaid_values = airtable_array[:, 0]
-wanted_fmaid_array = df['FMAID'].values
-for index, fmaid in enumerate(fmaid_values):
+# Define the URL of the Google Sheets document
+sheet_id = "1AC2wtYKqWXmQsb-_I1OJ6aW32--pQ4vPwFK-wX6L2II"
+sheet_name = "Sheet1"
+url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}"
+read_df = pd.read_csv(url)[["FMAID", "SNOMED-CT Code", "Checked?"]].dropna()
+values = read_df.to_numpy("int")
+out_path = r'FMAID To SNOMED_Updated.xlsx'
+out_dictionary = {"FMAID": [], "SNOMEDCT": []}
+for index, single_pair in enumerate(values):
+    fmaid, snomed, checked = single_pair
+    if checked != 1:
+        continue
     if fmaid == 88 or type(fmaid) == str:
         continue
     if fmaid == 7465:
         xxx = 1
-    spot_within_df = df[df['FMAID'] == fmaid]
-    if spot_within_df.shape[0] > 0:
-        for row_index in spot_within_df.index.values:
-            df.at[row_index, 'SNOMED-CT Code'] = airtable_array[index, 1]
-            df.at[row_index, 'Checked?'] = 1
+    if fmaid not in out_dictionary["FMAID"]:
+        if snomed not in out_dictionary["SNOMEDCT"]:
+            out_dictionary["FMAID"].append(fmaid)
+            out_dictionary["SNOMEDCT"].append(snomed)
+df = pd.DataFrame(out_dictionary)
 with pd.ExcelWriter(out_path) as writer:
     df.to_excel(writer, sheet_name="Updated", index=False)
-wanted_columns = df[['FMAID', 'SNOMED-CT Code']].dropna()  # Get rid of rows where we don't have both values
 fid = open(os.path.join('.', "FMA_SNOMEDCT_Key.txt"), 'w+')
 fid.write('FMA, SNOMED-CT Code\n')
-for line in wanted_columns.values:
-    fid.write(f"{line[0]},{line[1]}\n")
+for fmaid, snomed in zip(out_dictionary["FMAID"], out_dictionary["SNOMEDCT"]):
+    fid.write(f"{fmaid},{snomed}\n")
 fid.close()
 xxx = 1
