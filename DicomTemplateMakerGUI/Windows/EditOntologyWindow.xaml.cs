@@ -183,7 +183,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Save_Changes();
         }
-        private void BuildFromFolders()
+        private void remake_onto()
         {
             template_maker = new TemplateMaker();
             template_maker.set_onto_path(onto_path);
@@ -205,6 +205,10 @@ namespace DicomTemplateMakerGUI.Windows
                 template_maker.Ontologies.Add(onto);
             }
             template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+        }
+        private void BuildFromFolders()
+        {
+            remake_onto();
             RefreshView();
         }
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
@@ -215,7 +219,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows);
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path);
             onto_window.ShowDialog();
             BuildFromFolders();
         }

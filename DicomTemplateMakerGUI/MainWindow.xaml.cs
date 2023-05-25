@@ -654,7 +654,7 @@ namespace DicomTemplateMakerGUI
 
         private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows);
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path);
             onto_window.ShowDialog();
         }
 
