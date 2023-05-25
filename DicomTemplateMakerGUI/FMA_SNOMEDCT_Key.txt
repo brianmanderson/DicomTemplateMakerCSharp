@@ -272,7 +272,7 @@ FMA, SNOMED-CT Code
 7310,44029006,Lung Left
 7371,245523005,Lung - lower lobe of left
 7370,44714003,Lung - upper lobe of left
-7309,362898004,Lung Right
+7309,3341006,Lung Right
 7337,245519002,Lung - lower lobe of right
 7383,72481006,Lung - middle lobe of right
 7333,245517000,Lung - upper lobe of right
