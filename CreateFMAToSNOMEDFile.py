@@ -21,12 +21,14 @@ for index, single_pair in enumerate(values):
         if snomed not in out_dictionary["SNOMEDCT"]:
             out_dictionary["FMAID"].append(fmaid)
             out_dictionary["SNOMEDCT"].append(snomed)
-df = pd.DataFrame(out_dictionary)
-with pd.ExcelWriter(out_path) as writer:
-    df.to_excel(writer, sheet_name="Updated", index=False)
-fid = open(os.path.join('.', "FMA_SNOMEDCT_Key.txt"), 'w+')
+
+fid = open(os.path.join('.', 'DicomTemplateMakerGUI', "FMA_SNOMEDCT_Key.txt"), 'w+')
 fid.write('FMA, SNOMED-CT Code\n')
 for fmaid, snomed in zip(out_dictionary["FMAID"], out_dictionary["SNOMEDCT"]):
     fid.write(f"{fmaid},{snomed}\n")
 fid.close()
+df = pd.DataFrame(out_dictionary)
+with pd.ExcelWriter(out_path) as writer:
+    df.to_excel(writer, sheet_name="Updated", index=False)
+
 xxx = 1
