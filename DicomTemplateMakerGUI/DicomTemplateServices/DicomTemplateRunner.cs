@@ -16,7 +16,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         string template_folder = @".";
         string roiname, color, interperter;
         Dictionary<string, List<ROIClass>> template_dictionary;
-        public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
+        public Dictionary<string, Dictionary<string, List<string>>> Template_DicomTags = new Dictionary<string, Dictionary<string, List<string>>>();
         Dictionary<string, List<string>> paths_dictionary;
         Dictionary<string, List<string>> files_and_series_descriptions_dictionary = new Dictionary<string, List<string>>();
         Dictionary<string, List<string>> files_and_study_descriptions_dictionary = new Dictionary<string, List<string>>();
@@ -36,7 +36,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             OntologyCodeClass code_class;
             template_dictionary = new Dictionary<string, List<ROIClass>>();
             paths_dictionary = new Dictionary<string, List<string>>();
-            DicomTags = new Dictionary<string, List<string>>();
+            Template_DicomTags = new Dictionary<string, Dictionary<string, List<string>>>();
             string[] template_directories = Directory.GetDirectories(template_folder);
             foreach (string template_directory in template_directories)
             {
@@ -85,19 +85,35 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         }
                         paths_dictionary.Add(Path.GetFileName(template_directory), path_list);
                     }
-
+                    string template_name = Path.GetFileName(template_directory);
+                    Dictionary<string, List<string>> out_dictionary = new Dictionary<string, List<string>>
+                    {
+                        { "Study Description", new List<string>() },
+                        { "Series Description", new List<string>() }
+                    };
                     if (File.Exists(Path.Combine(template_directory, "DicomTags.txt")))
                     {
                         string[] file_paths = File.ReadAllLines(Path.Combine(template_directory, "DicomTags.txt"));
+                        List<string> series_list = new List<string>();
+                        List<string> studies_list = new List<string>();
                         foreach (string file_path in file_paths)
                         {
-
                             string[] key_values = file_path.Split('\\');
                             string key = key_values[0];
                             List<string> values = key_values.Skip(1).ToList();
-                            DicomTags.Add(key, values);
+                            if (key == "Series Description")
+                            {
+                                series_list.AddRange(values);
+                            }
+                            else if (key == "Study Description")
+                            {
+                                studies_list.AddRange(values);
+                            }
                         }
+                        out_dictionary["Study Description"] = studies_list;
+                        out_dictionary["Series Description"] = series_list;
                     }
+                    Template_DicomTags.Add(template_name, out_dictionary);
                 }
             }
         }
@@ -107,12 +123,12 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             {
                 return;
             }
+            Dictionary<string, List<string>> DicomTags = Template_DicomTags[template_name];
             List<string> all_directories = Directory.GetDirectories(path, "*", SearchOption.AllDirectories).ToList();
             all_directories.Add(path);
             bool run_program;
             foreach (string directory in all_directories)
             {
-                string status_file = Path.Combine(directory, $"CreatedRT_{template_name}.txt");
                 string[] temp_dcm_files = Directory.GetFiles(directory, $"{template_name}_UID*");
                 if (temp_dcm_files.Any())
                 {
@@ -162,7 +178,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         run_program = true;
                     }
                     bool has_tags = false;
-                    if (DicomTags.ContainsKey("Series Description"))
+                    if (DicomTags["Series Description"].Count > 0)
                     {
                         has_tags = true;
                         if (files_and_series_descriptions_dictionary.ContainsKey(directory_key))
@@ -176,6 +192,11 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                         run_program = true;
                                         break;
                                     }
+                                    else if (dicom_tag.ToLower().Contains(series_description.ToLower()))
+                                    {
+                                        run_program = true;
+                                        break;
+                                    }
                                 }
                                 if (run_program)
                                 {
@@ -184,7 +205,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             }
                         }
                     }
-                    if (DicomTags.ContainsKey("Study Description"))
+                    if (DicomTags["Study Description"].Count > 0)
                     {
                         has_tags = true;
                         if (files_and_study_descriptions_dictionary.ContainsKey(directory_key))
@@ -194,6 +215,11 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                 foreach (string dicom_tag in DicomTags["Study Description"])
                                 {
                                     if (study_description.ToLower().Contains(dicom_tag.ToLower()))
+                                    {
+                                        run_program = true;
+                                        break;
+                                    }
+                                    else if (dicom_tag.ToLower().Contains(study_description.ToLower()))
                                     {
                                         run_program = true;
                                         break;
@@ -250,7 +276,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                             files_and_study_descriptions_dictionary[directory_key].Add(study_description);
                             bool checked_tags_go = false;
                             bool has_keys = false;
-                            if (DicomTags.ContainsKey("Study Description"))
+                            if (DicomTags["Study Description"].Count > 0)
                             {
                                 has_keys = true;
                                 foreach (string study_desc in DicomTags["Study Description"])
@@ -267,7 +293,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                     }
                                 }
                             }
-                            if (DicomTags.ContainsKey("Series Description"))
+                            if (DicomTags["Series Description"].Count > 0)
                             {
                                 has_keys = true;
                                 foreach (string series_desc in DicomTags["Series Description"])
@@ -314,16 +340,8 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                                 }
                                 reader.save_RT(outpath);
                                 files_and_modality_dictionary.Remove(directory_key);
-                                files_and_series_descriptions_dictionary.Remove(directory_key);
-                                files_and_study_descriptions_dictionary.Remove(directory_key);
                             }
                         }
-                    }
-
-                    if (!File.Exists(status_file))
-                    {
-                        //FileStream fid_status_file = File.OpenWrite(status_file);
-                        //fid_status_file.Close();
                     }
                 }
             }
