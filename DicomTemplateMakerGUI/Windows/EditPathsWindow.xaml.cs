@@ -30,7 +30,7 @@ namespace DicomTemplateMakerGUI.Windows
         private TemplateMaker template_maker;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        List<string> dicom_tag_list = new List<string> {"Study Description", "Series Description"}; //, "Modality"
+        List<string> dicom_tag_list = new List<string> {"Series Description", "Study Description"}; //, "Modality"
         public EditPathsWindow(TemplateMaker template_maker)
         {
             InitializeComponent();
