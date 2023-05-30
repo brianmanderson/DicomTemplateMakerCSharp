@@ -325,9 +325,12 @@ namespace DicomTemplateMakerGUI
                     {
                         continue;
                     }
-
+                    else
+                    {
+                        visible_template_rows.Add(temp_row);
+                    }
                 }
-                if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                else if(temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     visible_template_rows.Add(temp_row);
                 }
@@ -367,8 +370,29 @@ namespace DicomTemplateMakerGUI
                         File.Copy(dicom_file, out_file);
                     }
                 }
+                bool any_select = false;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
+                    if ((bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        any_select = true;
+                    }
+                }
+                if (!any_select) // If none of them are selected, default to selecting all of them
+                {
+                    foreach (AddTemplateRow template_row in template_rows)
+                    {
+                        template_row.SelectCheckBox.IsChecked = true;
+                    }
+                }
+                Selected_CheckBox.IsChecked = true;
+                UpdateText();
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    if (!(bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        continue;
+                    }
                     if (!template_row.templateMaker.Paths.Contains(output_directory))
                     {
                         template_row.templateMaker.Paths.Add(output_directory);
@@ -612,8 +636,29 @@ namespace DicomTemplateMakerGUI
                 {
                     Directory.CreateDirectory(output_directory);
                 }
+                bool any_select = false;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
+                    if ((bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        any_select = true;
+                    }
+                }
+                if (!any_select) // If none of them are selected, default to selecting all of them
+                {
+                    foreach (AddTemplateRow template_row in template_rows)
+                    {
+                        template_row.SelectCheckBox.IsChecked = true;
+                    }
+                }
+                Selected_CheckBox.IsChecked = true;
+                UpdateText();
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    if (!(bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        continue;
+                    }
                     VarianXmlWriter xmlwriter = new VarianXmlWriter();
                     xmlwriter.LoadROIsFromPath(template_row.templateMaker.path);
                     xmlwriter.SaveFile(Path.Combine(output_directory,$"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
