@@ -386,7 +386,6 @@ namespace DicomTemplateMakerGUI
                     }
                 }
                 Selected_CheckBox.IsChecked = true;
-                UpdateText();
                 foreach (AddTemplateRow template_row in template_rows)
                 {
                     if (!(bool)template_row.SelectCheckBox.IsChecked)
@@ -397,26 +396,34 @@ namespace DicomTemplateMakerGUI
                     {
                         template_row.templateMaker.Paths.Add(output_directory);
                         template_row.templateMaker.make_template();
+                        template_row.CheckPaths();
                     }
                 }
-                Rebuild_From_Folders();
+                //Rebuild_From_Folders();
                 ClickRunDicomserver(sender, e);
             }
         }
-
-        private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
+        private void SelectAll()
         {
             foreach (AddTemplateRow row in visible_template_rows)
             {
                 row.SelectCheckBox.IsChecked = true;
             }
         }
-        private void UnselectAll_Button_Click(object sender, RoutedEventArgs e)
+        private void UnSelectAll()
         {
             foreach (AddTemplateRow row in visible_template_rows)
             {
                 row.SelectCheckBox.IsChecked = false;
             }
+        }
+        private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SelectAll();
+        }
+        private void UnselectAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            UnSelectAll();
         }
         private void Deleted_Selected_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -652,7 +659,6 @@ namespace DicomTemplateMakerGUI
                     }
                 }
                 Selected_CheckBox.IsChecked = true;
-                UpdateText();
                 foreach (AddTemplateRow template_row in template_rows)
                 {
                     if (!(bool)template_row.SelectCheckBox.IsChecked)

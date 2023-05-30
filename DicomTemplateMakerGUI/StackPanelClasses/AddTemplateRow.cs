@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,11 +25,30 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private Label rois_present_label;
         public string template_name;
         public TemplateMaker templateMaker;
-        public CheckBox SelectCheckBox;
+        private CheckBox selectCheckBox;
+        public CheckBox SelectCheckBox
+        {
+            get { return selectCheckBox; }
+            set
+            {
+                selectCheckBox = value;
+                OnPropertyChanged("SelectCheckBox");
+            }
+        }
         private Button edit_rois_button;
         public ObservableCollection<ReadAirTable> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
         public AddTemplateRow(TemplateMaker tm, ObservableCollection<ReadAirTable> airTables)
         {
             this.Orientation = Orientation.Horizontal;
@@ -52,12 +72,12 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Label padding_label = new Label();
             padding_label.Width = 100;
 
-            SelectCheckBox = new CheckBox();
-            SelectCheckBox.Content = "Select?";
+            selectCheckBox = new CheckBox();
+            selectCheckBox.Content = "Select?";
             padding_label = new Label();
             padding_label.Width = 100;
 
-            left_panel.Children.Add(SelectCheckBox);
+            left_panel.Children.Add(selectCheckBox);
 
             Children.Add(left_panel);
 
@@ -66,6 +86,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
 
             edit_rois_button = new Button();
             edit_rois_button.Width = 250;
+            CheckPaths();
+            edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
+            edit_rois_button.Click += EditROIButton_Click;
+            right_panel.Children.Add(edit_rois_button);
+            Children.Add(right_panel);
+
+        }
+        public void CheckPaths()
+        {
             if (templateMaker.Paths.Count == 0)
             {
                 edit_rois_button.Background = lightred;
@@ -74,11 +103,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 edit_rois_button.Background = lightgray;
             }
-            edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
-            edit_rois_button.Click += EditROIButton_Click;
-            right_panel.Children.Add(edit_rois_button);
-            Children.Add(right_panel);
-
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
