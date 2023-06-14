@@ -110,7 +110,6 @@ namespace DicomTemplateMakerGUI.Services
                 OnPropertyChanged("AirTableName");
             }
         }
-        bool writeable = false;
         string APIKey = "keyNr4aIdTYupQOJG";
         string BaseKey = "appTUL6ZaSepTawFw";
         string TableKey = "tblex7IPsmm8hvVEc";

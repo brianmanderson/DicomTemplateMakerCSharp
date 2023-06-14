@@ -17,7 +17,7 @@ using DicomTemplateMakerGUI.StackPanelClasses;
 using AirtableApiClient;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {

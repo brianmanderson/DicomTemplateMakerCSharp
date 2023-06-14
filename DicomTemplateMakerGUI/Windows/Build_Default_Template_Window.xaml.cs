@@ -12,6 +12,7 @@ using System.Windows.Media;
 using DicomTemplateMakerGUI;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {

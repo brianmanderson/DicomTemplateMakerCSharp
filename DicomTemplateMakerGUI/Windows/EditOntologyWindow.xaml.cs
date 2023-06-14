@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {

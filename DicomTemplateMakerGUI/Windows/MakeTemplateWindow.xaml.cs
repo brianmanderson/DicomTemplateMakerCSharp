@@ -35,7 +35,6 @@ namespace DicomTemplateMakerGUI.Windows
         public Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         public TemplateMaker template_maker;
         private byte R, G, B;
-        bool file_selected;
         public ObservableCollection<ReadAirTable> AirTables;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
@@ -100,16 +99,13 @@ namespace DicomTemplateMakerGUI.Windows
             CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
             dialog.InitialDirectory = ".";
             dialog.IsFolderPicker = false;
-            file_selected = false;
             FileLocationLabel.Content = "";
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
-                file_selected = true;
                 template_maker.interpret_RT(dicom_file);
                 add_roi_rows();
-                file_selected = true;
             }
             check_status();
         }
