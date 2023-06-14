@@ -173,11 +173,6 @@ namespace DicomTemplateMakerGUI.Windows
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
                 template_maker.write_ontology(onto);
-                //File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
-                //    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
-                //    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
-                //    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
-                //    $"{onto.ContextUID}");
             }
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
