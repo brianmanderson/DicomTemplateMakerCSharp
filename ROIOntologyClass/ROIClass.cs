@@ -134,6 +134,8 @@ namespace ROIOntologyClass
             G = Byte.Parse(colors[1]);
             B = Byte.Parse(colors[2]);
             RGB = new List<byte> { R, G, B };
+            ROIColor = Color.FromRgb(R, G, B);
+            ROI_Brush = new SolidColorBrush(ROIColor);
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
         }
@@ -170,6 +172,7 @@ namespace ROIOntologyClass
             R = byte.Parse(color_values[0]);
             G = byte.Parse(color_values[1]);
             B = byte.Parse(color_values[2]);
+            ROIColor = Color.FromRgb(R, G, B);
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte> { R, G, B };

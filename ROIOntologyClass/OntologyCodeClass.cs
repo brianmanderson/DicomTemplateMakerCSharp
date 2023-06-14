@@ -95,6 +95,10 @@ namespace ROIOntologyClass
                 OnPropertyChanged("CodeMeaning");
             }
         }
+        public OntologyCodeClass()
+        {
+
+        }
         public OntologyCodeClass(string name, string code_value, string scheme_designated)
         {
             CodeMeaning = name;

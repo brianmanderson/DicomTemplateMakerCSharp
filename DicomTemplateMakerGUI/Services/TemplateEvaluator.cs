@@ -13,7 +13,6 @@ namespace DicomTemplateMakerGUI.Services
     {
         public string template_name;
         public string path;
-        public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
         public TemplateEvaluator()

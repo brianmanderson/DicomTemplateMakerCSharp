@@ -14,7 +14,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
     {
         DicomSeriesReader reader;
         string template_folder = @".";
-        string roiname, color, interperter;
         Dictionary<string, List<ROIClass>> template_dictionary;
         public Dictionary<string, Dictionary<string, List<string>>> Template_DicomTags = new Dictionary<string, Dictionary<string, List<string>>>();
         Dictionary<string, List<string>> paths_dictionary;
@@ -33,7 +32,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         }
         public void build_dictionary()
         {
-            OntologyCodeClass code_class;
             template_dictionary = new Dictionary<string, List<ROIClass>>();
             paths_dictionary = new Dictionary<string, List<string>>();
             Template_DicomTags = new Dictionary<string, Dictionary<string, List<string>>>();
@@ -48,7 +46,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         foreach (string roi_file in Directory.GetFiles(Path.Combine(template_directory, "ROIs"), "*.txt"))
                         {
                             ROIClass roi = new ROIClass(roi_file);
-                            code_class = roi.Ontology_Class;
                             if (roi.Include)
                             {
                                 rois.Add(roi);
