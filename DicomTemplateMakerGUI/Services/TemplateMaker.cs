@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using FellowOakDicom;
 using System.ComponentModel;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -54,10 +55,6 @@ namespace DicomTemplateMakerGUI.Services
         public void set_onto_path(string onto_path)
         {
             this.onto_path = onto_path;
-        }
-        public void write_roi(ROIClass roi)
-        {
-
         }
         public void write_ontology(OntologyCodeClass onto)
         {
@@ -211,15 +208,7 @@ namespace DicomTemplateMakerGUI.Services
             {
                 try
                 {
-                    OntologyCodeClass i = roi.Ontology_Class;
-                    //write_ontology(i);
-                    File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
-                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
-                    $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
-                    $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
-                    $"{roi.ROI_Interpreted_type}\n" +
-                    $"{roi.Include}");
+                    roi.write_roi(output);
                 }
                 catch
                 {
