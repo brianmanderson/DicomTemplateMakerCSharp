@@ -137,6 +137,40 @@ namespace ROIOntologyClass
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
         }
+        public ROIClass(string roi_file)
+        {
+            read_text_file(roi_file);
+        }
+        private void read_text_file(string roi_file)
+        {
+            roiname = Path.GetFileName(roi_file).Replace(".txt", "");
+            string[] instructions = File.ReadAllLines(roi_file);
+            string color = instructions[0];
+            string[] color_values = color.Split('\\');
+            string[] code_values = instructions[1].Split('\\');
+            if (code_values.Length == 3)
+            {
+                Ontology_Class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
+            }
+            else
+            {
+                Ontology_Class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
+                    code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
+            }
+            string interperter = "";
+            if (instructions.Length == 3)
+            {
+                interperter = instructions[2];
+            }
+            R = byte.Parse(color_values[0]);
+            G = byte.Parse(color_values[1]);
+            B = byte.Parse(color_values[2]);
+            Include = true;
+            color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
+            ROI_Brush = new SolidColorBrush(ROIColor);
+            RGB = new List<byte> { R, G, B };
+            ROI_Interpreted_type = interperter;
+        }
         public void update_color(byte R, byte G, byte B)
         {
             this.R = R;
@@ -168,7 +202,6 @@ namespace ROIOntologyClass
                 handler(this, new PropertyChangedEventArgs(info));
             }
         }
-
     }
 
     public class ROIWrapper
