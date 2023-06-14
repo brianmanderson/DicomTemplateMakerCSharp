@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System;
 using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
 using System.IO;
-using System.Runtime;
+using ROIOntologyClass;
 
 
 namespace DicomTemplateMakerGUI.Services
@@ -98,7 +97,6 @@ namespace DicomTemplateMakerGUI.Services
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
                 string dvh_line_style = s.Element("DVHLineStyle").Value;
-                int x = 1;
             }
             catch
             {

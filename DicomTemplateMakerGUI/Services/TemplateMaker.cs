@@ -135,15 +135,12 @@ namespace DicomTemplateMakerGUI.Services
                             code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key], context_group_version_dict[key], mapping_resource_dict[key],
                                 context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
-                        bool contains_code_class = false;
-                        bool contains_roi_class = false;
                         ROIClass new_roi;
                         foreach (OntologyCodeClass o in Ontologies)
                         {
                             if (o.CodeValue == code_class.CodeValue)
                             {
                                 code_class = o;
-                                contains_code_class = true;
                                 break;
                             }
                         }
@@ -153,7 +150,6 @@ namespace DicomTemplateMakerGUI.Services
                             if (r.ROIName == name_dict[key])
                             {
                                 new_roi = r;
-                                contains_roi_class = true;
                                 break;
                             }
                         }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using itk.simple;
 using FellowOakDicom;
-using DicomTemplateMakerGUI.Services;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.DicomTemplateServices
 {

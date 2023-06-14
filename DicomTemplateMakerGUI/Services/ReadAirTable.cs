@@ -162,7 +162,6 @@ namespace DicomTemplateMakerGUI.Services
                 Thread.Sleep(1000);
             }
             finished_task.Wait();
-            int x = 5;
         }
         public void add_roi(string site, AirTableEntry r, bool include)
         {

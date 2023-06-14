@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using DicomTemplateMakerGUI.Services;
+using ROIOntologyClass;
 using FellowOakDicom;
 
 namespace DicomTemplateMakerGUI.DicomTemplateServices
