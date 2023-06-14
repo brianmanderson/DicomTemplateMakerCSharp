@@ -117,6 +117,10 @@ namespace ROIOntologyClass
             MappingResourceUID = mapping_resource_uid;
             ContextUID = context_uid;
         }
+        public OntologyCodeClass(string onto_file)
+        {
+
+        }
         public void write_ontology(string onto_path)
         {
             File.WriteAllText(Path.Combine(onto_path, $"{CodeMeaning}.txt"),
