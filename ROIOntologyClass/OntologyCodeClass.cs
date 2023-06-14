@@ -95,9 +95,6 @@ namespace ROIOntologyClass
                 OnPropertyChanged("CodeMeaning");
             }
         }
-        public OntologyCodeClass()
-        {
-        }
         public OntologyCodeClass(string name, string code_value, string scheme_designated)
         {
             CodeMeaning = name;
@@ -117,9 +114,22 @@ namespace ROIOntologyClass
             MappingResourceUID = mapping_resource_uid;
             ContextUID = context_uid;
         }
-        public OntologyCodeClass(string onto_file)
+        public OntologyCodeClass(string ontology_file)
         {
-
+            load_from_file(ontology_file);
+        }
+        private void load_from_file(string ontology_file)
+        {
+            CodeMeaning = Path.GetFileName(ontology_file).Replace(".txt", "");
+            string[] instructions = File.ReadAllLines(ontology_file);
+            CodeValue = instructions[0];
+            Scheme = instructions[1];
+            ContextGroupVersion = instructions[2];
+            MappingResource = instructions[3];
+            ContextIdentifier = instructions[4];
+            MappingResourceName = instructions[5];
+            MappingResourceUID = instructions[6];
+            ContextUID = instructions[7];
         }
         public void write_ontology(string onto_path)
         {

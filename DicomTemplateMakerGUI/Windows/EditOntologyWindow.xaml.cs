@@ -186,18 +186,7 @@ namespace DicomTemplateMakerGUI.Windows
             string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
             foreach (string ontology_file in roi_files)
             {
-                string onto_name = Path.GetFileName(ontology_file).Replace(".txt", "");
-                string[] instructions = File.ReadAllLines(ontology_file);
-                string code_value = instructions[0];
-                string coding_scheme = instructions[1];
-                string context_group_version = instructions[2];
-                string mapping_resource = instructions[3];
-                string context_identifier = instructions[4];
-                string mapping_resource_name = instructions[5];
-                string mapping_resource_uid = instructions[6];
-                string context_uid = instructions[7];
-                OntologyCodeClass onto = new OntologyCodeClass(onto_name, code_value, coding_scheme, context_group_version, mapping_resource,
-                    context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
+                OntologyCodeClass onto = new OntologyCodeClass(ontology_file);
                 template_maker.Ontologies.Add(onto);
             }
             template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));

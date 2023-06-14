@@ -158,14 +158,18 @@ namespace ROIOntologyClass
                     code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
             }
             string interperter = "";
-            if (instructions.Length == 3)
+            if (instructions.Length >= 3)
             {
                 interperter = instructions[2];
+            }
+            Include = true;
+            if (instructions.Length > 3)
+            {
+                Include = bool.Parse(instructions[3]);
             }
             R = byte.Parse(color_values[0]);
             G = byte.Parse(color_values[1]);
             B = byte.Parse(color_values[2]);
-            Include = true;
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte> { R, G, B };
