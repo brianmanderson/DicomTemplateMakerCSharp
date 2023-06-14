@@ -200,7 +200,7 @@ namespace DicomTemplateMakerGUI.Services
             {
                 try
                 {
-                    roi.write_roi(output);
+                    roi.write_roi(Path.Combine(output, "ROIs"));
                 }
                 catch
                 {
