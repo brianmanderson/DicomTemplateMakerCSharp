@@ -185,8 +185,8 @@ namespace ROIOntologyClass
             this.B = B;
             RGB = new List<byte> { R, G, B };
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
-            this.ROIColor = Color.FromRgb(R, G, B);
-            this.ROI_Brush = new SolidColorBrush(ROIColor);
+            ROIColor = Color.FromRgb(R, G, B);
+            ROI_Brush = new SolidColorBrush(ROIColor);
         }
         public void write_roi(string output)
         {
