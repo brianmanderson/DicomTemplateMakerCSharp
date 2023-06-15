@@ -65,13 +65,10 @@ namespace DicomTemplateMakerGUI.Services
             string color = instructions[0];
             string[] color_values = color.Split('\\');
 
-            color_values[0] = color_values[0].PadLeft(3);
-            color_values[1] = color_values[1].PadLeft(3);
-            color_values[2] = color_values[2].PadLeft(3);
+            color_values[0] = roi.R.ToString().PadLeft(3);
+            color_values[1] = roi.G.ToString().PadLeft(3);
+            color_values[2] = roi.B.ToString().PadLeft(3);
 
-            var Color_color = Color.FromArgb(int.Parse(color_values[0]), int.Parse(color_values[1]), int.Parse(color_values[2]));
-            var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
-            var named_color = color_lookup[Color_color.ToArgb()];
             int num_zeros = 0;
             foreach (string c_val in color_values)
             {
@@ -96,26 +93,34 @@ namespace DicomTemplateMakerGUI.Services
                     color = "Segment - Blue";
                 }
             }
+
+            var Color_color = Color.FromArgb(int.Parse(color_values[0]), int.Parse(color_values[1]), int.Parse(color_values[2]));
+            var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
+            var named_color = color_lookup[Color_color.ToArgb()].ToList();
+            if (named_color.Count > 0)
+            {
+                //color = named_color[0].Name;
+            }
             string[] code_values = instructions[1].Split('\\');
-            AddROI(ROIID: roi_name, ROIName: code_values[0], volumeType: instructions[2], code: code_values[1], codeScheme: code_values[2], colorAndStyle: color);
+            AddROI(roi, colorAndStyle: color);
         }
-        public void AddROI(string ROIID, string ROIName, string volumeType, string code, string codeScheme, string colorAndStyle)
+        public void AddROI(ROIClass roi, string colorAndStyle)
         {
             XElement new_structure = new XElement("Structure");
-            new_structure.SetAttributeValue("ID", ROIID);
-            new_structure.SetAttributeValue("Name", ROIName);
+            new_structure.SetAttributeValue("ID", roi.ROIName);
+            new_structure.SetAttributeValue("Name", roi.Ontology_Class.CodeMeaning);
 
             XElement Identification = new XElement("Identification");
             Identification.Add(new XElement("VolumeID"));
             Identification.Add(new XElement("VolumeCode"));
             XElement VolumeType = new XElement("VolumeType");
-            VolumeType.Value = volumeType;
+            VolumeType.Value = roi.ROI_Interpreted_type;
             Identification.Add(VolumeType);
             Identification.Add(new XElement("VolumeCodeTable"));
 
             XElement StructureCode = new XElement("StructureCode");
-            StructureCode.SetAttributeValue("Code", code);
-            StructureCode.SetAttributeValue("CodeScheme", codeScheme);
+            StructureCode.SetAttributeValue("Code", roi.Ontology_Class.CodeValue);
+            StructureCode.SetAttributeValue("CodeScheme", roi.Ontology_Class.Scheme);
             StructureCode.SetAttributeValue("CodeSchemeVersion", "3.2");
             Identification.Add(StructureCode);
             new_structure.Add(Identification);
@@ -137,15 +142,15 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(SearchCTHigh);
 
             XElement DVHLineStyle = new XElement("DVHLineStyle");
-            DVHLineStyle.Value = "0";
+            DVHLineStyle.Value = roi.DVHLineStyle;
             new_structure.Add(DVHLineStyle);
 
             XElement DVHLineColor = new XElement("DVHLineColor");
-            DVHLineColor.Value = "-16777216";
+            DVHLineColor.Value = roi.DVHLineColor;
             new_structure.Add(DVHLineColor);
 
             XElement DVHLineWidth = new XElement("DVHLineWidth");
-            DVHLineWidth.Value = "1";
+            DVHLineWidth.Value = roi.DVHLineWidth;
             new_structure.Add(DVHLineWidth);
 
             XElement EUDAlpha = new XElement("EUDAlpha");
