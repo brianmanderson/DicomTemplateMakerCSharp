@@ -204,6 +204,9 @@
     <Compile Include="StackPanelClasses\AddTemplateRow.cs" />
     <Compile Include="StackPanelClasses\DicomTagRow.cs" />
     <Compile Include="StackPanelClasses\PathsRow.cs" />
+    <Compile Include="StackPanelClasses\TemplateWindow.xaml.cs">
+      <DependentUpon>TemplateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="StackPanelClasses\TemplateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
