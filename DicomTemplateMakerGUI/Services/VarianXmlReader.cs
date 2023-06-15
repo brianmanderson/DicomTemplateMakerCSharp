@@ -53,6 +53,7 @@ namespace DicomTemplateMakerGUI.Services
                 string type_index = s.Element("TypeIndex").Value;
                 string color_and_style = s.Element("ColorAndStyle").Value;
                 List<string> color = new List<string>();
+                string contourstyle = "";
                 if (color_and_style.StartsWith("RGB"))
                 {
                     color_and_style = color_and_style.Substring(3);
@@ -63,6 +64,10 @@ namespace DicomTemplateMakerGUI.Services
                 else
                 {
                     List<string> splitup = color_and_style.Split(' ').ToList();
+                    if (splitup.Count == 3)
+                    {
+                        contourstyle = splitup[0];
+                    }
                     string color_name = splitup.Last();
                     if (color_name.ToLower().Contains("oran"))
                     {
@@ -94,10 +99,13 @@ namespace DicomTemplateMakerGUI.Services
                         color.Add("0");
                     }
                 }
+                string line_style = s.Element("DVHLineStyle").Value;
+                string line_color = s.Element("DVHLineColor").Value;
+                string line_width = s.Element("DVHLineWidth").Value;
                 string out_color = $"{color[0]}\\{color[1]}\\{color[2]}";
                 OntologyCodeClass ontology = new OntologyCodeClass(name: roi_name, code_value: code, scheme_designated: code_scheme);
                 ROIClass roi = new ROIClass(color: out_color, name: roi_id, roi_interpreted_type: volume_type,
-                    identification_code_class: ontology);
+                    identification_code_class: ontology, type_index: type_index, contour_style: contourstyle, dvhLineStyle: line_style, dvhLineColor: line_color, dvhLineWidth: line_width);
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
                 string dvh_line_style = s.Element("DVHLineStyle").Value;
