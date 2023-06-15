@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
@@ -63,9 +62,14 @@ namespace DicomTemplateMakerGUI.Services
             string[] instructions = File.ReadAllLines(file);
             string color = instructions[0];
             string[] color_values = color.Split('\\');
+
             color_values[0] = color_values[0].PadLeft(3);
             color_values[1] = color_values[1].PadLeft(3);
             color_values[2] = color_values[2].PadLeft(3);
+
+            var Color_color = Color.FromArgb(int.Parse(color_values[0]), int.Parse(color_values[1]), int.Parse(color_values[2]));
+            var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
+            var named_color = color_lookup[Color_color.ToArgb()];
             int num_zeros = 0;
             foreach (string c_val in color_values)
             {

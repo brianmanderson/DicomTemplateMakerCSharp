@@ -274,7 +274,7 @@ namespace DicomTemplateMakerGUI.Services
                             if (o.CodeValue == code_class.CodeValue)
                             {
                                 contains_code_class = true;
-                                code_class = o;
+                                roi.Ontology_Class = o;
                                 break;
                             }
                         }
@@ -282,7 +282,7 @@ namespace DicomTemplateMakerGUI.Services
                     if (!contains_code_class)
                     {
                         Ontologies.Add(code_class);
-                        write_ontology(code_class);
+                        //write_ontology(code_class);
                     }
                 }
             }
