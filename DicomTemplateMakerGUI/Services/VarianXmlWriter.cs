@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -59,6 +60,7 @@ namespace DicomTemplateMakerGUI.Services
         public void InterpretProgramTextFile(string file)
         {
             string roi_name = Path.GetFileNameWithoutExtension(file);
+            ROIClass roi = new ROIClass(file);
             string[] instructions = File.ReadAllLines(file);
             string color = instructions[0];
             string[] color_values = color.Split('\\');

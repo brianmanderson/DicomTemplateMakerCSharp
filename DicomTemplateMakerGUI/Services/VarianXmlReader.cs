@@ -35,6 +35,10 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     return;
                 }
+                if (roi_name == "")
+                {
+                    roi_name = roi_id;
+                }
                 XElement Identification = s.Element("Identification");
                 string volume_type = Identification.Element("VolumeType").Value;//.ToUpper();
                 XElement StructureCode = Identification.Element("StructureCode");

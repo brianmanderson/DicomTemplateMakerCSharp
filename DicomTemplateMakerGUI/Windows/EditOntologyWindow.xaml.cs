@@ -172,7 +172,7 @@ namespace DicomTemplateMakerGUI.Windows
             }
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
-                template_maker.write_ontology(onto);
+                onto.write_ontology(template_maker.onto_path);
             }
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)

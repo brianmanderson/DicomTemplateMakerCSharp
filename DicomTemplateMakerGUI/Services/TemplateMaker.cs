@@ -34,7 +34,7 @@ namespace DicomTemplateMakerGUI.Services
             }
         }
         public string path;
-        private string onto_path;
+        public string onto_path;
         public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
@@ -55,18 +55,6 @@ namespace DicomTemplateMakerGUI.Services
         public void set_onto_path(string onto_path)
         {
             this.onto_path = onto_path;
-        }
-        public void write_ontology(OntologyCodeClass onto)
-        {
-            try
-            {
-                onto.write_ontology(onto_path);
-            }
-            catch
-            {
-
-            }
-
         }
         public void interpret_RT(string dicom_file)
         {
@@ -157,7 +145,7 @@ namespace DicomTemplateMakerGUI.Services
                         {
                             Ontologies.Add(code_class);
                             Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-                            write_ontology(code_class);
+                            code_class.write_ontology(onto_path);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
                             if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
                             {
@@ -183,7 +171,7 @@ namespace DicomTemplateMakerGUI.Services
         {
             foreach (OntologyCodeClass onto in Ontologies)
             {
-                write_ontology(onto);
+                onto.write_ontology(onto_path);
             }
         }
         public void make_template()
@@ -264,19 +252,16 @@ namespace DicomTemplateMakerGUI.Services
                     code_class = roi.Ontology_Class;
                     if (!File.Exists(Path.Combine(onto_path, $"{code_class.CodeMeaning}.txt")))
                     {
-                        write_ontology(code_class);
+                        code_class.write_ontology(onto_path);
                     }
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {
-                        if (o.CodeMeaning == code_class.CodeMeaning)
+                        if (o.CodeValue == code_class.CodeValue)
                         {
-                            if (o.CodeValue == code_class.CodeValue)
-                            {
-                                contains_code_class = true;
-                                roi.Ontology_Class = o;
-                                break;
-                            }
+                            contains_code_class = true;
+                            roi.Ontology_Class = o;
+                            break;
                         }
                     }
                     if (!contains_code_class)

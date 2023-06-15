@@ -216,10 +216,10 @@ namespace DicomTemplateMakerGUI
             {
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
-                evaluator = update_ontology_reader(evaluator);
                 evaluator.define_path(directory);
                 evaluator.define_output(directory);
                 evaluator.categorize_folder();
+                evaluator = update_ontology_reader(evaluator);
                 if (evaluator.is_template)
                 {
                     AddTemplateButton.Background = lightgray;
