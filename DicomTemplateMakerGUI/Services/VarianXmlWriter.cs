@@ -78,6 +78,16 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
             color = $"RGB{color_values[0]}{color_values[1]}{color_values[2]}";
+            if (roi.ContourStyle != "")
+            {
+                var Color_color = Color.FromArgb(int.Parse(color_values[0]), int.Parse(color_values[1]), int.Parse(color_values[2]));
+                var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
+                var named_color = color_lookup[Color_color.ToArgb()].ToList();
+                if (named_color.Count > 0)
+                {
+                    color = $"{roi.ContourStyle} - {named_color[0].Name}";
+                }
+            }
             if (num_zeros == 2)
             {
                 if (color_values[0] == "255")
@@ -94,13 +104,7 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
 
-            var Color_color = Color.FromArgb(int.Parse(color_values[0]), int.Parse(color_values[1]), int.Parse(color_values[2]));
-            var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
-            var named_color = color_lookup[Color_color.ToArgb()].ToList();
-            if (named_color.Count > 0)
-            {
-                //color = named_color[0].Name;
-            }
+
             string[] code_values = instructions[1].Split('\\');
             AddROI(roi, colorAndStyle: color);
         }
