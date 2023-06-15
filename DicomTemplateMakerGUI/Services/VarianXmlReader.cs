@@ -108,7 +108,6 @@ namespace DicomTemplateMakerGUI.Services
                     identification_code_class: ontology, type_index: type_index, contour_style: contourstyle, dvhLineStyle: line_style, dvhLineColor: line_color, dvhLineWidth: line_width);
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
-                string dvh_line_style = s.Element("DVHLineStyle").Value;
             }
             catch
             {
