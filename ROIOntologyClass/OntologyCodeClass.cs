@@ -109,6 +109,10 @@ namespace ROIOntologyClass
             string context_identifier, string mapping_resource_name, string mapping_resource_uid, string context_uid)
         {
             CodeMeaning = name;
+            if (name == "")
+            {
+                CodeMeaning = code_value;
+            }
             CodeValue = code_value;
             Scheme = scheme_designated;
             ContextGroupVersion = group_version;
@@ -137,6 +141,11 @@ namespace ROIOntologyClass
         }
         public void write_ontology(string onto_path)
         {
+            if (CodeMeaning == "")
+            {
+                // Don't write anything if there isn't going to be a file name...leave it in the ROIs
+                return;
+            }
             File.WriteAllText(Path.Combine(onto_path, $"{CodeMeaning}.txt"),
                 $"{CodeValue}\n{Scheme}\n{ContextGroupVersion}\n" +
                 $"{MappingResource}\n{ContextIdentifier}\n" +

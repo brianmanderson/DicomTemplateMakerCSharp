@@ -17,6 +17,56 @@ namespace ROIOntologyClass
         private Brush roi_brush;
         public string color_string;
         private bool include;
+        private string contourstyle = ""; // segment, transluce, contour
+        private string dvhlinestyle = "0"; // 0 is solid, 1 is dashed --------, 2 is small dashed *****, 3 is dash dot -*-*-, 4 dash dot dot -**-**-
+        private string dvhlinecolor = "-16777216"; // default value means follow what is going on in the color
+        private string dvhlinewidth = "1";
+        private string typeindex = "2";
+        public string TypeIndex
+        {
+            get { return typeindex; }
+            set
+            {
+                typeindex = value;
+                OnPropertyChanged("TypeIndex");
+            }
+        }
+        public string ContourStyle
+        {
+            get { return contourstyle; }
+            set
+            {
+                contourstyle = value;
+                OnPropertyChanged("ContourStyle");
+            }
+        }
+        public string DVHLineStyle
+        {
+            get { return dvhlinestyle; }
+            set
+            {
+                dvhlinestyle = value;
+                OnPropertyChanged("DVHLineStyle");
+            }
+        }
+        public string DVHLineColor
+        {
+            get { return dvhlinecolor; }
+            set
+            {
+                dvhlinecolor = value;
+                OnPropertyChanged("DVHLineColor");
+            }
+        }
+        public string DVHLineWidth
+        {
+            get { return dvhlinewidth; }
+            set
+            {
+                dvhlinewidth = value;
+                OnPropertyChanged("DVHLineWidth");
+            }
+        }
         public bool Include
         {
             get { return include; }
@@ -110,6 +160,27 @@ namespace ROIOntologyClass
         }
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
+        public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class, string type_index, string contour_style,
+            string dvhLineStyle, string dvhLineColor, string dvhLineWidth)
+        {
+            ROIName = name;
+            Include = true;
+            color_string = color;
+            string[] colors = color.Split('\\');
+            R = Byte.Parse(colors[0]);
+            G = Byte.Parse(colors[1]);
+            B = Byte.Parse(colors[2]);
+            RGB = new List<byte> { R, G, B };
+            ROIColor = Color.FromRgb(R, G, B);
+            ROI_Brush = new SolidColorBrush(ROIColor);
+            ROI_Interpreted_type = roi_interpreted_type;
+            Ontology_Class = identification_code_class;
+            TypeIndex = type_index;
+            ContourStyle = contour_style;
+            DVHLineStyle = dvhLineStyle;
+            DVHLineColor = dvhLineColor;
+            DVHLineWidth = dvhLineWidth;
+        }
         public ROIClass(byte r, byte g, byte b, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
             roiname = name;
@@ -169,6 +240,15 @@ namespace ROIOntologyClass
             {
                 Include = bool.Parse(instructions[3]);
             }
+            if (instructions.Length > 4)
+            {
+                string[] eclipse_instructions = instructions[4].Split('\\');
+                TypeIndex = eclipse_instructions[0];
+                ContourStyle = eclipse_instructions[1];
+                DVHLineStyle = eclipse_instructions[2];
+                DVHLineColor = eclipse_instructions[3];
+                DVHLineWidth = eclipse_instructions[4];
+            }
             R = byte.Parse(color_values[0]);
             G = byte.Parse(color_values[1]);
             B = byte.Parse(color_values[2]);
@@ -197,7 +277,8 @@ namespace ROIOntologyClass
                 $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
                 $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
                 $"{ROI_Interpreted_type}\n" +
-                $"{Include}");
+                $"{Include}\n" + 
+                $"{TypeIndex}\\{ContourStyle}\\{DVHLineStyle}\\{DVHLineColor}\\{DVHLineWidth}");
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
