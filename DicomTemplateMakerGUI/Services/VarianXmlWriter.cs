@@ -6,6 +6,9 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using ROIOntologyClass;
+using System.Windows.Documents;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Xml.Serialization;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -19,21 +22,36 @@ namespace DicomTemplateMakerGUI.Services
         public XDocument doc;
         public XElement root;
         public XElement base_struct;
+        public class StructureTemplate
+        {
+            [XmlAttribute(AttributeName = "http://www.w3.org/2001/XMLSchema-instance")]
+            public string type;
+        }
+        private XDocument create_new_document()
+        {
+            DateTime now = DateTime.Now;
+            string userName = Environment.UserName;
+            XDocument doc =
+                new XDocument(
+                    new XElement("StructureTemplate",
+                        new XAttribute(XNamespace.Xmlns + "xsi", ab),
+                        new XAttribute("Version", "1.1"),
+                    new XElement("Preview",
+                        new XAttribute("ApprovalHistory", $"{userName} Created [ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]"),
+                        new XAttribute("ApprovalStatus", "Unapproved"),
+                        new XAttribute("AssignedUsers", userName),
+                        new XAttribute("Description", "Auto-generated xml file"),
+                        new XAttribute("Diagnosis", ""),
+                        new XAttribute("ID", "Template"),
+                        new XAttribute("LastModified", $"[ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]")),
+                    new XElement("Structures")));
+            return doc;
+        }
         public VarianXmlWriter()
         {
-            doc = XDocument.Load(Path.Combine(@".", "Structure Template.xml"));
+            doc = create_new_document();
             root = doc.Root;
-            XElement preview = root.Element("Preview");
-            string userName = Environment.UserName;
-            preview.SetAttributeValue("AssignedUsers", userName);
-
-            DateTime now = DateTime.Now;
-            preview.SetAttributeValue("ApprovalHistory", $"{userName} Created [ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]");
-            preview.SetAttributeValue("Description", "Auto-generated xml file");
-            preview.SetAttributeValue("LastModified", $"[ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]");
-
             base_struct = root.Element("Structures");
-            base_struct.RemoveAll();// Remove all previous structures here and make new ones
         }
         public void SaveFile(string out_path)
         {
