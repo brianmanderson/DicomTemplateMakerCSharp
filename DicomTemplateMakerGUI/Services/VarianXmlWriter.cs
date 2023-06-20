@@ -22,11 +22,6 @@ namespace DicomTemplateMakerGUI.Services
         public XDocument doc;
         public XElement root;
         public XElement base_struct;
-        public class StructureTemplate
-        {
-            [XmlAttribute(AttributeName = "http://www.w3.org/2001/XMLSchema-instance")]
-            public string type;
-        }
         private XDocument create_new_document()
         {
             DateTime now = DateTime.Now;
