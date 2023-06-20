@@ -86,21 +86,25 @@ namespace DicomTemplateMakerGUI.Services
                 if (named_color.Count > 0)
                 {
                     color = $"{roi.ContourStyle} - {named_color[0].Name}";
+                    if (color.Length > 16)
+                    {
+                        color = color.Remove(16);
+                    }
                 }
             }
-            if (num_zeros == 2)
+            else if (num_zeros == 2)
             {
                 if (color_values[0] == "255")
                 {
-                    color = "Segment - Red";
+                    color = "Red";
                 }
                 if (color_values[1] == "255")
                 {
-                    color = "Segment - Green";
+                    color = "Green";
                 }
                 if (color_values[2] == "255")
                 {
-                    color = "Segment - Blue";
+                    color = "Blue";
                 }
             }
 
