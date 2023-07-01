@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using ROIOntologyClass;
-using System.Windows.Documents;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using System.Xml.Serialization;
 
 namespace DicomTemplateMakerGUI.Services
 {
