@@ -265,7 +265,8 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(DVHLineStyle);
 
             XElement DVHLineColor = new XElement("DVHLineColor");
-            DVHLineColor.Value = "-16777216";
+            string DVH_Color = (Int32.Parse(color_values[0]) + Int32.Parse(color_values[1]) * 256 + Int32.Parse(color_values[2]) * 256 * 256).ToString();
+            DVHLineColor.Value = DVH_Color;
             new_structure.Add(DVHLineColor);
 
             XElement DVHLineWidth = new XElement("DVHLineWidth");
