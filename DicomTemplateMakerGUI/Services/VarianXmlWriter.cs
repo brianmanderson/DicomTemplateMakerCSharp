@@ -208,6 +208,7 @@ namespace DicomTemplateMakerGUI.Services
         public void AddROI(string file)
         {
             string roi_name = Path.GetFileNameWithoutExtension(file);
+            /// Ought to remove this, or make an ROIClass out of the file. Not used for now
             string[] instructions = File.ReadAllLines(file);
             string color = instructions[0];
             string[] color_values = color.Split('\\');
