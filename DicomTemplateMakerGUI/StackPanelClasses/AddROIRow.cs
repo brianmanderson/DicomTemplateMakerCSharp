@@ -12,7 +12,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
 {
     class AddROIRow : StackPanel
     {
-        Button color_button;
+        Button color_button, dvh_color_button;
         private ROIClass roi;
         private TextBox roi_name_textbox;
         private List<ROIClass> roi_list;
@@ -64,13 +64,20 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type.ToUpper();
             }
-            roi_interp_combobox.Width = 200;
+            roi_interp_combobox.Width = 150;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
             color_button.Background = roi.ROI_Brush;
-            color_button.Width = 100;
+            color_button.Width = 75;
             color_button.Click += color_button_Click;
             Children.Add(color_button);
+
+            dvh_color_button = new Button();
+            dvh_color_button.Background = roi.DVH_Brush;
+            dvh_color_button.Width = 75;
+            dvh_color_button.Click += color_button_Click;
+            Children.Add(dvh_color_button);
+
             Label DeleteLabel = new Label();
             DeleteLabel.Content = "Delete?";
             DeleteLabel.Width = 50;

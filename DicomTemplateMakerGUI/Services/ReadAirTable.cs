@@ -210,13 +210,13 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     roi.set_dvh_line_color(r.DVH_Color);
                 }
-                if (r.DVH_Style == null)
+                if (r.DVH_Style != null)
                 {
-                    r.DVH_Style = "1";
+                    roi.DVHLineStyle = r.DVH_Style;
                 }
-                if (r.DVH_Width == null)
+                if (r.DVH_Width != null)
                 {
-                    r.DVH_Width = "1";
+                    roi.DVHLineWidth = r.DVH_Width;
                 }
 
                 roi.Include = include;
