@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ROIOntologyClass;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
+using System.Security.Policy;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
@@ -83,6 +85,20 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             link_button.Content = "Link?";
             link_button.Click += link_button_Click;
             Children.Add(link_button);
+            List<string> dvh_line_style = new List<string> { "solid", "-------", "*******", "-*-*-*-", "-**-**-" };
+            Binding line_style_binding = new Binding("DVHLineStyle");
+            line_style_binding.Source = roi;
+
+            ComboBox roi_dvh_line_style_combobox = new ComboBox();
+            roi_dvh_line_style_combobox.SetBinding(ComboBox.SelectedItemProperty, line_style_binding);
+            roi_dvh_line_style_combobox.ItemsSource = dvh_line_style;
+            roi_dvh_line_style_combobox.SelectionChanged += SelectionChangedEvent;
+            roi_dvh_line_style_combobox.Width = 75;
+            if (dvh_line_style.Contains(roi.DVHLineStyle))
+            {
+                roi_dvh_line_style_combobox.SelectedItem = roi.DVHLineStyle;
+            }
+            Children.Add(roi_dvh_line_style_combobox);
 
             Label DeleteLabel = new Label();
             DeleteLabel.Content = "Delete?";

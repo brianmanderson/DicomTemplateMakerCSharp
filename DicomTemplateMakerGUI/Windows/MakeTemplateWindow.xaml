@@ -44,6 +44,6 @@
         <Button x:Name="Rename_Button" Content="Rename template" HorizontalAlignment="Left" Height="41" Margin="680,32,0,0" VerticalAlignment="Top" Width="165" Click="Rename_template_Click"/>
         <Label Content="ROI Color" HorizontalAlignment="Left" Height="43" Margin="594,274,0,0" VerticalAlignment="Top" Width="70"/>
         <Label Content="DVH Color" HorizontalAlignment="Left" Height="43" Margin="674,274,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="DVH Line Style" HorizontalAlignment="Left" Height="43" Margin="811,274,0,0" VerticalAlignment="Top" Width="106"/>
+        <Label Content="DVH Line Style" HorizontalAlignment="Left" Height="43" Margin="816,274,0,0" VerticalAlignment="Top" Width="106"/>
     </Grid>
 </Window>

@@ -19,7 +19,7 @@ namespace ROIOntologyClass
         public string color_string, dvh_color_string;
         private bool include;
         private string contourstyle = "contour"; // segment, transluce, contour
-        private string dvhlinestyle = "0"; // 0 is solid, 1 is dashed --------, 2 is small dashed *****, 3 is dash dot -*-*-, 4 dash dot dot -**-**-
+        private string dvhlinestyle = "solid"; // 0 is solid, 1 is dashed -------, 2 is small dashed *******, 3 is dash dot -*-*-*-, 4 dash dot dot -**-**-
         private string dvhlinecolor = "-16777216"; // default value means follow what is going on in the color
         private string dvhlinewidth = "1";
         private string typeindex = "2";
