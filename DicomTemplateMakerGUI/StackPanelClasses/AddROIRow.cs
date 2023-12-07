@@ -122,6 +122,16 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 rebuild_text();
             }
         }
+        private void dvh_color_button_Click(object sender, System.EventArgs e)
+        {
+            System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
+            if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                roi.update_dvh_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+                dvh_color_button.Background = roi.DVH_Brush;
+                rebuild_text();
+            }
+        }
         private void SelectionChangedEvent(object sender, SelectionChangedEventArgs args)
         {
             rebuild_text();

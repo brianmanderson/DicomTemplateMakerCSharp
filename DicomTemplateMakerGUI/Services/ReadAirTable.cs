@@ -208,7 +208,8 @@ namespace DicomTemplateMakerGUI.Services
                 ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Structure, roi_interpreted_type: r.Type, identification_code_class: o);
                 if (r.DVH_Color != null)
                 {
-                    roi.set_dvh_line_color(r.DVH_Color);
+                    roi.DVHLineColor = r.DVH_Color;
+                    roi.build_dvh_line_color();
                 }
                 if (r.DVH_Style != null)
                 {
