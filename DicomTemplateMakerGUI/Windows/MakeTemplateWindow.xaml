@@ -8,7 +8,7 @@
         Title="MakeTemplateWindow" Height="600" Width="1215">
     <Grid>
         <Button x:Name="AddROIFromRTButton" Background="LightGreen" Content="Add ROIs from RT Structure File" HorizontalAlignment="Left" Margin="23,89,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246" IsEnabled="False"/>
-        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,89,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
+        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,86,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
         <Label Name="FileLocationLabel" Visibility="Hidden" Content="" HorizontalAlignment="Left" Height="37" Margin="287,40,0,0" VerticalAlignment="Top" Width="481" Grid.ColumnSpan="3"/>
         <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,36,0,0" VerticalAlignment="Top" Width="137"/>
         <Label Name="ROINameLabel" Content="ROI Name" HorizontalAlignment="Left" Height="44" Margin="500,131,0,0" VerticalAlignment="Top" Width="170"/>

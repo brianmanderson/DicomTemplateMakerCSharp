@@ -101,6 +101,11 @@ namespace DicomTemplateMakerGUI.Services
             Structure = roi.ROIName;
             Type = roi.ROI_Interpreted_type;
             Colors_RGB = new List<string>() { $"Auto:{roi.R},{roi.G},{roi.B}" };
+            DVH_Color = roi.DVHLineColor;
+            DVH_Style = roi.DVHLineStyle;
+            DVH_Width = roi.DVHLineWidth;
+            DVH_Type_Index = roi.TypeIndex;
+            DVH_ContourStyle = roi.ContourStyle;
         }
     }
     public class ReadAirTable

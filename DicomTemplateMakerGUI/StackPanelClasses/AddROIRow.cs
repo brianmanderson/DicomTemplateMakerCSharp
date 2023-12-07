@@ -85,6 +85,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             link_button.Content = "Link?";
             link_button.Click += link_button_Click;
             Children.Add(link_button);
+
+
             List<string> dvh_line_style = new List<string> { "solid", "-------", "*******", "-*-*-*-", "-**-**-" };
             Binding line_style_binding = new Binding("DVHLineStyle");
             line_style_binding.Source = roi;
