@@ -36,6 +36,12 @@ namespace XamlMakerCsharp
             }
 
 
+            XElement TCPGamma = Structure.Element("TCPGamma");
+            TCPGamma.FirstAttribute.Value = "true";
+            base_struct.Add(Structure);
+            XmlWriter writer = XmlWriter.Create("test.xml");
+            doc.WriteTo(writer);
+            writer.Close();
             int x = 1;
         }
     }
