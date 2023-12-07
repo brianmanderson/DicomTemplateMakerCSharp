@@ -28,7 +28,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>37</ApplicationRevision>
+    <ApplicationRevision>39</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -310,9 +310,7 @@
     </Compile>
     <Resource Include="license.txt" />
     <Resource Include="Image1.png" />
-    <Content Include="AirTables\Testing.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="AirTables\Testing.txt" />
     <Content Include="FMA_SNOMEDCT_Key.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -332,7 +330,9 @@
     <Resource Include="Pictures\EditPaths.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="AirTables\TG263_AirTable.txt" />
+    <Content Include="AirTables\TG263_AirTable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AirTables\UCSD_AirTable.txt" />
     <Content Include="Structure Template.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
