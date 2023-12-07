@@ -3,19 +3,16 @@ import os
 # from DicomRTTool.ReaderWriter import DicomReaderWriter
 # from PlotScrollNumpyArrays.Plot_Scroll_Images import plot_scroll_Image
 
-path = r'O:\DICOM\BMA_Export\Single_Image'
-dataset = pydicom.Dataset()
-dataset.PatientName = "Anderson^Brian"
+ds = pydicom.read_file(r'C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\SmallCT\vhm.1001.dcm')
+path = r'K:\BMA'
 for file in os.listdir(path):
     ds = pydicom.read_file(os.path.join(path, file))
-    ds[0x0010, 0x0010] = pydicom.DataElement(0x00100010, "PN", "Brian Mark Anderson")
-    ds.PatientID = "0003141592654"
-    ds.SeriesDescription = "UCSD_Residency_Template_Patient"
+    series_desc = ds.SeriesDescription
+    creation_date = ds.InstanceCreationDate[2:]
+    if series_desc.find("Phase-based") != -1:
+        out_name = series_desc.split('] ')[1][1:-1]
+        series_desc = f"{ds.Modality}{creation_date} Ph{out_name}"
+    else:
+        series_desc = f"{ds.Modality}{creation_date} {ds.SeriesDescription}"
+    ds.SeriesDescription = series_desc
     ds.save_as(os.path.join(path, file))
-    xxx = 1
-ds = pydicom.read_file(r'O:\DICOM\BMA_Export\Single_Image\Liver.dcm')
-ds2 = pydicom.read_file(r'O:\DICOM\BMA_Export\Single_Image\Bladder.dcm')
-reader = DicomReaderWriter(Contour_Names=['Eye_R'])
-reader.walk_through_folders(r'\\ucsdhc-varis2\Radonc$\DICOM\BMA_Export')
-reader.get_mask()
-xxx = 1

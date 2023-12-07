@@ -1,22 +1,8 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Text;
-using System;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.IO;
-using System.Windows.Data;
-using System.Threading;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
 
@@ -30,7 +16,7 @@ namespace DicomTemplateMakerGUI.Windows
         private TemplateMaker template_maker;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        List<string> dicom_tag_list = new List<string> {"Study Description", "Series Description"}; //, "Modality"
+        List<string> dicom_tag_list = new List<string> {"Series Description", "Study Description"}; //, "Modality"
         public EditPathsWindow(TemplateMaker template_maker)
         {
             InitializeComponent();

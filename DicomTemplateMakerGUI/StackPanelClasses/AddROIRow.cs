@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using DicomTemplateMakerGUI.Services;
+using ROIOntologyClass;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
+using System.Security.Policy;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
     class AddROIRow : StackPanel
     {
-        Button color_button;
+        Button color_button, dvh_color_button, link_button;
         private ROIClass roi;
         private TextBox roi_name_textbox;
         private List<ROIClass> roi_list;
@@ -53,10 +50,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ontology_combobox.ItemsSource = ontologies_list;
             ontology_combobox.DisplayMemberPath = "CodeMeaning";
             ontology_combobox.SelectionChanged += SelectionChangedEvent;
-            ontology_combobox.Width = 250;
+            ontology_combobox.Width = 175;
             Children.Add(ontology_combobox);
 
-            List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
+            List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "MARKER", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
             Binding interp_binding = new Binding("ROI_Interpreted_type");
             interp_binding.Source = roi;
@@ -69,13 +66,42 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type.ToUpper();
             }
-            roi_interp_combobox.Width = 200;
+            roi_interp_combobox.Width = 150;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
             color_button.Background = roi.ROI_Brush;
-            color_button.Width = 100;
+            color_button.Width = 75;
             color_button.Click += color_button_Click;
             Children.Add(color_button);
+
+            dvh_color_button = new Button();
+            dvh_color_button.Background = roi.DVH_Brush;
+            dvh_color_button.Width = 75;
+            dvh_color_button.Click += dvh_color_button_Click;
+            Children.Add(dvh_color_button);
+
+            link_button = new Button();
+            link_button.Width = 75;
+            link_button.Content = "Link?";
+            link_button.Click += link_button_Click;
+            Children.Add(link_button);
+
+
+            List<string> dvh_line_style = new List<string> { "solid", "-------", "*******", "-*-*-*-", "-**-**-" };
+            Binding line_style_binding = new Binding("DVHLineStyle");
+            line_style_binding.Source = roi;
+
+            ComboBox roi_dvh_line_style_combobox = new ComboBox();
+            roi_dvh_line_style_combobox.SetBinding(ComboBox.SelectedItemProperty, line_style_binding);
+            roi_dvh_line_style_combobox.ItemsSource = dvh_line_style;
+            roi_dvh_line_style_combobox.SelectionChanged += SelectionChangedEvent;
+            roi_dvh_line_style_combobox.Width = 75;
+            if (dvh_line_style.Contains(roi.DVHLineStyle))
+            {
+                roi_dvh_line_style_combobox.SelectedItem = roi.DVHLineStyle;
+            }
+            Children.Add(roi_dvh_line_style_combobox);
+
             Label DeleteLabel = new Label();
             DeleteLabel.Content = "Delete?";
             DeleteLabel.Width = 50;
@@ -116,7 +142,28 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 roi.update_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
-                color_button.Background = roi.ROI_Brush;
+                set_button_color();
+                rebuild_text();
+            }
+        }
+        private void link_button_Click(object sender, System.EventArgs e)
+        {
+            roi.DVHLineColor = "-16777216";
+            roi.build_dvh_line_color();
+            set_button_color();
+        }
+        private void set_button_color()
+        {
+            color_button.Background = roi.ROI_Brush;
+            dvh_color_button.Background = roi.DVH_Brush;
+        }
+        private void dvh_color_button_Click(object sender, System.EventArgs e)
+        {
+            System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
+            if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                roi.update_dvh_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+                set_button_color();
                 rebuild_text();
             }
         }
@@ -133,24 +180,16 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void rebuild_text()
         {
-            OntologyCodeClass i = roi.Ontology_Class;
             if (!Directory.Exists(roi_path))
             {
                 Directory.CreateDirectory(roi_path);
             }
             try
             {
-                File.WriteAllText(Path.Combine(roi_path, $"{roi.ROIName}.txt"),
-                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
-                    $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
-                    $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
-                    $"{roi.ROI_Interpreted_type}\n" +
-                    $"{roi.Include}");
+                roi.write_roi(roi_path);
             }
             catch
             {
-                int x = 5;
             }
 
         }

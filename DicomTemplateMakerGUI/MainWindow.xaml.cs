@@ -6,9 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using ROIOntologyClass;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.ComponentModel;
@@ -199,19 +197,7 @@ namespace DicomTemplateMakerGUI
             string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
             foreach (string ontology_file in roi_files)
             {
-                string onto_name = Path.GetFileName(ontology_file).Replace(".txt", "");
-                string[] instructions = File.ReadAllLines(ontology_file);
-                string code_value = instructions[0];
-                string coding_scheme = instructions[1];
-                string context_group_version = instructions[2];
-                string mapping_resource = instructions[3];
-                string context_identifier = instructions[4];
-                string mapping_resource_name = instructions[5];
-                string mapping_resource_uid = instructions[6];
-                string context_uid = instructions[7];
-                OntologyCodeClass onto = new OntologyCodeClass(onto_name, code_value, coding_scheme, context_group_version, mapping_resource,
-                    context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
-                evaluator.Ontologies.Add(onto);
+                evaluator.Ontologies.Add(new OntologyCodeClass(ontology_file));
             }
             evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             return evaluator;
@@ -230,10 +216,10 @@ namespace DicomTemplateMakerGUI
             {
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
-                evaluator = update_ontology_reader(evaluator);
                 evaluator.define_path(directory);
                 evaluator.define_output(directory);
                 evaluator.categorize_folder();
+                evaluator = update_ontology_reader(evaluator);
                 if (evaluator.is_template)
                 {
                     AddTemplateButton.Background = lightgray;
@@ -325,9 +311,12 @@ namespace DicomTemplateMakerGUI
                     {
                         continue;
                     }
-
+                    else
+                    {
+                        visible_template_rows.Add(temp_row);
+                    }
                 }
-                if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                else if(temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     visible_template_rows.Add(temp_row);
                 }
@@ -367,32 +356,60 @@ namespace DicomTemplateMakerGUI
                         File.Copy(dicom_file, out_file);
                     }
                 }
+                bool any_select = false;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
+                    if ((bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        any_select = true;
+                    }
+                }
+                if (!any_select) // If none of them are selected, default to selecting all of them
+                {
+                    foreach (AddTemplateRow template_row in template_rows)
+                    {
+                        template_row.SelectCheckBox.IsChecked = true;
+                    }
+                }
+                Selected_CheckBox.IsChecked = true;
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    if (!(bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        continue;
+                    }
                     if (!template_row.templateMaker.Paths.Contains(output_directory))
                     {
                         template_row.templateMaker.Paths.Add(output_directory);
                         template_row.templateMaker.make_template();
+                        template_row.CheckPaths();
                     }
                 }
-                Rebuild_From_Folders();
+                //Rebuild_From_Folders();
                 ClickRunDicomserver(sender, e);
             }
         }
-
-        private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
+        private void SelectAll()
         {
             foreach (AddTemplateRow row in visible_template_rows)
             {
                 row.SelectCheckBox.IsChecked = true;
             }
         }
-        private void UnselectAll_Button_Click(object sender, RoutedEventArgs e)
+        private void UnSelectAll()
         {
             foreach (AddTemplateRow row in visible_template_rows)
             {
                 row.SelectCheckBox.IsChecked = false;
             }
+        }
+        private void SelectAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            SelectAll();
+        }
+        private void UnselectAll_Button_Click(object sender, RoutedEventArgs e)
+        {
+            UnSelectAll();
         }
         private void Deleted_Selected_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -598,16 +615,42 @@ namespace DicomTemplateMakerGUI
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
             dialog.InitialDirectory = ".";
+            string suspected_directory = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
+            if (Directory.Exists(suspected_directory))
+            {
+                dialog.InitialDirectory = suspected_directory;
+                dialog.DefaultDirectory = suspected_directory;
+            }
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string output_directory = Path.Combine(dialog.FileName, "Template_Output_VarianXml");
+                string output_directory = dialog.FileName;
                 if (!Directory.Exists(output_directory))
                 {
                     Directory.CreateDirectory(output_directory);
                 }
+                bool any_select = false;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
+                    if ((bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        any_select = true;
+                    }
+                }
+                if (!any_select) // If none of them are selected, default to selecting all of them
+                {
+                    foreach (AddTemplateRow template_row in template_rows)
+                    {
+                        template_row.SelectCheckBox.IsChecked = true;
+                    }
+                }
+                Selected_CheckBox.IsChecked = true;
+                foreach (AddTemplateRow template_row in template_rows)
+                {
+                    if (!(bool)template_row.SelectCheckBox.IsChecked)
+                    {
+                        continue;
+                    }
                     VarianXmlWriter xmlwriter = new VarianXmlWriter();
                     xmlwriter.LoadROIsFromPath(template_row.templateMaker.path);
                     xmlwriter.SaveFile(Path.Combine(output_directory,$"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
@@ -615,10 +658,46 @@ namespace DicomTemplateMakerGUI
             }
         }
 
+        private void Load_XMLs_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.xml");
+            dialog.InitialDirectory = ".";
+            string suspected_directory = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
+            if (Directory.Exists(suspected_directory))
+            {
+                dialog.InitialDirectory = suspected_directory;
+                dialog.DefaultDirectory = suspected_directory;
+            }
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string xml_directory = dialog.FileName;
+                foreach (string file in Directory.GetFiles(xml_directory, "*.xml"))
+                {
+                    //string new_file = @"K:\Template_Output_VarianXml\AbdPelv_Anal.xml";
+                    try
+                    {
+                        VarianXmlReader reader = new VarianXmlReader(file);
+                        reader.XmlToROI(folder_location);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+                Rebuild_From_Folders();
+            }
+        }
+
+        private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path);
+            onto_window.ShowDialog();
+        }
+
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)
         {
-            TemplateMaker template_maker = new TemplateMaker();
-            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location, template_maker);
+            EditOntologyWindow ontology_window = new EditOntologyWindow(folder_location, template_rows);
             ontology_window.ShowDialog();
             Rebuild_From_Folders();
         }

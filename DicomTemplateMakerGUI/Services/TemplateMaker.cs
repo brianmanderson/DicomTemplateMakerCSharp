@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using FellowOakDicom;
 using System.ComponentModel;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -33,7 +34,7 @@ namespace DicomTemplateMakerGUI.Services
             }
         }
         public string path;
-        private string onto_path;
+        public string onto_path;
         public string color, interperter;
         public bool is_template;
         public List<ROIClass> ROIs;
@@ -54,26 +55,6 @@ namespace DicomTemplateMakerGUI.Services
         public void set_onto_path(string onto_path)
         {
             this.onto_path = onto_path;
-        }
-        public void write_roi(ROIClass roi)
-        {
-
-        }
-        public void write_ontology(OntologyCodeClass onto)
-        {
-            try
-            {
-                File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
-                    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
-                    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
-                    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
-                    $"{onto.ContextUID}");
-            }
-            catch
-            {
-
-            }
-
         }
         public void interpret_RT(string dicom_file)
         {
@@ -138,15 +119,12 @@ namespace DicomTemplateMakerGUI.Services
                             code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key], context_group_version_dict[key], mapping_resource_dict[key],
                                 context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
                         }
-                        bool contains_code_class = false;
-                        bool contains_roi_class = false;
                         ROIClass new_roi;
                         foreach (OntologyCodeClass o in Ontologies)
                         {
                             if (o.CodeValue == code_class.CodeValue)
                             {
                                 code_class = o;
-                                contains_code_class = true;
                                 break;
                             }
                         }
@@ -156,7 +134,6 @@ namespace DicomTemplateMakerGUI.Services
                             if (r.ROIName == name_dict[key])
                             {
                                 new_roi = r;
-                                contains_roi_class = true;
                                 break;
                             }
                         }
@@ -168,7 +145,7 @@ namespace DicomTemplateMakerGUI.Services
                         {
                             Ontologies.Add(code_class);
                             Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-                            write_ontology(code_class);
+                            code_class.write_ontology(onto_path);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
                             if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
                             {
@@ -190,6 +167,13 @@ namespace DicomTemplateMakerGUI.Services
         {
             this.output = output;
         }
+        public void write_ontologies()
+        {
+            foreach (OntologyCodeClass onto in Ontologies)
+            {
+                onto.write_ontology(onto_path);
+            }
+        }
         public void make_template()
         {
             if (!Directory.Exists(output))
@@ -204,15 +188,7 @@ namespace DicomTemplateMakerGUI.Services
             {
                 try
                 {
-                    OntologyCodeClass i = roi.Ontology_Class;
-                    //write_ontology(i);
-                    File.WriteAllText(Path.Combine(output, "ROIs", $"{roi.ROIName}.txt"),
-                    $"{roi.R}\\{roi.G}\\{roi.B}\n" +
-                    $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
-                    $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
-                    $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
-                    $"{roi.ROI_Interpreted_type}\n" +
-                    $"{roi.Include}");
+                    roi.write_roi(Path.Combine(output, "ROIs"));
                 }
                 catch
                 {
@@ -271,54 +247,28 @@ namespace DicomTemplateMakerGUI.Services
                 string[] roi_files = Directory.GetFiles(Path.Combine(path, "ROIs"), "*.txt");
                 foreach (string roi_file in roi_files)
                 {
-                    string roiname = Path.GetFileName(roi_file).Replace(".txt", "");
-                    string[] instructions = File.ReadAllLines(roi_file);
-                    color = instructions[0];
-                    string[] color_values = color.Split('\\');
-                    string[] code_values = instructions[1].Split('\\');
-                    if (code_values.Length == 3)
-                    {
-                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2]);
-                    }
-                    else
-                    {
-                        code_class = new OntologyCodeClass(code_values[0], code_values[1], code_values[2], code_values[3],
-                            code_values[4], code_values[5], code_values[6], code_values[7], code_values[8]);
-                    }
+                    ROIClass roi = new ROIClass(roi_file);
+                    ROIs.Add(roi);
+                    code_class = roi.Ontology_Class;
                     if (!File.Exists(Path.Combine(onto_path, $"{code_class.CodeMeaning}.txt")))
                     {
-                        write_ontology(code_class);
+                        code_class.write_ontology(onto_path);
                     }
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {
-                        if (o.CodeMeaning == code_class.CodeMeaning)
+                        if (o.CodeValue == code_class.CodeValue)
                         {
-                            if (o.CodeValue == code_class.CodeValue)
-                            {
-                                contains_code_class = true;
-                                code_class = o;
-                                break;
-                            }
+                            contains_code_class = true;
+                            roi.Ontology_Class = o;
+                            break;
                         }
                     }
                     if (!contains_code_class)
                     {
                         Ontologies.Add(code_class);
+                        //write_ontology(code_class);
                     }
-                    interperter = "";
-                    bool include = true;
-                    if (instructions.Length >= 3)
-                    {
-                        interperter = instructions[2];
-                    }
-                    if (instructions.Length > 3)
-                    {
-                        include = bool.Parse(instructions[3]);
-                    }
-                    ROIClass roi = new ROIClass(byte.Parse(color_values[0]), byte.Parse(color_values[1]), byte.Parse(color_values[2]), roiname, interperter, code_class);
-                    roi.Include = include;
-                    ROIs.Add(roi);
                 }
             }
         }

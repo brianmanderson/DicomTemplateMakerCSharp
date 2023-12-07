@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using itk.simple;
 using FellowOakDicom;
-using DicomTemplateMakerGUI.Services;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.DicomTemplateServices
 {
@@ -142,7 +142,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             roi_observation_set = new DicomDataset();
             roi_observation_set.AddOrUpdate(DicomTag.ObservationNumber, roi_observation_number);
             roi_observation_set.AddOrUpdate(DicomTag.ReferencedROINumber, roi_number);
-            roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type);
+            roi_observation_set.AddOrUpdate(DicomTag.RTROIInterpretedType, roi_class.ROI_Interpreted_type.ToUpper());
             roi_observation_set.AddOrUpdate(DicomTag.ROIInterpreter, "Brian_Mark_Anderson");
             if (roi_class.ROIName.Length > 16)
             {

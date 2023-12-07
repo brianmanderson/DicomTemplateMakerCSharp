@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AirtableApiClient;
 using System.ComponentModel;
-using System.Reflection;
+using ROIOntologyClass;
 
 
 namespace DicomTemplateMakerGUI.Services
@@ -48,17 +48,12 @@ namespace DicomTemplateMakerGUI.Services
     public class AirTableEntry
     {
         public string Structure { get; set; }
-        public string TG_263R { get; set; }
-        public string TG_263Spanish { get; set; }
-        public string TG_263SpanishR { get; set; }
-        public string TG_263French { get; set; }
-        public string TG_263FrenchR { get; set; }
-        public string Id { get; set; }
+        public string CommonName { get; set; }
         public string Type { get; set; }
-        public string FMAID { get; set; }
-        public string RGB { get; set; }
         public List<string> Colors_RGB { get; set; }
-
+        public List<string> Template_Recommend { get; set; } = new List<string>();
+        public List<string> Template_Consider { get; set; } = new List<string>();
+        public string SchemeCode { get; set; }
         public string Scheme { get; set; }
         public string ContextGroupVersion { get; set; }
         public string MappingResource { get; set; }
@@ -66,9 +61,19 @@ namespace DicomTemplateMakerGUI.Services
         public string MappingResourceName { get; set; }
         public string MappingResourceUID { get; set; }
         public string ContextUID { get; set; }
-        public string CommonName { get; set; }
-        public List<string> Template_Recommend { get; set; } = new List<string>();
-        public List<string> Template_Consider { get; set; } = new List<string>();
+        public string Id { get; set; }
+        public string TG_263 { get; set; }
+        public string TG_263R { get; set; }
+        public string TG_263Spanish { get; set; }
+        public string TG_263SpanishR { get; set; }
+        public string TG_263French { get; set; }
+        public string TG_263FrenchR { get; set; }
+        public string RGB { get; set; }
+        public string DVH_Color { get; set; }
+        public string DVH_Style { get; set; }
+        public string DVH_Width { get; set; }
+        public string DVH_Type_Index { get; set; }
+        public string DVH_ContourStyle { get; set; }
         public AirTableEntry()
         {
             OntologyCodeClass o = new OntologyCodeClass();
@@ -85,7 +90,7 @@ namespace DicomTemplateMakerGUI.Services
         {
             OntologyCodeClass o = roi.Ontology_Class;
             Scheme = o.Scheme;
-            FMAID = o.CodeValue;
+            SchemeCode = o.CodeValue;
             CommonName = o.CodeMeaning;
             ContextGroupVersion = o.ContextGroupVersion;
             MappingResource = o.MappingResource;
@@ -96,6 +101,11 @@ namespace DicomTemplateMakerGUI.Services
             Structure = roi.ROIName;
             Type = roi.ROI_Interpreted_type;
             Colors_RGB = new List<string>() { $"Auto:{roi.R},{roi.G},{roi.B}" };
+            DVH_Color = roi.DVHLineColor;
+            DVH_Style = roi.DVHLineStyle;
+            DVH_Width = roi.DVHLineWidth;
+            DVH_Type_Index = roi.TypeIndex;
+            DVH_ContourStyle = roi.ContourStyle;
         }
     }
     public class ReadAirTable
@@ -110,7 +120,6 @@ namespace DicomTemplateMakerGUI.Services
                 OnPropertyChanged("AirTableName");
             }
         }
-        bool writeable = false;
         string APIKey = "keyNr4aIdTYupQOJG";
         string BaseKey = "appTUL6ZaSepTawFw";
         string TableKey = "tblex7IPsmm8hvVEc";
@@ -162,7 +171,6 @@ namespace DicomTemplateMakerGUI.Services
                 Thread.Sleep(1000);
             }
             finished_task.Wait();
-            int x = 5;
         }
         public void add_roi(string site, AirTableEntry r, bool include)
         {
@@ -185,7 +193,7 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     code_meaning = r.CommonName;
                 }
-                OntologyCodeClass o = new OntologyCodeClass(name: code_meaning, code_value: r.FMAID, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
+                OntologyCodeClass o = new OntologyCodeClass(name: code_meaning, code_value: r.SchemeCode, scheme_designated: r.Scheme, context_identifier: r.ContextIdentifier,
                     group_version: r.ContextGroupVersion, mapping_resource: r.MappingResource, mapping_resource_uid: r.MappingResourceUID, context_uid: r.ContextUID,
                     mapping_resource_name: r.MappingResourceName);
                 string[] colors;
@@ -203,6 +211,20 @@ namespace DicomTemplateMakerGUI.Services
                     colors = new string[] { $"{c[0]}", $"{c[1]}", $"{c[2]}" };
                 }
                 ROIClass roi = new ROIClass(r: byte.Parse(colors[0]), g: byte.Parse(colors[1]), b: byte.Parse(colors[2]), name: r.Structure, roi_interpreted_type: r.Type, identification_code_class: o);
+                if (r.DVH_Color != null)
+                {
+                    roi.DVHLineColor = r.DVH_Color;
+                    roi.build_dvh_line_color();
+                }
+                if (r.DVH_Style != null)
+                {
+                    roi.DVHLineStyle = r.DVH_Style;
+                }
+                if (r.DVH_Width != null)
+                {
+                    roi.DVHLineWidth = r.DVH_Width;
+                }
+
                 roi.Include = include;
                 ROIWrapper wrapper_roi = new ROIWrapper(roi, r.Structure, r.TG_263R, r.TG_263Spanish, r.TG_263SpanishR, r.TG_263French, r.TG_263FrenchR);
                 roi_dictionary[site].Add(wrapper_roi);

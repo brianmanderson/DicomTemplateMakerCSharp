@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -19,21 +18,31 @@ namespace DicomTemplateMakerGUI.Services
         public XDocument doc;
         public XElement root;
         public XElement base_struct;
+        private XDocument create_new_document()
+        {
+            DateTime now = DateTime.Now;
+            string userName = Environment.UserName;
+            XDocument doc =
+                new XDocument(
+                    new XElement("StructureTemplate",
+                        new XAttribute(XNamespace.Xmlns + "xsi", ab),
+                        new XAttribute("Version", "1.1"),
+                    new XElement("Preview",
+                        new XAttribute("ApprovalHistory", $"{userName} Created [ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]"),
+                        new XAttribute("ApprovalStatus", "Unapproved"),
+                        new XAttribute("AssignedUsers", userName),
+                        new XAttribute("Description", "Auto-generated xml file"),
+                        new XAttribute("Diagnosis", ""),
+                        new XAttribute("ID", "Template"),
+                        new XAttribute("LastModified", $"[ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]")),
+                    new XElement("Structures")));
+            return doc;
+        }
         public VarianXmlWriter()
         {
-            doc = XDocument.Load(Path.Combine(@".", "Structure Template.xml"));
+            doc = create_new_document();
             root = doc.Root;
-            XElement preview = root.Element("Preview");
-            string userName = Environment.UserName;
-            preview.SetAttributeValue("AssignedUsers", userName);
-
-            DateTime now = DateTime.Now;
-            preview.SetAttributeValue("ApprovalHistory", $"{userName} Created [ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]");
-            preview.SetAttributeValue("Description", "Auto-generated xml file");
-            preview.SetAttributeValue("LastModified", $"[ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]");
-
             base_struct = root.Element("Structures");
-            base_struct.RemoveAll();// Remove all previous structures here and make new ones
         }
         public void SaveFile(string out_path)
         {
@@ -60,12 +69,15 @@ namespace DicomTemplateMakerGUI.Services
         public void InterpretProgramTextFile(string file)
         {
             string roi_name = Path.GetFileNameWithoutExtension(file);
+            ROIClass roi = new ROIClass(file);
             string[] instructions = File.ReadAllLines(file);
             string color = instructions[0];
             string[] color_values = color.Split('\\');
-            color_values[0] = color_values[0].PadLeft(3);
-            color_values[1] = color_values[1].PadLeft(3);
-            color_values[2] = color_values[2].PadLeft(3);
+
+            color_values[0] = roi.R.ToString().PadLeft(3);
+            color_values[1] = roi.G.ToString().PadLeft(3);
+            color_values[2] = roi.B.ToString().PadLeft(3);
+
             int num_zeros = 0;
             foreach (string c_val in color_values)
             {
@@ -75,47 +87,63 @@ namespace DicomTemplateMakerGUI.Services
                 }
             }
             color = $"RGB{color_values[0]}{color_values[1]}{color_values[2]}";
-            if (num_zeros == 2)
+            if (roi.ContourStyle != "")
+            {
+                var Color_color = Color.FromArgb(int.Parse(color_values[0]), int.Parse(color_values[1]), int.Parse(color_values[2]));
+                var color_lookup = Enum.GetValues(typeof(KnownColor)).Cast<KnownColor>().Select(Color.FromKnownColor).ToLookup(c => c.ToArgb());
+                var named_color = color_lookup[Color_color.ToArgb()].ToList();
+                if (named_color.Count > 0)
+                {
+                    color = $"{roi.ContourStyle} - {named_color[0].Name}";
+                    if (color.Length > 16)
+                    {
+                        color = color.Remove(16);
+                    }
+                }
+            }
+            else if (num_zeros == 2)
             {
                 if (color_values[0] == "255")
                 {
-                    color = "Segment - Red";
+                    color = "Red";
                 }
                 if (color_values[1] == "255")
                 {
-                    color = "Segment - Green";
+                    color = "Green";
                 }
                 if (color_values[2] == "255")
                 {
-                    color = "Segment - Blue";
+                    color = "Blue";
                 }
             }
+
+
             string[] code_values = instructions[1].Split('\\');
-            AddROI(ROIID: roi_name, ROIName: code_values[0], volumeType: instructions[2], code: code_values[1], codeScheme: code_values[2], colorAndStyle: color);
+            AddROI(roi, colorAndStyle: color);
         }
-        public void AddROI(string ROIID, string ROIName, string volumeType, string code, string codeScheme, string colorAndStyle)
+        public void AddROI(ROIClass roi, string colorAndStyle)
         {
             XElement new_structure = new XElement("Structure");
-            new_structure.SetAttributeValue("ID", ROIID);
-            new_structure.SetAttributeValue("Name", ROIName);
+            new_structure.SetAttributeValue("ID", roi.ROIName);
+            new_structure.SetAttributeValue("Name", roi.Ontology_Class.CodeMeaning);
 
             XElement Identification = new XElement("Identification");
             Identification.Add(new XElement("VolumeID"));
             Identification.Add(new XElement("VolumeCode"));
             XElement VolumeType = new XElement("VolumeType");
-            VolumeType.Value = volumeType;
+            VolumeType.Value = roi.ROI_Interpreted_type;
             Identification.Add(VolumeType);
             Identification.Add(new XElement("VolumeCodeTable"));
 
             XElement StructureCode = new XElement("StructureCode");
-            StructureCode.SetAttributeValue("Code", code);
-            StructureCode.SetAttributeValue("CodeScheme", codeScheme);
+            StructureCode.SetAttributeValue("Code", roi.Ontology_Class.CodeValue);
+            StructureCode.SetAttributeValue("CodeScheme", roi.Ontology_Class.Scheme);
             StructureCode.SetAttributeValue("CodeSchemeVersion", "3.2");
             Identification.Add(StructureCode);
             new_structure.Add(Identification);
 
             XElement TypeIndex = new XElement("TypeIndex");
-            TypeIndex.Value = "2";
+            TypeIndex.Value = roi.TypeIndex;
             new_structure.Add(TypeIndex);
 
             XElement ColorAndStyle = new XElement("ColorAndStyle");
@@ -131,15 +159,32 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(SearchCTHigh);
 
             XElement DVHLineStyle = new XElement("DVHLineStyle");
-            DVHLineStyle.Value = "0";
+            switch(roi.DVHLineStyle)
+            {
+                case "solid":
+                    DVHLineStyle.Value = "0";
+                    break;
+                case "-------":
+                    DVHLineStyle.Value = "1";
+                    break;
+                case "*******":
+                    DVHLineStyle.Value = "2";
+                    break;
+                case "-*-*-*-":
+                    DVHLineStyle.Value = "3";
+                    break;
+                case "-**-**-":
+                    DVHLineStyle.Value = "4";
+                    break;
+            }
             new_structure.Add(DVHLineStyle);
 
             XElement DVHLineColor = new XElement("DVHLineColor");
-            DVHLineColor.Value = "-16777216";
+            DVHLineColor.Value = roi.DVHLineColor;
             new_structure.Add(DVHLineColor);
 
             XElement DVHLineWidth = new XElement("DVHLineWidth");
-            DVHLineWidth.Value = "1";
+            DVHLineWidth.Value = roi.DVHLineWidth;
             new_structure.Add(DVHLineWidth);
 
             XElement EUDAlpha = new XElement("EUDAlpha");
@@ -163,6 +208,7 @@ namespace DicomTemplateMakerGUI.Services
         public void AddROI(string file)
         {
             string roi_name = Path.GetFileNameWithoutExtension(file);
+            /// Ought to remove this, or make an ROIClass out of the file. Not used for now
             string[] instructions = File.ReadAllLines(file);
             string color = instructions[0];
             string[] color_values = color.Split('\\');
@@ -237,7 +283,8 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(DVHLineStyle);
 
             XElement DVHLineColor = new XElement("DVHLineColor");
-            DVHLineColor.Value = "-16777216";
+            string DVH_Color = (Int32.Parse(color_values[0]) + Int32.Parse(color_values[1]) * 256 + Int32.Parse(color_values[2]) * 256 * 256).ToString();
+            DVHLineColor.Value = DVH_Color;
             new_structure.Add(DVHLineColor);
 
             XElement DVHLineWidth = new XElement("DVHLineWidth");

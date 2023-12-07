@@ -13,9 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Diagnostics;
+using ROIOntologyClass;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
 using System.Collections.ObjectModel;
@@ -37,7 +35,6 @@ namespace DicomTemplateMakerGUI.Windows
         public Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         public TemplateMaker template_maker;
         private byte R, G, B;
-        bool file_selected;
         public ObservableCollection<ReadAirTable> AirTables;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
@@ -102,16 +99,13 @@ namespace DicomTemplateMakerGUI.Windows
             CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
             dialog.InitialDirectory = ".";
             dialog.IsFolderPicker = false;
-            file_selected = false;
             FileLocationLabel.Content = "";
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 dicom_file = dialog.FileName;
                 FileLocationLabel.Content = dicom_file;
-                file_selected = true;
                 template_maker.interpret_RT(dicom_file);
                 add_roi_rows();
-                file_selected = true;
             }
             check_status();
         }
@@ -163,25 +157,71 @@ namespace DicomTemplateMakerGUI.Windows
             PTVs = PTVs.OrderBy(o => o.ROIName).ToList();
             GTVs = GTVs.OrderBy(o => o.ROIName).ToList();
             CTVs = CTVs.OrderBy(o => o.ROIName).ToList();
+            // First, add the ROIs that are recommended
             foreach (ROIClass roi in PTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
             foreach (ROIClass roi in CTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
             foreach (ROIClass roi in GTVs)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
             foreach (ROIClass roi in ROIs_list)
             {
-                AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
-                ROIStackPanel.Children.Add(new_row);
+                if (roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            // Now add the ROIs that are only consider
+            foreach (ROIClass roi in PTVs)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            foreach (ROIClass roi in CTVs)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            foreach (ROIClass roi in GTVs)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
+            }
+            foreach (ROIClass roi in ROIs_list)
+            {
+                if (!roi.Include)
+                {
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    ROIStackPanel.Children.Add(new_row);
+                }
             }
         }
         private StackPanel TopRow()

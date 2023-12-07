@@ -17,7 +17,7 @@ using DicomTemplateMakerGUI.StackPanelClasses;
 using AirtableApiClient;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -111,7 +111,9 @@ namespace DicomTemplateMakerGUI.Windows
             }
             if (airtable.AirTableName == ((ReadAirTable)Template_ComboBox.SelectedItem).AirTableName)
             {
-                foreach (string site in airtable.template_dictionary.Keys)
+                List<string> sites = airtable.template_dictionary.Keys.ToList();
+                sites = sites.OrderBy(o => o).ToList();
+                foreach (string site in sites)
                 {
                     AddAirTableRow atrow = new AddAirTableRow(site, airtable);
                     Laterality_CheckBox.Visibility = Visibility.Hidden;
@@ -279,11 +281,6 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 row.check_box.IsChecked = true;
             }
-        }
-
-        private void Language_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

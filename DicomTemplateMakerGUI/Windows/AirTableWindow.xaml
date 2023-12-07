@@ -25,7 +25,7 @@
             <Label x:Name="CheckBoxLabel" Content="Check box" HorizontalAlignment="Left" Visibility="Visible" Margin="364,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
             <Label x:Name="SearchLabel" Content="Search templates" HorizontalAlignment="Left" Visibility="Visible" Margin="401,111,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
             <Button x:Name="SelectAllButton" Content="Select all?" HorizontalAlignment="Left" Margin="251,114,0,0" IsEnabled="False" VerticalAlignment="Top" Width="145" Height="23" Click="SelectAll_Click"/>
-            <ComboBox x:Name="Language_ComboBox" HorizontalAlignment="Left" Margin="22,117,0,0" VerticalAlignment="Top" Width="207" SelectionChanged="Language_ComboBox_SelectionChanged"/>
+            <ComboBox x:Name="Language_ComboBox" HorizontalAlignment="Left" Margin="22,117,0,0" VerticalAlignment="Top" Width="207"/>
             <CheckBox x:Name="Laterality_CheckBox" Content="Check for laterality first (L_Breast, not BreastL)" HorizontalAlignment="Left" Margin="22,150,0,0" VerticalAlignment="Top"/>
         </Grid>
     </Grid>

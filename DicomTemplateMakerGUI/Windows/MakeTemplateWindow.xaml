@@ -8,7 +8,7 @@
         Title="MakeTemplateWindow" Height="600" Width="1215">
     <Grid>
         <Button x:Name="AddROIFromRTButton" Background="LightGreen" Content="Add ROIs from RT Structure File" HorizontalAlignment="Left" Margin="23,89,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246" IsEnabled="False"/>
-        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,89,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
+        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,86,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
         <Label Name="FileLocationLabel" Visibility="Hidden" Content="" HorizontalAlignment="Left" Height="37" Margin="287,40,0,0" VerticalAlignment="Top" Width="481" Grid.ColumnSpan="3"/>
         <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,36,0,0" VerticalAlignment="Top" Width="137"/>
         <Label Name="ROINameLabel" Content="ROI Name" HorizontalAlignment="Left" Height="44" Margin="500,131,0,0" VerticalAlignment="Top" Width="170"/>
@@ -33,14 +33,17 @@
         <ComboBox x:Name="OntologyComboBox" IsEnabled="True" HorizontalAlignment="Left" Height="45" Margin="259,166,0,0" VerticalAlignment="Top" Width="236" SelectionChanged="OnSelectionChanged"/>
         <Label x:Name="ROINameLabel_Copy1" Content="Search ontology" HorizontalAlignment="Left" Height="27" Margin="10,139,0,0" VerticalAlignment="Top" Width="150"/>
         <Label x:Name="ROINameLabel_Copy2" Content="ROI Type" HorizontalAlignment="Left" Height="44" Margin="675,131,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label Content="Include?" HorizontalAlignment="Left" Height="43" Margin="23,263,0,0" VerticalAlignment="Top" Width="69"/>
-        <Label Content="ROI Name" HorizontalAlignment="Left" Height="43" Margin="107,264,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="Ontology" HorizontalAlignment="Left" Height="43" Margin="271,264,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="Interpreted Type" HorizontalAlignment="Left" Height="43" Margin="528,264,0,0" VerticalAlignment="Top" Width="147"/>
+        <Label Content="Include?" HorizontalAlignment="Left" Height="43" Margin="23,274,0,0" VerticalAlignment="Top" Width="69"/>
+        <Label Content="ROI Name" HorizontalAlignment="Left" Height="43" Margin="107,275,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Ontology" HorizontalAlignment="Left" Height="43" Margin="271,275,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Interpreted Type" HorizontalAlignment="Left" Height="43" Margin="445,275,0,0" VerticalAlignment="Top" Width="147"/>
         <Button x:Name="Select_All_Button" Content="Select Include All" HorizontalAlignment="Left" Height="34" Margin="592,226,0,0" VerticalAlignment="Top" Width="140" Click="SelectAll_Click" IsEnabled="False"/>
         <Button x:Name="UnSelect_All_Button" Content="Unselect Include All" HorizontalAlignment="Left" Height="34" Margin="737,226,0,0" VerticalAlignment="Top" Width="140" Click="UnSelectAll_Click" IsEnabled="False"/>
         <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="37" Margin="858,36,0,0" VerticalAlignment="Top" Width="276" SelectionChanged="AirTableSelectionChanged"/>
         <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="37" Margin="858,89,0,0" VerticalAlignment="Top" Width="276" Click="WriteToAirTable_Click" IsEnabled="False"/>
         <Button x:Name="Rename_Button" Content="Rename template" HorizontalAlignment="Left" Height="41" Margin="680,32,0,0" VerticalAlignment="Top" Width="165" Click="Rename_template_Click"/>
+        <Label Content="ROI Color" HorizontalAlignment="Left" Height="43" Margin="594,274,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="DVH Color" HorizontalAlignment="Left" Height="43" Margin="674,274,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="DVH Line Style" HorizontalAlignment="Left" Height="43" Margin="816,274,0,0" VerticalAlignment="Top" Width="106"/>
     </Grid>
 </Window>

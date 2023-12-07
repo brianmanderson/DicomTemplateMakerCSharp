@@ -1,0 +1,22 @@
+﻿<Window x:Class="DicomTemplateMakerGUI.StackPanelClasses.TemplateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DicomTemplateMakerGUI.StackPanelClasses"
+        mc:Ignorable="d"
+        Title="TemplateWindow" Height="450" Width="800">
+    <Grid>
+        <StackPanel Name="TemplateStackPanelRow" Orientation="Horizontal" HorizontalAlignment="Left" Height="100" Margin="155,173,0,0" VerticalAlignment="Top" Width="500">
+            <StackPanel x:Name="LeftPanel" Orientation="Vertical" Height="100" Width="250">
+                <Label Name="TemplateNameLabel" Width="250" Content="Template Name" Height="35"/>
+                <Label Name="RoisPresentLabel" Content="Label" Height="35"/>
+                <CheckBox Content="Select?" Height="30"/>
+            </StackPanel>
+            <StackPanel x:Name="RightPanel" Orientation="Vertical" Height="100" Width="250">
+                <Button Name="EditROIsButton" Content="Edit ROIs and monitored DICOM paths" Height="100" Click="EditROIsButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

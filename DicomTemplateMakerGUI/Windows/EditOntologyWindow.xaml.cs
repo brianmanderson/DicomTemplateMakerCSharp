@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -28,16 +29,15 @@ namespace DicomTemplateMakerGUI.Windows
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         private string onto_path;
         public TemplateMaker template_maker;
-        public EditOntologyWindow(string path, TemplateMaker template_maker)
+        private List<AddTemplateRow> template_rows;
+        public EditOntologyWindow(string path, List<AddTemplateRow> template_rows)
         {
-            this.onto_path = Path.Combine(path, "Ontologies");
-            template_maker.set_onto_path(Path.Combine(path, "Ontologies"));
-            this.template_maker = template_maker;
+            onto_path = Path.Combine(path, "Ontologies");
+            this.template_rows = template_rows;
             if (!Directory.Exists(onto_path))
             {
                 Directory.CreateDirectory(onto_path);
             }
-            this.template_maker = template_maker;
             InitializeComponent();
             OntologyStackPanel.Children.Add(TopRow());
             BuildFromFolders();
@@ -172,44 +172,41 @@ namespace DicomTemplateMakerGUI.Windows
             }
             foreach (OntologyCodeClass onto in template_maker.Ontologies)
             {
-                template_maker.write_ontology(onto);
-                //File.WriteAllText(Path.Combine(onto_path, $"{onto.CodeMeaning}.txt"),
-                //    $"{onto.CodeValue}\n{onto.Scheme}\n{onto.ContextGroupVersion}\n" +
-                //    $"{onto.MappingResource}\n{onto.ContextIdentifier}\n" +
-                //    $"{onto.MappingResourceName}\n{onto.MappingResourceUID}\n" +
-                //    $"{onto.ContextUID}");
+                onto.write_ontology(template_maker.onto_path);
             }
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
             Save_Changes();
         }
-        private void BuildFromFolders()
+        private void remake_onto()
         {
+            template_maker = new TemplateMaker();
+            template_maker.set_onto_path(onto_path);
             string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
             foreach (string ontology_file in roi_files)
             {
-                string onto_name = Path.GetFileName(ontology_file).Replace(".txt", "");
-                string[] instructions = File.ReadAllLines(ontology_file);
-                string code_value = instructions[0];
-                string coding_scheme = instructions[1];
-                string context_group_version = instructions[2];
-                string mapping_resource = instructions[3];
-                string context_identifier = instructions[4];
-                string mapping_resource_name = instructions[5];
-                string mapping_resource_uid = instructions[6];
-                string context_uid = instructions[7];
-                OntologyCodeClass onto = new OntologyCodeClass(onto_name, code_value, coding_scheme, context_group_version, mapping_resource,
-                    context_identifier, mapping_resource_name, mapping_resource_uid, context_uid);
+                OntologyCodeClass onto = new OntologyCodeClass(ontology_file);
                 template_maker.Ontologies.Add(onto);
             }
             template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+        }
+        private void BuildFromFolders()
+        {
+            remake_onto();
             RefreshView();
         }
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
         {
             Save_Changes_Click(sender, e);
             Close();
+        }
+
+        private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path);
+            onto_window.ShowDialog();
+            BuildFromFolders();
         }
     }
 }
