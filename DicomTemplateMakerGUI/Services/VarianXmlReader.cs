@@ -100,12 +100,31 @@ namespace DicomTemplateMakerGUI.Services
                     }
                 }
                 string line_style = s.Element("DVHLineStyle").Value;
+                string write_line_style = "solid";
+                switch (line_style)
+                {
+                    case "0":
+                        write_line_style = "solid";
+                        break;
+                    case "1":
+                        write_line_style = "-------";
+                        break;
+                    case "2":
+                        write_line_style = "*******";
+                        break;
+                    case "3":
+                        write_line_style = "-*-*-*-";
+                        break;
+                    case "4":
+                        write_line_style = "-**-**-";
+                        break;
+                }
                 string line_color = s.Element("DVHLineColor").Value;
                 string line_width = s.Element("DVHLineWidth").Value;
                 string out_color = $"{color[0]}\\{color[1]}\\{color[2]}";
                 OntologyCodeClass ontology = new OntologyCodeClass(name: roi_name, code_value: code, scheme_designated: code_scheme);
                 ROIClass roi = new ROIClass(color: out_color, name: roi_id, roi_interpreted_type: volume_type,
-                    identification_code_class: ontology, type_index: type_index, contour_style: contourstyle, dvhLineStyle: line_style, dvhLineColor: line_color, dvhLineWidth: line_width);
+                    identification_code_class: ontology, type_index: type_index, contour_style: contourstyle, dvhLineStyle: write_line_style, dvhLineColor: line_color, dvhLineWidth: line_width);
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
             }
