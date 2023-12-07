@@ -33,14 +33,18 @@
         <ComboBox x:Name="OntologyComboBox" IsEnabled="True" HorizontalAlignment="Left" Height="45" Margin="259,166,0,0" VerticalAlignment="Top" Width="236" SelectionChanged="OnSelectionChanged"/>
         <Label x:Name="ROINameLabel_Copy1" Content="Search ontology" HorizontalAlignment="Left" Height="27" Margin="10,139,0,0" VerticalAlignment="Top" Width="150"/>
         <Label x:Name="ROINameLabel_Copy2" Content="ROI Type" HorizontalAlignment="Left" Height="44" Margin="675,131,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label Content="Include?" HorizontalAlignment="Left" Height="43" Margin="23,263,0,0" VerticalAlignment="Top" Width="69"/>
-        <Label Content="ROI Name" HorizontalAlignment="Left" Height="43" Margin="107,264,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="Ontology" HorizontalAlignment="Left" Height="43" Margin="271,264,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="Interpreted Type" HorizontalAlignment="Left" Height="43" Margin="528,264,0,0" VerticalAlignment="Top" Width="147"/>
+        <Label Content="Include?" HorizontalAlignment="Left" Height="43" Margin="23,274,0,0" VerticalAlignment="Top" Width="69"/>
+        <Label Content="ROI Name" HorizontalAlignment="Left" Height="43" Margin="107,275,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Ontology" HorizontalAlignment="Left" Height="43" Margin="271,275,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Interpreted Type" HorizontalAlignment="Left" Height="43" Margin="525,275,0,0" VerticalAlignment="Top" Width="147"/>
         <Button x:Name="Select_All_Button" Content="Select Include All" HorizontalAlignment="Left" Height="34" Margin="592,226,0,0" VerticalAlignment="Top" Width="140" Click="SelectAll_Click" IsEnabled="False"/>
         <Button x:Name="UnSelect_All_Button" Content="Unselect Include All" HorizontalAlignment="Left" Height="34" Margin="737,226,0,0" VerticalAlignment="Top" Width="140" Click="UnSelectAll_Click" IsEnabled="False"/>
         <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="37" Margin="858,36,0,0" VerticalAlignment="Top" Width="276" SelectionChanged="AirTableSelectionChanged"/>
         <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="37" Margin="858,89,0,0" VerticalAlignment="Top" Width="276" Click="WriteToAirTable_Click" IsEnabled="False"/>
         <Button x:Name="Rename_Button" Content="Rename template" HorizontalAlignment="Left" Height="41" Margin="680,32,0,0" VerticalAlignment="Top" Width="165" Click="Rename_template_Click"/>
+        <Label Content="ROI Color" HorizontalAlignment="Left" Height="43" Margin="662,274,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Color" HorizontalAlignment="Left" Height="43" Margin="759,274,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="Line Style" HorizontalAlignment="Left" Height="43" Margin="822,274,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label Content="DVH" HorizontalAlignment="Left" Height="36" Margin="799,260,0,0" VerticalAlignment="Top" Width="46"/>
     </Grid>
 </Window>
