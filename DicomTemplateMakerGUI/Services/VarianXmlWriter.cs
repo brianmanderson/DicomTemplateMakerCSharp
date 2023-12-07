@@ -143,7 +143,7 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(Identification);
 
             XElement TypeIndex = new XElement("TypeIndex");
-            TypeIndex.Value = "2";
+            TypeIndex.Value = roi.TypeIndex;
             new_structure.Add(TypeIndex);
 
             XElement ColorAndStyle = new XElement("ColorAndStyle");
@@ -159,7 +159,24 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(SearchCTHigh);
 
             XElement DVHLineStyle = new XElement("DVHLineStyle");
-            DVHLineStyle.Value = roi.DVHLineStyle;
+            switch(roi.DVHLineStyle)
+            {
+                case "solid":
+                    DVHLineStyle.Value = "0";
+                    break;
+                case "-------":
+                    DVHLineStyle.Value = "1";
+                    break;
+                case "*******":
+                    DVHLineStyle.Value = "2";
+                    break;
+                case "-*-*-*-":
+                    DVHLineStyle.Value = "3";
+                    break;
+                case "-**-**-":
+                    DVHLineStyle.Value = "4";
+                    break;
+            }
             new_structure.Add(DVHLineStyle);
 
             XElement DVHLineColor = new XElement("DVHLineColor");
