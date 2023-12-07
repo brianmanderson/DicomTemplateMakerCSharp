@@ -12,7 +12,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
 {
     class AddROIRow : StackPanel
     {
-        Button color_button, dvh_color_button;
+        Button color_button, dvh_color_button, link_button;
         private ROIClass roi;
         private TextBox roi_name_textbox;
         private List<ROIClass> roi_list;
@@ -48,7 +48,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ontology_combobox.ItemsSource = ontologies_list;
             ontology_combobox.DisplayMemberPath = "CodeMeaning";
             ontology_combobox.SelectionChanged += SelectionChangedEvent;
-            ontology_combobox.Width = 250;
+            ontology_combobox.Width = 175;
             Children.Add(ontology_combobox);
 
             List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "MARKER", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
@@ -75,8 +75,14 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             dvh_color_button = new Button();
             dvh_color_button.Background = roi.DVH_Brush;
             dvh_color_button.Width = 75;
-            dvh_color_button.Click += color_button_Click;
+            dvh_color_button.Click += dvh_color_button_Click;
             Children.Add(dvh_color_button);
+
+            link_button = new Button();
+            link_button.Width = 75;
+            link_button.Content = "Link?";
+            link_button.Click += link_button_Click;
+            Children.Add(link_button);
 
             Label DeleteLabel = new Label();
             DeleteLabel.Content = "Delete?";
@@ -118,9 +124,20 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 roi.update_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
-                color_button.Background = roi.ROI_Brush;
+                set_button_color();
                 rebuild_text();
             }
+        }
+        private void link_button_Click(object sender, System.EventArgs e)
+        {
+            roi.DVHLineColor = "-16777216";
+            roi.build_dvh_line_color();
+            set_button_color();
+        }
+        private void set_button_color()
+        {
+            color_button.Background = roi.ROI_Brush;
+            dvh_color_button.Background = roi.DVH_Brush;
         }
         private void dvh_color_button_Click(object sender, System.EventArgs e)
         {
@@ -128,7 +145,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 roi.update_dvh_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
-                dvh_color_button.Background = roi.DVH_Brush;
+                set_button_color();
                 rebuild_text();
             }
         }

@@ -10,14 +10,15 @@ namespace ROIOntologyClass
     {
         private string roiname;
         private OntologyCodeClass ontology_class;
-        private List<byte> rgb;
+        private List<byte> rgb, rgb_dvh;
         private string roi_interpreted_type;
         private byte r, g, b;
-        private Color roi_color;
-        private Brush roi_brush;
-        public string color_string;
+        private byte r_dvh, g_dvh, b_dvh;
+        private Color roi_color, dvh_color;
+        private Brush roi_brush, dvh_brush;
+        public string color_string, dvh_color_string;
         private bool include;
-        private string contourstyle = ""; // segment, transluce, contour
+        private string contourstyle = "contour"; // segment, transluce, contour
         private string dvhlinestyle = "0"; // 0 is solid, 1 is dashed --------, 2 is small dashed *****, 3 is dash dot -*-*-, 4 dash dot dot -**-**-
         private string dvhlinecolor = "-16777216"; // default value means follow what is going on in the color
         private string dvhlinewidth = "1";
@@ -103,6 +104,15 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ROI_Brush");
             }
         }
+        public Brush DVH_Brush
+        {
+            get { return dvh_brush; }
+            set
+            {
+                dvh_brush = value;
+                OnPropertyChanged("DVH_Brush");
+            }
+        }
 
         public Color ROIColor
         {
@@ -111,6 +121,15 @@ namespace ROIOntologyClass
             {
                 roi_color = value;
                 OnPropertyChanged("ROIColor");
+            }
+        }
+        public Color DVH_Color
+        {
+            get { return dvh_color; }
+            set
+            {
+                dvh_color = value;
+                OnPropertyChanged("DVH_Color");
             }
         }
         public List<byte> RGB
@@ -122,6 +141,15 @@ namespace ROIOntologyClass
                 OnPropertyChanged("RGB");
             }
         }
+        public List<byte> RGB_DVH
+        {
+            get { return rgb_dvh; }
+            set
+            {
+                rgb_dvh = value;
+                OnPropertyChanged("RGB_DVH");
+            }
+        }
         public string ROI_Interpreted_type
         {
             get { return roi_interpreted_type; }
@@ -129,6 +157,33 @@ namespace ROIOntologyClass
             {
                 roi_interpreted_type = value;
                 OnPropertyChanged("ROI_Interpreted_type");
+            }
+        }
+        public byte R_DVH
+        {
+            get { return r_dvh; }
+            set
+            {
+                r_dvh = value;
+                OnPropertyChanged("R_DVH");
+            }
+        }
+        public byte G_DVH
+        {
+            get { return g_dvh; }
+            set
+            {
+                g_dvh = value;
+                OnPropertyChanged("G_DVH");
+            }
+        }
+        public byte B_DVH
+        {
+            get { return b_dvh; }
+            set
+            {
+                b_dvh = value;
+                OnPropertyChanged("B_DVH");
             }
         }
         public byte R
@@ -179,7 +234,31 @@ namespace ROIOntologyClass
             ContourStyle = contour_style;
             DVHLineStyle = dvhLineStyle;
             DVHLineColor = dvhLineColor;
+            build_dvh_line_color();
             DVHLineWidth = dvhLineWidth;
+        }
+        public void build_dvh_line_color()
+        {
+            if (DVHLineColor == "-16777216")
+            {
+                R_DVH = R;
+                G_DVH = G;
+                B_DVH = B;
+                DVH_Brush = ROI_Brush;
+                DVH_Color = ROIColor;
+            }
+            else
+            {
+                double color_int = (Int32.Parse(DVHLineColor));
+                double blue = (double)Math.Floor(color_int / (256 * 256));
+                double green = (double)Math.Floor((color_int - (blue * 256 * 256)) / 256);
+                double red = color_int - (green * 256 + blue * 256 * 256);
+                R_DVH = byte.Parse(red.ToString());
+                G_DVH= byte.Parse(green.ToString());
+                B_DVH = byte.Parse(blue.ToString());
+                DVH_Color = Color.FromRgb(R_DVH, G_DVH, B_DVH);
+                DVH_Brush = new SolidColorBrush(DVH_Color);
+            }
         }
         public ROIClass(byte r, byte g, byte b, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
@@ -194,6 +273,7 @@ namespace ROIOntologyClass
             RGB = new List<byte> { R, G, B };
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
+            build_dvh_line_color();
         }
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
@@ -209,6 +289,7 @@ namespace ROIOntologyClass
             ROI_Brush = new SolidColorBrush(ROIColor);
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
+            build_dvh_line_color();
         }
         public ROIClass(string roi_file)
         {
@@ -257,6 +338,7 @@ namespace ROIOntologyClass
             ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte> { R, G, B };
             ROI_Interpreted_type = interperter;
+            build_dvh_line_color();
         }
         public void update_color(byte R, byte G, byte B)
         {
@@ -267,6 +349,12 @@ namespace ROIOntologyClass
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
             ROIColor = Color.FromRgb(R, G, B);
             ROI_Brush = new SolidColorBrush(ROIColor);
+            build_dvh_line_color();
+        }
+        public void update_dvh_color(byte R, byte G, byte B)
+        {
+            DVHLineColor = (Int32.Parse(R.ToString()) + Int32.Parse(G.ToString()) * 256 + Int32.Parse(B.ToString()) * 256 * 256).ToString();
+            build_dvh_line_color();
         }
         public void write_roi(string output)
         {
