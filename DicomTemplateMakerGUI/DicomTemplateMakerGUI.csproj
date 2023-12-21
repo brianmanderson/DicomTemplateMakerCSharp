@@ -310,7 +310,6 @@
     </Compile>
     <Resource Include="license.txt" />
     <Resource Include="Image1.png" />
-    <Content Include="AirTables\Testing.txt" />
     <Content Include="FMA_SNOMEDCT_Key.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -333,7 +332,9 @@
     <Content Include="AirTables\TG263_AirTable.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="AirTables\UCSD_AirTable.txt" />
+    <Content Include="AirTables\UCSD_AirTable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Structure Template.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
