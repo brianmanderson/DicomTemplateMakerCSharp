@@ -8,13 +8,13 @@
         Title="AddAirTableTemplate" Height="225" Width="500">
     <Grid>
         <Button x:Name="AddAirTableButton" Content="Add a Airtable and Close" HorizontalAlignment="Left" Margin="10,7,0,0" IsEnabled="False" VerticalAlignment="Top" Width="419" Height="36" Click="AddAirTableButton_Click"/>
-        <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-        <Label Content="API Key" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-        <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,95,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-        <Label Content="Base Key" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-        <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,121,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
-        <Label Content="Table Key" HorizontalAlignment="Left" Margin="10,121,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-        <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="131,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="298"/>
+        <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="43" Margin="145,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Label Content="Personal Access Token" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Height="26" Width="135"/>
+        <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="145,118,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Label Content="Base Key" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+        <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="145,144,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
+        <Label Content="Table Key" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+        <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="145,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
         <Label Content="Table Name" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
 
     </Grid>
