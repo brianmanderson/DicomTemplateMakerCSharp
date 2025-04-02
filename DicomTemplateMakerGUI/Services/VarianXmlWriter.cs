@@ -33,6 +33,7 @@ namespace DicomTemplateMakerGUI.Services
                         new XAttribute("AssignedUsers", userName),
                         new XAttribute("Description", "Auto-generated xml file"),
                         new XAttribute("Diagnosis", ""),
+                        new XAttribute("Type", "Structure"),
                         new XAttribute("ID", "Template"),
                         new XAttribute("LastModified", $"[ {now.Month} {now.Day} {now.Year} {now.Hour}:{now.Minute}:{now.Second}]")),
                     new XElement("Structures")));
