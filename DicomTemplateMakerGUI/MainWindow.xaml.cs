@@ -587,7 +587,7 @@ namespace DicomTemplateMakerGUI
         private async void check_airtables(ReadAirTable airtable)
         {
             WriteToAirTable_Button.IsEnabled = false;
-            WriteToAirTable_Button.Content = "Must load airtables...";
+            WriteToAirTable_Button.Content = "Must load writeable airtables...";
             try
             {
                 if (airtable is null)
@@ -700,15 +700,18 @@ namespace DicomTemplateMakerGUI
 
         private void LoadAirTables_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ReadAirTable r in AirTables)
+            if (WriteableAirTables.Count > 0)
             {
-                if (!r.read)
+                foreach (ReadAirTable r in WriteableAirTables)
                 {
-                    r.read_records();
+                    if (!r.read)
+                    {
+                        r.read_records();
+                    }
                 }
+                LoadAirTables_Button.IsEnabled = false;
+                LoadAirTables_Button.Content = "Loading...";
             }
-            LoadAirTables_Button.IsEnabled = false;
-            LoadAirTables_Button.Content = "Loading...";
             load_writeable_airtables();
         }
 
