@@ -111,6 +111,7 @@ namespace DicomTemplateMakerGUI.Services
     public class ReadAirTable
     {
         private string airtableName = "TG263_AirTable";
+        public bool read = false;
         public string AirTableName
         {
             get { return airtableName; }
@@ -160,6 +161,7 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void read_records()
         {
+            read = true;
             airtableBase = new AirtableBase(APIKey, BaseKey);
             records_task = return_recordsAsync(airtableBase);
             finished_task = read_recordsAsync();

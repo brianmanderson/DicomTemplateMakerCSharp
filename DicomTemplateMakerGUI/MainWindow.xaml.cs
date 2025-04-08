@@ -172,7 +172,6 @@ namespace DicomTemplateMakerGUI
                 foreach (string file in Directory.EnumerateFiles(airtable_directory, "*.txt"))
                 {
                     ReadAirTable airtable = new ReadAirTable(file);
-                    airtable.read_records();
                     AirTables.Add(airtable);
                 }
             }
@@ -334,6 +333,8 @@ namespace DicomTemplateMakerGUI
             airtable_window.ShowDialog();
             load_writeable_airtables();
             Rebuild_From_Folders();
+            LoadAirTables_Button.Content = "Loaded";
+            LoadAirTables_Button.IsEnabled = false;
         }
 
         private void CreateFolderRT_Click(object sender, RoutedEventArgs e)
@@ -511,7 +512,7 @@ namespace DicomTemplateMakerGUI
         }
         private async void AirTableCheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
-            if ((bool)AirTableCheckbox.IsChecked)
+            if (AirTableComboBox.SelectedIndex != -1 & (bool)AirTableCheckbox.IsChecked)
             {
                 ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
                 await table.finished_task;
@@ -586,7 +587,7 @@ namespace DicomTemplateMakerGUI
         private async void check_airtables(ReadAirTable airtable)
         {
             WriteToAirTable_Button.IsEnabled = false;
-            WriteToAirTable_Button.Content = "Still loading airtable...";
+            WriteToAirTable_Button.Content = "Must load airtables...";
             try
             {
                 if (airtable is null)
@@ -594,11 +595,13 @@ namespace DicomTemplateMakerGUI
                     return;
                 }
                 await airtable.finished_task;
+                LoadAirTables_Button.IsEnabled = false;
                 if ((bool)AirTableCheckbox.IsChecked)
                 {
                     WriteToAirTable_Button.IsEnabled = true;
                 }
                 WriteToAirTable_Button.Content = "Write to AirTable";
+                LoadAirTables_Button.Content = "Loaded";
             }
             catch
             {
@@ -693,6 +696,20 @@ namespace DicomTemplateMakerGUI
         {
             ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path);
             onto_window.ShowDialog();
+        }
+
+        private void LoadAirTables_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ReadAirTable r in AirTables)
+            {
+                if (!r.read)
+                {
+                    r.read_records();
+                }
+            }
+            LoadAirTables_Button.IsEnabled = false;
+            LoadAirTables_Button.Content = "Loading...";
+            load_writeable_airtables();
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

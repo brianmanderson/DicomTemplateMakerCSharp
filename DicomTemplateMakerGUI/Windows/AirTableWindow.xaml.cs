@@ -59,6 +59,13 @@ namespace DicomTemplateMakerGUI.Windows
         public AirTableWindow(ObservableCollection<ReadAirTable> ats, string folder_location, string onto_path)
         {
             InitializeComponent();
+            foreach (ReadAirTable at in ats)
+            {
+                if (!at.read)
+                {
+                    at.read_records();
+                }
+            }
             Language_ComboBox.Visibility = Visibility.Hidden;
             Laterality_CheckBox.Visibility = Visibility.Hidden;
             this.folder_location = folder_location;

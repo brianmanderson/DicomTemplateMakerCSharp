@@ -41,5 +41,6 @@
         <Button x:Name="MakeVarianXmlFolderButton" Content="Create folder with loadable Varian Xmls" IsEnabled="False" HorizontalAlignment="Left" Height="28" Margin="381,100,0,0" VerticalAlignment="Top" Width="288" Click="CreateVarianXml_Click"/>
         <Button x:Name="ReadFromVarianXmlFolderButton" Content="Load from Xmls" Background="LightGreen" HorizontalAlignment="Left" Height="50" Margin="236,78,0,0" VerticalAlignment="Top" Width="140" Click="Load_XMLs_Click"/>
         <Button x:Name="FMA_SNOMED_Button" Content="Change Ontology Scheme?" HorizontalAlignment="Left" Height="52" Margin="674,57,0,0" VerticalAlignment="Top" Width="197" Click="FMA_SNOMED_Button_Click"/>
+        <Button x:Name="LoadAirTables_Button" Content="Load" HorizontalAlignment="Left" Height="26" Margin="833,175,0,0" VerticalAlignment="Top" Width="70" Click="LoadAirTables_Click" IsEnabled="True"/>
     </Grid>
 </Window>
