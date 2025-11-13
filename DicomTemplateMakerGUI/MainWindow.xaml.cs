@@ -116,7 +116,6 @@ namespace DicomTemplateMakerGUI
             if (AirTables.Count > 0)
             {
                 AirTableComboBox.SelectedIndex = 0;
-                check_airtables((ReadAirTable)AirTableComboBox.SelectedItem);
             }
             folder_location = @".";
             int month = DateTime.Now.Month;
@@ -590,7 +589,7 @@ namespace DicomTemplateMakerGUI
             WriteToAirTable_Button.Content = "Must load writeable airtables...";
             try
             {
-                if (airtable is null)
+                if (airtable is null | !airtable.read)
                 {
                     return;
                 }
