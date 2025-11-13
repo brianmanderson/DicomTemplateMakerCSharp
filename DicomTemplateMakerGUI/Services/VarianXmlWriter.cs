@@ -136,12 +136,15 @@ namespace DicomTemplateMakerGUI.Services
             Identification.Add(VolumeType);
             Identification.Add(new XElement("VolumeCodeTable"));
 
-            XElement StructureCode = new XElement("StructureCode");
-            StructureCode.SetAttributeValue("Code", roi.Ontology_Class.CodeValue);
-            StructureCode.SetAttributeValue("CodeScheme", roi.Ontology_Class.Scheme);
-            StructureCode.SetAttributeValue("CodeSchemeVersion", "3.2");
-            Identification.Add(StructureCode);
-            new_structure.Add(Identification);
+            if (roi.Ontology_Class.CodeValue != "")
+            {
+                XElement StructureCode = new XElement("StructureCode");
+                StructureCode.SetAttributeValue("Code", roi.Ontology_Class.CodeValue);
+                StructureCode.SetAttributeValue("CodeScheme", roi.Ontology_Class.Scheme);
+                StructureCode.SetAttributeValue("CodeSchemeVersion", "3.2");
+                Identification.Add(StructureCode);
+                new_structure.Add(Identification);
+            }
 
             XElement TypeIndex = new XElement("TypeIndex");
             TypeIndex.Value = roi.TypeIndex;

@@ -28,7 +28,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>44</ApplicationRevision>
+    <ApplicationRevision>45</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -332,7 +332,7 @@
     <Content Include="AirTables\TG263_AirTable.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="AirTables\UCSD_AirTable.txt" />
+    <None Include="AirTables\UCSD_AirTable.txt" />
     <Content Include="Structure Template.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

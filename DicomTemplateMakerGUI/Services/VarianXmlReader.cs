@@ -42,13 +42,15 @@ namespace DicomTemplateMakerGUI.Services
                 XElement Identification = s.Element("Identification");
                 string volume_type = Identification.Element("VolumeType").Value;//.ToUpper();
                 XElement StructureCode = Identification.Element("StructureCode");
-                if (StructureCode is null)
+                string code = "";
+                string code_scheme = "";
+                string code_scheme_version = "";
+                if (StructureCode != null)
                 {
-                    return;
+                    code = StructureCode.Attribute("Code").Value;
+                    code_scheme = StructureCode.Attribute("CodeScheme").Value;
+                    code_scheme_version = StructureCode.Attribute("CodeSchemeVersion").Value;
                 }
-                string code = StructureCode.Attribute("Code").Value;
-                string code_scheme = StructureCode.Attribute("CodeScheme").Value;
-                string code_scheme_version = StructureCode.Attribute("CodeSchemeVersion").Value;
 
                 string type_index = s.Element("TypeIndex").Value;
                 string color_and_style = s.Element("ColorAndStyle").Value;

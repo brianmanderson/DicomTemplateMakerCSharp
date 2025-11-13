@@ -55,7 +55,7 @@ namespace DicomTemplateMakerGUI.Windows
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-        List<string> languages = new List<string> {"English/Ingles/Anglais", "Spanish/Espanol/Espagnol", "French/Fracnes/Francais"};
+        List<string> languages = new List<string> {"English/Ingles/Anglais", "Spanish/Espanol/Espagnol", "French/Frances/Francais"};
         public AirTableWindow(ObservableCollection<ReadAirTable> ats, string folder_location, string onto_path)
         {
             InitializeComponent();
