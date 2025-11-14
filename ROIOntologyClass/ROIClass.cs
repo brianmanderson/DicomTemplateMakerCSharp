@@ -6,6 +6,7 @@ using System.IO;
 
 namespace ROIOntologyClass
 {
+
     public class ROIClass
     {
         private string roiname;
@@ -215,10 +216,19 @@ namespace ROIOntologyClass
         }
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
+        public static string RemoveIllegalCharacters(string input)
+        {
+            List<char> illegal_chars = new List<char>() { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
+            foreach (char c in illegal_chars)
+            {
+                input = input.Replace(c.ToString(), "");
+            }
+            return input;
+        }
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class, string type_index, string contour_style,
             string dvhLineStyle, string dvhLineColor, string dvhLineWidth)
         {
-            ROIName = name;
+            ROIName = RemoveIllegalCharacters(name);
             Include = true;
             color_string = color;
             string[] colors = color.Split('\\');
@@ -262,7 +272,7 @@ namespace ROIOntologyClass
         }
         public ROIClass(byte r, byte g, byte b, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
-            roiname = name;
+            roiname = RemoveIllegalCharacters(name);
             R = r;
             G = g;
             B = b;
@@ -277,7 +287,7 @@ namespace ROIOntologyClass
         }
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
-            roiname = name;
+            roiname = RemoveIllegalCharacters(name);
             Include = true;
             color_string = color;
             string[] colors = color.Split('\\');

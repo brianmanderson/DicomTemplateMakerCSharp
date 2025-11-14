@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 
 namespace ROIOntologyClass
@@ -95,23 +96,32 @@ namespace ROIOntologyClass
                 OnPropertyChanged("CodeMeaning");
             }
         }
+        public static string RemoveIllegalCharacters(string input)
+        {
+            List<char> illegal_chars = new List<char>() { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
+            foreach (char c in illegal_chars)
+            {
+                input = input.Replace(c.ToString(), "");
+            }
+            return input;
+        }
         public OntologyCodeClass()
         {
 
         }
         public OntologyCodeClass(string name, string code_value, string scheme_designated)
         {
-            CodeMeaning = name;
+            CodeMeaning = RemoveIllegalCharacters(name);
             CodeValue = code_value;
             Scheme = scheme_designated;
         }
         public OntologyCodeClass(string name, string code_value, string scheme_designated, string group_version, string mapping_resource,
             string context_identifier, string mapping_resource_name, string mapping_resource_uid, string context_uid)
         {
-            CodeMeaning = name;
-            if (name == "")
+            CodeMeaning = RemoveIllegalCharacters(name);
+            if (CodeMeaning == "")
             {
-                CodeMeaning = code_value;
+                CodeMeaning = RemoveIllegalCharacters(code_value);
             }
             CodeValue = code_value;
             Scheme = scheme_designated;
