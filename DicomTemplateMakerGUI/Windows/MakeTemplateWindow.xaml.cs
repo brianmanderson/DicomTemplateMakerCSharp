@@ -71,7 +71,7 @@ namespace DicomTemplateMakerGUI.Windows
             B = byte.Parse("255");
             Brush brush = new SolidColorBrush(Color.FromRgb(R, G, B));
             ColorButton.Background = brush;
-            if (Directory.Exists(Path.Combine(folder, "All_ROIs.json")))
+            if (File.Exists(Path.Combine(folder, "All_ROIs.json")))
             {
                 // This means we are editing a folder, not making a new one
                 TemplateTextBox.Text = Path.GetFileName(folder);
