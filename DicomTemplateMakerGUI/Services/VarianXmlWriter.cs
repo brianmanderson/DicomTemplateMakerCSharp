@@ -5,6 +5,8 @@ using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using ROIOntologyClass;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -56,9 +58,10 @@ namespace DicomTemplateMakerGUI.Services
             if (Directory.Exists(Path.Combine(template_folder, "ROIs")))
             {
                 SetID(Path.GetFileName(template_folder));
-                foreach (string file in Directory.GetFiles(Path.Combine(template_folder, "ROIs")))
+                List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_folder);
+                foreach (ROIClass roi in rois)
                 {
-                    InterpretProgramTextFile(file);
+                    InterpretProgramTextFile(roi);
                 }
             }
         }
@@ -67,13 +70,10 @@ namespace DicomTemplateMakerGUI.Services
             XElement preview = root.Element("Preview");
             preview.SetAttributeValue("ID", template_id);
         }
-        public void InterpretProgramTextFile(string file)
+        public void InterpretProgramTextFile(ROIClass roi)
         {
-            string roi_name = Path.GetFileNameWithoutExtension(file);
-            ROIClass roi = new ROIClass(file);
-            string[] instructions = File.ReadAllLines(file);
-            string color = instructions[0];
-            string[] color_values = color.Split('\\');
+            string color;
+            string[] color_values = { "0", "0", "0" };
 
             color_values[0] = roi.R.ToString().PadLeft(3);
             color_values[1] = roi.G.ToString().PadLeft(3);
@@ -117,9 +117,6 @@ namespace DicomTemplateMakerGUI.Services
                     color = "Blue";
                 }
             }
-
-
-            string[] code_values = instructions[1].Split('\\');
             AddROI(roi, colorAndStyle: color);
         }
         public void AddROI(ROIClass roi, string colorAndStyle)

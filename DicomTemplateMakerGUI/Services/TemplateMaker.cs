@@ -145,7 +145,6 @@ namespace DicomTemplateMakerGUI.Services
                         {
                             Ontologies.Add(code_class);
                             Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-                            code_class.write_ontology(onto_path);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
                             if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
                             {
@@ -158,9 +157,9 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void clear_folder()
         {
-            foreach (string file in Directory.GetFiles(Path.Combine(output, "ROIs")))
+            if (File.Exists(Path.Combine(output, "All_ROIs.json")))
             {
-                File.Delete(file);
+                File.Delete(Path.Combine(output, "All_ROIs.json"));
             }
         }
         public void define_output(string output)
@@ -169,10 +168,7 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void write_ontologies()
         {
-            foreach (OntologyCodeClass onto in Ontologies)
-            {
-                onto.write_ontology(onto_path);
-            }
+            OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
         }
         public void make_template()
         {
@@ -180,21 +176,7 @@ namespace DicomTemplateMakerGUI.Services
             {
                 Directory.CreateDirectory(output);
             }
-            if (!Directory.Exists(Path.Combine(output, "ROIs")))
-            {
-                Directory.CreateDirectory(Path.Combine(output, "ROIs"));
-            }
-            foreach (ROIClass roi in ROIs)
-            {
-                try
-                {
-                    roi.write_roi(Path.Combine(output, "ROIs"));
-                }
-                catch
-                {
-
-                }
-            }
+            ROIClassTools.SaveROIsToFolder(ROIs, output);
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
             using (StreamWriter file = new StreamWriter(Path.Combine(output, "DicomTags.txt")))
             {
@@ -240,20 +222,14 @@ namespace DicomTemplateMakerGUI.Services
                     DicomTags.Add(key, values);
                 }
             }
-            if (Directory.Exists(Path.Combine(path, "ROIs")))
+            if (File.Exists(Path.Combine(path, "All_ROIs.json")))
             {
                 is_template = true;
                 TemplateName = Path.GetFileName(path);
-                string[] roi_files = Directory.GetFiles(Path.Combine(path, "ROIs"), "*.txt");
-                foreach (string roi_file in roi_files)
+                ROIs = ROIClassTools.LoadROIsFromFolder(path);
+                foreach (ROIClass roi in ROIs)
                 {
-                    ROIClass roi = new ROIClass(roi_file);
-                    ROIs.Add(roi);
                     code_class = roi.Ontology_Class;
-                    if (!File.Exists(Path.Combine(onto_path, $"{code_class.CodeMeaning}.txt")))
-                    {
-                        code_class.write_ontology(onto_path);
-                    }
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {
@@ -270,6 +246,7 @@ namespace DicomTemplateMakerGUI.Services
                         //write_ontology(code_class);
                     }
                 }
+                OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
             }
         }
     }

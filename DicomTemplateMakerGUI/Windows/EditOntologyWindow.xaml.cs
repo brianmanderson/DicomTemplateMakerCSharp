@@ -166,14 +166,7 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void Save_Changes()
         {
-            if (!Directory.Exists(onto_path))
-            {
-                Directory.CreateDirectory(onto_path);
-            }
-            foreach (OntologyCodeClass onto in template_maker.Ontologies)
-            {
-                onto.write_ontology(template_maker.onto_path);
-            }
+            OntologyTools.SaveOntologiesToFolder(template_maker.Ontologies, onto_path);
         }
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
@@ -183,12 +176,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             template_maker = new TemplateMaker();
             template_maker.set_onto_path(onto_path);
-            string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
-            foreach (string ontology_file in roi_files)
-            {
-                OntologyCodeClass onto = new OntologyCodeClass(ontology_file);
-                template_maker.Ontologies.Add(onto);
-            }
+            template_maker.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
             template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
         }
         private void BuildFromFolders()

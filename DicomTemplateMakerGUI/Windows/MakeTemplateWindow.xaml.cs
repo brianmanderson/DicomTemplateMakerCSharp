@@ -71,7 +71,7 @@ namespace DicomTemplateMakerGUI.Windows
             B = byte.Parse("255");
             Brush brush = new SolidColorBrush(Color.FromRgb(R, G, B));
             ColorButton.Background = brush;
-            if (Directory.Exists(Path.Combine(folder, "ROIs")))
+            if (Directory.Exists(Path.Combine(folder, "All_ROIs.json")))
             {
                 // This means we are editing a folder, not making a new one
                 TemplateTextBox.Text = Path.GetFileName(folder);
@@ -162,7 +162,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -170,7 +170,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -178,7 +178,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -186,7 +186,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -195,7 +195,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (!roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -203,7 +203,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (!roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -211,7 +211,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (!roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }
@@ -219,7 +219,7 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (!roi.Include)
                 {
-                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, Path.Combine(out_path, "ROIs"), template_maker.Ontologies);
+                    AddROIRow new_row = new AddROIRow(template_maker.ROIs, roi, out_path, template_maker.Ontologies);
                     ROIStackPanel.Children.Add(new_row);
                 }
             }

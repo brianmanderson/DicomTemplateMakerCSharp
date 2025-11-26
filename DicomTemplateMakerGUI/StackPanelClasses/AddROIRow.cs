@@ -49,7 +49,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ontology_combobox.SetBinding(ComboBox.SelectedItemProperty, ontology_binding);
             ontology_combobox.ItemsSource = ontologies_list;
             ontology_combobox.DisplayMemberPath = "CodeMeaning";
-            ontology_combobox.SelectionChanged += SelectionChangedEvent;
             ontology_combobox.Width = 175;
             Children.Add(ontology_combobox);
 
@@ -61,7 +60,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ComboBox roi_interp_combobox = new ComboBox();
             roi_interp_combobox.SetBinding(ComboBox.SelectedItemProperty, interp_binding);
             roi_interp_combobox.ItemsSource = interpreters;
-            roi_interp_combobox.SelectionChanged += SelectionChangedEvent;
             if (interpreters.Contains(roi.ROI_Interpreted_type.ToUpper()))
             {
                 roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type.ToUpper();
@@ -94,7 +92,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ComboBox roi_dvh_line_style_combobox = new ComboBox();
             roi_dvh_line_style_combobox.SetBinding(ComboBox.SelectedItemProperty, line_style_binding);
             roi_dvh_line_style_combobox.ItemsSource = dvh_line_style;
-            roi_dvh_line_style_combobox.SelectionChanged += SelectionChangedEvent;
             roi_dvh_line_style_combobox.Width = 75;
             if (dvh_line_style.Contains(roi.DVHLineStyle))
             {
@@ -119,7 +116,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteButton.Width = 150;
             DeleteButton.Click += DeleteButton_Click;
             Children.Add(DeleteButton);
-            rebuild_text();
         }
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
@@ -143,7 +139,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi.update_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
                 set_button_color();
-                rebuild_text();
             }
         }
         private void link_button_Click(object sender, System.EventArgs e)
@@ -164,40 +159,16 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             {
                 roi.update_dvh_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
                 set_button_color();
-                rebuild_text();
             }
-        }
-        private void SelectionChangedEvent(object sender, SelectionChangedEventArgs args)
-        {
-            rebuild_text();
         }
         private void delete_previous()
         {
-            if (File.Exists(Path.Combine(Path.Combine(roi_path, $"{roi.ROIName}.txt"))))
-            {
-                File.Delete(Path.Combine(Path.Combine(roi_path, $"{roi.ROIName}.txt")));
-            }
-        }
-        private void rebuild_text()
-        {
-            if (!Directory.Exists(roi_path))
-            {
-                Directory.CreateDirectory(roi_path);
-            }
-            try
-            {
-                roi.write_roi(roi_path);
-            }
-            catch
-            {
-            }
-
+            ROIClassTools.SaveROIsToFolder(roi_list, roi_path);
         }
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
             delete_previous();
             roi.ROIName = roi_name_textbox.Text;
-            rebuild_text();
         }
     }
 }

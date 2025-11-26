@@ -192,11 +192,7 @@ namespace DicomTemplateMakerGUI
         }
         public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
         {
-            string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
-            foreach (string ontology_file in roi_files)
-            {
-                evaluator.Ontologies.Add(new OntologyCodeClass(ontology_file));
-            }
+            evaluator.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
             evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             return evaluator;
         }

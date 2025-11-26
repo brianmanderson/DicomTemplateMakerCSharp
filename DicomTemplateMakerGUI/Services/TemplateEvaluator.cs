@@ -31,11 +31,7 @@ namespace DicomTemplateMakerGUI.Services
             {
                 is_template = true;
                 template_name = Path.GetFileName(path);
-                string[] roi_files = Directory.GetFiles(Path.Combine(path, "ROIs"), "*.txt");
-                foreach (string roi_file in roi_files)
-                {
-                    ROIs.Add(new ROIClass(roi_file));
-                }
+                ROIs = ROIClassTools.LoadROIsFromFolder(path);
             }
         }
     }

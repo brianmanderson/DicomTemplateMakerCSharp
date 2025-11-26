@@ -42,15 +42,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 {
                     if (Directory.Exists(Path.Combine(template_directory, "ROIs")))
                     {
-                        List<ROIClass> rois = new List<ROIClass>();
-                        foreach (string roi_file in Directory.GetFiles(Path.Combine(template_directory, "ROIs"), "*.txt"))
-                        {
-                            ROIClass roi = new ROIClass(roi_file);
-                            if (roi.Include)
-                            {
-                                rois.Add(roi);
-                            }
-                        }
+                        List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_directory);
                         template_dictionary.Add(Path.GetFileName(template_directory), rois);
                         string[] paths = File.ReadAllLines(Path.Combine(template_directory, "Paths.txt"));
                         List<string> path_list = new List<string>();
