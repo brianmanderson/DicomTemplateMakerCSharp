@@ -10,18 +10,6 @@ using System.Windows.Data;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
-    class OldOntologyClass
-    {
-        public string Name;
-        public string CodeValue;
-        public string CodingScheme;
-        public OldOntologyClass(string name, string code_value, string coding_scheme)
-        {
-            this.Name = name;
-            this.CodeValue = code_value;
-            this.CodingScheme = coding_scheme;
-        }
-    }
     class AddOntologyRow : StackPanel
     {
         private OntologyCodeClass ontology;
@@ -30,12 +18,16 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
         private string onto_path;
+        private string originalCodeMeaning;
+
         public AddOntologyRow(List<OntologyCodeClass> ontology_list, OntologyCodeClass ontology, string onto_path)
         {
             Orientation = Orientation.Horizontal;
             this.ontology = ontology;
             this.ontology_list = ontology_list;
             this.onto_path = onto_path;
+            this.originalCodeMeaning = ontology.CodeMeaning;
+
             ontology_name_textbox = new TextBox();
             ontology_name_textbox.Text = ontology.CodeMeaning;
             ontology_name_textbox.TextChanged += TextValueChange;
@@ -72,6 +64,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteButton.Click += DeleteButton_Click;
             Children.Add(DeleteButton);
         }
+
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
             bool delete_checked = DeleteCheckBox.IsChecked ?? false;
@@ -81,26 +74,27 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 DeleteButton.IsEnabled = true;
             }
         }
+
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
             Children.Clear();
+
+            // Remove from the ontology list
             ontology_list.Remove(ontology);
-            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.CodeMeaning}.txt"))))
-            {
-                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.CodeMeaning}.txt")));
-            }
+
+            // Save the updated list to JSON (this also cleans up any legacy text files)
+            OntologyTools.SaveOntologiesToFolder(ontology_list, onto_path);
         }
+
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
-            if (File.Exists(Path.Combine(Path.Combine(onto_path, $"{ontology.CodeMeaning}.txt"))))
-            {
-                File.Delete(Path.Combine(Path.Combine(onto_path, $"{ontology.CodeMeaning}.txt")));
-            }
+            // Update the ontology object with new values
             ontology.CodeMeaning = ontology_name_textbox.Text;
             ontology.CodeValue = code_value_textbox.Text;
             ontology.Scheme = code_scheme_textbox.Text;
-            File.WriteAllText(Path.Combine(onto_path, $"{ontology.CodeMeaning}.txt"),
-                $"{ontology.CodeValue}\n{ontology.Scheme}");
+
+            // Save the updated list to JSON (this also cleans up any legacy text files)
+            OntologyTools.SaveOntologiesToFolder(ontology_list, onto_path);
         }
     }
 }

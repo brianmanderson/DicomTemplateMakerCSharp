@@ -192,11 +192,7 @@ namespace DicomTemplateMakerGUI
         }
         public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
         {
-            string[] roi_files = Directory.GetFiles(onto_path, "*.txt");
-            foreach (string ontology_file in roi_files)
-            {
-                evaluator.Ontologies.Add(new OntologyCodeClass(ontology_file));
-            }
+            evaluator.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
             evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
             return evaluator;
         }
@@ -314,7 +310,7 @@ namespace DicomTemplateMakerGUI
                         visible_template_rows.Add(temp_row);
                     }
                 }
-                else if(temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                else if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     visible_template_rows.Add(temp_row);
                 }
@@ -447,7 +443,7 @@ namespace DicomTemplateMakerGUI
                 }
             }
             foreach (AddTemplateRow row in copy_template_rows)
-            { 
+            {
                 int copy_number = 0;
                 string new_template_name = $"{row.templateMaker.TemplateName}_Copy{copy_number}";
                 while (Directory.Exists(Path.Combine(folder_location, new_template_name)))
@@ -655,7 +651,7 @@ namespace DicomTemplateMakerGUI
                     }
                     VarianXmlWriter xmlwriter = new VarianXmlWriter();
                     xmlwriter.LoadROIsFromPath(template_row.templateMaker.path);
-                    xmlwriter.SaveFile(Path.Combine(output_directory,$"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
+                    xmlwriter.SaveFile(Path.Combine(output_directory, $"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
                 }
             }
         }

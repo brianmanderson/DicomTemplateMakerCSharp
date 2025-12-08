@@ -145,7 +145,6 @@ namespace DicomTemplateMakerGUI.Services
                         {
                             Ontologies.Add(code_class);
                             Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-                            code_class.write_ontology(onto_path);
                             new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
                             if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
                             {
@@ -158,9 +157,22 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void clear_folder()
         {
-            foreach (string file in Directory.GetFiles(Path.Combine(output, "ROIs")))
+            if (File.Exists(Path.Combine(output, "All_ROIs.json")))
             {
-                File.Delete(file);
+                File.Delete(Path.Combine(output, "All_ROIs.json"));
+            }
+            // Also clean up legacy ROIs folder if it exists
+            string roisFolder = Path.Combine(output, "ROIs");
+            if (Directory.Exists(roisFolder))
+            {
+                try
+                {
+                    Directory.Delete(roisFolder, true);
+                }
+                catch
+                {
+                    // Ignore deletion failures
+                }
             }
         }
         public void define_output(string output)
@@ -169,33 +181,63 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void write_ontologies()
         {
-            foreach (OntologyCodeClass onto in Ontologies)
-            {
-                onto.write_ontology(onto_path);
-            }
+            OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
         }
+
+        /// <summary>
+        /// Adds a new ontology if it doesn't already exist, and saves to disk.
+        /// </summary>
+        public bool AddOntologyIfNew(OntologyCodeClass newOntology)
+        {
+            if (newOntology == null || string.IsNullOrEmpty(newOntology.CodeValue))
+            {
+                return false;
+            }
+
+            if (!Ontologies.Any(o => o.CodeValue == newOntology.CodeValue))
+            {
+                Ontologies.Add(newOntology);
+                Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+                OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Removes an ontology and saves to disk.
+        /// </summary>
+        public bool RemoveOntology(OntologyCodeClass ontologyToRemove)
+        {
+            if (ontologyToRemove == null)
+            {
+                return false;
+            }
+
+            if (Ontologies.Remove(ontologyToRemove))
+            {
+                OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
+                return true;
+            }
+
+            return false;
+        }
+
         public void make_template()
         {
             if (!Directory.Exists(output))
             {
                 Directory.CreateDirectory(output);
             }
-            if (!Directory.Exists(Path.Combine(output, "ROIs")))
-            {
-                Directory.CreateDirectory(Path.Combine(output, "ROIs"));
-            }
-            foreach (ROIClass roi in ROIs)
-            {
-                try
-                {
-                    roi.write_roi(Path.Combine(output, "ROIs"));
-                }
-                catch
-                {
 
-                }
-            }
+            // Save ROIs to JSON (this also migrates from legacy format and cleans up old files)
+            ROIClassTools.SaveROIsToFolder(ROIs, output);
+
+            // Save paths
             File.WriteAllLines(Path.Combine(output, "Paths.txt"), Paths.ToArray());
+
+            // Save DICOM tags
             using (StreamWriter file = new StreamWriter(Path.Combine(output, "DicomTags.txt")))
             {
                 foreach (string key in DicomTags.Keys)
@@ -209,51 +251,92 @@ namespace DicomTemplateMakerGUI.Services
                     file.WriteLine(start);
                 }
             }
+
+            // Update ontologies with any new ontologies from ROIs
+            foreach (ROIClass roi in ROIs)
+            {
+                OntologyCodeClass code_class = roi.Ontology_Class;
+                if (code_class != null && !string.IsNullOrEmpty(code_class.CodeValue))
+                {
+                    if (!Ontologies.Any(o => o.CodeValue == code_class.CodeValue))
+                    {
+                        Ontologies.Add(code_class);
+                    }
+                }
+            }
+            Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+
+            // Save ontologies
+            if (!string.IsNullOrEmpty(onto_path))
+            {
+                OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
+            }
         }
+
         public void define_path(string path)
         {
             this.path = path;
         }
+
         public void categorize_folder()
         {
             ROIs = new List<ROIClass>();
             Paths = new List<string>();
+            DicomTags = new Dictionary<string, List<string>>();
             OntologyCodeClass code_class;
             is_template = false;
+
+            // Load paths
             if (File.Exists(Path.Combine(path, "Paths.txt")))
             {
                 string[] file_paths = File.ReadAllLines(Path.Combine(path, "Paths.txt"));
                 foreach (string file_path in file_paths)
                 {
-                    Paths.Add(file_path);
+                    if (!string.IsNullOrWhiteSpace(file_path))
+                    {
+                        Paths.Add(file_path);
+                    }
                 }
             }
+
+            // Load DICOM tags
             if (File.Exists(Path.Combine(path, "DicomTags.txt")))
             {
                 string[] file_paths = File.ReadAllLines(Path.Combine(path, "DicomTags.txt"));
                 foreach (string file_path in file_paths)
                 {
-
+                    if (string.IsNullOrWhiteSpace(file_path))
+                    {
+                        continue;
+                    }
                     string[] key_values = file_path.Split('\\');
                     string key = key_values[0];
                     List<string> values = key_values.Skip(1).ToList();
-                    DicomTags.Add(key, values);
+                    if (!DicomTags.ContainsKey(key))
+                    {
+                        DicomTags.Add(key, values);
+                    }
                 }
             }
-            if (Directory.Exists(Path.Combine(path, "ROIs")))
+
+            // Check if this is a valid template folder (supports both JSON and legacy formats)
+            if (ROIClassTools.IsValidTemplateFolder(path))
             {
                 is_template = true;
                 TemplateName = Path.GetFileName(path);
-                string[] roi_files = Directory.GetFiles(Path.Combine(path, "ROIs"), "*.txt");
-                foreach (string roi_file in roi_files)
+
+                // Load ROIs (handles both JSON and legacy formats automatically)
+                ROIs = ROIClassTools.LoadROIsFromFolder(path);
+
+                // Process ROIs and update ontologies
+                foreach (ROIClass roi in ROIs)
                 {
-                    ROIClass roi = new ROIClass(roi_file);
-                    ROIs.Add(roi);
                     code_class = roi.Ontology_Class;
-                    if (!File.Exists(Path.Combine(onto_path, $"{code_class.CodeMeaning}.txt")))
+                    if (code_class == null)
                     {
-                        code_class.write_ontology(onto_path);
+                        continue;
                     }
+
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {
@@ -264,11 +347,17 @@ namespace DicomTemplateMakerGUI.Services
                             break;
                         }
                     }
-                    if (!contains_code_class)
+                    if (!contains_code_class && !string.IsNullOrEmpty(code_class.CodeValue))
                     {
                         Ontologies.Add(code_class);
-                        //write_ontology(code_class);
                     }
+                }
+
+                // Sort and save ontologies
+                Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+                if (!string.IsNullOrEmpty(onto_path))
+                {
+                    OntologyTools.SaveOntologiesToFolder(Ontologies, onto_path);
                 }
             }
         }
