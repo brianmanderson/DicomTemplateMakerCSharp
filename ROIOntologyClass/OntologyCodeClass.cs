@@ -1,9 +1,190 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using Newtonsoft.Json;
 using System.IO;
 
 namespace ROIOntologyClass
 {
+    public class OntologyTools
+    {
+        /// <summary>
+        /// Saves ontologies to JSON format. Also cleans up legacy text files if they exist.
+        /// </summary>
+        public static void SaveOntologiesToFolder(List<OntologyCodeClass> ontologies, string filePath)
+        {
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            string json = JsonConvert.SerializeObject(ontologies, Formatting.Indented);
+            File.WriteAllText(Path.Combine(filePath, "All_Ontologies.json"), json);
+
+            // Clean up legacy text files after successful JSON save
+            CleanupLegacyTextFiles(filePath);
+        }
+
+        /// <summary>
+        /// Loads ontologies from JSON format. Falls back to legacy text files if JSON doesn't exist.
+        /// If loaded from legacy format, automatically migrates to JSON.
+        /// </summary>
+        public static List<OntologyCodeClass> LoadOntologiesFromFolder(string filePath)
+        {
+            if (!Directory.Exists(filePath))
+            {
+                return new List<OntologyCodeClass>();
+            }
+
+            string jsonFile = Path.Combine(filePath, "All_Ontologies.json");
+
+            // Try to load from JSON first
+            if (File.Exists(jsonFile))
+            {
+                try
+                {
+                    string json = File.ReadAllText(jsonFile);
+                    List<OntologyCodeClass> ontologies = JsonConvert.DeserializeObject<List<OntologyCodeClass>>(json);
+                    return ontologies ?? new List<OntologyCodeClass>();
+                }
+                catch
+                {
+                    // If JSON parsing fails, try legacy format
+                }
+            }
+
+            // Fall back to loading from legacy text files
+            List<OntologyCodeClass> legacyOntologies = LoadFromLegacyTextFiles(filePath);
+
+            // If we loaded from legacy format, migrate to JSON
+            if (legacyOntologies.Count > 0)
+            {
+                SaveOntologiesToFolder(legacyOntologies, filePath);
+            }
+
+            return legacyOntologies;
+        }
+
+        /// <summary>
+        /// Loads ontologies from legacy individual text files format.
+        /// </summary>
+        private static List<OntologyCodeClass> LoadFromLegacyTextFiles(string filePath)
+        {
+            List<OntologyCodeClass> ontologies = new List<OntologyCodeClass>();
+
+            if (!Directory.Exists(filePath))
+            {
+                return ontologies;
+            }
+
+            foreach (string file in Directory.GetFiles(filePath, "*.txt"))
+            {
+                try
+                {
+                    OntologyCodeClass onto = LoadOntologyFromTextFile(file);
+                    if (onto != null && !ontologies.Any(o => o.CodeValue == onto.CodeValue))
+                    {
+                        ontologies.Add(onto);
+                    }
+                }
+                catch
+                {
+                    // Skip files that can't be parsed
+                    continue;
+                }
+            }
+
+            return ontologies;
+        }
+
+        /// <summary>
+        /// Loads a single ontology from a legacy text file.
+        /// </summary>
+        private static OntologyCodeClass LoadOntologyFromTextFile(string ontologyFile)
+        {
+            string codeMeaning = Path.GetFileName(ontologyFile).Replace(".txt", "");
+            string[] instructions = File.ReadAllLines(ontologyFile);
+
+            if (instructions.Length < 2)
+            {
+                return null;
+            }
+
+            OntologyCodeClass onto = new OntologyCodeClass();
+            onto.CodeMeaning = codeMeaning;
+            onto.CodeValue = instructions[0];
+            onto.Scheme = instructions[1];
+
+            // Extended format with additional fields
+            if (instructions.Length >= 8)
+            {
+                onto.ContextGroupVersion = instructions[2];
+                onto.MappingResource = instructions[3];
+                onto.ContextIdentifier = instructions[4];
+                onto.MappingResourceName = instructions[5];
+                onto.MappingResourceUID = instructions[6];
+                onto.ContextUID = instructions[7];
+            }
+
+            return onto;
+        }
+
+        /// <summary>
+        /// Removes legacy text files after migration to JSON.
+        /// </summary>
+        private static void CleanupLegacyTextFiles(string filePath)
+        {
+            if (!Directory.Exists(filePath))
+            {
+                return;
+            }
+
+            foreach (string file in Directory.GetFiles(filePath, "*.txt"))
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch
+                {
+                    // Ignore deletion failures
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds an ontology to the list if it doesn't already exist (by CodeValue).
+        /// </summary>
+        public static bool AddOntologyIfNotExists(List<OntologyCodeClass> ontologies, OntologyCodeClass newOntology)
+        {
+            if (newOntology == null || string.IsNullOrEmpty(newOntology.CodeValue))
+            {
+                return false;
+            }
+
+            if (!ontologies.Any(o => o.CodeValue == newOntology.CodeValue))
+            {
+                ontologies.Add(newOntology);
+                ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Removes an ontology from the list by CodeValue.
+        /// </summary>
+        public static bool RemoveOntology(List<OntologyCodeClass> ontologies, OntologyCodeClass ontologyToRemove)
+        {
+            if (ontologyToRemove == null)
+            {
+                return false;
+            }
+
+            return ontologies.Remove(ontologyToRemove);
+        }
+    }
+
     public class OntologyCodeClass
     {
         private string scheme_designated = "FMA";
@@ -132,36 +313,7 @@ namespace ROIOntologyClass
             MappingResourceUID = mapping_resource_uid;
             ContextUID = context_uid;
         }
-        public OntologyCodeClass(string ontology_file)
-        {
-            load_from_file(ontology_file);
-        }
-        private void load_from_file(string ontology_file)
-        {
-            CodeMeaning = Path.GetFileName(ontology_file).Replace(".txt", "");
-            string[] instructions = File.ReadAllLines(ontology_file);
-            CodeValue = instructions[0];
-            Scheme = instructions[1];
-            ContextGroupVersion = instructions[2];
-            MappingResource = instructions[3];
-            ContextIdentifier = instructions[4];
-            MappingResourceName = instructions[5];
-            MappingResourceUID = instructions[6];
-            ContextUID = instructions[7];
-        }
-        public void write_ontology(string onto_path)
-        {
-            if (CodeMeaning == "")
-            {
-                // Don't write anything if there isn't going to be a file name...leave it in the ROIs
-                return;
-            }
-            File.WriteAllText(Path.Combine(onto_path, $"{CodeMeaning}.txt"),
-                $"{CodeValue}\n{Scheme}\n{ContextGroupVersion}\n" +
-                $"{MappingResource}\n{ContextIdentifier}\n" +
-                $"{MappingResourceName}\n{MappingResourceUID}\n" +
-                $"{ContextUID}");
-        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string info)

@@ -1,12 +1,36 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Media;
 using System.IO;
+using System.Windows.Media;
 
 namespace ROIOntologyClass
 {
-
+    public class ROIClassTools
+    {
+        public static void SaveROIsToFolder(List<ROIClass> rois, string filePath)
+        {
+            string json = JsonConvert.SerializeObject(rois, Formatting.Indented);
+            File.WriteAllText(Path.Combine(filePath, "All_ROIs.json"), json);
+        }
+        public static List<ROIClass> LoadROIsFromFolder(string filePath)
+        {
+            string jsonFile = Path.Combine(filePath, "All_ROIs.json");
+            if (!File.Exists(jsonFile))
+            {
+                return new List<ROIClass>();
+            }
+            string json = File.ReadAllText(jsonFile);
+            List<ROIClass> rois = JsonConvert.DeserializeObject<List<ROIClass>>(json);
+            // Rebuild non-serializable properties after deserialization
+            foreach (var roi in rois)
+            {
+                roi.RebuildFromDeserialization();
+            }
+            return rois;
+        }
+    }
     public class ROIClass
     {
         private string roiname;
@@ -96,6 +120,8 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ROIName");
             }
         }
+
+        [JsonIgnore]
         public Brush ROI_Brush
         {
             get { return roi_brush; }
@@ -105,6 +131,8 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ROI_Brush");
             }
         }
+
+        [JsonIgnore]
         public Brush DVH_Brush
         {
             get { return dvh_brush; }
@@ -115,6 +143,7 @@ namespace ROIOntologyClass
             }
         }
 
+        [JsonIgnore]
         public Color ROIColor
         {
             get { return roi_color; }
@@ -124,6 +153,8 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ROIColor");
             }
         }
+
+        [JsonIgnore]
         public Color DVH_Color
         {
             get { return dvh_color; }
@@ -214,21 +245,43 @@ namespace ROIOntologyClass
                 OnPropertyChanged("B");
             }
         }
+
+        /// <summary>
+        /// Parameterless constructor required for JSON deserialization.
+        /// After deserializing, call RebuildFromDeserialization() to restore
+        /// non-serializable properties (Color, Brush).
+        /// </summary>
+        public ROIClass()
+        {
+            // Default values are set in field initializers
+        }
+
+        /// <summary>
+        /// Rebuilds non-serializable properties (Color, Brush) after JSON deserialization.
+        /// Call this method after deserializing an ROIClass object.
+        /// </summary>
+        public void RebuildFromDeserialization()
+        {
+            // Rebuild ROI color and brush from R, G, B values
+            ROIColor = Color.FromRgb(R, G, B);
+            ROI_Brush = new SolidColorBrush(ROIColor);
+
+            // Rebuild color_string if not already set
+            if (string.IsNullOrEmpty(color_string))
+            {
+                color_string = $"{R}\\{G}\\{B}";
+            }
+
+            // Rebuild DVH color and brush
+            build_dvh_line_color();
+        }
+
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
-        public static string RemoveIllegalCharacters(string input)
-        {
-            List<char> illegal_chars = new List<char>() { '<', '>', ':', '"', '/', '\\', '|', '?', '*' };
-            foreach (char c in illegal_chars)
-            {
-                input = input.Replace(c.ToString(), "");
-            }
-            return input;
-        }
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class, string type_index, string contour_style,
             string dvhLineStyle, string dvhLineColor, string dvhLineWidth)
         {
-            ROIName = RemoveIllegalCharacters(name);
+            ROIName = name;
             Include = true;
             color_string = color;
             string[] colors = color.Split('\\');
@@ -264,7 +317,7 @@ namespace ROIOntologyClass
                 double green = (double)Math.Floor((color_int - (blue * 256 * 256)) / 256);
                 double red = color_int - (green * 256 + blue * 256 * 256);
                 R_DVH = byte.Parse(red.ToString());
-                G_DVH= byte.Parse(green.ToString());
+                G_DVH = byte.Parse(green.ToString());
                 B_DVH = byte.Parse(blue.ToString());
                 DVH_Color = Color.FromRgb(R_DVH, G_DVH, B_DVH);
                 DVH_Brush = new SolidColorBrush(DVH_Color);
@@ -272,7 +325,7 @@ namespace ROIOntologyClass
         }
         public ROIClass(byte r, byte g, byte b, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
-            roiname = RemoveIllegalCharacters(name);
+            roiname = name;
             R = r;
             G = g;
             B = b;
@@ -287,7 +340,7 @@ namespace ROIOntologyClass
         }
         public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
-            roiname = RemoveIllegalCharacters(name);
+            roiname = name;
             Include = true;
             color_string = color;
             string[] colors = color.Split('\\');
@@ -300,10 +353,6 @@ namespace ROIOntologyClass
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
             build_dvh_line_color();
-        }
-        public ROIClass(string roi_file)
-        {
-            read_text_file(roi_file);
         }
         private void read_text_file(string roi_file)
         {
@@ -365,18 +414,6 @@ namespace ROIOntologyClass
         {
             DVHLineColor = (Int32.Parse(R.ToString()) + Int32.Parse(G.ToString()) * 256 + Int32.Parse(B.ToString()) * 256 * 256).ToString();
             build_dvh_line_color();
-        }
-        public void write_roi(string output)
-        {
-            OntologyCodeClass i = Ontology_Class;
-            File.WriteAllText(Path.Combine(output, $"{ROIName}.txt"),
-                $"{R}\\{G}\\{B}\n" +
-                $"{i.CodeMeaning}\\{i.CodeValue}\\{i.Scheme}\\{i.ContextGroupVersion}\\" +
-                $"{i.MappingResource}\\{i.ContextIdentifier}\\{i.MappingResourceName}\\" +
-                $"{i.MappingResourceUID}\\{i.ContextUID}\n" +
-                $"{ROI_Interpreted_type}\n" +
-                $"{Include}\n" + 
-                $"{TypeIndex}\\{ContourStyle}\\{DVHLineStyle}\\{DVHLineColor}\\{DVHLineWidth}");
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
