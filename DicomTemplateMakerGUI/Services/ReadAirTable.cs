@@ -45,69 +45,6 @@ namespace DicomTemplateMakerGUI.Services
 
 
     }
-    public class AirTableEntry
-    {
-        public string Structure { get; set; }
-        public string CommonName { get; set; }
-        public string Type { get; set; }
-        public List<string> Colors_RGB { get; set; }
-        public List<string> Template_Recommend { get; set; } = new List<string>();
-        public List<string> Template_Consider { get; set; } = new List<string>();
-        public string SchemeCode { get; set; }
-        public string Scheme { get; set; }
-        public string ContextGroupVersion { get; set; }
-        public string MappingResource { get; set; }
-        public string ContextIdentifier { get; set; }
-        public string MappingResourceName { get; set; }
-        public string MappingResourceUID { get; set; }
-        public string ContextUID { get; set; }
-        public string Id { get; set; }
-        public string TG_263 { get; set; }
-        public string TG_263R { get; set; }
-        public string TG_263Spanish { get; set; }
-        public string TG_263SpanishR { get; set; }
-        public string TG_263French { get; set; }
-        public string TG_263FrenchR { get; set; }
-        public string RGB { get; set; }
-        public string DVH_Color { get; set; }
-        public string DVH_Style { get; set; }
-        public string DVH_Width { get; set; }
-        public string DVH_Type_Index { get; set; }
-        public string DVH_ContourStyle { get; set; }
-        public AirTableEntry()
-        {
-            OntologyCodeClass o = new OntologyCodeClass();
-            Scheme = o.Scheme;
-            CommonName = null;
-            ContextGroupVersion = o.ContextGroupVersion;
-            MappingResource = o.MappingResource;
-            ContextIdentifier = o.ContextIdentifier;
-            MappingResourceName = o.MappingResourceName;
-            MappingResourceUID = o.MappingResourceUID;
-            ContextUID = o.ContextUID;
-        }
-        public AirTableEntry(ROIClass roi)
-        {
-            OntologyCodeClass o = roi.Ontology_Class;
-            Scheme = o.Scheme;
-            SchemeCode = o.CodeValue;
-            CommonName = o.CodeMeaning;
-            ContextGroupVersion = o.ContextGroupVersion;
-            MappingResource = o.MappingResource;
-            ContextIdentifier = o.ContextIdentifier;
-            MappingResourceName = o.MappingResourceName;
-            MappingResourceUID = o.MappingResourceUID;
-            ContextUID = o.ContextUID;
-            Structure = roi.ROIName;
-            Type = roi.ROI_Interpreted_type;
-            Colors_RGB = new List<string>() { $"Auto:{roi.R},{roi.G},{roi.B}" };
-            DVH_Color = roi.DVHLineColor;
-            DVH_Style = roi.DVHLineStyle;
-            DVH_Width = roi.DVHLineWidth;
-            DVH_Type_Index = roi.TypeIndex;
-            DVH_ContourStyle = roi.ContourStyle;
-        }
-    }
     public class ReadAirTable
     {
         private string airtableName = "TG263_AirTable";

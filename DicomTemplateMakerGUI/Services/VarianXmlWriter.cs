@@ -55,9 +55,11 @@ namespace DicomTemplateMakerGUI.Services
         }
         public void LoadROIsFromPath(string template_folder)
         {
-            if (Directory.Exists(Path.Combine(template_folder, "ROIs")))
+            // Check if this is a valid template folder (supports both JSON and legacy formats)
+            if (ROIClassTools.IsValidTemplateFolder(template_folder))
             {
                 SetID(Path.GetFileName(template_folder));
+                // Load ROIs using the new method that handles both formats
                 List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_folder);
                 foreach (ROIClass roi in rois)
                 {
@@ -160,7 +162,7 @@ namespace DicomTemplateMakerGUI.Services
             new_structure.Add(SearchCTHigh);
 
             XElement DVHLineStyle = new XElement("DVHLineStyle");
-            switch(roi.DVHLineStyle)
+            switch (roi.DVHLineStyle)
             {
                 case "solid":
                     DVHLineStyle.Value = "0";

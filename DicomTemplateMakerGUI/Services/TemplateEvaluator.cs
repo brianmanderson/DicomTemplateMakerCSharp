@@ -27,10 +27,13 @@ namespace DicomTemplateMakerGUI.Services
         {
             OntologyCodeClass code_class;
             is_template = false;
-            if (Directory.Exists(Path.Combine(path, "ROIs")))
+
+            // Check if this is a valid template folder (supports both JSON and legacy formats)
+            if (ROIClassTools.IsValidTemplateFolder(path))
             {
                 is_template = true;
                 template_name = Path.GetFileName(path);
+                // Load ROIs using the new method that handles both formats
                 ROIs = ROIClassTools.LoadROIsFromFolder(path);
             }
         }

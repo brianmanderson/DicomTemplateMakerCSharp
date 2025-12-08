@@ -190,6 +190,7 @@
     <Compile Include="DicomTemplateServices\DicomTemplateRunner.cs" />
     <Compile Include="DicomTemplateServices\ROIClass.cs" />
     <Compile Include="DicomTemplateServices\FolderWatcher.cs" />
+    <Compile Include="Services\AirTableEntry.cs" />
     <Compile Include="Services\FMAID_SNOMED_OntologyClass.cs" />
     <Compile Include="Services\Making_Basic_Templates.cs" />
     <Compile Include="Services\ReadAirTable.cs" />

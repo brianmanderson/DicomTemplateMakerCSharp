@@ -40,15 +40,20 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             {
                 if (File.Exists(Path.Combine(template_directory, "Paths.txt")))
                 {
-                    if (Directory.Exists(Path.Combine(template_directory, "ROIs")))
+                    // Check if this is a valid template folder (supports both JSON and legacy formats)
+                    if (ROIClassTools.IsValidTemplateFolder(template_directory))
                     {
+                        // Load ROIs using the new method that handles both formats
                         List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_directory);
                         template_dictionary.Add(Path.GetFileName(template_directory), rois);
                         string[] paths = File.ReadAllLines(Path.Combine(template_directory, "Paths.txt"));
                         List<string> path_list = new List<string>();
                         foreach (string path in paths)
                         {
-                            path_list.Add(path);
+                            if (!string.IsNullOrWhiteSpace(path))
+                            {
+                                path_list.Add(path);
+                            }
                         }
                         paths_dictionary.Add(Path.GetFileName(template_directory), path_list);
                     }
@@ -80,7 +85,10 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                         out_dictionary["Study Description"] = studies_list;
                         out_dictionary["Series Description"] = series_list;
                     }
-                    Template_DicomTags.Add(template_name, out_dictionary);
+                    if (!Template_DicomTags.ContainsKey(template_name))
+                    {
+                        Template_DicomTags.Add(template_name, out_dictionary);
+                    }
                 }
             }
         }
