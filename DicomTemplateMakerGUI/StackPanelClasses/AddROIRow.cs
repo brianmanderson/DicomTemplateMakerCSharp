@@ -22,12 +22,12 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private CheckBox DeleteCheckBox;
         private Button DeleteButton;
         private string roi_path;
-        public AddROIRow(List<ROIClass> roi_list, ROIClass roi, string path, List<OntologyCodeClass> ontologies_list) //, 
+        public AddROIRow(List<ROIClass> _roi_list, ROIClass _roi, string path, List<OntologyCodeClass> _ontologies_list) //, 
         {
-            this.roi = roi;
-            this.roi_list = roi_list;
-            this.roi_path = path;
-            this.ontologies_list = ontologies_list;
+            roi = _roi;
+            roi_list = _roi_list;
+            roi_path = path;
+            ontologies_list = _ontologies_list;
             Orientation = Orientation.Horizontal;
 
             CheckBox included_checkbox = new CheckBox();

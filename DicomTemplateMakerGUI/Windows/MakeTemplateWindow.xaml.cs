@@ -63,7 +63,11 @@ namespace DicomTemplateMakerGUI.Windows
             if (AirTables.Count > 0)
             {
                 AirTableComboBox.SelectedIndex = 0;
-                check_airtables((ReadAirTable)AirTableComboBox.SelectedItem);
+                ReadAirTable airtable = (ReadAirTable)AirTableComboBox.SelectedItem;
+                if (airtable != null)
+                {
+                    check_airtables(airtable);
+                }
             }
             
             R = byte.Parse("0");
@@ -152,6 +156,7 @@ namespace DicomTemplateMakerGUI.Windows
                         ROIs_list.Add(roi);
                     }
                 }
+                break;
             }
             ROIs_list = ROIs_list.OrderBy(o => o.ROIName).ToList();
             PTVs = PTVs.OrderBy(o => o.ROIName).ToList();
@@ -416,6 +421,10 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private async void check_airtables(ReadAirTable airtable)
         {
+            if (airtable == null)
+            {
+                return;
+            }
             WriteToAirTable_Button.IsEnabled = false;
             WriteToAirTable_Button.Content = "Still loading airtable...";
             try
@@ -433,7 +442,10 @@ namespace DicomTemplateMakerGUI.Windows
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-            check_airtables(table);
+            if (table != null)
+            {
+                check_airtables(table);
+            }
         }
 
         private void Rename_template_Click(object sender, RoutedEventArgs e)
