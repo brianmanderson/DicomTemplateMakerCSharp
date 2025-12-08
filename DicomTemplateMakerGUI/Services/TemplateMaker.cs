@@ -326,7 +326,7 @@ namespace DicomTemplateMakerGUI.Services
                 TemplateName = Path.GetFileName(path);
 
                 // Load ROIs (handles both JSON and legacy formats automatically)
-                ROIs = ROIClassTools.LoadROIsFromFolder(path);
+                ROIs = ROIClassTools.LoadROIsFromFolder(path, Ontologies);
 
                 // Process ROIs and update ontologies
                 foreach (ROIClass roi in ROIs)

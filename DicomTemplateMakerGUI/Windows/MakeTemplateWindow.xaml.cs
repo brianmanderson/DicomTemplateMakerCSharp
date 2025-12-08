@@ -156,7 +156,6 @@ namespace DicomTemplateMakerGUI.Windows
                         ROIs_list.Add(roi);
                     }
                 }
-                break;
             }
             ROIs_list = ROIs_list.OrderBy(o => o.ROIName).ToList();
             PTVs = PTVs.OrderBy(o => o.ROIName).ToList();

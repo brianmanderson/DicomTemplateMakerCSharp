@@ -44,7 +44,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                     if (ROIClassTools.IsValidTemplateFolder(template_directory))
                     {
                         // Load ROIs using the new method that handles both formats
-                        List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_directory);
+                        List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_directory, new List<OntologyCodeClass>());
                         template_dictionary.Add(Path.GetFileName(template_directory), rois);
                         string[] paths = File.ReadAllLines(Path.Combine(template_directory, "Paths.txt"));
                         List<string> path_list = new List<string>();

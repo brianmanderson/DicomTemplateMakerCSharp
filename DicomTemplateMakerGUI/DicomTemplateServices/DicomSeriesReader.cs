@@ -16,7 +16,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         ImageSeriesReader series_reader;
         Image dicomImage;
         private DicomDataset rt_structure_set, roi_observation_set, roi_contour_set;
-        string loaded_series_instance_uid;
         List<int> referenced_roi_number_list, observation_number_list;
         Dictionary<DicomTag, string> dicom_tags_dict = new Dictionary<DicomTag, string>() { {DicomTag.StudyDate, "0008|0020"} , { DicomTag.SOPClassUID, "0008|0016" },
             { DicomTag.StudyTime, "0008|0030"} , { DicomTag.AccessionNumber, "0008|0050" }, { DicomTag.SeriesInstanceUID, "0020|000e"}, { DicomTag.SeriesDescription, "0008|103e" },
@@ -35,7 +34,6 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             series_reader.LoadPrivateTagsOn();
             series_reader.MetaDataDictionaryArrayUpdateOn();
             series_reader.SetOutputPixelType(PixelIDValueEnum.sitkFloat32);
-            loaded_series_instance_uid = "";
         }
         public void parse_folder(string directory)
         {

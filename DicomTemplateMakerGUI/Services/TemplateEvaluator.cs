@@ -23,9 +23,8 @@ namespace DicomTemplateMakerGUI.Services
         {
             this.path = path;
         }
-        public void categorize_folder()
+        public void categorize_folder(List<OntologyCodeClass> ontologies)
         {
-            OntologyCodeClass code_class;
             is_template = false;
 
             // Check if this is a valid template folder (supports both JSON and legacy formats)
@@ -34,7 +33,7 @@ namespace DicomTemplateMakerGUI.Services
                 is_template = true;
                 template_name = Path.GetFileName(path);
                 // Load ROIs using the new method that handles both formats
-                ROIs = ROIClassTools.LoadROIsFromFolder(path);
+                ROIs = ROIClassTools.LoadROIsFromFolder(path, ontologies);
             }
         }
     }

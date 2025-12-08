@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
+using ROIOntologyClass;
 
 namespace ROIOntologyClass
 {
@@ -30,10 +31,9 @@ namespace ROIOntologyClass
         /// Loads ROIs from JSON format. Falls back to legacy text files if JSON doesn't exist.
         /// If loaded from legacy format, automatically migrates to JSON.
         /// </summary>
-        public static List<ROIClass> LoadROIsFromFolder(string filePath)
+        public static List<ROIClass> LoadROIsFromFolder(string filePath, List<OntologyCodeClass> ontologyList)
         {
             string jsonFile = Path.Combine(filePath, "All_ROIs.json");
-
             // Try to load from JSON first
             if (File.Exists(jsonFile))
             {
@@ -46,7 +46,7 @@ namespace ROIOntologyClass
                         // Rebuild non-serializable properties after deserialization
                         foreach (var roi in rois)
                         {
-                            roi.RebuildFromDeserialization();
+                            roi.RebuildFromDeserialization(ontologyList);
                         }
                         return rois;
                     }
@@ -480,7 +480,7 @@ namespace ROIOntologyClass
         /// Rebuilds non-serializable properties (Color, Brush) after JSON deserialization.
         /// Call this method after deserializing an ROIClass object.
         /// </summary>
-        public void RebuildFromDeserialization()
+        public void RebuildFromDeserialization(List<OntologyCodeClass> ontologyList)
         {
             // Rebuild ROI color and brush from R, G, B values
             ROIColor = Color.FromRgb(R, G, B);
@@ -491,7 +491,22 @@ namespace ROIOntologyClass
             {
                 color_string = $"{R}\\{G}\\{B}";
             }
-
+            bool foundOntology = false;
+            foreach (OntologyCodeClass ontology in ontologyList)
+            {
+                if (ontology.CodeMeaning == Ontology_Class.CodeMeaning &&
+                    ontology.CodeValue == Ontology_Class.CodeValue &&
+                    ontology.Scheme == Ontology_Class.Scheme)
+                {
+                    Ontology_Class = ontology;
+                    foundOntology = true;
+                    break;
+                }
+            }
+            if (!foundOntology && Ontology_Class != null)
+            {
+                ontologyList.Add(Ontology_Class);
+            }
             // Rebuild DVH color and brush
             build_dvh_line_color();
         }

@@ -148,7 +148,7 @@ namespace DicomTemplateMakerGUI
                 {
                     TemplateMaker evaluator = new TemplateMaker();
                     evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
-                    evaluator = update_ontology_reader(evaluator);
+                    update_ontology_reader(evaluator);
                     evaluator.interpret_RT(rt_file);
                     string folder_path = Path.GetFileName(rt_file);
                     folder_path = folder_path.Substring(0, folder_path.Length - 4); // Chop off .dcm
@@ -190,11 +190,10 @@ namespace DicomTemplateMakerGUI
                 ReadAirTableButton.IsEnabled = false;
             }
         }
-        public TemplateMaker update_ontology_reader(TemplateMaker evaluator)
+        public void update_ontology_reader(TemplateMaker evaluator)
         {
             evaluator.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
             evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-            return evaluator;
         }
         public void Rebuild_From_Folders()
         {
@@ -212,8 +211,9 @@ namespace DicomTemplateMakerGUI
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
                 evaluator.define_path(directory);
                 evaluator.define_output(directory);
+                update_ontology_reader(evaluator);
                 evaluator.categorize_folder();
-                evaluator = update_ontology_reader(evaluator);
+                
                 if (evaluator.is_template)
                 {
                     AddTemplateButton.Background = lightgray;
@@ -242,7 +242,7 @@ namespace DicomTemplateMakerGUI
         {
             TemplateMaker template_maker = new TemplateMaker();
             template_maker.set_onto_path(Path.Combine(folder_location, "Ontologies"));
-            template_maker = update_ontology_reader(template_maker);
+            update_ontology_reader(template_maker);
             MakeTemplateWindow template_window = new MakeTemplateWindow(folder_location, template_maker, AirTables);
             template_window.ShowDialog();
             Rebuild_From_Folders();
@@ -472,7 +472,7 @@ namespace DicomTemplateMakerGUI
                 }
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
-                evaluator = update_ontology_reader(evaluator);
+                update_ontology_reader(evaluator);
                 evaluator.define_path(new_template_path);
                 evaluator.define_output(new_template_path);
                 evaluator.categorize_folder();
@@ -650,7 +650,7 @@ namespace DicomTemplateMakerGUI
                         continue;
                     }
                     VarianXmlWriter xmlwriter = new VarianXmlWriter();
-                    xmlwriter.LoadROIsFromPath(template_row.templateMaker.path);
+                    xmlwriter.LoadROIsFromPath(template_row.templateMaker.path, template_row.templateMaker.Ontologies);
                     xmlwriter.SaveFile(Path.Combine(output_directory, $"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
                 }
             }

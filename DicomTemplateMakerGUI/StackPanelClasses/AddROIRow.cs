@@ -7,8 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using ROIOntologyClass;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
-using System.Security.Policy;
+
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {

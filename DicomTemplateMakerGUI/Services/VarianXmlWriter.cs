@@ -53,14 +53,14 @@ namespace DicomTemplateMakerGUI.Services
             doc.WriteTo(writer);
             writer.Close();
         }
-        public void LoadROIsFromPath(string template_folder)
+        public void LoadROIsFromPath(string template_folder, List<OntologyCodeClass> ontologyList)
         {
             // Check if this is a valid template folder (supports both JSON and legacy formats)
             if (ROIClassTools.IsValidTemplateFolder(template_folder))
             {
                 SetID(Path.GetFileName(template_folder));
                 // Load ROIs using the new method that handles both formats
-                List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_folder);
+                List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_folder, ontologyList);
                 foreach (ROIClass roi in rois)
                 {
                     InterpretProgramTextFile(roi);
