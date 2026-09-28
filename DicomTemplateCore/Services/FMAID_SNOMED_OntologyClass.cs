@@ -9,11 +9,23 @@ namespace DicomTemplateMakerGUI.Services
 {
     public class FMAID_SNOMED_OntologyClass
     {
-        public string path = @".\FMA_SNOMEDCT_Key.txt";
+        /// <summary>FMA_SNOMEDCT_Key.txt in the program folder (next to the executable, also for a single-file build).</summary>
+        public static string DefaultPath => Path.Combine(AppContext.BaseDirectory, "FMA_SNOMEDCT_Key.txt");
+
+        public string path;
         public Dictionary<string, string> FMA_to_SNOMED = new Dictionary<string, string>();
         public Dictionary<string, string> SNOMED_To_FMA = new Dictionary<string, string>();
+
+        /// <summary>Reads the program folder's FMA_SNOMEDCT_Key.txt (<see cref="DefaultPath"/>).</summary>
         public FMAID_SNOMED_OntologyClass()
+            : this(DefaultPath)
         {
+        }
+
+        /// <summary>Reads the FMA ID to SNOMED CT key file at <paramref name="path"/> (a header line, then "fmaid,snomed" lines).</summary>
+        public FMAID_SNOMED_OntologyClass(string path)
+        {
+            this.path = path;
             List<string> instructions = File.ReadAllLines(path).ToList();
             instructions.RemoveAt(0); // Take out the top line
             foreach (string instruction in instructions)

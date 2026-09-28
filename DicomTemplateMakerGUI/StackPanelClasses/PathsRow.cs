@@ -1,43 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
-    class PathsRow : StackPanel
+    /// <summary>One monitored folder in the paths editor, with a warning when it does not exist.</summary>
+    internal sealed class PathsRow : StackPanel
     {
-        private TemplateMaker template_maker;
-        private string path;
-        public PathsRow(TemplateMaker template_maker, string path)
-        {
-            this.template_maker = template_maker;
-            this.path = path;
-            //Orientation = Orientation.Horizontal;
-            Label path_label = new Label();
-            path_label.Content = path;
-            Children.Add(path_label);
+        private readonly TextBlock warning_text;
 
-            Button Delete_button = new Button();
-            Delete_button.Content = "Delete";
-            Delete_button.Click += Click_Delete;
-            Children.Add(Delete_button);
-        }
-        private void Click_Delete(object sender, RoutedEventArgs e)
+        /// <param name="remove">Called when Delete is pressed; the editor removes the row.</param>
+        public PathsRow(string path, Action<PathsRow> remove)
         {
-            template_maker.Paths.Remove(path);
-            Children.Clear();
+            Path = path;
+            Orientation = Orientation.Vertical;
+            Margin = new Thickness(0, 0, 0, 4);
+
+            DockPanel line = new DockPanel { LastChildFill = true };
+            Button delete_button = new Button { Content = "Remove", Width = 80, Height = 24, ToolTip = "Stops monitoring this folder (when you save). Nothing in the folder is deleted." };
+            delete_button.Click += (sender, e) => remove(this);
+            DockPanel.SetDock(delete_button, Dock.Right);
+            line.Children.Add(delete_button);
+            line.Children.Add(new TextBlock { Text = path, VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 8, 0), ToolTip = path });
+            Children.Add(line);
+
+            warning_text = new TextBlock { TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed, Foreground = EditorBrushes.Warning };
+            Children.Add(warning_text);
+        }
+
+        public string Path { get; }
+
+        /// <summary>Shows <paramref name="warning"/> under the folder, or hides it when null.</summary>
+        public void ShowWarning(string? warning)
+        {
+            warning_text.Text = warning == null ? string.Empty : "Warning: " + warning;
+            warning_text.Visibility = warning == null ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

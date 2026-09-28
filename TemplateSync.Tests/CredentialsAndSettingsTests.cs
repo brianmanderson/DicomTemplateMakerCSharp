@@ -144,11 +144,54 @@ public sealed class CredentialsAndSettingsTests : IDisposable
     [InlineData("", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", null, "name")]
     [InlineData("Clinic", "appShort", "tblBBBBBBBBBBBBBB", null, "base id")]
     [InlineData("Clinic", "appAAAAAAAAAAAAAA", "", null, "table")]
-    [InlineData("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", "keyLegacyApiKey1", "Legacy API keys")]
+    [InlineData("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", "", "token")]
+    [InlineData("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", "   ", "token")]
     [InlineData("Cli/nic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", null, "not allowed")]
     public void Validation_explains_the_problem(string name, string baseId, string table, string? token, string expected)
     {
         Assert.Contains(expected, AirtableIds.Validate(name, baseId, table, token ?? Token));
+    }
+
+    [Theory]
+    [InlineData("keyLegacyApiKey1")]
+    [InlineData("opaque-token-without-the-pat-prefix")]
+    [InlineData("patShort")]
+    public void Validation_treats_the_token_format_as_opaque(string token)
+    {
+        // Airtable documents tokens as opaque; the add-table dialog warns about unusual formats instead.
+        Assert.Null(AirtableIds.Validate("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", token));
+    }
+
+    [Fact]
+    public void Validation_refuses_a_token_published_in_an_old_release()
+    {
+        string leaked = "pat" + new string('L', 14) + "." + new string('1', 64);
+
+        string? problem = AirtableIds.Validate("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", leaked, t => t == leaked);
+
+        Assert.Contains("published in an old release", problem);
+        Assert.Null(AirtableIds.Validate("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", Token, t => t == leaked));
+    }
+
+    [Fact]
+    public void A_connection_with_a_token_in_another_format_can_be_added()
+    {
+        AirtableConnectionStore store = Store();
+
+        store.Add("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", "  opaque-token-123  ");
+
+        Assert.Equal("opaque-token-123", store.GetToken(Assert.Single(store.Load())));
+    }
+
+    [Fact]
+    public void A_connection_without_a_token_is_refused()
+    {
+        AirtableConnectionStore store = Store();
+
+        ArgumentException ex = Assert.Throws<ArgumentException>(() => store.Add("Clinic", "appAAAAAAAAAAAAAA", "tblBBBBBBBBBBBBBB", " "));
+
+        Assert.Contains("token", ex.Message);
+        Assert.Empty(store.Load());
     }
 
     [Fact]

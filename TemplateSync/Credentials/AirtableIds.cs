@@ -24,15 +24,25 @@ namespace TemplateSync.Credentials
             return token.StartsWith("pat", System.StringComparison.Ordinal) && token.IndexOf('.') > 3 && token.Length >= 40;
         }
 
-        /// <summary>Returns a user-facing problem description, or null when the values look valid.</summary>
+        /// <summary>
+        /// Returns a user-facing problem description, or null when the values can be saved. Airtable documents tokens as
+        /// opaque, so the token's format is not checked here (the add-table dialog warns when it does not look like a
+        /// personal access token); only a blank token and a token published in an old release of this program are refused.
+        /// </summary>
         public static string? Validate(string? name, string? baseId, string? table, string? token)
+        {
+            return Validate(name, baseId, table, token, LeakedTokens.IsKnownLeaked);
+        }
+
+        /// <summary><see cref="Validate(string, string, string, string)"/> with the leaked-token check supplied (for tests).</summary>
+        internal static string? Validate(string? name, string? baseId, string? table, string? token, System.Func<string, bool> isKnownLeaked)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 return "Enter a name for this table.";
             }
 
-            if (name!.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0)
+            if (name.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0)
             {
                 return "The name contains characters that are not allowed in file names.";
             }
@@ -47,12 +57,12 @@ namespace TemplateSync.Credentials
                 return "Enter the table id (tbl followed by 14 letters or digits) or the table's exact name.";
             }
 
-            if (!LooksLikePersonalAccessToken(token))
+            if (string.IsNullOrWhiteSpace(token))
             {
-                return "The token should be an Airtable personal access token starting with \"pat\". Legacy API keys (starting with \"key\") no longer work.";
+                return "Enter the Airtable personal access token for this base.";
             }
 
-            if (LeakedTokens.IsKnownLeaked(token))
+            if (isKnownLeaked(token))
             {
                 return "This token was published in an old release of this program and must not be used. Create your own token at airtable.com/create/tokens.";
             }

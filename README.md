@@ -10,6 +10,7 @@ Windows tools for building and applying DICOM RT Structure Set templates in radi
 | Project | What it is |
 | --- | --- |
 | `DicomTemplateMakerGUI` | WPF desktop app (the released program, `net10.0-windows`). Create and edit templates, assign ontology codes, pull shared template definitions (published TG-263 snapshot or your own Airtable tables), read and write Varian Eclipse structure-template XML, and run the folder-watching RT generator. |
+| `DicomTemplateMaker.Presentation` | Platform-neutral library (`net10.0`) behind the app's windows: view models, the RT generator service, confirmations and reports, settings, template-folder choice and validation rules. No WPF types, so it is tested on any OS by `DicomTemplateMaker.Presentation.Tests`. |
 | `DicomTemplateCore` | Platform-neutral library (`net10.0`) with the template logic shared by the app and the tools: RT Structure Set generation, DICOM series discovery (header-only fo-dicom reads), template folders, Varian XML import and export, Airtable record mapping. Tested by `DicomTemplateCore.Tests`. |
 | `ROIOntologyClass` | Platform-neutral library: ROI and ontology-code classes, template folder loading (JSON and legacy text formats). |
 | `TemplateSync` | Platform-neutral library for online templates: Airtable client, local cache, shared snapshot download, write planning, encrypted connection store. Tested by `TemplateSync.Tests`. |
@@ -18,6 +19,61 @@ Windows tools for building and applying DICOM RT Structure Set templates in radi
 | `CleaningRTStructureCsharp` | Command-line utility that empties the referenced-image lists (Contour Image Sequences) of an RT Structure file, e.g. to make a reusable template RT. |
 | `TemplateSnapshotTool` | Maintainer/CI tool that exports the shared TG-263 table to `TemplateSnapshots/TG263.json`. |
 | `AirTableRecords/` | Bundled per-treatment-site template definitions (e.g. `AbdPelv_Anal`, `AbdPelv_Bladder`). |
+
+## Generating RT Structure Sets
+
+Each template is a folder under the template folder holding `All_ROIs.json`, a `Paths.txt` listing the
+DICOM folders to watch, and an optional `DicomTags.txt` with Series/Study Description requirements.
+The generator (the app's *Start RT generator*, or the `DicomTemplateMakerCSharp` command-line tool)
+writes `<template>_UID<SeriesInstanceUID>.dcm` next to each matching image series:
+
+- **One RT per series.** Every series in a folder is decided on its own; a series whose RT exists is
+  skipped. Patient and study attributes come from that series only (missing ones are written empty),
+  and each RT gets its own UIDs. A series whose images do not all share one Patient ID, Study Instance
+  UID and Frame of Reference gets no RT, and the error says why.
+- **Planning images only.** CT, MR and PET series get an RT; localizers (scouts, topograms), Secondary
+  Capture objects such as dose reports, and other modalities are skipped.
+- **Matching.** A template without requirements matches every series. Otherwise, ignoring case, a
+  description matches when it contains a requirement or is contained in one; a blank or missing
+  description never matches. Because the test works both ways, a short description such as "T2"
+  matches a requirement "Prostate T2 AX": write requirements that a description will contain.
+- **Incomplete transfers.** A folder is processed once its files have not changed for 10 seconds.
+  Files still being written are retried with back-off. An existing RT is never replaced; if images
+  arrive after a series' RT was written (a transfer that paused for longer than that), the RT is
+  reported as incomplete until the file is deleted, and the generator then writes it again.
+- **Problems are reported, not hidden.** An ROI that cannot be written (for example a name the images'
+  character set cannot hold, or an ontology code without a code value or scheme) is left out and
+  reported; an RT is never written with zero ROIs; an unreadable template is reported and skipped. A
+  folder that gets no RT because of a problem stays listed in the app's status bar until it is fixed.
+- **Deleting generated RTs** removes only `<template>_UID*.dcm` files. A running generator writes an RT
+  for every matching series that has none, so it would write them again within seconds: the app stops
+  the generator for the delete and leaves it stopped. To keep the RTs deleted, remove the folders from
+  the template's monitored folders (or change its requirements) before starting the generator again.
+- **Copies of a template** ("Copy selected") get no monitored folders, so they write no RTs until
+  folders are added in their editor.
+
+Command-line tool: `DicomTemplateMakerCSharp [template-folder] [--once] [--delete-generated]`. The
+template folder defaults to the current folder; without `--once` it scans every 3 seconds until
+Ctrl+C. It exits with 0 on success (including a watch stopped with Ctrl+C); 1 when a `--once` or
+`--delete-generated` run hit errors or was stopped with Ctrl+C before it finished, or when the template
+RT file (`template_RS.dcm`, next to the program) is missing, in which case nothing is generated; and 2
+for bad arguments (an unknown option, more than one folder, or a folder that does not exist).
+
+## Where the program keeps its files
+
+- **Templates and ontologies:** the template folder shown in the main window. It is saved and used
+  again at the next start. Without a saved folder, the program uses the folder it was started in
+  (a shortcut's "Start in") when that folder holds templates and the program folder does not, and
+  saves that choice; otherwise it uses its own folder. When the saved folder is missing (a disconnected
+  drive), it is kept for next time and this session uses the program folder, with a note at startup.
+  Use *Change template folder* to choose another one.
+- **Logs:** `%LOCALAPPDATA%\DicomTemplateMaker\logs`: a new file every day or when a file reaches
+  10 MB, and the newest 14 files are kept. *Open log folder* in the main window opens it. Include the
+  latest log when reporting a problem.
+- **Settings and online-template cache:** `%LOCALAPPDATA%\DicomTemplateMaker` (`ui-settings.json` for
+  the template folder and remembered folders, `settings.json` for online templates, encrypted Airtable
+  connections, cached tables). A damaged `ui-settings.json` is copied to `ui-settings.json.bak` before
+  it is replaced.
 
 ## Online templates and Airtable
 
@@ -94,7 +150,7 @@ that output is intended, and review the diff.
 Command-line tools:
 
 ```
-dotnet run --project DicomTemplateMakerCSharp -- <template-folder> [--once] [--delete-generated]
+dotnet run --project DicomTemplateMakerCSharp -- [template-folder] [--once] [--delete-generated]
 dotnet run --project Xaml_Maker/XamlMakerCsharp -- import <folder-of-xml-files> <template-folder>
 dotnet run --project Xaml_Maker/XamlMakerCsharp -- export <template-folder> <xml-output-folder>
 dotnet run --project CleaningRTStructureCsharp -- <input-RS.dcm> <output.dcm>

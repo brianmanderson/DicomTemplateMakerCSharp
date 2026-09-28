@@ -10,6 +10,74 @@ using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Services
 {
+    /// <summary>What happened to one structure in a Varian XML import or export.</summary>
+    public sealed class VarianStructureResult
+    {
+        public VarianStructureResult(string structure, string? skipReason)
+        {
+            Structure = structure;
+            SkipReason = skipReason;
+        }
+
+        /// <summary>The structure (ROI) ID, or a description of where it is when it has none.</summary>
+        public string Structure { get; }
+
+        /// <summary>Why the structure was left out; null when it was imported or exported.</summary>
+        public string? SkipReason { get; }
+
+        public bool Skipped => SkipReason != null;
+    }
+
+    /// <summary>
+    /// The outcome of importing one Varian XML file into a template folder, or of exporting one template folder
+    /// to Varian XML.
+    /// </summary>
+    public sealed class VarianXmlReport
+    {
+        public VarianXmlReport(string source)
+        {
+            Source = source;
+        }
+
+        /// <summary>The XML file (import) or template folder (export).</summary>
+        public string Source { get; }
+
+        /// <summary>The template folder that was written (import only); null when nothing was written.</summary>
+        public string? Target { get; internal set; }
+
+        /// <summary>One entry per structure, in file order.</summary>
+        public List<VarianStructureResult> Structures { get; } = new List<VarianStructureResult>();
+
+        /// <summary>Why the whole file failed; null when it did not.</summary>
+        public string? Error { get; internal set; }
+
+        /// <summary>True when the file failed as a whole (nothing, or not everything, was written).</summary>
+        public bool Failed => Error != null;
+
+        public int SucceededCount => Structures.Count(s => !s.Skipped);
+
+        public IEnumerable<VarianStructureResult> SkippedStructures => Structures.Where(s => s.Skipped);
+
+        /// <summary>A summary line followed by one line per skipped structure, for logs and messages.</summary>
+        public IEnumerable<string> Describe()
+        {
+            int skipped = Structures.Count - SucceededCount;
+            if (Failed)
+            {
+                yield return $"{Source}: FAILED: {Error}";
+            }
+            else
+            {
+                string target = Target != null ? $" -> {Target}" : string.Empty;
+                yield return $"{Source}{target}: {SucceededCount} structure(s) done, {skipped} skipped.";
+            }
+            foreach (VarianStructureResult result in SkippedStructures)
+            {
+                yield return $"  skipped '{result.Structure}': {result.SkipReason}";
+            }
+        }
+    }
+
     public class VarianXmlReader
     {
         private XNamespace ab = "http://www.w3.org/2001/XMLSchema-instance";
@@ -36,15 +104,20 @@ namespace DicomTemplateMakerGUI.Services
         {
             return element.Attribute(name)?.Value ?? throw new XmlException($"<{element.Name}> has no {name} attribute.");
         }
-        public void AddToTemplateMaker(TemplateMaker maker, XElement s)
+        /// <summary>
+        /// Adds structure <paramref name="s"/> to <paramref name="maker"/>, or leaves it out (a structure without an
+        /// ID, or one that cannot be read) and says why.
+        /// </summary>
+        public VarianStructureResult AddToTemplateMaker(TemplateMaker maker, XElement s)
         {
+            string label = StructureLabel(s);
             try
             {
                 string roi_id = RequiredAttribute(s, "ID");
                 string roi_name = RequiredAttribute(s, "Name");
                 if (roi_id == "")
                 {
-                    return;
+                    return new VarianStructureResult(label, "the structure has an empty ID.");
                 }
                 if (roi_name == "")
                 {
@@ -140,30 +213,90 @@ namespace DicomTemplateMakerGUI.Services
                     identification_code_class: ontology, type_index: type_index, contour_style: contourstyle, dvhLineStyle: write_line_style, dvhLineColor: line_color, dvhLineWidth: line_width);
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
+                return new VarianStructureResult(roi_id, null);
             }
-            catch
+            catch (Exception ex)
             {
-                return;
+                // Any structure that cannot be read is left out, as before; now the reason is reported.
+                return new VarianStructureResult(label, ex.Message);
             }
         }
-        public void XmlToROI(string output_path)
+        /// <summary>The structure's ID, else its Name, else its position, for the import report.</summary>
+        private static string StructureLabel(XElement s)
+        {
+            string? id = s.Attribute("ID")?.Value;
+            if (!string.IsNullOrEmpty(id))
+            {
+                return id;
+            }
+            string? name = s.Attribute("Name")?.Value;
+            if (!string.IsNullOrEmpty(name))
+            {
+                return name;
+            }
+            return $"structure #{s.ElementsBeforeSelf().Count() + 1} (no ID)";
+        }
+        /// <summary>
+        /// Imports this file as the template named by its Preview ID, in a folder of <paramref name="output_path"/>,
+        /// and adds its ontologies to the library in output_path/Ontologies (existing library entries are kept).
+        /// <para>Structures that cannot be read are skipped and listed in the report. When no structure can be
+        /// imported nothing is written and the report's Error says so. Throws XmlException when the document has no
+        /// Preview ID or Structures element, and <see cref="TemplateLoadException"/> (nothing written) when the
+        /// existing template of that name or the ontology library cannot be read. <see cref="Import"/> turns these
+        /// into a failed report.</para>
+        /// </summary>
+        public VarianXmlReport XmlToROI(string output_path)
         {
             //string description = preview.Elements("ID");
             if (preview == null)
             {
                 throw new XmlException($"{xml_path} has no <Preview> element.");
             }
-            string template_name = RequiredAttribute(preview, "ID").Replace(' ', '_');
+            string preview_id = RequiredAttribute(preview, "ID");
+            if (string.IsNullOrWhiteSpace(preview_id))
+            {
+                // Would otherwise write All_ROIs.json into output_path itself.
+                throw new XmlException($"{xml_path}: the <Preview> ID is empty, so the template has no name.");
+            }
+            string template_name = preview_id.Replace(' ', '_');
             TemplateMaker templateMaker = new TemplateMaker();
-            templateMaker.define_output(Path.Combine(output_path, template_name));
+            string template_folder = Path.Combine(output_path, template_name);
+            templateMaker.define_output(template_folder);
             templateMaker.set_onto_path(Path.Combine(output_path, "Ontologies"));
             XElement structures = RequiredElement(root, "Structures");
+            VarianXmlReport report = new VarianXmlReport(xml_path);
             foreach (XElement s in structures.Elements())
             {
-                AddToTemplateMaker(templateMaker, s);
+                report.Structures.Add(AddToTemplateMaker(templateMaker, s));
             }
+            if (templateMaker.ROIs.Count == 0)
+            {
+                report.Error = report.Structures.Count == 0
+                    ? "the file has no structures; nothing was written."
+                    : $"none of its {report.Structures.Count} structure(s) could be imported; nothing was written.";
+                return report;
+            }
+            // make_template also adds the template's ontologies to the library (a merge, not a replacement).
             templateMaker.make_template();
-            templateMaker.write_ontologies();
+            report.Target = template_folder;
+            return report;
+        }
+        /// <summary>
+        /// Imports <paramref name="xml_path"/> into <paramref name="output_path"/> (see <see cref="XmlToROI"/>)
+        /// without throwing for a file that cannot be read or imported: the report's Error says why.
+        /// </summary>
+        public static VarianXmlReport Import(string xml_path, string output_path)
+        {
+            try
+            {
+                return new VarianXmlReader(xml_path).XmlToROI(output_path);
+            }
+            catch (Exception ex) when (ex is XmlException || ex is IOException || ex is UnauthorizedAccessException || ex is TemplateLoadException)
+            {
+                VarianXmlReport report = new VarianXmlReport(xml_path);
+                report.Error = ex.Message;
+                return report;
+            }
         }
     }
 }

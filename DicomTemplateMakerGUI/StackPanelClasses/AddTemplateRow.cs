@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using DicomTemplateMakerGUI.Services;
+using DicomTemplateMakerGUI.Shell;
 using DicomTemplateMakerGUI.Windows;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
+    /// <summary>One template in the main window's list. Deleting templates is the main window's job (Recycle Bin, with confirmation).</summary>
     public class AddTemplateRow : StackPanel
     {
         private Label rois_present_label;
@@ -42,12 +35,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChangedEventHandler? handler = this.PropertyChanged;
-            if (handler != null)
-            {
-                var e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public AddTemplateRow(TemplateMaker tm, ObservableCollection<TemplateSourceItem> airTables)
         {
@@ -65,18 +53,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             left_panel.Children.Add(template_label);
 
             rois_present_label = new Label();
-            rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
             left_panel.Children.Add(rois_present_label);
 
-
-            Label padding_label = new Label();
-            padding_label.Width = 100;
-
             selectCheckBox = new CheckBox();
-            selectCheckBox.Content = "Select?";
-            padding_label = new Label();
-            padding_label.Width = 100;
-
+            selectCheckBox.Content = "Select";
             left_panel.Children.Add(selectCheckBox);
 
             Children.Add(left_panel);
@@ -86,12 +66,13 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
 
             edit_rois_button = new Button();
             edit_rois_button.Width = 250;
-            CheckPaths();
             edit_rois_button.Content = "Edit ROIs and monitored DICOM paths";
             edit_rois_button.Click += EditROIButton_Click;
             right_panel.Children.Add(edit_rois_button);
             Children.Add(right_panel);
 
+            ToolTipService.SetShowDuration(this, 60000);
+            Refresh();
         }
         /// <summary>
         /// The template's folder. Rows are only built for a TemplateMaker whose define_path has been called;
@@ -101,47 +82,33 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         {
             get { return templateMaker.path ?? throw new InvalidOperationException("define_path has not been called on this template's TemplateMaker."); }
         }
+        /// <summary>Colours the edit button red while the template has no monitored folders.</summary>
         public void CheckPaths()
         {
             if (templateMaker.Paths.Count == 0)
             {
                 edit_rois_button.Background = lightred;
+                edit_rois_button.ToolTip = "No monitored folders: no RTs are written for this template until one is added.";
             }
             else
             {
                 edit_rois_button.Background = lightgray;
+                edit_rois_button.ToolTip = null;
             }
         }
-        private void EditROIButton_Click(object sender, System.EventArgs e)
+        /// <summary>Updates the ROI count, the edit button and the tooltip from the template.</summary>
+        private void Refresh()
+        {
+            rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
+            CheckPaths();
+            ToolTip = TemplateRowText.Tooltip(templateMaker);
+        }
+        private void EditROIButton_Click(object sender, RoutedEventArgs e)
         {
             MakeTemplateWindow template_window = new MakeTemplateWindow(TemplatePath, templateMaker, AirTables);
+            template_window.Owner = Window.GetWindow(this);
             template_window.ShowDialog();
-            if (templateMaker.Paths.Count != 0)
-            {
-                edit_rois_button.Background = lightgray;
-            }
-            rois_present_label.Content = $"{templateMaker.ROIs.Count} ROIs present in template";
-        }
-        public void Delete()
-        {
-            string template_path = TemplatePath;
-            templateMaker.define_output(template_path);
-            templateMaker.define_path(template_path);
-            templateMaker.clear_folder();
-            foreach (string path in Directory.GetFiles(template_path))
-            {
-                File.Delete(path);
-            }
-            if (Directory.Exists(Path.Combine(template_path, "ROIs")))
-            {
-                Directory.Delete(Path.Combine(template_path, "ROIs"));
-            }
-            Directory.Delete(template_path);
-            Children.Clear();
-        }
-        private void DeleteButton_Click(object sender, System.EventArgs e)
-        {
-            Delete();
+            Refresh();
         }
     }
 }

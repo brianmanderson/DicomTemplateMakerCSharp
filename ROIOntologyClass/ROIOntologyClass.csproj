@@ -11,4 +11,10 @@
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
+  <!-- AtomicFile and the template-file checks are shared with the template engine and its tests. -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="DicomTemplateCore" />
+    <InternalsVisibleTo Include="DicomTemplateCore.Tests" />
+  </ItemGroup>
+
 </Project>

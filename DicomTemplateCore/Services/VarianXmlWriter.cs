@@ -53,8 +53,15 @@ namespace DicomTemplateMakerGUI.Services
             doc.WriteTo(writer);
             writer.Close();
         }
-        public void LoadROIsFromPath(string template_folder, List<OntologyCodeClass> ontologyList)
+        /// <summary>
+        /// Adds the ROIs of the template in <paramref name="template_folder"/> as structures. An ROI that cannot be
+        /// written (no ontology, interpreted type, type index or DVH line width) is left out and listed in the
+        /// report instead of stopping the export halfway. Throws <see cref="TemplateLoadException"/> when the
+        /// template cannot be read; the report's Error is set when the folder holds no template.
+        /// </summary>
+        public VarianXmlReport LoadROIsFromPath(string template_folder, List<OntologyCodeClass> ontologyList)
         {
+            VarianXmlReport report = new VarianXmlReport(template_folder);
             // Check if this is a valid template folder (supports both JSON and legacy formats)
             if (ROIClassTools.IsValidTemplateFolder(template_folder))
             {
@@ -63,9 +70,45 @@ namespace DicomTemplateMakerGUI.Services
                 List<ROIClass> rois = ROIClassTools.LoadROIsFromFolder(template_folder, ontologyList);
                 foreach (ROIClass roi in rois)
                 {
-                    InterpretProgramTextFile(roi);
+                    string? problem = ExportProblem(roi);
+                    if (problem == null)
+                    {
+                        InterpretProgramTextFile(roi);
+                    }
+                    report.Structures.Add(new VarianStructureResult(roi.ROIName, problem));
                 }
             }
+            else
+            {
+                report.Error = "the folder holds no template (no All_ROIs.json or legacy ROIs folder).";
+            }
+            return report;
+        }
+        /// <summary>
+        /// Why <see cref="AddROI(ROIClass, string)"/> would reject <paramref name="roi"/>, or null when it can be
+        /// written. The checks cover the values that AddROI requires; a hand-edited or partly filled template can
+        /// lack them.
+        /// </summary>
+        private static string? ExportProblem(ROIClass roi)
+        {
+            if (roi.Ontology_Class == null)
+            {
+                return "it has no ontology (structure code).";
+            }
+            if (roi.ROI_Interpreted_type == null)
+            {
+                return "it has no interpreted type (volume type).";
+            }
+            // Newtonsoft leaves these null when the file says null, although they are declared non-null.
+            if ((string?)roi.TypeIndex == null)
+            {
+                return "it has no type index.";
+            }
+            if ((string?)roi.DVHLineWidth == null)
+            {
+                return "it has no DVH line width.";
+            }
+            return null;
         }
         public void SetID(string template_id)
         {

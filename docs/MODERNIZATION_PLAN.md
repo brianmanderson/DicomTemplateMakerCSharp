@@ -94,7 +94,41 @@ targets `net10.0-windows` and everything else `net10.0`; duplicated sources live
 suppressed; CI builds and tests on Windows and Linux and publishes tagged releases.
 
 ### Phase 2: stability and usability
-See section 6.
+See sections 6 and 8. Done:
+- **RT generator** (`DicomTemplateCore/DicomTemplateServices`): `DicomTemplateRunner` with `RunOnce`,
+  `RunForFolder`, `DeleteGenerated` and `RunAsync`; a fresh RT per series from that series' attributes
+  only; per-series matching (`TemplateMatcher`: blank descriptions never match; otherwise the two-way
+  substring rule is kept); planning images only (no localizers or Secondary Captures); series that mix
+  patients, studies or frames of reference get no RT; the settle rule and back-off for incomplete
+  transfers; every failure contained and listed in a `RunReport`. The legacy methods remain as wrappers.
+- **Template data safety** (`ROIOntologyClass`, `TemplateMaker`): atomic writes; unreadable files raise
+  `TemplateLoadException` and are never saved over; library merges instead of overwrites; legacy
+  migrations where the first finished one wins; files read with sharing that lets a save replace them.
+- **Presentation library** (`DicomTemplateMaker.Presentation`, tested by
+  `DicomTemplateMaker.Presentation.Tests`): view models, the background `RunnerService`, the status line
+  with open folder problems, every confirmation and report (`ShellMessages`, `EditorMessages`), name and
+  entry rules, settings (`UiSettingsStore`) and the template-folder rule (`TemplateRootResolver`). The
+  WPF code-behind only shows what these decide.
+- **Logging and settings**: Serilog files in `%LOCALAPPDATA%\DicomTemplateMaker\logs` (daily or at
+  10 MB, 14 files kept) and a global handler; window settings in `ui-settings.json` next to them.
+
+Deferred, each for a stated reason:
+- The first generator cycle after a start or a template edit re-reads every DICOM header under the
+  monitored folders. Skipping it safely needs a persistent cache; slow only on very large trees.
+- Editors do not detect template files changed on disk by another window or computer; the last save
+  wins. A safe fix needs a reload / overwrite / cancel flow in every editor.
+- N7's "(no code)" choice: generated RTs and Varian export need a code, so *Add ROI* requires one.
+- Renaming a template with monitored folders leaves its old RTs, and new ones are written under the new
+  name (the rename dialog says so). Generated RTs are deleted permanently (the confirmation says so).
+- The Varian share has no settings window yet: set `varianXmlShare` in `ui-settings.json`.
+- Template matching semantics: open question 5.
+
+Check on Windows before releasing (the WPF windows are compile-checked only; their rules are tested
+in `DicomTemplateMaker.Presentation.Tests`): startup and the template folder rule, the log folder,
+the RT generator start/stop and status line, *Delete previously generated RTs*, *Delete selected*
+(Recycle Bin, and refusal on network drives), *Create folder with loadable RTs* (load the RTs in the
+planning system), Varian XML import and export, the template editor (build, rename, save/discard on
+close), the paths and ontology editors, scheme conversion, and both Airtable windows.
 
 ## 4. Actions only the maintainers can take
 
@@ -165,8 +199,10 @@ Measured in the code unless marked; ordered by risk to patients and data.
 3. Should the snapshot workflow open a pull request for review instead of committing to `main`?
 4. Which Airtable plan is the TG-263 workspace on, and what scopes does the leaked `patQ` token have?
 5. Template matching stays a case-insensitive substring test in both directions (only blank values
-   stop matching), because existing templates depend on it. Should it become "description contains
-   the requirement" only?
+   stop matching), because existing templates depend on it. The reverse direction lets a short
+   description match broadly ("T2" matches a requirement "Prostate T2 AX"). Narrowing it, for example
+   to whole words of four or more characters, would also stop real matches such as "H&N" against
+   "H&N Planning CT", so those templates would silently produce no RTs. Should it change, and how?
 
 ## 8. Usability audit
 
@@ -180,10 +216,10 @@ Read from every window and row class at `7719d1b`; findings are measured in the 
 | N4 | high | `All_Ontologies.json` is rewritten with only the current template's codes when the library was not loaded first. | Merge into the library. |
 | N5 | high | *Build Template!* has no name or existence checks. | Reuse the rename checks with a visible reason. |
 | N6 | high | ROI renames are saved one keystroke late. | Set the name before saving. |
-| N7 | high | New ROIs get the first ontology in the list unless changed. | No preselection; explicit "(no code)". |
+| N7 | high | New ROIs get the first ontology in the list unless changed. | No preselection; explicit "(no code)". Done differently: nothing is preselected and *Add ROI* stays disabled, with the reason shown, until a usable name, a code and a type are chosen (`AddRoiRules`); generated RTs leave out ROIs without a complete code. |
 | N8 | high | The RT generator hides skipped ROIs and matches blank descriptions. | Section 6 runner fixes; status line. |
 | N9 | high | *Create folder with loadable RTs* selects every template when none is selected, writes its output folder into each `Paths.txt`, and starts a runner that cannot be stopped. | Confirm; one-off run; stop button. |
-| N10 | high | The working directory is the template root, and the controls that show it are hidden. | Saved root, else the program folder; show and change it. |
+| N10 | high | The working directory is the template root, and the controls that show it are hidden. | Saved root, else the program folder; show and change it. Done with one addition: without a saved root, the working directory is used (and saved) when it holds templates and the program folder does not, so shortcuts with a "Start in" folder keep working (`TemplateRootResolver`). |
 | N11 | medium | Bulk actions include rows hidden by the search; template deletion has no confirmation. | Count hidden rows; confirm with names; Recycle Bin. |
 | N12 | medium | Varian XML export defaults to a hard-coded site share and overwrites silently; import skips failures silently. | Setting, empty by default; confirm overwrites; import report. |
 | N13 | medium | No global exception handler; many handlers do unguarded file and DICOM work. | Handlers with logging; readable messages. |

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -10,62 +11,161 @@ namespace ROIOntologyClass
 {
     public class ROIClassTools
     {
+        /// <summary>The template file that holds the ROIs.</summary>
+        public const string RoisFileName = "All_ROIs.json";
+        private const string LegacyFolderName = "ROIs";
+
         /// <summary>
-        /// Saves ROIs to JSON format. Also cleans up legacy text files if they exist.
+        /// Saves ROIs to All_ROIs.json, replacing the file in one step (see <see cref="AtomicFile"/>). A legacy ROIs
+        /// folder is left alone: <see cref="LoadROIsFromFolder(string, List{OntologyCodeClass}, ICollection{string})"/>
+        /// removes it after a migration that read every file, and keeps it otherwise.
         /// </summary>
         public static void SaveROIsToFolder(List<ROIClass> rois, string filePath)
         {
-            if (!Directory.Exists(filePath))
-            {
-                Directory.CreateDirectory(filePath);
-            }
+            Directory.CreateDirectory(filePath);
             string json = JsonConvert.SerializeObject(rois, Formatting.Indented);
-            File.WriteAllText(Path.Combine(filePath, "All_ROIs.json"), json);
-
-            // Clean up legacy ROIs folder after successful JSON save
-            CleanupLegacyROIsFolder(filePath);
+            AtomicFile.WriteAllText(Path.Combine(filePath, RoisFileName), json);
         }
 
         /// <summary>
-        /// Loads ROIs from JSON format. Falls back to legacy text files if JSON doesn't exist.
-        /// If loaded from legacy format, automatically migrates to JSON.
+        /// Loads the ROIs of the template in <paramref name="filePath"/>; see the overload with warnings. Legacy files
+        /// that could not be migrated are not reported by this overload (they are kept on disk).
         /// </summary>
         public static List<ROIClass> LoadROIsFromFolder(string filePath, List<OntologyCodeClass> ontologyList)
         {
-            string jsonFile = Path.Combine(filePath, "All_ROIs.json");
-            // Try to load from JSON first
-            if (File.Exists(jsonFile))
+            return LoadROIsFromFolder(filePath, ontologyList, null);
+        }
+
+        /// <summary>
+        /// Loads the ROIs of the template in <paramref name="filePath"/>.
+        /// <para>When All_ROIs.json exists it is the template: if it cannot be read, does not parse, holds no list
+        /// or an ROI that cannot be rebuilt, this throws <see cref="TemplateLoadException"/> and writes nothing
+        /// (the legacy ROIs folder is not consulted).</para>
+        /// <para>Otherwise the legacy text files in the ROIs folder are migrated: the ROIs that parse are saved to
+        /// All_ROIs.json, and the ROIs folder is deleted only when every file in it was migrated. Each file that was
+        /// not migrated is added to <paramref name="warnings"/> (one line per file) and the folder is kept. When the
+        /// folder has files but none of them parse, this throws <see cref="TemplateLoadException"/> and writes
+        /// nothing.</para>
+        /// </summary>
+        public static List<ROIClass> LoadROIsFromFolder(string filePath, List<OntologyCodeClass> ontologyList, ICollection<string>? warnings)
+        {
+            string jsonFile = Path.Combine(filePath, RoisFileName);
+            if (!File.Exists(jsonFile))
+            {
+                List<ROIClass>? migrated = MigrateLegacyTextFiles(filePath, warnings);
+                if (migrated != null)
+                {
+                    return migrated;
+                }
+
+                // Another reader (the RT generator, or another copy of the program) migrated the same files first:
+                // its All_ROIs.json is complete, so it is read like any other.
+            }
+            else if (warnings != null)
+            {
+                string? kept = DescribeKeptLegacyFiles(filePath);
+                if (kept != null)
+                {
+                    warnings.Add(kept);
+                }
+            }
+
+            List<ROIClass> rois = ReadRoisFile(jsonFile);
+            foreach (ROIClass roi in rois)
             {
                 try
                 {
-                    string json = File.ReadAllText(jsonFile);
-                    List<ROIClass>? rois = JsonConvert.DeserializeObject<List<ROIClass>>(json);
-                    if (rois != null)
-                    {
-                        // Rebuild non-serializable properties after deserialization
-                        foreach (var roi in rois)
-                        {
-                            roi.RebuildFromDeserialization(ontologyList);
-                        }
-                        return rois;
-                    }
+                    // Rebuild non-serialized values and share the ontology instances.
+                    roi.RebuildFromDeserialization(ontologyList);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // If JSON parsing fails, try legacy format
+                    throw new TemplateLoadException(jsonFile, $"ROI '{roi.ROIName}' is not valid: {ex.Message}", ex);
                 }
             }
+            return rois;
+        }
 
-            // Fall back to loading from legacy text files in ROIs folder
-            List<ROIClass> legacyROIs = LoadFromLegacyTextFiles(filePath);
-
-            // If we loaded from legacy format, migrate to JSON
-            if (legacyROIs.Count > 0)
+        /// <summary>
+        /// A warning for legacy ROI text files still in the ROIs folder of a template that has All_ROIs.json (a
+        /// migration kept them because one could not be read, or they could not be deleted); null when there are none.
+        /// All_ROIs.json is what is used, so an ROI that is only in those files is not part of the template.
+        /// </summary>
+        public static string? DescribeKeptLegacyFiles(string filePath)
+        {
+            string roisFolder = Path.Combine(filePath, LegacyFolderName);
+            string[] files;
+            try
             {
-                SaveROIsToFolder(legacyROIs, filePath);
+                if (!File.Exists(Path.Combine(filePath, RoisFileName)) || !Directory.Exists(roisFolder))
+                {
+                    return null;
+                }
+
+                files = Directory.GetFiles(roisFolder, "*.txt");
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+                return null;
             }
 
-            return legacyROIs;
+            if (files.Length == 0)
+            {
+                return null;
+            }
+
+            string names = string.Join(", ", files.Select(Path.GetFileName).OrderBy(n => n, StringComparer.OrdinalIgnoreCase).Take(5))
+                + (files.Length > 5 ? $" and {files.Length - 5} more" : string.Empty);
+            return $"the ROIs folder still holds {files.Length} legacy ROI file(s) ({names}) next to {RoisFileName}. Only {RoisFileName} is used, "
+                + "so an ROI that is only in those files is not in this template or its RTs. Check them, add any missing ROI, then remove the ROIs folder.";
+        }
+
+        /// <summary>
+        /// <see cref="LoadROIsFromFolder(string, List{OntologyCodeClass})"/> for callers that list templates: returns
+        /// false with a readable <paramref name="error"/> (and an empty list) when the template cannot be read,
+        /// instead of throwing.
+        /// </summary>
+        public static bool TryLoadROIsFromFolder(string filePath, List<OntologyCodeClass> ontologyList, out List<ROIClass> rois, [NotNullWhen(false)] out string? error)
+        {
+            try
+            {
+                rois = LoadROIsFromFolder(filePath, ontologyList);
+                error = null;
+                return true;
+            }
+            catch (Exception ex) when (ex is TemplateLoadException || ex is IOException || ex is UnauthorizedAccessException)
+            {
+                rois = new List<ROIClass>();
+                error = ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Reads and parses an All_ROIs.json file without changing anything. Throws <see cref="TemplateLoadException"/>
+        /// when the file cannot be read, does not parse, or does not hold a list of ROIs.
+        /// </summary>
+        internal static List<ROIClass> ReadRoisFile(string jsonFile)
+        {
+            List<ROIClass>? rois;
+            try
+            {
+                rois = JsonConvert.DeserializeObject<List<ROIClass>>(SharedFile.ReadAllText(jsonFile));
+            }
+            catch (Exception ex)
+            {
+                throw new TemplateLoadException(jsonFile, ex.Message, ex);
+            }
+            if (rois == null)
+            {
+                throw new TemplateLoadException(jsonFile, "the file is empty or holds null instead of a list of ROIs.");
+            }
+            // Newtonsoft fills a null array element with null even though the element type is not nullable.
+            if (rois.Any(roi => roi == null))
+            {
+                throw new TemplateLoadException(jsonFile, "the ROI list holds a null entry.");
+            }
+            return rois;
         }
 
         /// <summary>
@@ -74,13 +174,13 @@ namespace ROIOntologyClass
         public static bool IsValidTemplateFolder(string filePath)
         {
             // Check for new JSON format
-            if (File.Exists(Path.Combine(filePath, "All_ROIs.json")))
+            if (File.Exists(Path.Combine(filePath, RoisFileName)))
             {
                 return true;
             }
 
             // Check for legacy ROIs folder format
-            string roisFolder = Path.Combine(filePath, "ROIs");
+            string roisFolder = Path.Combine(filePath, LegacyFolderName);
             if (Directory.Exists(roisFolder))
             {
                 string[] txtFiles = Directory.GetFiles(roisFolder, "*.txt");
@@ -91,32 +191,94 @@ namespace ROIOntologyClass
         }
 
         /// <summary>
-        /// Loads ROIs from legacy individual text files in the ROIs subfolder.
+        /// Migrates the legacy text files in the ROIs subfolder to All_ROIs.json; see
+        /// <see cref="LoadROIsFromFolder(string, List{OntologyCodeClass}, ICollection{string})"/>. Returns null when
+        /// another reader created All_ROIs.json meanwhile: the first finished migration wins, and a later one never
+        /// replaces it (it may have read only part of the files, which the winner deletes once it has saved them).
         /// </summary>
-        private static List<ROIClass> LoadFromLegacyTextFiles(string filePath)
+        private static List<ROIClass>? MigrateLegacyTextFiles(string filePath, ICollection<string>? warnings)
         {
             List<ROIClass> rois = new List<ROIClass>();
-            string roisFolder = Path.Combine(filePath, "ROIs");
+            string roisFolder = Path.Combine(filePath, LegacyFolderName);
+            string jsonFile = Path.Combine(filePath, RoisFileName);
 
             if (!Directory.Exists(roisFolder))
             {
+                return File.Exists(jsonFile) ? null : rois;
+            }
+
+            List<string> migrated = new List<string>();
+            List<string> problems = new List<string>();
+            string[] files;
+            try
+            {
+                files = Directory.GetFiles(roisFolder, "*.txt");
+            }
+            catch (DirectoryNotFoundException) when (File.Exists(jsonFile))
+            {
+                return null;
+            }
+
+            foreach (string file in files)
+            {
+                ROIClass? roi;
+                try
+                {
+                    roi = LoadROIFromTextFile(file);
+                }
+                catch (Exception ex) when ((ex is FileNotFoundException || ex is DirectoryNotFoundException) && File.Exists(jsonFile))
+                {
+                    // Deleted by a reader that finished migrating these files (it saves All_ROIs.json before deleting).
+                    return null;
+                }
+                catch (Exception ex) when (ex is FormatException || ex is OverflowException || ex is IOException || ex is UnauthorizedAccessException)
+                {
+                    problems.Add($"{file}: {ex.Message}");
+                    continue;
+                }
+                if (roi == null)
+                {
+                    problems.Add($"{file}: expected a colour line (R\\G\\B), an ontology line and an interpreted-type line.");
+                    continue;
+                }
+                if (rois.Any(r => r.ROIName == roi.ROIName))
+                {
+                    problems.Add($"{file}: another file already defines ROI '{roi.ROIName}'.");
+                    continue;
+                }
+                rois.Add(roi);
+                migrated.Add(file);
+            }
+
+            if (File.Exists(jsonFile))
+            {
+                return null;
+            }
+
+            if (rois.Count == 0)
+            {
+                if (problems.Count > 0)
+                {
+                    throw new TemplateLoadException(roisFolder, $"none of its {problems.Count} legacy ROI file(s) could be read. First problem: {problems[0]}");
+                }
                 return rois;
             }
 
-            foreach (string file in Directory.GetFiles(roisFolder, "*.txt"))
+            Directory.CreateDirectory(filePath);
+            if (!AtomicFile.TryCreateText(jsonFile, JsonConvert.SerializeObject(rois, Formatting.Indented)))
             {
-                try
+                return null;
+            }
+
+            if (problems.Count == 0)
+            {
+                DeleteMigratedLegacyFiles(roisFolder, migrated);
+            }
+            else if (warnings != null)
+            {
+                foreach (string problem in problems)
                 {
-                    ROIClass? roi = LoadROIFromTextFile(file);
-                    if (roi != null && !rois.Any(r => r.ROIName == roi.ROIName))
-                    {
-                        rois.Add(roi);
-                    }
-                }
-                catch
-                {
-                    // Skip files that can't be parsed
-                    continue;
+                    warnings.Add($"Legacy ROI file not migrated, so the ROIs folder was kept: {problem}");
                 }
             }
 
@@ -129,7 +291,7 @@ namespace ROIOntologyClass
         private static ROIClass? LoadROIFromTextFile(string roiFile)
         {
             string roiname = Path.GetFileName(roiFile).Replace(".txt", "");
-            string[] instructions = File.ReadAllLines(roiFile);
+            string[] instructions = SharedFile.ReadAllLines(roiFile);
 
             if (instructions.Length < 3)
             {
@@ -211,41 +373,31 @@ namespace ROIOntologyClass
         }
 
         /// <summary>
-        /// Removes legacy ROIs folder after migration to JSON.
+        /// Removes the legacy files that were migrated to JSON, then the ROIs folder when nothing else is left in
+        /// it. Only files that were read are deleted, so a file added meanwhile is kept.
         /// </summary>
-        private static void CleanupLegacyROIsFolder(string filePath)
+        private static void DeleteMigratedLegacyFiles(string roisFolder, List<string> migrated)
         {
-            string roisFolder = Path.Combine(filePath, "ROIs");
-
-            if (!Directory.Exists(roisFolder))
+            // The ROIs are saved as JSON, which takes precedence; a leftover legacy file or folder loses nothing.
+            foreach (string file in migrated)
             {
-                return;
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+                {
+                }
             }
-
             try
             {
-                // Delete all .txt files in ROIs folder
-                foreach (string file in Directory.GetFiles(roisFolder, "*.txt"))
-                {
-                    try
-                    {
-                        File.Delete(file);
-                    }
-                    catch
-                    {
-                        // Ignore individual file deletion failures
-                    }
-                }
-
-                // Try to delete the folder if empty
                 if (Directory.GetFiles(roisFolder).Length == 0 && Directory.GetDirectories(roisFolder).Length == 0)
                 {
                     Directory.Delete(roisFolder);
                 }
             }
-            catch
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
             {
-                // Ignore deletion failures
             }
         }
     }
@@ -455,7 +607,7 @@ namespace ROIOntologyClass
                 if (Ontology_Class == null)
                 {
                     // Still fails here when there are ontologies to match against, as it always has;
-                    // LoadROIsFromFolder then falls back to the legacy text files.
+                    // LoadROIsFromFolder reports it as a TemplateLoadException.
                     throw new InvalidOperationException($"ROI '{ROIName}' has no ontology class.");
                 }
                 if (ontology.CodeMeaning == Ontology_Class.CodeMeaning &&

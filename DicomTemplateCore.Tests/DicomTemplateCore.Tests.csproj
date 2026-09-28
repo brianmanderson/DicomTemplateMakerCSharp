@@ -24,6 +24,8 @@
     <None Include="..\DicomTemplateMakerGUI\template_RS.dcm" Link="template_RS.dcm" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\DicomTemplateMakerGUI\SmallCT\*.dcm" LinkBase="TestData\SmallCT" CopyToOutputDirectory="PreserveNewest" />
     <None Include="TestData\*.golden.*" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Verbatim copies of legacy text-file templates and ontologies (from AirTableRecords) for the migration tests. -->
+    <None Include="TestData\Legacy\**\*.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

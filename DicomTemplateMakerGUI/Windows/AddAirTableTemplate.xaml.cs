@@ -1,86 +1,33 @@
-using System;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using DicomTemplateMakerGUI.Services;
-using TemplateSync.Credentials;
+using DicomTemplateMakerGUI.ViewModels;
 
 namespace DicomTemplateMakerGUI.Windows
 {
     /// <summary>
-    /// Connects a user's own Airtable table. Values are validated, the connection is proven with a
-    /// single one-record request, and the token is stored encrypted (never as a plain-text file).
+    /// "Add an Airtable table": connects a user's own table. The behaviour lives in
+    /// <see cref="AddAirtableTableViewModel"/>; this class only hands over the masked token.
     /// </summary>
     public partial class AddAirTableTemplate : Window
     {
-        private readonly TemplateSourceCatalog catalog;
+        private readonly AddAirtableTableViewModel viewModel;
 
         public AddAirTableTemplate(TemplateSourceCatalog catalog)
         {
             InitializeComponent();
-            this.catalog = catalog;
+            viewModel = new AddAirtableTableViewModel(catalog, new MessageBoxDialogService(this));
+            viewModel.CloseRequested += (sender, e) => Close();
+            DataContext = viewModel;
+            Closed += (sender, e) => viewModel.Shutdown();
         }
 
         /// <summary>The source that was added, or null if the dialog was cancelled.</summary>
-        public TemplateSourceItem? AddedSource { get; private set; }
+        public TemplateSourceItem? AddedSource => viewModel.AddedSource;
 
-        private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
+        /// <summary>PasswordBox.Password cannot be bound (by design), so the token is passed on here.</summary>
+        private void TokenChanged(object sender, RoutedEventArgs e)
         {
-            Revalidate();
-        }
-
-        private void AddAirTablePasswordUpdate(object sender, RoutedEventArgs e)
-        {
-            Revalidate();
-        }
-
-        private void Revalidate()
-        {
-            bool allFilled = TableName_TextBox.Text.Trim().Length > 0
-                && API_PasswordBox.Password.Trim().Length > 0
-                && Base_TextBox.Text.Trim().Length > 0
-                && Table_TextBox.Text.Trim().Length > 0;
-            string? problem = allFilled
-                ? AirtableIds.Validate(TableName_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text, API_PasswordBox.Password)
-                : null;
-            Validation_Text.Text = problem ?? string.Empty;
-            AddAirTableButton.IsEnabled = allFilled && problem == null;
-        }
-
-        private async void AddAirTableButton_Click(object sender, RoutedEventArgs e)
-        {
-            string name = TableName_TextBox.Text.Trim();
-            string baseId = Base_TextBox.Text.Trim();
-            string table = Table_TextBox.Text.Trim();
-            string token = API_PasswordBox.Password.Trim();
-            AddAirTableButton.IsEnabled = false;
-            AddAirTableButton.Content = "Testing connection...";
-            Validation_Text.Text = string.Empty;
-            try
-            {
-                string? problem = await catalog.TestConnectionAsync(baseId, table, token, CancellationToken.None);
-                if (problem != null)
-                {
-                    Validation_Text.Text = problem;
-                    return;
-                }
-
-                AddedSource = catalog.AddConnection(name, baseId, table, token);
-                Close();
-            }
-            catch (Exception ex)
-            {
-                // UI boundary: keep the dialog open and explain what went wrong.
-                Validation_Text.Text = "Could not add the table: " + ex.Message;
-            }
-            finally
-            {
-                AddAirTableButton.Content = "Test connection and add";
-                if (IsLoaded)
-                {
-                    Revalidate();
-                }
-            }
+            viewModel.Token = API_PasswordBox.Password;
         }
     }
 }

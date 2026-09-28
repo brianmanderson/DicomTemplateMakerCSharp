@@ -8,15 +8,23 @@
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>DicomTemplateMakerGUI</RootNamespace>
     <AssemblyName>DicomTemplateMakerGUI</AssemblyName>
-    <AssemblyTitle>DICOM Template Maker</AssemblyTitle>
+    <AssemblyTitle>DICOM RT Template Maker</AssemblyTitle>
     <!-- Old NuGet packages folders and token files must never be picked up by globbing. -->
     <DefaultItemExcludes>$(DefaultItemExcludes);packages\**;AirTables\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DicomTemplateCore\DicomTemplateCore.csproj" />
+    <ProjectReference Include="..\DicomTemplateMaker.Presentation\DicomTemplateMaker.Presentation.csproj" />
     <ProjectReference Include="..\ROIOntologyClass\ROIOntologyClass.csproj" />
     <ProjectReference Include="..\TemplateSync\TemplateSync.csproj" />
+  </ItemGroup>
+
+  <!-- Logging to a daily rolling file in %LOCALAPPDATA%\DicomTemplateMaker\logs (set up in App.OnStartup). -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Serilog.Extensions.Logging" />
+    <PackageReference Include="Serilog.Sinks.File" />
   </ItemGroup>
 
   <!-- Images compiled into the assembly (pack URIs used by the About window). -->
