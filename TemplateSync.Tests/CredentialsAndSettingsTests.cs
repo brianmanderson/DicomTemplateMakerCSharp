@@ -177,6 +177,32 @@ public sealed class CredentialsAndSettingsTests : IDisposable
     }
 
     [Fact]
+    public void An_undeletable_published_token_in_a_shared_folder_is_skipped_silently()
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return; // read-only directories behave differently on Windows; the Linux run covers the logic
+        }
+
+        string legacy = Path.Combine(_temp.Path, "AirTables");
+        Directory.CreateDirectory(legacy);
+        string leaked = "pat" + new string('L', 14) + "." + new string('1', 64);
+        File.WriteAllText(Path.Combine(legacy, "TG263_AirTable.txt"), leaked + "\nappzWlVKRp9TrrTUJ\ntblltR3aTxlJUwaGa");
+        File.SetUnixFileMode(legacy, UnixFileMode.UserRead | UnixFileMode.UserExecute);
+        try
+        {
+            LegacyMigrationResult result = Store().MigrateLegacyFiles(legacy, deletePlaintext: false, isRetiredToken: t => t == leaked);
+
+            Assert.Empty(result.Problems);
+            Assert.Empty(result.Imported);
+        }
+        finally
+        {
+            File.SetUnixFileMode(legacy, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
+        }
+    }
+
+    [Fact]
     public void A_legacy_file_that_conflicts_with_an_existing_connection_is_left_in_place()
     {
         AirtableConnectionStore store = Store();

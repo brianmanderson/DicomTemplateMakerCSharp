@@ -149,8 +149,17 @@ namespace TemplateSync.Credentials
                     string[] lines = File.ReadAllLines(file).Select(l => l.Trim()).Where(l => l.Length > 0).ToArray();
                     if (lines.Length > 0 && retiredToken(lines[0]))
                     {
-                        File.Delete(file);
-                        result.Retired.Add(name);
+                        try
+                        {
+                            File.Delete(file);
+                            result.Retired.Add(name);
+                        }
+                        catch (Exception ex) when (!deletePlaintext && (ex is IOException || ex is UnauthorizedAccessException))
+                        {
+                            // A read-only install folder: the published token is never imported, so do not
+                            // report the same undeletable file on every start.
+                        }
+
                         continue;
                     }
 
