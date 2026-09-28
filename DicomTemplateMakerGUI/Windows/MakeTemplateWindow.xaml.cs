@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System;
+using TemplateSync.Sync;
 using System.Windows;
 using System.Windows.Data;
 using System.Threading;
@@ -35,10 +36,10 @@ namespace DicomTemplateMakerGUI.Windows
         public Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         public TemplateMaker template_maker;
         private byte R, G, B;
-        public ObservableCollection<ReadAirTable> AirTables;
+        public ObservableCollection<TemplateSourceItem> AirTables;
         List<string> interpreters = new List<string> {"ORGAN", "PTV", "CTV", "GTV", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
                 "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME", ""};
-        public MakeTemplateWindow(string folder, TemplateMaker template_maker, ObservableCollection<ReadAirTable> airTables)
+        public MakeTemplateWindow(string folder, TemplateMaker template_maker, ObservableCollection<TemplateSourceItem> airTables)
         {
             AirTables = airTables;
             out_path = folder;
@@ -50,25 +51,14 @@ namespace DicomTemplateMakerGUI.Windows
             OntologyComboBox.DisplayMemberPath = "CodeMeaning";
             OntologyComboBox.ItemsSource = template_maker.Ontologies;
             OntologyComboBox.SelectedIndex = 0;
-            List<ReadAirTable> loadable_airtables = new List<ReadAirTable>();
-            foreach (ReadAirTable at in AirTables)
-            {
-                if (at.AirTableName != "TG263_AirTable")
-                {
-                    loadable_airtables.Add(at);
-                }
-            }
-            AirTableComboBox.ItemsSource = loadable_airtables;
-            AirTableComboBox.DisplayMemberPath = "AirTableName";
-            if (AirTables.Count > 0)
+            List<TemplateSourceItem> writable_tables = AirTables.Where(t => t.IsWritable).ToList();
+            AirTableComboBox.ItemsSource = writable_tables;
+            AirTableComboBox.DisplayMemberPath = "Name";
+            if (writable_tables.Count > 0)
             {
                 AirTableComboBox.SelectedIndex = 0;
-                ReadAirTable airtable = (ReadAirTable)AirTableComboBox.SelectedItem;
-                if (airtable != null)
-                {
-                    check_airtables(airtable);
-                }
             }
+            check_airtables((TemplateSourceItem)AirTableComboBox.SelectedItem);
             
             R = byte.Parse("0");
             G = byte.Parse("255");
@@ -404,47 +394,50 @@ namespace DicomTemplateMakerGUI.Windows
 
         private async void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
-            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-            table.WriteToAirTable(TemplateTextBox.Text, template_maker.ROIs);
-            WriteToAirTable_Button.IsEnabled = false;
-            WriteToAirTable_Button.Content = "Writing to Airtable...";
-            try
-            {
-                await table.finished_write;
-                WriteToAirTable_Button.Content = "Wrote to Airtable!";
-            }
-            catch
-            {
-                WriteToAirTable_Button.Content = "Failed writing to airtable...";
-            }
-        }
-        private async void check_airtables(ReadAirTable airtable)
-        {
-            if (airtable == null)
+            TemplateSourceItem table = (TemplateSourceItem)AirTableComboBox.SelectedItem;
+            if (table == null)
             {
                 return;
             }
             WriteToAirTable_Button.IsEnabled = false;
-            WriteToAirTable_Button.Content = "Still loading airtable...";
+            AirTableComboBox.IsEnabled = false;
+            WriteToAirTable_Button.Content = "Writing to Airtable...";
+            var progress = new Progress<string>(message => WriteToAirTable_Button.Content = message);
             try
             {
-                await airtable.finished_task;
-                WriteToAirTable_Button.IsEnabled = true;
-                WriteToAirTable_Button.Content = "Write to AirTable";
+                WriteResult result = await table.WriteTemplateAsync(TemplateTextBox.Text, template_maker.ROIs, progress, CancellationToken.None);
+                WriteToAirTable_Button.Content = "Wrote to Airtable!";
+                string summary = $"{table.Name}: {result.Created} created, {result.Updated} updated, {result.Unchanged} already up to date ({result.ApiCalls} API calls).";
+                if (result.Warnings.Count > 0)
+                {
+                    summary += Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, result.Warnings);
+                }
+                MessageBox.Show(this, summary, "Write to Airtable", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch
+            catch (Exception ex)
             {
-                WriteToAirTable_Button.Content = "Could not load...";
+                // UI boundary: report every failure instead of letting an async void handler crash the app.
+                WriteToAirTable_Button.Content = "Failed writing to Airtable";
+                MessageBox.Show(this, ex.Message, "Write to Airtable failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            finally
+            {
+                AirTableComboBox.IsEnabled = true;
+                WriteToAirTable_Button.IsEnabled = true;
+            }
+        }
+        private void check_airtables(TemplateSourceItem airtable)
+        {
+            WriteToAirTable_Button.IsEnabled = airtable != null;
+            WriteToAirTable_Button.Content = airtable == null ? "Add an Airtable table to write" : "Write to AirTable";
+            WriteToAirTable_Button.ToolTip = airtable == null
+                ? "Use Load Online Templates > Add Airtable to connect a table you can write to."
+                : "Checks the table for recent changes, then sends only the ROIs that differ.";
         }
 
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-            if (table != null)
-            {
-                check_airtables(table);
-            }
+            check_airtables((TemplateSourceItem)AirTableComboBox.SelectedItem);
         }
 
         private void Rename_template_Click(object sender, RoutedEventArgs e)

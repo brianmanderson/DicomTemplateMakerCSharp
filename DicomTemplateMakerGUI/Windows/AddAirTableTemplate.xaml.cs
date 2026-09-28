@@ -1,82 +1,86 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.ComponentModel;
 using DicomTemplateMakerGUI.Services;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
+using TemplateSync.Credentials;
 
 namespace DicomTemplateMakerGUI.Windows
 {
     /// <summary>
-    /// Interaction logic for AddAirTableTemplate.xaml
+    /// Connects a user's own Airtable table. Values are validated, the connection is proven with a
+    /// single one-record request, and the token is stored encrypted (never as a plain-text file).
     /// </summary>
-    public partial class AddAirTableTemplate : Window, INotifyPropertyChanged
+    public partial class AddAirTableTemplate : Window
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null)
-            {
-                var e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
-            }
-        }
-        private ObservableCollection<ReadAirTable> airtables;
-        public ObservableCollection<ReadAirTable> AirTables
-        {
-            get { return airtables; }
-            set
-            {
-                airtables = value;
-                OnPropertyChanged("AirTables");
-            }
-        }
-        public AddAirTableTemplate(ObservableCollection<ReadAirTable> ats)
+        private readonly TemplateSourceCatalog catalog;
+
+        public AddAirTableTemplate(TemplateSourceCatalog catalog)
         {
             InitializeComponent();
-            AirTables = ats;
+            this.catalog = catalog;
         }
+
+        /// <summary>The source that was added, or null if the dialog was cancelled.</summary>
+        public TemplateSourceItem AddedSource { get; private set; }
+
         private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
         {
+            Revalidate();
+        }
+
+        private void AddAirTablePasswordUpdate(object sender, RoutedEventArgs e)
+        {
+            Revalidate();
+        }
+
+        private void Revalidate()
+        {
+            bool allFilled = TableName_TextBox.Text.Trim().Length > 0
+                && API_PasswordBox.Password.Trim().Length > 0
+                && Base_TextBox.Text.Trim().Length > 0
+                && Table_TextBox.Text.Trim().Length > 0;
+            string problem = allFilled
+                ? AirtableIds.Validate(TableName_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text, API_PasswordBox.Password)
+                : null;
+            Validation_Text.Text = problem ?? string.Empty;
+            AddAirTableButton.IsEnabled = allFilled && problem == null;
+        }
+
+        private async void AddAirTableButton_Click(object sender, RoutedEventArgs e)
+        {
+            string name = TableName_TextBox.Text.Trim();
+            string baseId = Base_TextBox.Text.Trim();
+            string table = Table_TextBox.Text.Trim();
+            string token = API_PasswordBox.Password.Trim();
             AddAirTableButton.IsEnabled = false;
-            if (TableName_TextBox.Text != "")
+            AddAirTableButton.Content = "Testing connection...";
+            Validation_Text.Text = string.Empty;
+            try
             {
-                if (API_TextBox.Text != "")
+                string problem = await catalog.TestConnectionAsync(baseId, table, token, CancellationToken.None);
+                if (problem != null)
                 {
-                    if (Base_TextBox.Text != "")
-                    {
-                        if (Table_TextBox.Text != "")
-                        {
-                            AddAirTableButton.IsEnabled = true;
-                        }
-                    }
+                    Validation_Text.Text = problem;
+                    return;
+                }
+
+                AddedSource = catalog.AddConnection(name, baseId, table, token);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                // UI boundary: keep the dialog open and explain what went wrong.
+                Validation_Text.Text = "Could not add the table: " + ex.Message;
+            }
+            finally
+            {
+                AddAirTableButton.Content = "Test connection and add";
+                if (IsLoaded)
+                {
+                    Revalidate();
                 }
             }
-
-        }
-        private void AddAirTableButton_Click(object sender, RoutedEventArgs e)
-        {
-            string airtable_directory = Path.Combine(@".", "AirTables");
-            if (!Directory.Exists(airtable_directory))
-            {
-                Directory.CreateDirectory(airtable_directory);
-            }
-            File.WriteAllText(Path.Combine(airtable_directory, $"{TableName_TextBox.Text}.txt"),
-                $"{API_TextBox.Text}\n{Base_TextBox.Text}\n{Table_TextBox.Text}");
-            ReadAirTable ratb = new ReadAirTable(TableName_TextBox.Text, API_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text);
-            ratb.read_records();
-            AirTables.Add(ratb);
-            Close();
         }
     }
 }

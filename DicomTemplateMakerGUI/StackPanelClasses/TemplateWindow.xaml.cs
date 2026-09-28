@@ -29,7 +29,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 OnPropertyChanged("SelectCheckBox");
             }
         }
-        public ObservableCollection<ReadAirTable> AirTables;
+        public ObservableCollection<TemplateSourceItem> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public event PropertyChangedEventHandler PropertyChanged;
@@ -42,7 +42,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 handler(this, e);
             }
         }
-        public TemplateWindow(TemplateMaker tm, ObservableCollection<ReadAirTable> airTables)
+        public TemplateWindow(TemplateMaker tm, ObservableCollection<TemplateSourceItem> airTables)
         {
             InitializeComponent();
             template_name = tm.TemplateName;

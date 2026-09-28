@@ -18,6 +18,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using DicomTemplateMakerGUI.DicomTemplateServices;
 using System.Threading;
 using System.Collections.ObjectModel;
+using TemplateSync.Sync;
 
 namespace DicomTemplateMakerGUI
 {
@@ -57,9 +58,10 @@ namespace DicomTemplateMakerGUI
         string folder_location, onto_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        private ObservableCollection<ReadAirTable> airtables = new ObservableCollection<ReadAirTable>();
-        private ObservableCollection<ReadAirTable> writeable_airtables = new ObservableCollection<ReadAirTable>();
-        public ObservableCollection<ReadAirTable> AirTables
+        private TemplateSourceCatalog catalog;
+        private ObservableCollection<TemplateSourceItem> airtables = new ObservableCollection<TemplateSourceItem>();
+        private ObservableCollection<TemplateSourceItem> writeable_airtables = new ObservableCollection<TemplateSourceItem>();
+        public ObservableCollection<TemplateSourceItem> AirTables
         {
             get { return airtables; }
             set
@@ -68,7 +70,7 @@ namespace DicomTemplateMakerGUI
                 OnPropertyChanged("AirTables");
             }
         }
-        public ObservableCollection<ReadAirTable> WriteableAirTables
+        public ObservableCollection<TemplateSourceItem> WriteableAirTables
         {
             get { return writeable_airtables; }
             set
@@ -95,28 +97,25 @@ namespace DicomTemplateMakerGUI
         }
         public void load_writeable_airtables()
         {
-            WriteableAirTables = new ObservableCollection<ReadAirTable>();
-            foreach (ReadAirTable at in AirTables)
-            {
-                if (at.AirTableName != "TG263_AirTable")
-                {
-                    WriteableAirTables.Add(at);
-                }
-            }
+            TemplateSourceItem selected = AirTableComboBox.SelectedItem as TemplateSourceItem;
+            WriteableAirTables = new ObservableCollection<TemplateSourceItem>(AirTables.Where(at => at.IsWritable));
             AirTableComboBox.ItemsSource = WriteableAirTables;
-            AirTableComboBox.DisplayMemberPath = "AirTableName";
+            AirTableComboBox.DisplayMemberPath = "Name";
+            if (selected != null && WriteableAirTables.Contains(selected))
+            {
+                AirTableComboBox.SelectedItem = selected;
+            }
+            else if (WriteableAirTables.Count > 0)
+            {
+                AirTableComboBox.SelectedIndex = 0;
+            }
         }
         public MainWindow()
         {
             InitializeComponent();
             load_airtables();
             load_writeable_airtables();
-            AirTableComboBox.ItemsSource = WriteableAirTables;
-            AirTableComboBox.DisplayMemberPath = "AirTableName";
-            if (AirTables.Count > 0)
-            {
-                AirTableComboBox.SelectedIndex = 0;
-            }
+            Loaded += MainWindow_Loaded;
             folder_location = @".";
             int month = DateTime.Now.Month;
             int year = DateTime.Now.Year;
@@ -165,30 +164,67 @@ namespace DicomTemplateMakerGUI
         }
         public void load_airtables()
         {
-            string airtable_directory = Path.Combine(@".", "AirTables");
-            if (Directory.Exists(airtable_directory))
+            catalog = new TemplateSourceCatalog();
+            try
             {
-                foreach (string file in Directory.EnumerateFiles(airtable_directory, "*.txt"))
-                {
-                    ReadAirTable airtable = new ReadAirTable(file);
-                    AirTables.Add(airtable);
-                }
+                catalog.Initialize(@".");
             }
+            catch (Exception ex)
+            {
+                // Startup must never fail because of online-template settings.
+                catalog.Problems.Add("Online templates could not be set up: " + ex.Message);
+            }
+            AirTables = catalog.Sources;
             ReadingAirTable();
         }
-        public async void ReadingAirTable()
+        public void ReadingAirTable()
         {
-            if (AirTables.Count > 0)
+            // The shared TG-263 source is always present, so online templates are always offered.
+            ReadAirTableButton.Content = "Load Online Templates";
+            ReadAirTableButton.Background = lightgreen;
+            ReadAirTableButton.IsEnabled = true;
+        }
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
             {
-                ReadAirTableButton.Content = "Load Online Templates";
-                ReadAirTableButton.Background = lightgreen;
+                if (catalog.Migration.Imported.Count > 0 || catalog.Migration.Retired.Count > 0 || catalog.Migration.Problems.Count > 0 || catalog.Problems.Count > 0)
+                {
+                    MessageBox.Show(this, DescribeStartupNotes(), "Airtable settings", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                // Cached copies only: startup never spends Airtable API calls.
+                foreach (TemplateSourceItem source in AirTables.ToList())
+                {
+                    await source.LoadAsync(LoadMode.CacheOnly, null, CancellationToken.None);
+                }
+                check_airtables(AirTableComboBox.SelectedItem as TemplateSourceItem);
             }
-            else
+            catch (Exception ex)
             {
-                ReadAirTableButton.Content = "Online Templates Found...";
-                ReadAirTableButton.Background = lightgray;
-                ReadAirTableButton.IsEnabled = false;
+                // UI boundary: cached data is optional; report and continue.
+                MessageBox.Show(this, "Could not read the saved template copies: " + ex.Message, "Online templates", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+        private string DescribeStartupNotes()
+        {
+            var text = new StringBuilder();
+            if (catalog.Migration.Imported.Count > 0)
+            {
+                text.AppendLine("Moved these Airtable connections into encrypted storage for your Windows account: " + string.Join(", ", catalog.Migration.Imported) + ".");
+            }
+            if (catalog.Migration.KeptPlaintext.Count > 0)
+            {
+                text.AppendLine("These files still hold plain-text tokens because the folder may be shared with other users. Delete them once everyone who uses this folder has started this version: " + string.Join(", ", catalog.Migration.KeptPlaintext) + ".");
+            }
+            if (catalog.Migration.Retired.Count > 0)
+            {
+                text.AppendLine("Removed token files that shipped with older versions of this program (" + string.Join(", ", catalog.Migration.Retired) + "). Those tokens were public and must not be used. The shared TG-263 templates are now downloaded without any token.");
+            }
+            foreach (string problem in catalog.Migration.Problems.Concat(catalog.Problems))
+            {
+                text.AppendLine(problem);
+            }
+            return text.ToString();
         }
         public void update_ontology_reader(TemplateMaker evaluator)
         {
@@ -324,12 +360,12 @@ namespace DicomTemplateMakerGUI
 
         private void Read_Airtable(object sender, RoutedEventArgs e)
         {
-            AirTableWindow airtable_window = new AirTableWindow(AirTables, folder_location, onto_path);
+            AirTableWindow airtable_window = new AirTableWindow(catalog, folder_location, onto_path);
+            airtable_window.Owner = this;
             airtable_window.ShowDialog();
             load_writeable_airtables();
             Rebuild_From_Folders();
-            LoadAirTables_Button.Content = "Loaded";
-            LoadAirTables_Button.IsEnabled = false;
+            check_airtables(AirTableComboBox.SelectedItem as TemplateSourceItem);
         }
 
         private void CreateFolderRT_Click(object sender, RoutedEventArgs e)
@@ -505,108 +541,96 @@ namespace DicomTemplateMakerGUI
                 Deleted_Selected_Button.IsEnabled = true;
             }
         }
-        private async void AirTableCheckBox_DataContextChanged(object sender, RoutedEventArgs e)
+        private void AirTableCheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
-            if (AirTableComboBox.SelectedIndex != -1 & (bool)AirTableCheckbox.IsChecked)
-            {
-                ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-                await table.finished_task;
-                WriteToAirTable_Button.IsEnabled = true;
-            }
-            else
-            {
-                WriteToAirTable_Button.IsEnabled = false;
-            }
+            check_airtables(AirTableComboBox.SelectedItem as TemplateSourceItem);
         }
         private void Selected_DataContextChanged(object sender, RoutedEventArgs e)
         {
             UpdateText();
         }
-        private async void writeAirTable(ReadAirTable table, TemplateMaker template_maker)
-        {
-            table.WriteToAirTable(template_maker.TemplateName, template_maker.ROIs);
-            try
-            {
-                await table.finished_write;
-                WriteToAirTable_Button.Content = "Wrote to Airtable!";
-            }
-            catch
-            {
-                WriteToAirTable_Button.Content = "Failed writing to airtable...";
-            }
-        }
         private async void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
-            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-            WriteToAirTable_Button.IsEnabled = false;
-            ProgressBar.Visibility = Visibility.Hidden;
-            float i = 0;
-            int total = 0;
-            foreach (AddTemplateRow row in template_rows)
+            TemplateSourceItem table = AirTableComboBox.SelectedItem as TemplateSourceItem;
+            List<AddTemplateRow> selected = template_rows.Where(row => row.SelectCheckBox.IsChecked == true).ToList();
+            if (table == null || selected.Count == 0)
             {
-                if ((bool)row.SelectCheckBox.IsChecked)
-                {
-                    total++;
-                    WriteToAirTable_Button.Content = "Writing to Airtable...";
-                }
+                MessageBox.Show(this, "Select at least one template and an Airtable table to write to.", "Write to Airtable", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
             }
+            WriteToAirTable_Button.IsEnabled = false;
             AirTableComboBox.IsEnabled = false;
             AirTableCheckbox.IsEnabled = false;
-            foreach (AddTemplateRow row in template_rows)
-            {
-                if ((bool)row.SelectCheckBox.IsChecked)
-                {
-                    ProgressBar.Visibility = Visibility.Visible;
-                    i++;
-                    ProgressBar.Value = i / total * 100;
-                    WriteToAirTable_Button.Content = "Writing to Airtable...";
-                    try
-                    {
-                        table.WriteToAirTable(row.templateMaker.TemplateName, row.templateMaker.ROIs);
-                        await table.finished_write;
-                        WriteToAirTable_Button.Content = "Wrote to Airtable!";
-                    }
-                    catch
-                    {
-                        WriteToAirTable_Button.Content = "Failed writing to airtable...";
-                        break;
-                    }
-                }
-            }
-
-            AirTableComboBox.IsEnabled = true;
-            WriteToAirTable_Button.IsEnabled = false;
-            AirTableCheckbox.IsChecked = false;
-            AirTableCheckbox.IsEnabled = true;
-        }
-        private async void check_airtables(ReadAirTable airtable)
-        {
-            WriteToAirTable_Button.IsEnabled = false;
-            WriteToAirTable_Button.Content = "Must load writeable airtables...";
+            LoadAirTables_Button.IsEnabled = false;
+            ReadAirTableButton.IsEnabled = false;
+            ProgressBar.Visibility = Visibility.Visible;
+            ProgressBar.Value = 0;
+            var progress = new Progress<string>(message => WriteToAirTable_Button.Content = message);
             try
             {
-                if (airtable is null | !airtable.read)
-                {
-                    return;
-                }
-                await airtable.finished_task;
-                LoadAirTables_Button.IsEnabled = false;
-                if ((bool)AirTableCheckbox.IsChecked)
-                {
-                    WriteToAirTable_Button.IsEnabled = true;
-                }
-                WriteToAirTable_Button.Content = "Write to AirTable";
-                LoadAirTables_Button.Content = "Loaded";
+                WriteToAirTable_Button.Content = "Writing " + selected.Count + " template(s)...";
+                IReadOnlyList<WriteResult> results = await table.WriteTemplatesAsync(
+                    selected.Select(row => new KeyValuePair<string, IEnumerable<ROIClass>>(row.templateMaker.TemplateName, row.templateMaker.ROIs)).ToList(),
+                    progress,
+                    CancellationToken.None);
+                ProgressBar.Value = 100;
+                WriteToAirTable_Button.Content = "Wrote to Airtable!";
+                MessageBox.Show(this, DescribeWrite(table, results), "Write to Airtable", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            catch
+            catch (AirtableWriteException ex)
             {
-                WriteToAirTable_Button.Content = "Could not load...";
+                WriteToAirTable_Button.Content = "Failed writing to Airtable";
+                string finished = ex.Completed.Count > 0 ? Environment.NewLine + Environment.NewLine + DescribeWrite(table, ex.Completed) : string.Empty;
+                MessageBox.Show(this, ex.Message + finished, "Write to Airtable failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (Exception ex)
+            {
+                // UI boundary: report every failure instead of letting an async void handler crash the app.
+                WriteToAirTable_Button.Content = "Failed writing to Airtable";
+                MessageBox.Show(this, ex.Message, "Write to Airtable failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                ProgressBar.Visibility = Visibility.Hidden;
+                ReadAirTableButton.IsEnabled = true;
+                AirTableComboBox.IsEnabled = true;
+                AirTableCheckbox.IsChecked = false;
+                AirTableCheckbox.IsEnabled = true;
+                LoadAirTables_Button.IsEnabled = true;
+                check_airtables(table);
+            }
+        }
+        private static string DescribeWrite(TemplateSourceItem table, IReadOnlyList<WriteResult> results)
+        {
+            int created = results.Sum(r => r.Created);
+            int updated = results.Sum(r => r.Updated);
+            int unchanged = results.Sum(r => r.Unchanged);
+            int calls = results.Sum(r => r.ApiCalls);
+            string summary = $"Wrote {results.Count} template(s) to {table.Name}: {created} ROI(s) created, {updated} updated, {unchanged} already up to date ({calls} API calls).";
+            List<string> warnings = results.SelectMany(r => r.Warnings.Select(w => r.Site + ": " + w)).Distinct().Take(30).ToList();
+            return warnings.Count == 0 ? summary : summary + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, warnings);
+        }
+        private void check_airtables(TemplateSourceItem airtable)
+        {
+            bool canWrite = airtable != null && AirTableCheckbox.IsChecked == true;
+            WriteToAirTable_Button.IsEnabled = canWrite;
+            if (airtable == null)
+            {
+                WriteToAirTable_Button.Content = "Add an Airtable table first";
+                WriteToAirTable_Button.ToolTip = "Open Load Online Templates and use Add Airtable table to connect a table you can write to.";
+                LoadAirTables_Button.IsEnabled = false;
+                return;
+            }
+            WriteToAirTable_Button.Content = "Write to AirTable";
+            WriteToAirTable_Button.ToolTip = canWrite
+                ? "Checks " + airtable.Name + " for recent changes, then sends only the ROIs that differ."
+                : "Tick 'Airtable Write?' to enable writing.";
+            LoadAirTables_Button.IsEnabled = true;
+            LoadAirTables_Button.ToolTip = airtable.StatusText;
         }
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ReadAirTable table = (ReadAirTable)AirTableComboBox.SelectedItem;
-            check_airtables(table);
+            check_airtables(AirTableComboBox.SelectedItem as TemplateSourceItem);
         }
 
         private void CreateVarianXml_Click(object sender, RoutedEventArgs e)
@@ -693,21 +717,35 @@ namespace DicomTemplateMakerGUI
             onto_window.ShowDialog();
         }
 
-        private void LoadAirTables_Click(object sender, RoutedEventArgs e)
+        private async void LoadAirTables_Click(object sender, RoutedEventArgs e)
         {
-            if (WriteableAirTables.Count > 0)
+            TemplateSourceItem table = AirTableComboBox.SelectedItem as TemplateSourceItem;
+            if (table == null)
             {
-                foreach (ReadAirTable r in WriteableAirTables)
-                {
-                    if (!r.read)
-                    {
-                        r.read_records();
-                    }
-                }
-                LoadAirTables_Button.IsEnabled = false;
-                LoadAirTables_Button.Content = "Loading...";
+                return;
             }
-            load_writeable_airtables();
+            LoadAirTables_Button.IsEnabled = false;
+            ReadAirTableButton.IsEnabled = false;
+            LoadAirTables_Button.Content = "...";
+            try
+            {
+                TableLoadResult result = await table.LoadAsync(LoadMode.Refresh, null, CancellationToken.None);
+                if (result.Warning != null)
+                {
+                    MessageBox.Show(this, result.Warning, "Refresh " + table.Name, MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                // UI boundary.
+                MessageBox.Show(this, "Could not refresh " + table.Name + ": " + ex.Message, "Refresh", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                LoadAirTables_Button.Content = "Refresh";
+                ReadAirTableButton.IsEnabled = true;
+                check_airtables(table);
+            }
         }
 
         private void Add_Ontology_Button(object sender, RoutedEventArgs e)

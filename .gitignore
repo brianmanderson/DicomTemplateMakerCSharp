@@ -11,6 +11,9 @@
 *.sln.docstates
 API_Key.txt
 Base_key.txt
+# Airtable tokens must never be committed (the program stores them encrypted per user)
+**/AirTables/*.txt
+airtable-connections.json
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 *.zip

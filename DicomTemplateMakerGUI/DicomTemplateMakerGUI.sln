@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DicomTemplateMakerGUI", "Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ROIOntologyClass", "..\ROIOntologyClass\ROIOntologyClass.csproj", "{AA124BEA-1D86-4C4E-A512-D2B1A544D34B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateSync", "..\TemplateSync\TemplateSync.csproj", "{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{AA124BEA-1D86-4C4E-A512-D2B1A544D34B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA124BEA-1D86-4C4E-A512-D2B1A544D34B}.Release|x64.ActiveCfg = Release|Any CPU
 		{AA124BEA-1D86-4C4E-A512-D2B1A544D34B}.Release|x64.Build.0 = Release|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Debug|x64.Build.0 = Debug|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C0E5E4B-3F7A-4B1E-9D2A-5B7C1F0A8E21}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

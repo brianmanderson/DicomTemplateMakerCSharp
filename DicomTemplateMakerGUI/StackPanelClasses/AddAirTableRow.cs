@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using DicomTemplateMakerGUI.Services;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
+    /// <summary>One site (template) offered by a template source, with a "build it" check box.</summary>
     class AddAirTableRow : StackPanel
     {
         public string site_name;
         public Label site_label;
         public CheckBox check_box;
-        public ReadAirTable airtable;
-        public AddAirTableRow(string site_name, ReadAirTable airTable)
+        public TemplateSourceItem airtable;
+
+        public AddAirTableRow(string site_name, TemplateSourceItem airTable, int roiCount)
         {
             airtable = airTable;
             Orientation = Orientation.Horizontal;
@@ -24,14 +21,15 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             site_label.Width = 200;
             Children.Add(site_label);
 
-            Label label = new Label();
-            label.Content = "Build template?";
-            label.Width = 200;
-            //Children.Add(label);
-
             check_box = new CheckBox();
             check_box.Content = "Build template?";
+            check_box.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             Children.Add(check_box);
+
+            Label count_label = new Label();
+            count_label.Content = roiCount == 1 ? "1 ROI" : roiCount + " ROIs";
+            count_label.Margin = new System.Windows.Thickness(20, 0, 0, 0);
+            Children.Add(count_label);
         }
     }
 }

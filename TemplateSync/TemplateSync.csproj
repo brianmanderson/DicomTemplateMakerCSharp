@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Platform-neutral template synchronisation library.
+    Targets netstandard2.0 so the .NET Framework 4.8 GUI can reference it today and
+    the test project can run it on any OS.
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TemplateSync</RootNamespace>
+    <AssemblyName>TemplateSync</AssemblyName>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Keep in step with the GUI's Newtonsoft.Json version: net48 packages.config
+         projects do not receive transitive NuGet dependencies from project references. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="TemplateSync.Tests" />
+  </ItemGroup>
+
+</Project>

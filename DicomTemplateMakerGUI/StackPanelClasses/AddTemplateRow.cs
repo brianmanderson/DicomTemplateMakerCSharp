@@ -36,7 +36,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             }
         }
         private Button edit_rois_button;
-        public ObservableCollection<ReadAirTable> AirTables;
+        public ObservableCollection<TemplateSourceItem> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public event PropertyChangedEventHandler PropertyChanged;
@@ -49,7 +49,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
                 handler(this, e);
             }
         }
-        public AddTemplateRow(TemplateMaker tm, ObservableCollection<ReadAirTable> airTables)
+        public AddTemplateRow(TemplateMaker tm, ObservableCollection<TemplateSourceItem> airTables)
         {
             this.Orientation = Orientation.Horizontal;
             StackPanel left_panel = new StackPanel();

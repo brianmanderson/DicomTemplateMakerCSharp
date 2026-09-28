@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="AirTableWindow" Height="600" Width="780">
+        Title="Online Templates" Height="660" Width="780">
     <Grid>
         <Grid>
             <Button x:Name="BuildButton" Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" IsEnabled="False" VerticalAlignment="Top" Width="750" Height="36" Click="Build_button_click"/>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,209,13,0">
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,249,13,0">
                 <StackPanel Margin="20,20,20,20" x:Name="StackDefaultAirtablePanel">
                 </StackPanel>
             </ScrollViewer>
@@ -17,12 +17,15 @@
             <Label Name="Status_Label" Background="Yellow" Content="Status: Select a template to show..." HorizontalAlignment="Left" Margin="22,115,0,0" VerticalAlignment="Top" Height="26" Width="224"/>
             <ComboBox Name="Template_ComboBox" HorizontalAlignment="Left" Margin="206,48,0,0" VerticalAlignment="Top" Width="554" SelectionChanged="Template_ComboBox_SelectionChanged"/>
             <Label Content="Templates to show..." HorizontalAlignment="Left" Margin="22,46,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-            <CheckBox Name="Delete_CheckBox" Content="Delete Template?" HorizontalAlignment="Left" Margin="206,83,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
-            <Button x:Name="DeleteButton" Content="Delete?" HorizontalAlignment="Left" Margin="333,79,0,0" IsEnabled="False" VerticalAlignment="Top" Width="200" Height="21" Click="DeleteTemplate_Click"/>
-            <Button x:Name="AddTableButton" Content="Add Airtable?" HorizontalAlignment="Left" Margin="538,79,0,0" VerticalAlignment="Top" Width="200" Height="21" Click="AddAirTable_Click"/>
-            <Label x:Name="TemplateNameLabel" Content="Template Name" HorizontalAlignment="Left" Visibility="Visible" Margin="14,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-            <Label x:Name="IncludeLabel" Content="Include in build?" HorizontalAlignment="Left" Visibility="Visible" Margin="184,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-            <Label x:Name="CheckBoxLabel" Content="Check box" HorizontalAlignment="Left" Visibility="Visible" Margin="364,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
+            <CheckBox Name="Delete_CheckBox" Content="Remove table?" HorizontalAlignment="Left" Margin="206,83,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
+            <Button x:Name="DeleteButton" Content="Remove connection" ToolTip="Forget this Airtable table on this computer (the table itself is not changed)." HorizontalAlignment="Left" Margin="333,79,0,0" IsEnabled="False" VerticalAlignment="Top" Width="200" Height="21" Click="DeleteTemplate_Click"/>
+            <Button x:Name="AddTableButton" Content="Add Airtable table..." HorizontalAlignment="Left" Margin="538,79,0,0" VerticalAlignment="Top" Width="200" Height="21" Click="AddAirTable_Click"/>
+            <Button x:Name="RefreshButton" Content="Refresh" ToolTip="Check for changes since the last download (usually one request)." HorizontalAlignment="Left" Margin="22,176,0,0" VerticalAlignment="Top" Width="105" Height="30" Click="Refresh_Click" IsEnabled="False"/>
+            <Button x:Name="FullRefreshButton" Content="Full refresh" ToolTip="Download the whole table again (one request per 100 records)." HorizontalAlignment="Left" Margin="132,176,0,0" VerticalAlignment="Top" Width="105" Height="30" Click="FullRefresh_Click" IsEnabled="False"/>
+            <TextBlock x:Name="SourceStatus_Text" Text="" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="247,172,0,0" VerticalAlignment="Top" Width="510" Height="40"/>
+            <Label x:Name="TemplateNameLabel" Content="Template Name" HorizontalAlignment="Left" Visibility="Visible" Margin="14,214,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
+            <Label x:Name="IncludeLabel" Content="Include in build?" HorizontalAlignment="Left" Visibility="Visible" Margin="184,214,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
+            <Label x:Name="CheckBoxLabel" Content="ROIs" HorizontalAlignment="Left" Visibility="Visible" Margin="364,214,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
             <Label x:Name="SearchLabel" Content="Search templates" HorizontalAlignment="Left" Visibility="Visible" Margin="401,111,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
             <Button x:Name="SelectAllButton" Content="Select all?" HorizontalAlignment="Left" Margin="251,114,0,0" IsEnabled="False" VerticalAlignment="Top" Width="145" Height="23" Click="SelectAll_Click"/>
             <ComboBox x:Name="Language_ComboBox" HorizontalAlignment="Left" Margin="22,117,0,0" VerticalAlignment="Top" Width="207"/>
