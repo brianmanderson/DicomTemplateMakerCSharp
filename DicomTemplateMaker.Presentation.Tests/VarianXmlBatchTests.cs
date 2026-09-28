@@ -137,8 +137,10 @@ public sealed class VarianXmlBatchTests : IDisposable
         Assert.Equal(roisBefore, File.ReadAllText(Path.Combine(Root, "Brain", "All_ROIs.json")));
     }
 
-    [Fact]
-    public void A_template_created_after_the_plan_is_kept_when_not_replacing()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)] // "Yes" replaces only the templates the confirmation named; Lung did not exist then
+    public void A_template_created_after_the_plan_is_kept_whatever_the_answer(bool replaceExisting)
     {
         Templates.Make(Root, "Lung");
         VarianXmlBatch.Export(new[] { Item("Lung") }, XmlFolder, replaceExisting: true, null, TestContext.Current.CancellationToken);
@@ -148,9 +150,10 @@ public sealed class VarianXmlBatchTests : IDisposable
         string lung = Templates.Make(Root, "Lung", rois: new List<ROIClass> { new(1, 2, 3, "Made_meanwhile", "ORGAN", new OntologyCodeClass("Lung", "7195", "FMA")) });
         string roisBefore = File.ReadAllText(Path.Combine(lung, "All_ROIs.json"));
 
-        VarianImportResult result = VarianXmlBatch.Import(plan, Root, replaceExisting: false, null, TestContext.Current.CancellationToken);
+        VarianImportResult result = VarianXmlBatch.Import(plan, Root, replaceExisting, null, TestContext.Current.CancellationToken);
 
         Assert.Equal(new[] { "Lung" }, result.SkippedExisting);
+        Assert.Empty(result.Reports);
         Assert.Equal(roisBefore, File.ReadAllText(Path.Combine(lung, "All_ROIs.json")));
     }
 
@@ -180,6 +183,23 @@ public sealed class VarianXmlBatchTests : IDisposable
         Assert.Contains("Imported 1 template into", summary, StringComparison.Ordinal);
         Assert.Contains("Kept 1 existing template unchanged: Brain.", summary, StringComparison.Ordinal);
         Assert.Contains("Broken.xml:", summary, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void The_import_summary_names_structures_that_generated_rts_will_leave_out()
+    {
+        File.WriteAllText(Path.Combine(XmlFolder, "Helpers.xml"),
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><StructureTemplate Version=\"1.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+            + "<Preview ID=\"Helpers\" Type=\"Structure\" /><Structures><Structure ID=\"z_Ring\" Name=\"z_Ring\"><Identification><VolumeID /><VolumeCode />"
+            + "<VolumeType>Control</VolumeType><VolumeCodeTable /></Identification><TypeIndex>2</TypeIndex><ColorAndStyle>RGB255  0  0</ColorAndStyle>"
+            + "<DVHLineStyle>0</DVHLineStyle><DVHLineColor>-16777216</DVHLineColor><DVHLineWidth>1</DVHLineWidth></Structure></Structures></StructureTemplate>");
+
+        VarianImportResult result = VarianXmlBatch.Import(VarianXmlBatch.PlanImport(XmlFolder, Root), Root, replaceExisting: false, null, TestContext.Current.CancellationToken);
+
+        Assert.Single(result.Imported);
+        string summary = ShellMessages.DescribeImport(result);
+        Assert.Contains("Notes on imported structures:", summary, StringComparison.Ordinal);
+        Assert.Contains("Helpers: structure 'z_Ring': it has no structure code, so generated RTs leave it out", summary, StringComparison.Ordinal);
     }
 
     [Fact]

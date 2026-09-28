@@ -12,8 +12,9 @@ public static class Snapshots
     public static TableSnapshot Of(DateTimeOffset generatedAtUtc, params AirtableRecord[] records)
         => new() { GeneratedAtUtc = generatedAtUtc, Records = records.ToList(), RecordCount = records.Length };
 
+    /// <summary>A complete ROI record (colour and code; the scheme is the default FMA) recommended by <paramref name="sites"/>.</summary>
     public static AirtableRecord Roi(string structure, params string[] sites)
-        => Record(new JObject { ["Structure"] = structure, ["RGB"] = "255,0,0", ["Template_Recommend"] = new JArray(sites) });
+        => Record(new JObject { ["Structure"] = structure, ["RGB"] = "255,0,0", ["SchemeCode"] = structure, ["Template_Recommend"] = new JArray(sites) });
 
     public static AirtableRecord Record(JObject fields)
         => new() { Id = "rec" + Interlocked.Increment(ref nextId).ToString("D14", System.Globalization.CultureInfo.InvariantCulture), Fields = fields };

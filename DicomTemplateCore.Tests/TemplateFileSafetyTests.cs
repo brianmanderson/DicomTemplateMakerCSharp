@@ -69,6 +69,32 @@ public class TemplateFileSafetyTests
         Assert.Equal(new[] { "Series Description\\CT" }, File.ReadAllLines(target));
     }
 
+    [Fact]
+    public void Create_only_write_never_replaces_an_existing_file()
+    {
+        // A migration uses it so that an All_ROIs.json saved meanwhile (for example by the GUI) is not replaced.
+        using var folder = new TestFolder();
+        string target = WriteFile(folder.Path, "All_ROIs.json", "[\"Saved meanwhile\"]");
+        byte[] before = File.ReadAllBytes(target);
+
+        Assert.False(AtomicFile.TryCreateText(target, "[\"Migrated\"]"));
+
+        Assert.Equal(before, File.ReadAllBytes(target));
+        Assert.Equal(new[] { "All_ROIs.json" }, Files(folder.Path));
+    }
+
+    [Fact]
+    public void Create_only_write_creates_a_missing_file()
+    {
+        using var folder = new TestFolder();
+        string target = Path.Combine(folder.Path, "All_Ontologies.json");
+
+        Assert.True(AtomicFile.TryCreateText(target, "[]"));
+
+        Assert.Equal("[]", File.ReadAllText(target));
+        Assert.Equal(new[] { "All_Ontologies.json" }, Files(folder.Path));
+    }
+
     public static TheoryData<string, string> UnreadableRoisFiles => new()
     {
         { TruncatedJson, "Unexpected end" },

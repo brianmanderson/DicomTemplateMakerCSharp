@@ -70,10 +70,27 @@ public class TemplateEntryMapperTests
     {
         var warnings = new List<string>();
 
-        ROIWrapper? wrapper = TemplateEntryMapper.ToRoiWrapper(new SiteRoi(new AirTableEntry { Structure = "Bladder", RGB = "1,2,3", DVH_Color = "not-a-number" }, true), warnings);
+        ROIWrapper? wrapper = TemplateEntryMapper.ToRoiWrapper(new SiteRoi(new AirTableEntry { Structure = "Bladder", RGB = "1,2,3", SchemeCode = "15900", DVH_Color = "not-a-number" }, true), warnings);
 
         Assert.Equal((byte)1, wrapper!.roi.R_DVH);
         Assert.Single(warnings);
+    }
+
+    [Theory]
+    [InlineData(null, "FMA", "no code value")]
+    [InlineData("  ", "FMA", "no code value")]
+    [InlineData("15900", null, "no coding scheme")]
+    public void An_entry_without_a_complete_code_is_kept_with_a_warning_that_rts_leave_it_out(string? code, string? scheme, string expected)
+    {
+        var warnings = new List<string>();
+
+        ROIWrapper? wrapper = TemplateEntryMapper.ToRoiWrapper(new SiteRoi(new AirTableEntry { Structure = "z_Ring", RGB = "1,2,3", SchemeCode = code, Scheme = scheme }, true), warnings);
+
+        Assert.Equal("z_Ring", wrapper?.roi.ROIName);
+        string warning = Assert.Single(warnings);
+        Assert.StartsWith("z_Ring:", warning, StringComparison.Ordinal);
+        Assert.Contains(expected, warning, StringComparison.Ordinal);
+        Assert.Contains("generated RTs leave it out", warning, StringComparison.Ordinal);
     }
 
     [Fact]

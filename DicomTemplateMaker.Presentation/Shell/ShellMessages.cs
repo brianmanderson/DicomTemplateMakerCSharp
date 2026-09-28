@@ -282,7 +282,7 @@ namespace DicomTemplateMakerGUI.Shell
             return text.ToString();
         }
 
-        /// <summary>The result of a Varian XML import: imported templates, failed files and skipped structures.</summary>
+        /// <summary>The result of a Varian XML import: imported templates, failed files, skipped structures and notes (such as a missing code).</summary>
         public static string DescribeImport(VarianImportResult result)
         {
             ArgumentNullException.ThrowIfNull(result);
@@ -310,6 +310,14 @@ namespace DicomTemplateMakerGUI.Shell
             if (skipped.Count > 0)
             {
                 text.Append(Paragraph).Append("Structures left out of the imported templates:").AppendLine().Append(Text.List(skipped));
+            }
+
+            List<string> noted = imported
+                .SelectMany(r => r.NotedStructures.Select(s => $"{Path.GetFileName(r.Target ?? r.Source)}: structure '{s.Structure}': {s.Note}"))
+                .ToList();
+            if (noted.Count > 0)
+            {
+                text.Append(Paragraph).Append("Notes on imported structures:").AppendLine().Append(Text.List(noted));
             }
 
             return text.ToString();

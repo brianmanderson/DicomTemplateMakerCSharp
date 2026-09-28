@@ -38,6 +38,17 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
         /// <summary>What the RT declares when its images declare no character set (their bytes are kept as they are).</summary>
         internal const string UndeclaredCharacterSet = "ISO_IR 100";
 
+        /// <summary>
+        /// U+02C6 MODIFIER LETTER CIRCUMFLEX, which Windows text tools put where a name has '^' (the TG-263 separator);
+        /// the bundled CTV_High^LN_3cm+ and CTV_Mid^LN_3cm- had it, and template folders made from them still do. It is in
+        /// no single-byte character set, and fo-dicom's Latin-1 encoder always wrote it as '^'; the RT still does, whatever
+        /// the character set.
+        /// </summary>
+        private const char ModifierLetterCircumflex = '\u02C6';
+
+        /// <summary>U+FFFD REPLACEMENT CHARACTER: what a byte that is not UTF-8 becomes when a legacy (Windows-1252) text file is read.</summary>
+        private const char ReplacementCharacter = '\uFFFD';
+
         private readonly DicomDataset template;
 
         /// <param name="template">The template RT dataset. It is cloned for every RT and never modified.</param>
@@ -182,8 +193,16 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             foreach (ROIClass roi in rois)
             {
                 // All three items are built before any is appended, so a failing ROI leaves nothing behind.
-                string? problem = Validate(roi) ?? CharacterSetProblem(roi, singleEncoding, characterSets);
+                string? problem = Validate(roi);
                 RoiItems? items = null;
+                if (problem == null)
+                {
+                    // Validate has checked that the name and code meaning are there.
+                    string name = RtRoiName(roi.ROIName);
+                    string? codeMeaning = RtCodeMeaning(roi.Ontology_Class?.CodeMeaning, roi.ROIName);
+                    problem = CharacterSetProblem(name, codeMeaning, singleEncoding, characterSets);
+                }
+
                 if (problem == null)
                 {
                     try
@@ -240,8 +259,19 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 return "The ROI has no ontology code.";
             }
 
-            // Code Value and Coding Scheme Designator are required in the RT ROI Identification Code Sequence (and
-            // Code Meaning always is); an empty one is not a code a planning system can check.
+            string? missing = MissingCodeParts(code);
+            return missing == null ? null : $"The ROI's ontology code has no {missing}; choose a complete code for it.";
+        }
+
+        /// <summary>
+        /// What <paramref name="code"/> lacks to be written into an RT, e.g. "code value and no coding scheme"; null when
+        /// it is complete. Code Value and Coding Scheme Designator are required in the RT ROI Identification Code
+        /// Sequence (and Code Meaning always is); an empty one is not a code a planning system can check, so an ROI
+        /// with such a code is left out of every RT. Importers use this to say so when the ROI is imported.
+        /// </summary>
+        internal static string? MissingCodeParts(OntologyCodeClass code)
+        {
+            ArgumentNullException.ThrowIfNull(code);
             var missing = new List<string>();
             if (string.IsNullOrWhiteSpace(code.CodeValue))
             {
@@ -258,22 +288,69 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
                 missing.Add("code meaning");
             }
 
-            return missing.Count == 0 ? null : $"The ROI's ontology code has no {string.Join(" and no ", missing)}; choose a complete code for it.";
+            return missing.Count == 0 ? null : string.Join(" and no ", missing);
+        }
+
+        /// <summary>The ROI name as the RT holds it: a modifier letter circumflex is written as '^' (see <see cref="ModifierLetterCircumflex"/>).</summary>
+        internal static string RtRoiName(string name)
+        {
+            return name.Replace(ModifierLetterCircumflex, '^');
         }
 
         /// <summary>
-        /// Why the ROI's name or code meaning cannot be written in the RT's character set (fo-dicom would silently
-        /// replace the letters it cannot hold, e.g. "Hüftkopf" becomes "Huftkopf" in ISO_IR 144); null when it can
-        /// or when the set is not a single one that can be checked.
+        /// The code meaning as the RT holds it. Legacy template files written in Windows-1252 are read as UTF-8, so a
+        /// non-ASCII letter (U+02C6, 'ü') of a code meaning that repeats the ROI name became U+FFFD; such a code meaning
+        /// (the ROI name with U+FFFD in place of some of its non-ASCII letters, and otherwise equal) is written as the
+        /// ROI name. U+02C6 is written as '^', as in <see cref="RtRoiName"/>.
         /// </summary>
-        internal static string? CharacterSetProblem(ROIClass roi, Encoding? encoding, IReadOnlyList<string> characterSets)
+        internal static string? RtCodeMeaning(string? codeMeaning, string roiName)
+        {
+            if (codeMeaning == null)
+            {
+                return null;
+            }
+
+            if (IsNameWithLostLetters(codeMeaning, roiName))
+            {
+                codeMeaning = roiName;
+            }
+
+            return codeMeaning.Replace(ModifierLetterCircumflex, '^');
+        }
+
+        private static bool IsNameWithLostLetters(string codeMeaning, string roiName)
+        {
+            if (codeMeaning.Length != roiName.Length || codeMeaning.IndexOf(ReplacementCharacter) < 0)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < codeMeaning.Length; i++)
+            {
+                bool lost = codeMeaning[i] == ReplacementCharacter && roiName[i] >= 0x80 && roiName[i] != ReplacementCharacter;
+                if (!lost && codeMeaning[i] != roiName[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Why the ROI's name or code meaning (as the RT holds them, see <see cref="RtRoiName"/> and
+        /// <see cref="RtCodeMeaning"/>) cannot be written in the RT's character set (fo-dicom would silently replace
+        /// the letters it cannot hold, e.g. "Hüftkopf" becomes "Huftkopf" in ISO_IR 144); null when it can or when the
+        /// set is not a single one that can be checked.
+        /// </summary>
+        internal static string? CharacterSetProblem(string name, string? codeMeaning, Encoding? encoding, IReadOnlyList<string> characterSets)
         {
             if (encoding == null)
             {
                 return null;
             }
 
-            foreach ((string what, string? value) in new[] { ("name", (string?)roi.ROIName), ("ontology code meaning", roi.Ontology_Class?.CodeMeaning) })
+            foreach ((string what, string? value) in new[] { ("name", (string?)name), ("ontology code meaning", codeMeaning) })
             {
                 if (value != null && !CanEncode(encoding, value))
                 {
@@ -319,15 +396,18 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             return new DicomSequence(DicomTag.ReferencedFrameOfReferenceSequence, frame);
         }
 
+        /// <summary>The ROI's three items, with its name and code meaning as the RT holds them (<see cref="RtRoiName"/>, <see cref="RtCodeMeaning"/>).</summary>
         private static RoiItems BuildRoiItems(ROIClass roi, int roiNumber, string frameOfReferenceUid)
         {
             // Validate has checked these; the locals make that explicit for the compiler.
             string interpretedType = roi.ROI_Interpreted_type ?? throw new ArgumentException("The ROI has no interpreted type.");
             OntologyCodeClass ontology = roi.Ontology_Class ?? throw new ArgumentException("The ROI has no ontology code.");
+            string name = RtRoiName(roi.ROIName);
+            string meaning = RtCodeMeaning(ontology.CodeMeaning, roi.ROIName) ?? throw new ArgumentException("The ROI's ontology code has no code meaning.");
 
             var structureSetRoi = new DicomDataset();
             structureSetRoi.AddOrUpdate(DicomTag.ROINumber, roiNumber);
-            structureSetRoi.AddOrUpdate(DicomTag.ROIName, roi.ROIName);
+            structureSetRoi.AddOrUpdate(DicomTag.ROIName, name);
             structureSetRoi.AddOrUpdate(DicomTag.ROIGenerationAlgorithm, "SEMIAUTOMATIC");
             structureSetRoi.AddOrUpdate(DicomTag.ReferencedFrameOfReferenceUID, frameOfReferenceUid);
 
@@ -338,7 +418,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             // Validate has checked the required values. The Type 3 context and mapping attributes are written only when
             // they have a value; Mapping Resource and Context Group Version are required only with a Context Identifier.
             var code = new DicomDataset();
-            code.AddOrUpdate(DicomTag.CodeMeaning, ontology.CodeMeaning);
+            code.AddOrUpdate(DicomTag.CodeMeaning, meaning);
             code.AddOrUpdate(DicomTag.CodeValue, ontology.CodeValue);
             code.AddOrUpdate(DicomTag.CodingSchemeDesignator, ontology.Scheme);
             if (!string.IsNullOrWhiteSpace(ontology.ContextIdentifier))
@@ -359,7 +439,7 @@ namespace DicomTemplateMakerGUI.DicomTemplateServices
             observation.AddOrUpdate(DicomTag.ROIInterpreter, RoiInterpreter);
             // (3006,0085) ROI Observation Label is retired in the current DICOM standard (hence fo-dicom's
             // name) but is still written, as before, for systems that read it.
-            observation.AddOrUpdate(DicomTag.ROIObservationLabelRETIRED, roi.ROIName.Length > 16 ? roi.ROIName.Substring(0, 16) : roi.ROIName);
+            observation.AddOrUpdate(DicomTag.ROIObservationLabelRETIRED, name.Length > 16 ? name.Substring(0, 16) : name);
             observation.AddOrUpdate(new DicomSequence(DicomTag.RTROIIdentificationCodeSequence, code));
             return new RoiItems(structureSetRoi, roiContour, observation);
         }

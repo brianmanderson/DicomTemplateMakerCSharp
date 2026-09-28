@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using DicomTemplateMakerGUI.DicomTemplateServices;
 using ROIOntologyClass;
 
 
@@ -13,10 +14,11 @@ namespace DicomTemplateMakerGUI.Services
     /// <summary>What happened to one structure in a Varian XML import or export.</summary>
     public sealed class VarianStructureResult
     {
-        public VarianStructureResult(string structure, string? skipReason)
+        public VarianStructureResult(string structure, string? skipReason, string? note = null)
         {
             Structure = structure;
             SkipReason = skipReason;
+            Note = note;
         }
 
         /// <summary>The structure (ROI) ID, or a description of where it is when it has none.</summary>
@@ -24,6 +26,12 @@ namespace DicomTemplateMakerGUI.Services
 
         /// <summary>Why the structure was left out; null when it was imported or exported.</summary>
         public string? SkipReason { get; }
+
+        /// <summary>
+        /// Something to know about a structure that was imported, e.g. that it has no structure code, so generated RTs
+        /// leave it out; null when there is nothing.
+        /// </summary>
+        public string? Note { get; }
 
         public bool Skipped => SkipReason != null;
     }
@@ -58,7 +66,10 @@ namespace DicomTemplateMakerGUI.Services
 
         public IEnumerable<VarianStructureResult> SkippedStructures => Structures.Where(s => s.Skipped);
 
-        /// <summary>A summary line followed by one line per skipped structure, for logs and messages.</summary>
+        /// <summary>The structures that were imported with a <see cref="VarianStructureResult.Note"/>.</summary>
+        public IEnumerable<VarianStructureResult> NotedStructures => Structures.Where(s => !s.Skipped && s.Note != null);
+
+        /// <summary>A summary line followed by one line per skipped structure and per note, for logs and messages.</summary>
         public IEnumerable<string> Describe()
         {
             int skipped = Structures.Count - SucceededCount;
@@ -74,6 +85,10 @@ namespace DicomTemplateMakerGUI.Services
             foreach (VarianStructureResult result in SkippedStructures)
             {
                 yield return $"  skipped '{result.Structure}': {result.SkipReason}";
+            }
+            foreach (VarianStructureResult result in NotedStructures)
+            {
+                yield return $"  note '{result.Structure}': {result.Note}";
             }
         }
     }
@@ -106,7 +121,8 @@ namespace DicomTemplateMakerGUI.Services
         }
         /// <summary>
         /// Adds structure <paramref name="s"/> to <paramref name="maker"/>, or leaves it out (a structure without an
-        /// ID, or one that cannot be read) and says why.
+        /// ID, or one that cannot be read) and says why. A structure without a complete structure code is added (a
+        /// Varian export gives it back as it was) with a note that generated RTs leave it out.
         /// </summary>
         public VarianStructureResult AddToTemplateMaker(TemplateMaker maker, XElement s)
         {
@@ -213,7 +229,13 @@ namespace DicomTemplateMakerGUI.Services
                     identification_code_class: ontology, type_index: type_index, contour_style: contourstyle, dvhLineStyle: write_line_style, dvhLineColor: line_color, dvhLineWidth: line_width);
                 maker.ROIs.Add(roi);
                 maker.Ontologies.Add(ontology);
-                return new VarianStructureResult(roi_id, null);
+                string? missing = RtStructureBuilder.MissingCodeParts(ontology);
+                string? note = missing == null
+                    ? null
+                    : StructureCode == null
+                        ? "it has no structure code, so generated RTs leave it out until a code is chosen for it."
+                        : $"its structure code has no {missing}, so generated RTs leave it out until a complete code is chosen for it.";
+                return new VarianStructureResult(roi_id, null, note);
             }
             catch (Exception ex)
             {

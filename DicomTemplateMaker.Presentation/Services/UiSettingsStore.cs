@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -16,7 +17,8 @@ namespace DicomTemplateMakerGUI.Services
     /// rename. Failures to save are logged and reported by the return value; settings are a convenience and never stop
     /// the program.</para>
     /// <para>Each change reads the file again and changes only its own setting, so a second copy of the program (or a
-    /// newer version, whose unknown settings are kept) does not lose what it saved in the meantime.</para>
+    /// newer version, whose unknown settings are kept) does not lose what it saved in the meantime. Changes that could
+    /// not be saved are kept and saved again with the next change that can be.</para>
     /// </summary>
     public sealed class UiSettingsStore
     {
@@ -31,6 +33,9 @@ namespace DicomTemplateMakerGUI.Services
 
         private readonly object gate = new object();
         private readonly ILogger logger;
+
+        /// <summary>Changes made since the last successful save (in order); replayed onto the file's settings by the next save.</summary>
+        private readonly List<Action<UiSettings>> unsaved = new List<Action<UiSettings>>();
         private bool backupPending;
 
         public UiSettingsStore(string filePath, ILogger? logger = null)
@@ -64,6 +69,7 @@ namespace DicomTemplateMakerGUI.Services
             {
                 LoadProblem = null;
                 backupPending = false;
+                unsaved.Clear();
                 Settings = ReadOrDefaults();
                 return Settings;
             }
@@ -76,13 +82,16 @@ namespace DicomTemplateMakerGUI.Services
             return Change(settings => settings.TemplateRoot = root);
         }
 
-        /// <summary>Remembers <paramref name="folder"/> for <paramref name="purpose"/> and saves when it changed.</summary>
+        /// <summary>
+        /// Remembers <paramref name="folder"/> for <paramref name="purpose"/> and saves when it changed (or when an earlier
+        /// change is still unsaved).
+        /// </summary>
         public bool RememberFolder(FolderPurpose purpose, string folder)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(folder);
             lock (gate)
             {
-                if (string.Equals(Settings.GetLastFolder(purpose), folder, StringComparison.Ordinal))
+                if (unsaved.Count == 0 && string.Equals(Settings.GetLastFolder(purpose), folder, StringComparison.Ordinal))
                 {
                     return true;
                 }
@@ -92,17 +101,19 @@ namespace DicomTemplateMakerGUI.Services
         }
 
         /// <summary>
-        /// Applies <paramref name="change"/> to the settings as they are on disk now (another copy of the program may have
-        /// saved since this one loaded them) and saves them; <see cref="Settings"/> then holds the result. When the file
-        /// cannot be read or parsed now, the change is applied to this copy's settings, after the damaged file has been
-        /// backed up. Returns false (logged) when nothing could be saved; <see cref="Settings"/> is changed either way,
-        /// so the choice holds for this session.
+        /// Applies <paramref name="change"/>, after any earlier changes that could not be saved, to the settings as they
+        /// are on disk now (another copy of the program may have saved since this one loaded them) and saves them;
+        /// <see cref="Settings"/> then holds the result. When the file is missing, or cannot be read or parsed now, this
+        /// copy's settings are saved instead, after a damaged file has been backed up. Returns false (logged) when nothing
+        /// could be saved; <see cref="Settings"/> is changed either way, so the choice holds for this session, and the
+        /// change is saved with the next one that can be.
         /// </summary>
         private bool Change(Action<UiSettings> change)
         {
             lock (gate)
             {
                 change(Settings);
+                unsaved.Add(change);
                 if (backupPending && !TryBackup())
                 {
                     logger.LogError("{Path} was not saved: it could not be read at startup and no backup copy of it could be made, so it is left as it is.", FilePath);
@@ -112,7 +123,10 @@ namespace DicomTemplateMakerGUI.Services
                 UiSettings? current = ReadCurrent();
                 if (current != null)
                 {
-                    change(current);
+                    foreach (Action<UiSettings> pending in unsaved)
+                    {
+                        pending(current);
+                    }
                 }
                 else if (backupPending && !TryBackup())
                 {
@@ -125,6 +139,7 @@ namespace DicomTemplateMakerGUI.Services
                 {
                     AtomicTextFile.Write(FilePath, JsonSerializer.Serialize(toSave, Options));
                     Settings = toSave;
+                    unsaved.Clear();
                     return true;
                 }
                 catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
@@ -136,14 +151,14 @@ namespace DicomTemplateMakerGUI.Services
         }
 
         /// <summary>
-        /// The settings on disk now; an empty set when there is no file; null (and a backup pending) when the file cannot
-        /// be read or parsed.
+        /// The settings on disk now; null when there is no file (this copy's settings are then the best there are), and
+        /// null with a backup pending when the file cannot be read or parsed.
         /// </summary>
         private UiSettings? ReadCurrent()
         {
             if (!File.Exists(FilePath))
             {
-                return new UiSettings();
+                return null;
             }
 
             try

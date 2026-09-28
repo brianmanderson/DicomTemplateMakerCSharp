@@ -398,6 +398,59 @@ public class SeriesRtContentTests
     }
 
     [Theory]
+    [InlineData(null)]
+    [InlineData("ISO_IR 100")]
+    [InlineData("ISO_IR 192")]
+    public void An_roi_from_the_old_bundled_files_is_written_with_a_caret(string? characterSet)
+    {
+        // The bundled AbdPelv_Anal and _Targets_Detailed had CTV_High^LN_3cm+ with U+02C6 (not '^') in the file name
+        // and the Windows-1252 byte 0x88 in the code meaning, which reads as U+FFFD. Template folders made from them
+        // still hold that; neither character is in Latin-1, so the ROI was refused for most CT and MR.
+        using var folder = new TestFolder();
+        string images = folder.Sub("Images");
+        WrittenSeries series = SeriesFactory.Write(images, "ct", dataset =>
+        {
+            if (characterSet == null)
+            {
+                dataset.Remove(DicomTag.SpecificCharacterSet);
+            }
+            else
+            {
+                dataset.AddOrUpdate(DicomTag.SpecificCharacterSet, characterSet);
+            }
+        });
+        string templates = folder.Sub("Templates");
+        string template = Path.Combine(templates, "AbdPelv_Anal");
+        Directory.CreateDirectory(Path.Combine(template, "ROIs"));
+        File.WriteAllBytes(
+            Path.Combine(template, "ROIs", "CTV_High\u02C6LN_3cm+.txt"),
+            System.Text.Encoding.Latin1.GetBytes("255\\165\\0\nCTV_High\u0088LN_3cm+\\CTV_High\\99VMS_STRUCTCODE\\20161209\\99VMS\\VMS011\\Varian Medical Systems\\1.2.246.352.7.1.1\\1.2.246.352.7.2.11\nCTV"));
+        File.WriteAllLines(Path.Combine(template, "Paths.txt"), new[] { images });
+
+        RunReport report = RunnerTemplates.Runner(templates, RunnerClock.AfterFilesSettled()).RunOnce(TestContext.Current.CancellationToken);
+
+        Assert.Empty(report.RoiFailures);
+        Assert.Single(report.Written);
+        DicomDataset rt = RunnerTemplates.ReadOutput(images, "AbdPelv_Anal", series.SeriesInstanceUid).Dataset;
+        AssertOnlyRois(rt, "CTV_High^LN_3cm+");
+        DicomDataset code = rt.GetSequence(DicomTag.RTROIObservationsSequence).Items[0].GetSequence(DicomTag.RTROIIdentificationCodeSequence).Items[0];
+        Assert.Equal("CTV_High^LN_3cm+", code.GetString(DicomTag.CodeMeaning));
+        Assert.Equal("CTV_High", code.GetString(DicomTag.CodeValue));
+    }
+
+    [Theory]
+    [InlineData("CTV_High\uFFFDLN_3cm+", "CTV_High\u02C6LN_3cm+", "CTV_High^LN_3cm+")]
+    [InlineData("H\uFFFDftkopf_L", "H\u00FCftkopf_L", "H\u00FCftkopf_L")]
+    [InlineData("CTV\u02C6Boost", "CTV_Boost", "CTV^Boost")]
+    [InlineData("Femoral head", "H\u00FCftkopf_L", "Femoral head")]
+    [InlineData("Br\uFFFDin", "Brain", "Br\uFFFDin")] // an ASCII letter is never lost in a Windows-1252 file
+    [InlineData("H\uFFFDftkopf", "H\u00FCftkopf_L", "H\uFFFDftkopf")] // not the ROI name
+    public void A_code_meaning_is_written_with_the_letters_a_legacy_file_lost(string codeMeaning, string roiName, string expected)
+    {
+        Assert.Equal(expected, RtStructureBuilder.RtCodeMeaning(codeMeaning, roiName));
+    }
+
+    [Theory]
     [InlineData(null, "FMA", "code value")]
     [InlineData("50801", null, "coding scheme")]
     [InlineData("  ", "  ", "code value and no coding scheme")]

@@ -12,11 +12,13 @@ namespace DicomTemplateCore.Tests;
 /// </summary>
 public class VarianXmlReportTests
 {
-    private static string Structure(string id, string? typeIndex = "2", string color = "RGB255  0  0", string code = "15900")
+    /// <param name="code">The structure code; null for a structure without a StructureCode element.</param>
+    private static string Structure(string id, string? typeIndex = "2", string color = "RGB255  0  0", string? code = "15900")
     {
         string type = typeIndex == null ? string.Empty : $"<TypeIndex>{typeIndex}</TypeIndex>";
+        string structureCode = code == null ? string.Empty : $"<StructureCode Code=\"{code}\" CodeScheme=\"FMA\" CodeSchemeVersion=\"3.2\" />";
         return $"<Structure ID=\"{id}\" Name=\"{id}\"><Identification><VolumeID /><VolumeCode /><VolumeType>Organ</VolumeType><VolumeCodeTable />"
-            + $"<StructureCode Code=\"{code}\" CodeScheme=\"FMA\" CodeSchemeVersion=\"3.2\" /></Identification>{type}<ColorAndStyle>{color}</ColorAndStyle>"
+            + $"{structureCode}</Identification>{type}<ColorAndStyle>{color}</ColorAndStyle>"
             + "<SearchCTLow xsi:nil=\"true\" /><SearchCTHigh xsi:nil=\"true\" /><DVHLineStyle>0</DVHLineStyle><DVHLineColor>-16777216</DVHLineColor>"
             + "<DVHLineWidth>1</DVHLineWidth></Structure>";
     }
@@ -50,6 +52,30 @@ public class VarianXmlReportTests
         List<string> lines = report.Describe().ToList();
         Assert.Contains("2 structure(s) done, 3 skipped", lines[0]);
         Assert.Contains(lines, l => l.Contains("'NoTypeIndex'") && l.Contains("TypeIndex"));
+    }
+
+    [Fact]
+    public void A_structure_without_a_complete_code_is_imported_with_a_note_that_rts_leave_it_out()
+    {
+        // It used to be reported as done, and every generated RT then left it out without the import saying so.
+        using var folder = new TestFolder();
+        string output = folder.Sub("templates");
+        string xml = StructureTemplate(folder, "Helpers", Structure("z_Ring", code: null), Structure("Opt_PTV", code: ""), Structure("Bladder"));
+
+        VarianXmlReport report = VarianXmlReader.Import(xml, output);
+
+        Assert.False(report.Failed, report.Error);
+        Assert.Equal(3, report.SucceededCount);
+        Assert.Equal(new[] { "z_Ring", "Opt_PTV" }, report.NotedStructures.Select(s => s.Structure));
+        Assert.Contains("no structure code", report.Structures[0].Note);
+        Assert.Contains("no code value", report.Structures[1].Note);
+        Assert.All(report.NotedStructures, s => Assert.Contains("generated RTs leave it out", s.Note));
+        Assert.Null(report.Structures[2].Note);
+        List<string> lines = report.Describe().ToList();
+        Assert.Contains("3 structure(s) done, 0 skipped", lines[0]);
+        Assert.Contains(lines, l => l.Contains("note 'z_Ring'") && l.Contains("no structure code"));
+        // Kept in the template, so a Varian export gives them back.
+        Assert.Equal(new[] { "z_Ring", "Opt_PTV", "Bladder" }, ROIClassTools.LoadROIsFromFolder(Path.Combine(output, "Helpers"), new List<OntologyCodeClass>()).Select(r => r.ROIName));
     }
 
     [Fact]

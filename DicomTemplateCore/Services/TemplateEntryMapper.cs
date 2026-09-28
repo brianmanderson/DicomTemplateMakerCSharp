@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DicomTemplateMakerGUI.DicomTemplateServices;
 using ROIOntologyClass;
 using TemplateSync.Model;
 
@@ -19,7 +20,8 @@ namespace DicomTemplateMakerGUI.Services
         /// <summary>
         /// Builds the ROI for one site. Returns null (with a warning) only when the entry has no
         /// usable name. A missing or malformed colour no longer drops the ROI silently: it is kept
-        /// in red and reported.
+        /// in red and reported. An ROI without a complete code (code value and coding scheme) is kept
+        /// with a warning that generated RTs leave it out.
         /// </summary>
         public static ROIWrapper? ToRoiWrapper(SiteRoi siteRoi, ICollection<string> warnings)
         {
@@ -86,6 +88,12 @@ namespace DicomTemplateMakerGUI.Services
                 }
 
                 roi.Include = siteRoi.Include;
+                string? missing = RtStructureBuilder.MissingCodeParts(ontology);
+                if (missing != null)
+                {
+                    warnings.Add(entry.Structure + ": its code has no " + missing + " in the table, so generated RTs leave it out until a complete code is chosen for it.");
+                }
+
                 return new ROIWrapper(roi, entry.Structure, entry.TG_263R, entry.TG_263Spanish, entry.TG_263SpanishR, entry.TG_263French, entry.TG_263FrenchR);
             }
             catch (Exception ex) when (ex is FormatException || ex is OverflowException)

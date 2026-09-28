@@ -38,7 +38,9 @@ public sealed class AtomicTextFileTests : IDisposable
     {
         string target = folder.Sub("ui-settings.json"); // a directory where the file should be
 
-        Assert.ThrowsAny<IOException>(() => AtomicTextFile.Write(target, "{}"));
+        // Linux reports the rename onto a directory as an IOException (EISDIR), Windows as an UnauthorizedAccessException.
+        Exception failure = Assert.ThrowsAny<Exception>(() => AtomicTextFile.Write(target, "{}"));
+        Assert.True(failure is IOException || failure is UnauthorizedAccessException, $"Unexpected {failure.GetType()}: {failure.Message}");
 
         Assert.Empty(FilesIn(folder.Path));
         Assert.True(Directory.Exists(target));

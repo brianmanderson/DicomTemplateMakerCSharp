@@ -51,7 +51,10 @@ namespace DicomTemplateMakerGUI.Shell
         /// <summary>One report per file that was imported or failed while importing.</summary>
         public List<VarianXmlReport> Reports { get; } = new List<VarianXmlReport>();
 
-        /// <summary>Existing templates left unchanged because the user chose not to replace them.</summary>
+        /// <summary>
+        /// Existing templates left unchanged: because the user chose not to replace them, or because they appeared after
+        /// the user was asked.
+        /// </summary>
         public List<string> SkippedExisting { get; } = new List<string>();
 
         /// <summary>Files not imported because of a problem found beforehand.</summary>
@@ -174,9 +177,10 @@ namespace DicomTemplateMakerGUI.Shell
 
         /// <summary>
         /// Imports the candidates without a problem with <see cref="VarianXmlReader.Import"/>. Candidates whose template
-        /// exists are imported only when <paramref name="replaceExisting"/> is true. Each file's template name is read
-        /// again first (the user may have taken a while to answer): a file whose name changed is not imported, and a
-        /// template that has appeared since the plan is kept unless <paramref name="replaceExisting"/> is true.
+        /// existed when planning (<see cref="VarianImportCandidate.Exists"/>, the templates the user was asked about) are
+        /// imported only when <paramref name="replaceExisting"/> is true. Each file's template name is read again first
+        /// (the user may have taken a while to answer): a file whose name changed is not imported, and a template that
+        /// has appeared since the plan is always kept, because the user was not asked about it.
         /// </summary>
         public static VarianImportResult Import(IReadOnlyList<VarianImportCandidate> candidates, string templateRoot, bool replaceExisting, IProgress<string>? progress, CancellationToken cancellationToken = default)
         {
@@ -199,7 +203,10 @@ namespace DicomTemplateMakerGUI.Shell
                     continue;
                 }
 
-                if (!replaceExisting && (candidate.Exists || TemplateMaker.TemplateExists(Path.Combine(templateRoot, candidate.TemplateName))))
+                bool keep = candidate.Exists
+                    ? !replaceExisting
+                    : TemplateMaker.TemplateExists(Path.Combine(templateRoot, candidate.TemplateName));
+                if (keep)
                 {
                     result.SkippedExisting.Add(candidate.TemplateName);
                     continue;

@@ -192,4 +192,72 @@ public sealed class UiSettingsStoreTests : IDisposable
         Assert.Contains(logger.Entries, e => e.Level == LogLevel.Error && e.Message.Contains("not saved", StringComparison.Ordinal));
         Assert.Equal("/templates", store.Settings.TemplateRoot); // still used for this session
     }
+
+    [Fact]
+    public void A_file_damaged_after_startup_is_not_replaced_while_no_backup_of_it_can_be_made()
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+        File.WriteAllText(SettingsPath, "{ \"templateRoot\": \"/old\" }");
+        UiSettingsStore store = Store();
+        store.Load();
+        Assert.Null(store.LoadProblem);
+        File.WriteAllText(SettingsPath, "{ broken"); // damaged while the program runs
+        Directory.CreateDirectory(store.BackupPath); // a directory where the backup copy should go, so the copy fails
+
+        Assert.False(store.SetTemplateRoot("/templates"));
+
+        Assert.Equal("{ broken", File.ReadAllText(SettingsPath));
+        Assert.Contains(logger.Entries, e => e.Level == LogLevel.Error && e.Message.Contains("damaged", StringComparison.Ordinal));
+        Assert.Equal("/templates", store.Settings.TemplateRoot);
+
+        // Once the backup can be made, the next save keeps the damaged file as the backup and saves both choices.
+        Directory.Delete(store.BackupPath);
+        Assert.True(store.RememberFolder(FolderPurpose.Output, "/out"));
+
+        Assert.Equal("{ broken", File.ReadAllText(store.BackupPath));
+        UiSettings saved = Store().Load();
+        Assert.Equal("/templates", saved.TemplateRoot);
+        Assert.Equal("/out", saved.GetLastFolder(FolderPurpose.Output));
+    }
+
+    [Fact]
+    public void A_change_that_could_not_be_saved_is_saved_with_the_next_change()
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+        const string OnDisk = "{ \"lastRtFileFolder\": \"/old-rts\" }";
+        File.WriteAllText(SettingsPath, OnDisk);
+        UiSettingsStore store = Store();
+        store.Load();
+
+        // For a moment the file cannot be replaced (here a directory stands where it should be).
+        File.Delete(SettingsPath);
+        Directory.CreateDirectory(SettingsPath);
+        Assert.False(store.RememberFolder(FolderPurpose.RtFile, "/new-rts"));
+        Assert.Equal("/new-rts", store.Settings.GetLastFolder(FolderPurpose.RtFile));
+        Directory.Delete(SettingsPath);
+        File.WriteAllText(SettingsPath, OnDisk);
+
+        Assert.True(store.RememberFolder(FolderPurpose.Output, "/out"));
+
+        Assert.Equal("/new-rts", store.Settings.GetLastFolder(FolderPurpose.RtFile));
+        UiSettings saved = Store().Load();
+        Assert.Equal("/new-rts", saved.GetLastFolder(FolderPurpose.RtFile));
+        Assert.Equal("/out", saved.GetLastFolder(FolderPurpose.Output));
+    }
+
+    [Fact]
+    public void A_file_deleted_after_startup_does_not_drop_this_copys_settings()
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
+        File.WriteAllText(SettingsPath, "{ \"templateRoot\": \"/templates\" }");
+        UiSettingsStore store = Store();
+        store.Load();
+        File.Delete(SettingsPath);
+
+        Assert.True(store.RememberFolder(FolderPurpose.Output, "/out"));
+
+        UiSettings saved = Store().Load();
+        Assert.Equal("/templates", saved.TemplateRoot);
+        Assert.Equal("/out", saved.GetLastFolder(FolderPurpose.Output));
+    }
 }

@@ -206,4 +206,48 @@ public class TemplateLegacyMigrationTests
             Assert.Equal(entryCount, OntologyTools.LoadOntologiesFromFolder(folder.Path).Count);
         }
     }
+
+    [Fact]
+    public void The_bundled_template_files_hold_only_text_a_latin_1_rt_can_hold()
+    {
+        // CTV_High^LN_3cm+ and CTV_Mid^LN_3cm- had U+02C6 (not '^') in their file names and the Windows-1252 byte 0x88
+        // in their code meanings, so RTs of images in Latin-1 (most CT and MR) left them out.
+        string records = Path.Combine(RepositoryRoot(), "AirTableRecords");
+        var strictUtf8 = new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
+        var problems = new List<string>();
+        string[] files = Directory.GetFiles(records, "*.txt", SearchOption.AllDirectories);
+        foreach (string file in files)
+        {
+            string relative = Path.GetRelativePath(records, file);
+            string text;
+            try
+            {
+                text = strictUtf8.GetString(File.ReadAllBytes(file));
+            }
+            catch (System.Text.DecoderFallbackException)
+            {
+                problems.Add(relative + ": not UTF-8");
+                continue;
+            }
+
+            if (relative.Any(c => c > '\u00FF') || text.Any(c => c > '\u00FF'))
+            {
+                problems.Add(relative + ": a character that is not in Latin-1 (ISO_IR 100)");
+            }
+        }
+
+        Assert.NotEmpty(files);
+        Assert.Empty(problems);
+    }
+
+    private static string RepositoryRoot()
+    {
+        string? dir = AppContext.BaseDirectory;
+        while (dir != null && !File.Exists(Path.Combine(dir, "DicomTemplateMaker.sln")))
+        {
+            dir = Path.GetDirectoryName(dir);
+        }
+
+        return dir ?? throw new InvalidOperationException("Repository folder not found.");
+    }
 }
