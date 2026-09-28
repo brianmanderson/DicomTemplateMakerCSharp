@@ -9,14 +9,15 @@ Windows tools for building and applying DICOM RT Structure Set templates in radi
 
 | Project | What it is |
 | --- | --- |
-| `DicomTemplateMakerGUI` | WPF desktop app (the released program). Create/edit templates, assign ontology codes, pull shared template definitions (published TG-263 snapshot or your own Airtable tables), and read/write Varian Eclipse structure-template XML. Includes a folder-watcher service for automated runs. |
-| `DicomTemplateMakerCSharp` | Console runner. Scans template folders (each holding a `Paths.txt` plus an `ROIs/` folder of per-ROI text files), then walks the DICOM folder trees listed in each `Paths.txt` and writes an RT Structure file into them. |
-| `CleaningRTStructureCsharp` | Console utility for cleaning existing RT Structure files. |
-| `ROIOntologyClass` | Shared library: ROI and ontology-code classes, template folder loading (JSON and legacy text formats). |
+| `DicomTemplateMakerGUI` | WPF desktop app (the released program, `net10.0-windows`). Create and edit templates, assign ontology codes, pull shared template definitions (published TG-263 snapshot or your own Airtable tables), read and write Varian Eclipse structure-template XML, and run the folder-watching RT generator. |
+| `DicomTemplateCore` | Platform-neutral library (`net10.0`) with the template logic shared by the app and the tools: RT Structure Set generation, DICOM series discovery (header-only fo-dicom reads), template folders, Varian XML import and export, Airtable record mapping. Tested by `DicomTemplateCore.Tests`. |
+| `ROIOntologyClass` | Platform-neutral library: ROI and ontology-code classes, template folder loading (JSON and legacy text formats). |
 | `TemplateSync` | Platform-neutral library for online templates: Airtable client, local cache, shared snapshot download, write planning, encrypted connection store. Tested by `TemplateSync.Tests`. |
+| `DicomTemplateMakerCSharp` | Command-line RT generator: applies every template under a folder to the DICOM folders listed in each template's `Paths.txt`. |
+| `Xaml_Maker/XamlMakerCsharp` | Command-line converter between template folders and Varian XML structure templates. |
+| `CleaningRTStructureCsharp` | Command-line utility that empties the referenced-image lists (Contour Image Sequences) of an RT Structure file, e.g. to make a reusable template RT. |
 | `TemplateSnapshotTool` | Maintainer/CI tool that exports the shared TG-263 table to `TemplateSnapshots/TG263.json`. |
-| `Xaml_Maker` | Converts templates to/from Varian XML structure templates. |
-| `AirTableRecords/` | Bundled per-treatment-site template definitions (e.g. `AbdPelv_Anal`, `AbdPelv_Bladder`) with one text file per ROI. |
+| `AirTableRecords/` | Bundled per-treatment-site template definitions (e.g. `AbdPelv_Anal`, `AbdPelv_Bladder`). |
 
 ## Online templates and Airtable
 
@@ -72,6 +73,36 @@ assets. Anyone who owns one of those tokens should revoke it in Airtable
 
 ## Requirements
 
-- Windows, .NET Framework 4.8
-- Key NuGet packages: fo-dicom 5.0.3, Newtonsoft.Json, WindowsAPICodePack
-- Building the `TemplateSync` library and running its tests needs the .NET SDK (8 or later for the library, 10 for the tests): `dotnet test --project TemplateSync.Tests`
+- **Using the program:** 64-bit Windows 10 or later. Release downloads are self-contained, so no
+  .NET runtime needs to be installed.
+- **Building:** the .NET 10 SDK (see `global.json`). The whole solution, including the WPF app,
+  builds on Windows, Linux and macOS; the app itself runs only on Windows.
+
+## Building and testing
+
+```
+dotnet build DicomTemplateMaker.sln
+dotnet test --solution DicomTemplateMaker.sln
+dotnet format DicomTemplateMaker.sln --verify-no-changes
+```
+
+Warnings are errors and nullable reference types are on for every project
+(`Directory.Build.props`). Package versions live in `Directory.Packages.props`. The tests include
+golden files that pin the Varian XML import and export; set `UPDATE_GOLDEN=1` only when a change to
+that output is intended, and review the diff.
+
+Command-line tools:
+
+```
+dotnet run --project DicomTemplateMakerCSharp -- <template-folder> [--once] [--delete-generated]
+dotnet run --project Xaml_Maker/XamlMakerCsharp -- import <folder-of-xml-files> <template-folder>
+dotnet run --project Xaml_Maker/XamlMakerCsharp -- export <template-folder> <xml-output-folder>
+dotnet run --project CleaningRTStructureCsharp -- <input-RS.dcm> <output.dcm>
+```
+
+## Releases
+
+GitHub Actions (`.github/workflows/ci.yml`) builds and tests every push and pull request on Windows
+and Linux and checks formatting. Pushing a tag such as `v1.1.0` also publishes a self-contained,
+single-file Windows x64 build to the GitHub release for that tag. Run the TG-263 snapshot workflow
+first so the release carries an offline copy of the shared templates.

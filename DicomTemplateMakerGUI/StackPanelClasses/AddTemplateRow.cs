@@ -1,7 +1,10 @@
-﻿using System.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,16 +17,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.Windows;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Collections.ObjectModel;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
     public class AddTemplateRow : StackPanel
     {
         private Label rois_present_label;
-        public string template_name;
+        public string? template_name;
         public TemplateMaker templateMaker;
         private CheckBox selectCheckBox;
         public CheckBox SelectCheckBox
@@ -39,10 +39,10 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         public ObservableCollection<TemplateSourceItem> AirTables;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
+            PropertyChangedEventHandler? handler = this.PropertyChanged;
             if (handler != null)
             {
                 var e = new PropertyChangedEventArgs(propertyName);
@@ -93,6 +93,14 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             Children.Add(right_panel);
 
         }
+        /// <summary>
+        /// The template's folder. Rows are only built for a TemplateMaker whose define_path has been called;
+        /// if that ever does not hold, this fails where the null path used to reach the file APIs.
+        /// </summary>
+        internal string TemplatePath
+        {
+            get { return templateMaker.path ?? throw new InvalidOperationException("define_path has not been called on this template's TemplateMaker."); }
+        }
         public void CheckPaths()
         {
             if (templateMaker.Paths.Count == 0)
@@ -106,7 +114,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void EditROIButton_Click(object sender, System.EventArgs e)
         {
-            MakeTemplateWindow template_window = new MakeTemplateWindow(templateMaker.path, templateMaker, AirTables);
+            MakeTemplateWindow template_window = new MakeTemplateWindow(TemplatePath, templateMaker, AirTables);
             template_window.ShowDialog();
             if (templateMaker.Paths.Count != 0)
             {
@@ -116,18 +124,19 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         public void Delete()
         {
-            templateMaker.define_output(templateMaker.path);
-            templateMaker.define_path(templateMaker.path);
+            string template_path = TemplatePath;
+            templateMaker.define_output(template_path);
+            templateMaker.define_path(template_path);
             templateMaker.clear_folder();
-            foreach (string path in Directory.GetFiles(templateMaker.path))
+            foreach (string path in Directory.GetFiles(template_path))
             {
                 File.Delete(path);
             }
-            if (Directory.Exists(Path.Combine(templateMaker.path, "ROIs")))
+            if (Directory.Exists(Path.Combine(template_path, "ROIs")))
             {
-                Directory.Delete(Path.Combine(templateMaker.path, "ROIs"));
+                Directory.Delete(Path.Combine(template_path, "ROIs"));
             }
-            Directory.Delete(templateMaker.path);
+            Directory.Delete(template_path);
             Children.Clear();
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)

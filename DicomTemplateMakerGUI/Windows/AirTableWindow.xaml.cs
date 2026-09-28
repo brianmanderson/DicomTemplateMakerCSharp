@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
@@ -23,8 +23,8 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class AirTableWindow : Window, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -33,7 +33,7 @@ namespace DicomTemplateMakerGUI.Windows
         private readonly string folder_location;
         private readonly string onto_path;
         private List<AddAirTableRow> default_airtable_list = new List<AddAirTableRow>();
-        private CancellationTokenSource loadCancellation;
+        private CancellationTokenSource? loadCancellation;
         private readonly Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         private readonly Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         private readonly Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
@@ -71,7 +71,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private async void BuildTables(LoadMode mode)
         {
-            TemplateSourceItem source = Template_ComboBox.SelectedItem as TemplateSourceItem;
+            TemplateSourceItem? source = Template_ComboBox.SelectedItem as TemplateSourceItem;
             if (source == null)
             {
                 return;
@@ -261,7 +261,7 @@ namespace DicomTemplateMakerGUI.Windows
             string search = SearchBox_TextBox.Text.ToLowerInvariant();
             foreach (AddAirTableRow template_row in default_airtable_list)
             {
-                if (template_row.site_label.Content.ToString().ToLowerInvariant().Contains(search))
+                if ((template_row.site_label.Content.ToString() ?? string.Empty).ToLowerInvariant().Contains(search))
                 {
                     AddRow(template_row);
                 }
@@ -272,7 +272,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Delete_CheckBox.IsChecked = false;
             DeleteButton.IsEnabled = false;
-            TemplateSourceItem source = Template_ComboBox.SelectedItem as TemplateSourceItem;
+            TemplateSourceItem? source = Template_ComboBox.SelectedItem as TemplateSourceItem;
             Delete_CheckBox.IsEnabled = source != null && source.IsWritable;
             if (source != null)
             {
@@ -294,7 +294,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             DeleteButton.IsEnabled = false;
             Delete_CheckBox.IsChecked = false;
-            TemplateSourceItem at = Template_ComboBox.SelectedItem as TemplateSourceItem;
+            TemplateSourceItem? at = Template_ComboBox.SelectedItem as TemplateSourceItem;
             if (at == null || !at.IsWritable)
             {
                 return;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using ROIOntologyClass;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {

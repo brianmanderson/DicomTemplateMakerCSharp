@@ -1,48 +1,49 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Linq;
-using System.Linq;
-using System.IO;
-using System.Runtime;
-using XamlMakerCsharp;
+using DicomTemplateMakerGUI.Services;
+using ROIOntologyClass;
 
-namespace XamlMakerCsharp
+// Usage:
+//   XamlMakerCsharp import <folder-of-xml-files> <template-folder>   Varian XML -> template folders
+//   XamlMakerCsharp export <template-folder> <output-folder>          template folders -> Varian XML
+if (args.Length != 3 || (args[0] != "import" && args[0] != "export"))
 {
-    class Program
+    Console.Error.WriteLine("Usage: XamlMakerCsharp import <xml-folder> <template-folder> | export <template-folder> <output-folder>");
+    return 2;
+}
+
+string source = args[1];
+string target = args[2];
+if (!Directory.Exists(source))
+{
+    Console.Error.WriteLine($"Folder not found: {source}");
+    return 2;
+}
+
+Directory.CreateDirectory(target);
+int count = 0;
+if (args[0] == "import")
+{
+    foreach (string file in Directory.GetFiles(source, "*.xml"))
     {
-        static void Main(string[] args)
-        {
-            if (true)
-            {
-                string xml_path = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure\Template_Output_VarianXml";
-                string out_path = @"C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\bin\x64\Debug";
-                foreach (string file in Directory.GetFiles(xml_path, "*.xml"))
-                {
-                    //string new_file = @"K:\Template_Output_VarianXml\AbdPelv_Anal.xml";
-                    VarianXmlReader reader = new VarianXmlReader(file);
-                    reader.XmlToROI(out_path);
-                }
-            }
-            if (false)
-            {
-                string rois_path = @"C:\Users\b5anderson\Modular_Projects\DicomTemplateMakerCSharp\DicomTemplateMakerGUI\bin\x64\Debug";
-                foreach (string directory in Directory.GetDirectories(rois_path))
-                {
-                    VarianXmlWriter xmlwriter = new VarianXmlWriter();
-
-                    xmlwriter.LoadROIsFromPath(directory);
-                    xmlwriter.SaveFile($@"K:\{Path.GetFileName(directory)}.xml");
-                }
-            }
-
-
-            XElement TCPGamma = Structure.Element("TCPGamma");
-            TCPGamma.FirstAttribute.Value = "true";
-            base_struct.Add(Structure);
-            XmlWriter writer = XmlWriter.Create("test.xml");
-            doc.WriteTo(writer);
-            writer.Close();
-            int x = 1;
-        }
+        new VarianXmlReader(file).XmlToROI(target);
+        count++;
     }
 }
+else
+{
+    List<OntologyCodeClass> ontologies = OntologyTools.LoadOntologiesFromFolder(Path.Combine(source, "Ontologies"));
+    foreach (string directory in Directory.GetDirectories(source))
+    {
+        if (!ROIClassTools.IsValidTemplateFolder(directory))
+        {
+            continue;
+        }
+
+        var writer = new VarianXmlWriter();
+        writer.LoadROIsFromPath(directory, ontologies);
+        writer.SaveFile(Path.Combine(target, Path.GetFileName(directory) + ".xml"));
+        count++;
+    }
+}
+
+Console.WriteLine($"{(args[0] == "import" ? "Imported" : "Exported")} {count} template(s).");
+return 0;

@@ -1,23 +1,22 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System;
-using TemplateSync.Sync;
-using System.Windows;
-using System.Windows.Data;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Controls;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using ROIOntologyClass;
-using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
-using System.Collections.ObjectModel;
+using DicomTemplateMakerGUI.StackPanelClasses;
+using ROIOntologyClass;
+using TemplateSync.Sync;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -26,9 +25,9 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class MakeTemplateWindow : Window
     {
-        string dicom_file;
+        string? dicom_file;
         string out_path;
-        private string write_path;
+        private string? write_path;
         Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
@@ -47,7 +46,7 @@ namespace DicomTemplateMakerGUI.Windows
             this.template_maker = template_maker;
             InterpComboBox.ItemsSource = interpreters;
             InterpComboBox.SelectedIndex = 0;
-            
+
             OntologyComboBox.DisplayMemberPath = "CodeMeaning";
             OntologyComboBox.ItemsSource = template_maker.Ontologies;
             OntologyComboBox.SelectedIndex = 0;
@@ -58,8 +57,8 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 AirTableComboBox.SelectedIndex = 0;
             }
-            check_airtables((TemplateSourceItem)AirTableComboBox.SelectedItem);
-            
+            check_airtables((TemplateSourceItem?)AirTableComboBox.SelectedItem);
+
             R = byte.Parse("0");
             G = byte.Parse("255");
             B = byte.Parse("255");
@@ -90,13 +89,11 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void Select_File_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
-            dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = false;
             FileLocationLabel.Content = "";
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            string? picked = FileDialogs.PickFile(this, "Select an RT Structure file", FileDialogs.DicomFilter, ".");
+            if (picked != null)
             {
-                dicom_file = dialog.FileName;
+                dicom_file = picked;
                 FileLocationLabel.Content = dicom_file;
                 template_maker.interpret_RT(dicom_file);
                 add_roi_rows();
@@ -119,11 +116,11 @@ namespace DicomTemplateMakerGUI.Windows
                 {
                     add = true;
                 }
-                else if (roi.Ontology_Class.CodeMeaning.ToLower().Contains(text))
+                else if (AddROIRow.RequireOntologyClass(roi).CodeMeaning.ToLower().Contains(text))
                 {
                     add = true;
                 }
-                else if (roi.ROI_Interpreted_type.ToLower().Contains(text))
+                else if (AddROIRow.RequireInterpretedType(roi).ToLower().Contains(text))
                 {
                     add = true;
                 }
@@ -287,9 +284,9 @@ namespace DicomTemplateMakerGUI.Windows
                 if (TemplateTextBox.IsEnabled)
                 {
                     BuildButton.IsEnabled = true;
-                }    
+                }
             }
-            
+
             AddROIButton.IsEnabled = false;
             if (ROITextBox.Text != "")
             {
@@ -394,7 +391,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private async void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
-            TemplateSourceItem table = (TemplateSourceItem)AirTableComboBox.SelectedItem;
+            TemplateSourceItem? table = (TemplateSourceItem?)AirTableComboBox.SelectedItem;
             if (table == null)
             {
                 return;
@@ -426,7 +423,7 @@ namespace DicomTemplateMakerGUI.Windows
                 WriteToAirTable_Button.IsEnabled = true;
             }
         }
-        private void check_airtables(TemplateSourceItem airtable)
+        private void check_airtables(TemplateSourceItem? airtable)
         {
             WriteToAirTable_Button.IsEnabled = airtable != null;
             WriteToAirTable_Button.Content = airtable == null ? "Add an Airtable table to write" : "Write to AirTable";
@@ -437,7 +434,7 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AirTableSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            check_airtables((TemplateSourceItem)AirTableComboBox.SelectedItem);
+            check_airtables((TemplateSourceItem?)AirTableComboBox.SelectedItem);
         }
 
         private void Rename_template_Click(object sender, RoutedEventArgs e)
@@ -448,8 +445,10 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 template_maker.TemplateName = rename_window.NewName_TextBox.Text;
                 TemplateTextBox.Text = rename_window.NewName_TextBox.Text;
-                Directory.Move(out_path, Path.Combine(Path.GetDirectoryName(out_path), rename_window.NewName_TextBox.Text));
-                out_path = Path.GetDirectoryName(out_path);
+                // Path.Combine used to reject a null parent (out_path at a drive root) at this point.
+                string parent_directory = Path.GetDirectoryName(out_path) ?? throw new ArgumentNullException(nameof(out_path), out_path + " has no parent folder.");
+                Directory.Move(out_path, Path.Combine(parent_directory, rename_window.NewName_TextBox.Text));
+                out_path = parent_directory;
                 Build();
             }
         }

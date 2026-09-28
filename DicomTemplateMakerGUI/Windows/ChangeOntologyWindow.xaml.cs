@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ROIOntologyClass;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
+using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -17,7 +18,8 @@ namespace DicomTemplateMakerGUI.Windows
     public partial class ChangeOntologyWindow : Window
     {
         public FMAID_SNOMED_OntologyClass converter = new FMAID_SNOMED_OntologyClass();
-        private TemplateMaker template_maker;
+        // Built by remake_onto for each ontology-file conversion.
+        private TemplateMaker? template_maker;
         private string onto_path;
         private List<AddTemplateRow> template_rows;
         List<string> default_ontology_list = new List<string> { "FMA", "SNOMEDCT" };
@@ -29,6 +31,7 @@ namespace DicomTemplateMakerGUI.Windows
             this.template_rows = template_rows;
             this.onto_path = onto_path;
         }
+        [MemberNotNull(nameof(template_maker))]
         private void remake_onto()
         {
             template_maker = new TemplateMaker();
@@ -53,12 +56,14 @@ namespace DicomTemplateMakerGUI.Windows
                 bool rewrite = false;
                 foreach (ROIClass roi in template_maker.ROIs)
                 {
-                    OntologyCodeClass onto = roi.Ontology_Class;
+                    OntologyCodeClass onto = AddROIRow.RequireOntologyClass(roi);
                     if (onto.Scheme == from_onto)
                     {
-                        if (convert_dict.ContainsKey(onto.CodeValue))
+                        // A null code is still rejected by the dictionary lookup here, as it always has been.
+                        string code_value = onto.CodeValue ?? throw new ArgumentNullException(nameof(onto.CodeValue));
+                        if (convert_dict.ContainsKey(code_value))
                         {
-                            onto.CodeValue = convert_dict[onto.CodeValue];
+                            onto.CodeValue = convert_dict[code_value];
                             onto.Scheme = to_onto;
                             rewrite = true;
                         }
@@ -88,9 +93,11 @@ namespace DicomTemplateMakerGUI.Windows
             {
                 if (onto.Scheme == from_onto)
                 {
-                    if (convert_dict.ContainsKey(onto.CodeValue))
+                    // A null code is still rejected by the dictionary lookup here, as it always has been.
+                    string code_value = onto.CodeValue ?? throw new ArgumentNullException(nameof(onto.CodeValue));
+                    if (convert_dict.ContainsKey(code_value))
                     {
-                        onto.CodeValue = convert_dict[onto.CodeValue];
+                        onto.CodeValue = convert_dict[code_value];
                         onto.Scheme = to_onto;
                         rewrite = true;
                     }

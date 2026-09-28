@@ -14,7 +14,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         private TemplateMaker template_maker;
         private string key;
         private string value;
-        private string path;
         List<string> dicom_tag_list = new List<string> { "Study Description", "Series Description", "Modality" };
         public DicomTagRow(TemplateMaker template_maker, string key, string value)
         {
@@ -41,7 +40,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void Click_Delete(object sender, RoutedEventArgs e)
         {
-            template_maker.Paths.Remove(path);
             template_maker.DicomTags[key].Remove(value);
             if (template_maker.DicomTags[key].Count == 0)
             {

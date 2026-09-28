@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Platform-neutral template engine shared by the GUI and the console tools:
+    template folders, Varian XML import/export, and RT Structure generation with fo-dicom.
+    Namespaces keep their historical DicomTemplateMakerGUI.* names to limit churn.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>DicomTemplateMakerGUI</RootNamespace>
+    <AssemblyName>DicomTemplateCore</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ROIOntologyClass\ROIOntologyClass.csproj" />
+    <ProjectReference Include="..\TemplateSync\TemplateSync.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="fo-dicom" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DicomTemplateCore.Tests" />
+  </ItemGroup>
+
+</Project>

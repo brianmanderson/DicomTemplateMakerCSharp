@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Media;
+using Newtonsoft.Json;
 using ROIOntologyClass;
 
 namespace ROIOntologyClass
@@ -40,7 +39,7 @@ namespace ROIOntologyClass
                 try
                 {
                     string json = File.ReadAllText(jsonFile);
-                    List<ROIClass> rois = JsonConvert.DeserializeObject<List<ROIClass>>(json);
+                    List<ROIClass>? rois = JsonConvert.DeserializeObject<List<ROIClass>>(json);
                     if (rois != null)
                     {
                         // Rebuild non-serializable properties after deserialization
@@ -108,7 +107,7 @@ namespace ROIOntologyClass
             {
                 try
                 {
-                    ROIClass roi = LoadROIFromTextFile(file);
+                    ROIClass? roi = LoadROIFromTextFile(file);
                     if (roi != null && !rois.Any(r => r.ROIName == roi.ROIName))
                     {
                         rois.Add(roi);
@@ -127,7 +126,7 @@ namespace ROIOntologyClass
         /// <summary>
         /// Loads a single ROI from a legacy text file.
         /// </summary>
-        private static ROIClass LoadROIFromTextFile(string roiFile)
+        private static ROIClass? LoadROIFromTextFile(string roiFile)
         {
             string roiname = Path.GetFileName(roiFile).Replace(".txt", "");
             string[] instructions = File.ReadAllLines(roiFile);
@@ -253,15 +252,21 @@ namespace ROIOntologyClass
 
     public class ROIClass
     {
-        private string roiname;
-        private OntologyCodeClass ontology_class;
-        private List<byte> rgb, rgb_dvh;
-        private string roi_interpreted_type;
+        // Newtonsoft writes every property, so files this program saved always hold ROIName. A hand-edited file
+        // with "ROIName": null still loads it as null, which this annotation does not model (one without the
+        // key gets "").
+        private string roiname = "";
+        // Null for an ROI read from a template file whose Ontology_Class is null or missing; the other
+        // constructors always set it.
+        private OntologyCodeClass? ontology_class;
+        // Never read by this program; null for an ROI read from a file whose RGB is null or missing.
+        private List<byte>? rgb;
+        private List<byte>? rgb_dvh;
+        private string? roi_interpreted_type;
         private byte r, g, b;
         private byte r_dvh, g_dvh, b_dvh;
-        private Color roi_color, dvh_color;
-        private Brush roi_brush, dvh_brush;
-        public string color_string, dvh_color_string;
+        public string color_string = "";
+        public string? dvh_color_string;
         private bool include;
         private string contourstyle = "contour"; // segment, transluce, contour
         private string dvhlinestyle = "solid"; // 0 is solid, 1 is dashed -------, 2 is small dashed *******, 3 is dash dot -*-*-*-, 4 dash dot dot -**-**-
@@ -322,7 +327,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("Include");
             }
         }
-        public OntologyCodeClass Ontology_Class
+        public OntologyCodeClass? Ontology_Class
         {
             get { return ontology_class; }
             set
@@ -341,50 +346,7 @@ namespace ROIOntologyClass
             }
         }
 
-        [JsonIgnore]
-        public Brush ROI_Brush
-        {
-            get { return roi_brush; }
-            set
-            {
-                roi_brush = value;
-                OnPropertyChanged("ROI_Brush");
-            }
-        }
-
-        [JsonIgnore]
-        public Brush DVH_Brush
-        {
-            get { return dvh_brush; }
-            set
-            {
-                dvh_brush = value;
-                OnPropertyChanged("DVH_Brush");
-            }
-        }
-
-        [JsonIgnore]
-        public Color ROIColor
-        {
-            get { return roi_color; }
-            set
-            {
-                roi_color = value;
-                OnPropertyChanged("ROIColor");
-            }
-        }
-
-        [JsonIgnore]
-        public Color DVH_Color
-        {
-            get { return dvh_color; }
-            set
-            {
-                dvh_color = value;
-                OnPropertyChanged("DVH_Color");
-            }
-        }
-        public List<byte> RGB
+        public List<byte>? RGB
         {
             get { return rgb; }
             set
@@ -393,7 +355,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("RGB");
             }
         }
-        public List<byte> RGB_DVH
+        public List<byte>? RGB_DVH
         {
             get { return rgb_dvh; }
             set
@@ -402,7 +364,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("RGB_DVH");
             }
         }
-        public string ROI_Interpreted_type
+        public string? ROI_Interpreted_type
         {
             get { return roi_interpreted_type; }
             set
@@ -469,7 +431,7 @@ namespace ROIOntologyClass
         /// <summary>
         /// Parameterless constructor required for JSON deserialization.
         /// After deserializing, call RebuildFromDeserialization() to restore
-        /// non-serializable properties (Color, Brush).
+        /// derived values (colour string, DVH colour, shared ontology instance).
         /// </summary>
         public ROIClass()
         {
@@ -477,15 +439,11 @@ namespace ROIOntologyClass
         }
 
         /// <summary>
-        /// Rebuilds non-serializable properties (Color, Brush) after JSON deserialization.
+        /// Rebuilds derived values (colour string, DVH colour, shared ontology instance) after JSON deserialization.
         /// Call this method after deserializing an ROIClass object.
         /// </summary>
         public void RebuildFromDeserialization(List<OntologyCodeClass> ontologyList)
         {
-            // Rebuild ROI color and brush from R, G, B values
-            ROIColor = Color.FromRgb(R, G, B);
-            ROI_Brush = new SolidColorBrush(ROIColor);
-
             // Rebuild color_string if not already set
             if (string.IsNullOrEmpty(color_string))
             {
@@ -494,6 +452,12 @@ namespace ROIOntologyClass
             bool foundOntology = false;
             foreach (OntologyCodeClass ontology in ontologyList)
             {
+                if (Ontology_Class == null)
+                {
+                    // Still fails here when there are ontologies to match against, as it always has;
+                    // LoadROIsFromFolder then falls back to the legacy text files.
+                    throw new InvalidOperationException($"ROI '{ROIName}' has no ontology class.");
+                }
                 if (ontology.CodeMeaning == Ontology_Class.CodeMeaning &&
                     ontology.CodeValue == Ontology_Class.CodeValue &&
                     ontology.Scheme == Ontology_Class.Scheme)
@@ -513,7 +477,7 @@ namespace ROIOntologyClass
 
         // reference identifies the structure set ROI sequence
         // observation_number unique within observation sequence
-        public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class, string type_index, string contour_style,
+        public ROIClass(string color, string name, string? roi_interpreted_type, OntologyCodeClass identification_code_class, string type_index, string contour_style,
             string dvhLineStyle, string dvhLineColor, string dvhLineWidth)
         {
             ROIName = name;
@@ -524,8 +488,6 @@ namespace ROIOntologyClass
             G = Byte.Parse(colors[1]);
             B = Byte.Parse(colors[2]);
             RGB = new List<byte> { R, G, B };
-            ROIColor = Color.FromRgb(R, G, B);
-            ROI_Brush = new SolidColorBrush(ROIColor);
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
             TypeIndex = type_index;
@@ -542,8 +504,6 @@ namespace ROIOntologyClass
                 R_DVH = R;
                 G_DVH = G;
                 B_DVH = B;
-                DVH_Brush = ROI_Brush;
-                DVH_Color = ROIColor;
             }
             else
             {
@@ -554,26 +514,22 @@ namespace ROIOntologyClass
                 R_DVH = byte.Parse(red.ToString());
                 G_DVH = byte.Parse(green.ToString());
                 B_DVH = byte.Parse(blue.ToString());
-                DVH_Color = Color.FromRgb(R_DVH, G_DVH, B_DVH);
-                DVH_Brush = new SolidColorBrush(DVH_Color);
             }
         }
-        public ROIClass(byte r, byte g, byte b, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
+        public ROIClass(byte r, byte g, byte b, string name, string? roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
             roiname = name;
             R = r;
             G = g;
             B = b;
             Include = true;
-            ROIColor = Color.FromRgb(R, G, B);
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
-            ROI_Brush = new SolidColorBrush(ROIColor);
             RGB = new List<byte> { R, G, B };
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
             build_dvh_line_color();
         }
-        public ROIClass(string color, string name, string roi_interpreted_type, OntologyCodeClass identification_code_class)
+        public ROIClass(string color, string name, string? roi_interpreted_type, OntologyCodeClass identification_code_class)
         {
             roiname = name;
             Include = true;
@@ -583,8 +539,6 @@ namespace ROIOntologyClass
             G = Byte.Parse(colors[1]);
             B = Byte.Parse(colors[2]);
             RGB = new List<byte> { R, G, B };
-            ROIColor = Color.FromRgb(R, G, B);
-            ROI_Brush = new SolidColorBrush(ROIColor);
             ROI_Interpreted_type = roi_interpreted_type;
             Ontology_Class = identification_code_class;
             build_dvh_line_color();
@@ -597,8 +551,6 @@ namespace ROIOntologyClass
             this.B = B;
             RGB = new List<byte> { R, G, B };
             color_string = $"{R.ToString()}\\{G.ToString()}\\{B.ToString()}";
-            ROIColor = Color.FromRgb(R, G, B);
-            ROI_Brush = new SolidColorBrush(ROIColor);
             build_dvh_line_color();
         }
         public void update_dvh_color(byte R, byte G, byte B)
@@ -606,11 +558,11 @@ namespace ROIOntologyClass
             DVHLineColor = (Int32.Parse(R.ToString()) + Int32.Parse(G.ToString()) * 256 + Int32.Parse(B.ToString()) * 256 * 256).ToString();
             build_dvh_line_color();
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string info)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            PropertyChangedEventHandler? handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(info));
@@ -620,16 +572,16 @@ namespace ROIOntologyClass
 
     public class ROIWrapper
     {
-        private string english_name;
-        private string english_name_reverse;
-        private string spanish_name;
-        private string spanish_name_reverse;
-        private string french_name;
-        private string french_name_reverse;
+        private string? english_name;
+        private string? english_name_reverse;
+        private string? spanish_name;
+        private string? spanish_name_reverse;
+        private string? french_name;
+        private string? french_name_reverse;
         public bool has_other_lanuages = false;
         public bool has_lateral = false;
         public ROIClass roi;
-        public ROIWrapper(ROIClass base_ROI, string name, string name_r, string spanish, string spanish_r, string french, string french_r)
+        public ROIWrapper(ROIClass base_ROI, string? name, string? name_r, string? spanish, string? spanish_r, string? french, string? french_r)
         {
             roi = base_ROI;
             english_name = name;

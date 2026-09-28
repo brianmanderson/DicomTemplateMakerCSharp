@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
@@ -121,11 +121,11 @@ namespace DicomTemplateMakerGUI.Windows
                 {
                     add_onto = true;
                 }
-                else if (onto.CodeValue.ToLower().Contains(text))
+                else if (RequireText(onto.CodeValue, "code value", onto).ToLower().Contains(text))
                 {
                     add_onto = true;
                 }
-                else if (onto.Scheme.ToLower().Contains(text))
+                else if (RequireText(onto.Scheme, "coding scheme", onto).ToLower().Contains(text))
                 {
                     add_onto = true;
                 }
@@ -135,6 +135,14 @@ namespace DicomTemplateMakerGUI.Windows
                     OntologyStackPanel.Children.Add(new_row);
                 }
             }
+        }
+        /// <summary>
+        /// Returns <paramref name="value"/>. The search reaches a missing code value or scheme only when the
+        /// checks before it did not match, and still fails there, as the direct dereference always did.
+        /// </summary>
+        private static string RequireText(string? value, string what, OntologyCodeClass onto)
+        {
+            return value ?? throw new InvalidOperationException($"Ontology '{onto.CodeMeaning}' has no {what}.");
         }
 
         private void AddOntology_Click(object sender, RoutedEventArgs e)
@@ -152,12 +160,9 @@ namespace DicomTemplateMakerGUI.Windows
 
         private void AddOntologyFromRT_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
-            dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = false;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            string? dicom_file = FileDialogs.PickFile(this, "Select an RT Structure file", FileDialogs.DicomFilter, ".");
+            if (dicom_file != null)
             {
-                string dicom_file = dialog.FileName;
                 template_maker.interpret_RT(dicom_file);
                 RefreshView();
                 check_status();
@@ -172,6 +177,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Save_Changes();
         }
+        [MemberNotNull(nameof(template_maker))]
         private void remake_onto()
         {
             template_maker = new TemplateMaker();
@@ -179,6 +185,7 @@ namespace DicomTemplateMakerGUI.Windows
             template_maker.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
             template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
         }
+        [MemberNotNull(nameof(template_maker))]
         private void BuildFromFolders()
         {
             remake_onto();

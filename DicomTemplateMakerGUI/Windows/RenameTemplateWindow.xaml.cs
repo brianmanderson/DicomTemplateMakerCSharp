@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -19,9 +19,10 @@ namespace DicomTemplateMakerGUI.Windows
     /// </summary>
     public partial class RenameTemplateWindow : Window
     {
-        public string out_path;
+        // Null when the template folder is a drive root (Path.GetDirectoryName returns null).
+        public string? out_path;
         public bool rename;
-        public RenameTemplateWindow(string previous_name, string out_path)
+        public RenameTemplateWindow(string previous_name, string? out_path)
         {
             InitializeComponent();
             PreviousName_Textbox.Text = previous_name;
@@ -44,9 +45,10 @@ namespace DicomTemplateMakerGUI.Windows
         {
             Rename_Button.IsEnabled = false;
             Status_Label.Content = "Status:";
-            if (NewName_TextBox.Text.IndexOfAny(Path.GetInvalidFileNameChars())<0)
+            if (NewName_TextBox.Text.IndexOfAny(Path.GetInvalidFileNameChars()) < 0)
             {
-                if (Directory.Exists(Path.Combine(out_path, NewName_TextBox.Text)))
+                // A null folder is still rejected by Path.Combine here, as it always has been.
+                if (Directory.Exists(Path.Combine(out_path ?? throw new ArgumentNullException(nameof(out_path)), NewName_TextBox.Text)))
                 {
                     Status_Label.Content = "Template already exists";
                 }

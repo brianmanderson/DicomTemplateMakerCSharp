@@ -43,7 +43,7 @@ namespace DicomTemplateMakerGUI.Services
             Settings = SettingsFile.ToSyncSettings();
             Cache = new SnapshotStore(Path.Combine(AppDataDirectory, "cache"));
             Connections = new AirtableConnectionStore(Path.Combine(AppDataDirectory, "airtable-connections.json"), new DpapiTokenProtector());
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            Version? version = Assembly.GetExecutingAssembly().GetName().Version;
             userAgent = "DicomTemplateMaker/" + (version == null ? "0" : version.ToString());
         }
 
@@ -132,7 +132,7 @@ namespace DicomTemplateMakerGUI.Services
         }
 
         /// <summary>One cheap request (a single record) to prove the ids and token work before saving.</summary>
-        public async Task<string> TestConnectionAsync(string baseId, string table, string token, CancellationToken cancellationToken)
+        public async Task<string?> TestConnectionAsync(string baseId, string table, string token, CancellationToken cancellationToken)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace DicomTemplateMakerGUI.Services
 
         public TemplateSourceItem AddConnection(string name, string baseId, string table, string token)
         {
-            TemplateSourceItem existing = Sources.FirstOrDefault(s => s.IsWritable && string.Equals(s.Name, name.Trim(), StringComparison.OrdinalIgnoreCase));
+            TemplateSourceItem? existing = Sources.FirstOrDefault(s => s.IsWritable && string.Equals(s.Name, name.Trim(), StringComparison.OrdinalIgnoreCase));
             Connections.Add(name, baseId, table, token);
             if (existing != null)
             {

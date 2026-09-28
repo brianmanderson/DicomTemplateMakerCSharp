@@ -88,7 +88,10 @@ CI export), plus deltas for people who maintain their own tables.
 - CI: `refresh-template-snapshot.yml` and `TemplateSnapshotTool`.
 
 ### Phase 3: platform and build
-See section 5.
+See section 5. Done: every project is SDK-style in one solution (`DicomTemplateMaker.sln`); the GUI
+targets `net10.0-windows` and everything else `net10.0`; duplicated sources live once in
+`DicomTemplateCore`; SimpleITK and WindowsAPICodePack are gone; nullable warnings are fixed, not
+suppressed; CI builds and tests on Windows and Linux and publishes tagged releases.
 
 ### Phase 2: stability and usability
 See section 6.
@@ -141,6 +144,8 @@ Measured in the code unless marked; ordered by risk to patients and data.
 | RT generation | In a folder with more than one series only the first matching series gets an RT (`KeyNotFoundException` after the first save; `run_program` never reset). | Decide per series; delete the write-only dictionaries. |
 | Template matching | Empty or missing Series/Study Description matches every template with tags (two-way substring test with `""`). | Blank or missing values never match. |
 | RT content | `RTReferencedStudySequence` holds the image's SOP Class/Instance UIDs instead of the study reference. | Study Instance UID with the Detached Study Management class `1.2.840.10008.3.1.2.3.1`. |
+| RT content | Every generated RT carries the template's File Meta *Media Storage SOP Instance UID*: fo-dicom does not update the meta header when the dataset's SOP Instance UID changes (measured with fo-dicom 5.2.6). | Build each RT as a new `DicomFile` from a copy of the template dataset. |
+| RT content | The bundled `template_RS.dcm` holds a placeholder patient (`RS_Template_File`, ID `000`), `PatientIdentityRemoved=YES` and 2019 dates. Tags an image lacks keep these values. | Type 2 patient/study tags the image lacks are written empty; identity-removed tags follow the image; creation and structure-set dates are the generation time. |
 | RT content | Per-ROI failures are swallowed, so RTs are written with ROIs missing. | Log and report; do not write an RT with zero ROIs. |
 | Crashes | 10 `async void` methods (3 are event handlers); the background runner is `async void` in a `Task`, so any exception there ends the process; no global exception handlers. | Global handlers with logging; runner as a cancellable `Task` with a try/catch per cycle and per folder. |
 | Error handling | 26 bare `catch` blocks, no logging anywhere, errors shown as button labels. | Logging to a rolling file in `%LOCALAPPDATA%\DicomTemplateMaker\logs`; typed catches; user-visible messages. |
@@ -149,7 +154,7 @@ Measured in the code unless marked; ordered by risk to patients and data.
 | Folder watcher | `FolderWatcher` leaks one `FileSystemWatcher` per folder per cycle and only waits for `Changed`; every unprocessed folder costs a fixed 3 s per template per cycle. | Settle-time rule based on file sizes and times; bounded retry with back-off for `IOException`. |
 | Paths | Data files resolved from the working directory (`.\template_RS.dcm`, `.\FMA_SNOMEDCT_Key.txt`, `.\SmallCT`). | Resolve from the program folder. |
 | Dead code | `Running.txt` and `Built_from_RTs.txt` blocks (the dead Airtable code was removed in Phase 1). | Delete. |
-| Usability | See the usability audit notes appended below. | Cheap wins first. |
+| Usability | See section 8. | Critical and high findings, plus the cheap wins. |
 
 ## 7. Open questions
 1. Should `DVH_Type_Index` and `DVH_ContourStyle` be applied when reading templates from Airtable?
@@ -159,3 +164,41 @@ Measured in the code unless marked; ordered by risk to patients and data.
    per-site overrides exist?
 3. Should the snapshot workflow open a pull request for review instead of committing to `main`?
 4. Which Airtable plan is the TG-263 workspace on, and what scopes does the leaked `patQ` token have?
+5. Template matching stays a case-insensitive substring test in both directions (only blank values
+   stop matching), because existing templates depend on it. Should it become "description contains
+   the requirement" only?
+
+## 8. Usability audit
+
+Read from every window and row class at `7719d1b`; findings are measured in the code unless marked.
+
+| Id | Severity | Finding | Plan |
+| --- | --- | --- | --- |
+| N1 | critical | *Delete previously generated RTs* relabels and enables the *Delete selected* button, which permanently deletes template folders, bypassing its "Delete?" tick. | Fix the button references; confirm. |
+| N2 | high | Deleting generated RTs runs on the UI thread and also generates RTs where none exist. | Delete-only, off the UI thread, confirmation and result count. |
+| N3 | high | Online-template build, Varian XML import and the default builder overwrite a same-name template and wipe its `Paths.txt` and `DicomTags.txt`. | Confirm; keep the existing paths and requirements. |
+| N4 | high | `All_Ontologies.json` is rewritten with only the current template's codes when the library was not loaded first. | Merge into the library. |
+| N5 | high | *Build Template!* has no name or existence checks. | Reuse the rename checks with a visible reason. |
+| N6 | high | ROI renames are saved one keystroke late. | Set the name before saving. |
+| N7 | high | New ROIs get the first ontology in the list unless changed. | No preselection; explicit "(no code)". |
+| N8 | high | The RT generator hides skipped ROIs and matches blank descriptions. | Section 6 runner fixes; status line. |
+| N9 | high | *Create folder with loadable RTs* selects every template when none is selected, writes its output folder into each `Paths.txt`, and starts a runner that cannot be stopped. | Confirm; one-off run; stop button. |
+| N10 | high | The working directory is the template root, and the controls that show it are hidden. | Saved root, else the program folder; show and change it. |
+| N11 | medium | Bulk actions include rows hidden by the search; template deletion has no confirmation. | Count hidden rows; confirm with names; Recycle Bin. |
+| N12 | medium | Varian XML export defaults to a hard-coded site share and overwrites silently; import skips failures silently. | Setting, empty by default; confirm overwrites; import report. |
+| N13 | medium | No global exception handler; many handlers do unguarded file and DICOM work. | Handlers with logging; readable messages. |
+| N14 | medium | *Rename* is enabled before the template exists and leaves rows pointing at the old folder. | Enable after creation; rebuild rows. |
+| N15 | medium | *Change Ontology Scheme* allows From = To, which corrupts codes in every template. | Disable; confirm with counts. |
+| N16 | medium | *Edit Ontologies* does not require a code value and signals errors by colour only. | Require it; text reasons; warn when in use. |
+| N17 | medium | Corrupt or invalid template folders are skipped or loaded empty without a message. | Per-folder problems shown to the user. |
+| N18 | medium | Scans and exports block the UI thread; the ontology file is rewritten once per template on every rebuild. | Load once; background work with a busy state. |
+| N19 | medium | Writing to Airtable from the editor has no confirmation; *Select all* includes hidden rows. | Confirm; visible rows only. |
+| N20 | low | Add-table validation gaps; a same-name connection is replaced silently. | Inline validation; confirm; accept a pasted table URL. |
+| N21 | low | Dead expiry check (`OutDatedWindow`, `Running.txt`) and an unreachable build-from-RTs block. | Delete. |
+| N22 | low | No folder is remembered between dialogs. | Remember folders in the user settings. |
+| N23 | low | The paths editor clips rows, accepts duplicates and keeps edits after closing with X. | Fix. |
+| N24 | low | Window titles and typos. | Fix. |
+| N25 | low | Name length and duplicate checks are missing; the template search is case-sensitive. | Warnings; case-insensitive search. |
+| N26 | info | `TemplateWindow` and the default-template window are unreachable. | Delete. |
+
+The open question from this audit, template matching semantics, is in section 7.

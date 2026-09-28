@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using DicomTemplateMakerGUI.Services;
 using ROIOntologyClass;
 
 
@@ -59,20 +60,21 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             ComboBox roi_interp_combobox = new ComboBox();
             roi_interp_combobox.SetBinding(ComboBox.SelectedItemProperty, interp_binding);
             roi_interp_combobox.ItemsSource = interpreters;
-            if (interpreters.Contains(roi.ROI_Interpreted_type.ToUpper()))
+            string interpreted_type = RequireInterpretedType(roi);
+            if (interpreters.Contains(interpreted_type.ToUpper()))
             {
-                roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type.ToUpper();
+                roi_interp_combobox.SelectedItem = interpreted_type.ToUpper();
             }
             roi_interp_combobox.Width = 150;
             Children.Add(roi_interp_combobox);
             color_button = new Button();
-            color_button.Background = roi.ROI_Brush;
+            color_button.Background = RoiBrushes.Fill(roi);
             color_button.Width = 75;
             color_button.Click += color_button_Click;
             Children.Add(color_button);
 
             dvh_color_button = new Button();
-            dvh_color_button.Background = roi.DVH_Brush;
+            dvh_color_button.Background = RoiBrushes.DvhLine(roi);
             dvh_color_button.Width = 75;
             dvh_color_button.Click += dvh_color_button_Click;
             Children.Add(dvh_color_button);
@@ -102,7 +104,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteLabel.Content = "Delete?";
             DeleteLabel.Width = 50;
             Children.Add(DeleteLabel);
-            
+
             DeleteCheckBox = new CheckBox();
             DeleteCheckBox.Width = 30;
             DeleteCheckBox.Checked += CheckBox_DataContextChanged;
@@ -115,6 +117,22 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             DeleteButton.Width = 150;
             DeleteButton.Click += DeleteButton_Click;
             Children.Add(DeleteButton);
+        }
+        /// <summary>
+        /// The ROI's interpreted type. An ROI without one still fails where the type used to be dereferenced,
+        /// now with a message that names the ROI.
+        /// </summary>
+        internal static string RequireInterpretedType(ROIClass roi)
+        {
+            return roi.ROI_Interpreted_type ?? throw new InvalidOperationException($"ROI '{roi.ROIName}' has no interpreted type.");
+        }
+        /// <summary>
+        /// The ROI's ontology class. An ROI read from a template file whose Ontology_Class is null or missing still
+        /// fails where the class used to be dereferenced, now with a message that names the ROI.
+        /// </summary>
+        internal static OntologyCodeClass RequireOntologyClass(ROIClass roi)
+        {
+            return roi.Ontology_Class ?? throw new InvalidOperationException($"ROI '{roi.ROIName}' has no ontology class.");
         }
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
@@ -148,8 +166,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         }
         private void set_button_color()
         {
-            color_button.Background = roi.ROI_Brush;
-            dvh_color_button.Background = roi.DVH_Brush;
+            color_button.Background = RoiBrushes.Fill(roi);
+            dvh_color_button.Background = RoiBrushes.DvhLine(roi);
         }
         private void dvh_color_button_Click(object sender, System.EventArgs e)
         {

@@ -1,0 +1,13 @@
+# Normalise text files to LF in the repository; Git converts to the platform's line ending on checkout.
+* text=auto
+*.sln text eol=crlf
+*.bat text eol=crlf
+*.dcm binary
+*.png binary
+*.jpg binary
+*.JPG binary
+*.docx binary
+*.xlsx binary
+*.pptx binary
+*.pdf binary
+*.pkl binary

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,8 +10,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using DicomTemplateMakerGUI;
-using DicomTemplateMakerGUI.StackPanelClasses;
 using DicomTemplateMakerGUI.Services;
+using DicomTemplateMakerGUI.StackPanelClasses;
 using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
@@ -56,7 +56,7 @@ namespace DicomTemplateMakerGUI.Windows
         {
             foreach (AddDefaultTemplateRow template_row in default_template_list)
             {
-                if ((bool)template_row.check_box.IsChecked)
+                if (template_row.check_box.IsChecked == true)
                 {
                     TemplateMaker evaluator = new TemplateMaker();
                     evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
@@ -76,7 +76,7 @@ namespace DicomTemplateMakerGUI.Windows
             DefaultStackPanel.Children.Clear();
             foreach (AddDefaultTemplateRow template_row in default_template_list)
             {
-                if (template_row.file_name.Content.ToString().ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                if ((template_row.file_name.Content.ToString() ?? string.Empty).ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     DefaultStackPanel.Children.Add(template_row);
                     Border myborder = new Border();

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using System.IO;
 
 namespace ROIOntologyClass
 {
@@ -43,7 +43,7 @@ namespace ROIOntologyClass
                 try
                 {
                     string json = File.ReadAllText(jsonFile);
-                    List<OntologyCodeClass> ontologies = JsonConvert.DeserializeObject<List<OntologyCodeClass>>(json);
+                    List<OntologyCodeClass>? ontologies = JsonConvert.DeserializeObject<List<OntologyCodeClass>>(json);
                     return ontologies ?? new List<OntologyCodeClass>();
                 }
                 catch
@@ -80,7 +80,7 @@ namespace ROIOntologyClass
             {
                 try
                 {
-                    OntologyCodeClass onto = LoadOntologyFromTextFile(file);
+                    OntologyCodeClass? onto = LoadOntologyFromTextFile(file);
                     if (onto != null && !ontologies.Any(o => o.CodeValue == onto.CodeValue))
                     {
                         ontologies.Add(onto);
@@ -99,7 +99,7 @@ namespace ROIOntologyClass
         /// <summary>
         /// Loads a single ontology from a legacy text file.
         /// </summary>
-        private static OntologyCodeClass LoadOntologyFromTextFile(string ontologyFile)
+        private static OntologyCodeClass? LoadOntologyFromTextFile(string ontologyFile)
         {
             string codeMeaning = Path.GetFileName(ontologyFile).Replace(".txt", "");
             string[] instructions = File.ReadAllLines(ontologyFile);
@@ -154,7 +154,7 @@ namespace ROIOntologyClass
         /// <summary>
         /// Adds an ontology to the list if it doesn't already exist (by CodeValue).
         /// </summary>
-        public static bool AddOntologyIfNotExists(List<OntologyCodeClass> ontologies, OntologyCodeClass newOntology)
+        public static bool AddOntologyIfNotExists(List<OntologyCodeClass> ontologies, OntologyCodeClass? newOntology)
         {
             if (newOntology == null || string.IsNullOrEmpty(newOntology.CodeValue))
             {
@@ -174,7 +174,7 @@ namespace ROIOntologyClass
         /// <summary>
         /// Removes an ontology from the list by CodeValue.
         /// </summary>
-        public static bool RemoveOntology(List<OntologyCodeClass> ontologies, OntologyCodeClass ontologyToRemove)
+        public static bool RemoveOntology(List<OntologyCodeClass> ontologies, OntologyCodeClass? ontologyToRemove)
         {
             if (ontologyToRemove == null)
             {
@@ -187,16 +187,18 @@ namespace ROIOntologyClass
 
     public class OntologyCodeClass
     {
-        private string scheme_designated = "FMA";
+        private string? scheme_designated = "FMA";
+        // Newtonsoft writes every property, so files this program saved always hold CodeMeaning; a hand-edited
+        // file with "CodeMeaning": null still loads it as null, which this annotation does not model.
         private string code_meaning = "Undefined Normal Tissue";
-        private string code_value = "NormalTissue";
-        private string context_group_version = "20161209";
-        private string mapping_resource = "99VMS";
-        private string context_identifier = "VMS011";
-        private string mapping_resource_name = "Varian Medical Systems";
-        private string mapping_resource_uid = "1.2.246.352.7.1.1";
-        private string context_uid = "1.2.246.352.7.2.11";
-        public string ContextUID
+        private string? code_value = "NormalTissue";
+        private string? context_group_version = "20161209";
+        private string? mapping_resource = "99VMS";
+        private string? context_identifier = "VMS011";
+        private string? mapping_resource_name = "Varian Medical Systems";
+        private string? mapping_resource_uid = "1.2.246.352.7.1.1";
+        private string? context_uid = "1.2.246.352.7.2.11";
+        public string? ContextUID
         {
             get { return context_uid; }
             set
@@ -205,7 +207,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ContextUID");
             }
         }
-        public string MappingResourceUID
+        public string? MappingResourceUID
         {
             get { return mapping_resource_uid; }
             set
@@ -214,7 +216,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("MappingResourceUID");
             }
         }
-        public string MappingResourceName
+        public string? MappingResourceName
         {
             get { return mapping_resource_name; }
             set
@@ -223,7 +225,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("MappingResourceName");
             }
         }
-        public string ContextIdentifier
+        public string? ContextIdentifier
         {
             get { return context_identifier; }
             set
@@ -232,7 +234,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ContextIdentifier");
             }
         }
-        public string MappingResource
+        public string? MappingResource
         {
             get { return mapping_resource; }
             set
@@ -241,7 +243,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("MappingResource");
             }
         }
-        public string ContextGroupVersion
+        public string? ContextGroupVersion
         {
             get { return context_group_version; }
             set
@@ -250,7 +252,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("ContextGroupVersion");
             }
         }
-        public string Scheme
+        public string? Scheme
         {
             get { return scheme_designated; }
             set
@@ -259,7 +261,7 @@ namespace ROIOntologyClass
                 OnPropertyChanged("Scheme");
             }
         }
-        public string CodeValue
+        public string? CodeValue
         {
             get { return code_value; }
             set
@@ -290,19 +292,21 @@ namespace ROIOntologyClass
         {
 
         }
-        public OntologyCodeClass(string name, string code_value, string scheme_designated)
+        public OntologyCodeClass(string name, string? code_value, string? scheme_designated)
         {
             CodeMeaning = RemoveIllegalCharacters(name);
             CodeValue = code_value;
             Scheme = scheme_designated;
         }
-        public OntologyCodeClass(string name, string code_value, string scheme_designated, string group_version, string mapping_resource,
-            string context_identifier, string mapping_resource_name, string mapping_resource_uid, string context_uid)
+        public OntologyCodeClass(string name, string? code_value, string? scheme_designated, string? group_version, string? mapping_resource,
+            string? context_identifier, string? mapping_resource_name, string? mapping_resource_uid, string? context_uid)
         {
             CodeMeaning = RemoveIllegalCharacters(name);
             if (CodeMeaning == "")
             {
-                CodeMeaning = RemoveIllegalCharacters(code_value);
+                // Callers supply a usable name or a code (TemplateEntryMapper skips entries with neither);
+                // with neither, this still throws NullReferenceException as it always has.
+                CodeMeaning = RemoveIllegalCharacters(code_value!);
             }
             CodeValue = code_value;
             Scheme = scheme_designated;
@@ -314,11 +318,11 @@ namespace ROIOntologyClass
             ContextUID = context_uid;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string info)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
+            PropertyChangedEventHandler? handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(info));

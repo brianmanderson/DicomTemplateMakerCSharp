@@ -27,7 +27,7 @@ namespace DicomTemplateMakerGUI.Services
             statusText = "Not loaded yet.";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ITemplateTableSource Source { get; }
 
@@ -58,7 +58,7 @@ namespace DicomTemplateMakerGUI.Services
             }
         }
 
-        public async Task<TableLoadResult> LoadAsync(LoadMode mode, IProgress<string> progress, CancellationToken cancellationToken)
+        public async Task<TableLoadResult> LoadAsync(LoadMode mode, IProgress<string>? progress, CancellationToken cancellationToken)
         {
             TableLoadResult result = await Source.LoadAsync(mode, progress, cancellationToken);
             Rebuild();
@@ -72,7 +72,7 @@ namespace DicomTemplateMakerGUI.Services
             var wrappers = new List<ROIWrapper>();
             foreach (SiteRoi siteRoi in Index.GetSite(site))
             {
-                ROIWrapper wrapper = TemplateEntryMapper.ToRoiWrapper(siteRoi, warnings);
+                ROIWrapper? wrapper = TemplateEntryMapper.ToRoiWrapper(siteRoi, warnings);
                 if (wrapper != null)
                 {
                     wrappers.Add(wrapper);
@@ -82,14 +82,14 @@ namespace DicomTemplateMakerGUI.Services
             return wrappers;
         }
 
-        public async Task<WriteResult> WriteTemplateAsync(string site, IEnumerable<ROIClass> rois, IProgress<string> progress, CancellationToken cancellationToken)
+        public async Task<WriteResult> WriteTemplateAsync(string site, IEnumerable<ROIClass> rois, IProgress<string>? progress, CancellationToken cancellationToken)
         {
             IReadOnlyList<WriteResult> results = await WriteTemplatesAsync(new[] { new KeyValuePair<string, IEnumerable<ROIClass>>(site, rois) }, progress, cancellationToken);
             return results[0];
         }
 
         /// <summary>Writes several templates with a single refresh of the table first.</summary>
-        public async Task<IReadOnlyList<WriteResult>> WriteTemplatesAsync(IEnumerable<KeyValuePair<string, IEnumerable<ROIClass>>> templates, IProgress<string> progress, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<WriteResult>> WriteTemplatesAsync(IEnumerable<KeyValuePair<string, IEnumerable<ROIClass>>> templates, IProgress<string>? progress, CancellationToken cancellationToken)
         {
             var unavailable = Source as UnavailableAirtableSource;
             if (unavailable != null)
@@ -119,15 +119,15 @@ namespace DicomTemplateMakerGUI.Services
 
         private void Rebuild()
         {
-            TableSnapshot snapshot = Source.Current;
+            TableSnapshot? snapshot = Source.Current;
             Index = snapshot == null
                 ? TemplateIndex.Build(Enumerable.Empty<AirTableEntry>())
                 : TemplateIndex.Build(snapshot.Records.Select(AirTableEntry.FromRecord));
         }
 
-        private string Describe(string warning)
+        private string Describe(string? warning)
         {
-            TableSnapshot snapshot = Source.Current;
+            TableSnapshot? snapshot = Source.Current;
             string text;
             if (snapshot == null)
             {

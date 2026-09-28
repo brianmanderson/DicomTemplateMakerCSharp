@@ -1,23 +1,23 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ROIOntologyClass;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using DicomTemplateMakerGUI.Windows;
+using DicomTemplateMakerGUI.DicomTemplateServices;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using DicomTemplateMakerGUI.DicomTemplateServices;
-using System.Threading;
-using System.Collections.ObjectModel;
+using DicomTemplateMakerGUI.Windows;
+using ROIOntologyClass;
 using TemplateSync.Sync;
 
 namespace DicomTemplateMakerGUI
@@ -83,12 +83,12 @@ namespace DicomTemplateMakerGUI
         DicomRunner runner;
         List<AddTemplateRow> template_rows;
         List<AddTemplateRow> visible_template_rows;
-        List<AddTemplateRow> copy_template_rows;
+        List<AddTemplateRow> copy_template_rows = new List<AddTemplateRow>();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
+            PropertyChangedEventHandler? handler = this.PropertyChanged;
             if (handler != null)
             {
                 var e = new PropertyChangedEventArgs(propertyName);
@@ -97,7 +97,7 @@ namespace DicomTemplateMakerGUI
         }
         public void load_writeable_airtables()
         {
-            TemplateSourceItem selected = AirTableComboBox.SelectedItem as TemplateSourceItem;
+            TemplateSourceItem? selected = AirTableComboBox.SelectedItem as TemplateSourceItem;
             WriteableAirTables = new ObservableCollection<TemplateSourceItem>(AirTables.Where(at => at.IsWritable));
             AirTableComboBox.ItemsSource = WriteableAirTables;
             AirTableComboBox.DisplayMemberPath = "Name";
@@ -162,6 +162,7 @@ namespace DicomTemplateMakerGUI
             running = false;
             runner = new DicomRunner(Path.GetFullPath(folder_location));
         }
+        [MemberNotNull(nameof(catalog))]
         public void load_airtables()
         {
             catalog = new TemplateSourceCatalog();
@@ -231,6 +232,7 @@ namespace DicomTemplateMakerGUI
             evaluator.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
             evaluator.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
         }
+        [MemberNotNull(nameof(template_rows), nameof(visible_template_rows))]
         public void Rebuild_From_Folders()
         {
             TemplateStackPanel.Children.Clear();
@@ -249,7 +251,7 @@ namespace DicomTemplateMakerGUI
                 evaluator.define_output(directory);
                 update_ontology_reader(evaluator);
                 evaluator.categorize_folder();
-                
+
                 if (evaluator.is_template)
                 {
                     AddTemplateButton.Background = lightgray;
@@ -286,12 +288,10 @@ namespace DicomTemplateMakerGUI
 
         private void ChangeTemplateClick(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = Path.GetFullPath(folder_location);
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            string? picked = FileDialogs.PickFolder(this, "Select the folder that holds your templates", folder_location);
+            if (picked != null)
             {
-                folder_location = dialog.FileName;
+                folder_location = picked;
                 TemplateBaseLabel.Content = folder_location;
                 Rebuild_From_Folders();
             }
@@ -335,9 +335,9 @@ namespace DicomTemplateMakerGUI
             visible_template_rows = new List<AddTemplateRow>();
             foreach (AddTemplateRow temp_row in template_rows)
             {
-                if ((bool)Selected_CheckBox.IsChecked)
+                if (Selected_CheckBox.IsChecked == true)
                 {
-                    if (!(bool)temp_row.SelectCheckBox.IsChecked)
+                    if (temp_row.SelectCheckBox.IsChecked != true)
                     {
                         continue;
                     }
@@ -346,12 +346,20 @@ namespace DicomTemplateMakerGUI
                         visible_template_rows.Add(temp_row);
                     }
                 }
-                else if (temp_row.templateMaker.TemplateName.ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
+                else if (RequireTemplateName(temp_row).ToLower().Contains(SearchBox_TextBox.Text.ToLower()))
                 {
                     visible_template_rows.Add(temp_row);
                 }
             }
             DisplayRows();
+        }
+        /// <summary>
+        /// The row's template name. Rows are built for folders recognised as templates, which names them;
+        /// a row without a name still fails the search here, where the name used to be dereferenced.
+        /// </summary>
+        private static string RequireTemplateName(AddTemplateRow row)
+        {
+            return row.templateMaker.TemplateName ?? throw new InvalidOperationException("A template row has no template name.");
         }
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
         {
@@ -370,12 +378,10 @@ namespace DicomTemplateMakerGUI
 
         private void CreateFolderRT_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
-            dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            string? picked = FileDialogs.PickFolder(this, "Select where to create the folder with loadable RTs", ".");
+            if (picked != null)
             {
-                string output_directory = Path.Combine(dialog.FileName, "Template_Output");
+                string output_directory = Path.Combine(picked, "Template_Output");
                 if (!Directory.Exists(output_directory))
                 {
                     Directory.CreateDirectory(output_directory);
@@ -391,7 +397,7 @@ namespace DicomTemplateMakerGUI
                 bool any_select = false;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
-                    if ((bool)template_row.SelectCheckBox.IsChecked)
+                    if (template_row.SelectCheckBox.IsChecked == true)
                     {
                         any_select = true;
                     }
@@ -406,7 +412,7 @@ namespace DicomTemplateMakerGUI
                 Selected_CheckBox.IsChecked = true;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
-                    if (!(bool)template_row.SelectCheckBox.IsChecked)
+                    if (template_row.SelectCheckBox.IsChecked != true)
                     {
                         continue;
                     }
@@ -447,7 +453,7 @@ namespace DicomTemplateMakerGUI
         {
             foreach (AddTemplateRow row in template_rows)
             {
-                if ((bool)row.SelectCheckBox.IsChecked)
+                if (row.SelectCheckBox.IsChecked == true)
                 {
                     row.Delete();
                 }
@@ -473,7 +479,7 @@ namespace DicomTemplateMakerGUI
             copy_template_rows = new List<AddTemplateRow>();
             foreach (AddTemplateRow row in template_rows)
             {
-                if ((bool)row.SelectCheckBox.IsChecked)
+                if (row.SelectCheckBox.IsChecked == true)
                 {
                     copy_template_rows.Add(row);
                 }
@@ -496,15 +502,16 @@ namespace DicomTemplateMakerGUI
                 {
                     continue;
                 }
-                foreach (string dirPath in Directory.GetDirectories(row.templateMaker.path, "*", SearchOption.AllDirectories))
+                string template_path = row.TemplatePath;
+                foreach (string dirPath in Directory.GetDirectories(template_path, "*", SearchOption.AllDirectories))
                 {
-                    Directory.CreateDirectory(dirPath.Replace(row.templateMaker.path, new_template_path));
+                    Directory.CreateDirectory(dirPath.Replace(template_path, new_template_path));
                 }
 
                 //Copy all the files & Replaces any files with the same name
-                foreach (string newPath in Directory.GetFiles(row.templateMaker.path, "*.*", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(template_path, "*.*", SearchOption.AllDirectories))
                 {
-                    File.Copy(newPath, newPath.Replace(row.templateMaker.path, new_template_path), true);
+                    File.Copy(newPath, newPath.Replace(template_path, new_template_path), true);
                 }
                 TemplateMaker evaluator = new TemplateMaker();
                 evaluator.set_onto_path(Path.Combine(folder_location, "Ontologies"));
@@ -532,11 +539,11 @@ namespace DicomTemplateMakerGUI
             Copy_Selected_Button.IsEnabled = false;
             Deleted_Selected_Button.IsEnabled = false;
             WriteToAirTable_Button.IsEnabled = false;
-            if ((bool)Copy_CheckBox.IsChecked)
+            if (Copy_CheckBox.IsChecked == true)
             {
                 Copy_Selected_Button.IsEnabled = true;
             }
-            if ((bool)Delete_Checkbox.IsChecked)
+            if (Delete_Checkbox.IsChecked == true)
             {
                 Deleted_Selected_Button.IsEnabled = true;
             }
@@ -551,7 +558,7 @@ namespace DicomTemplateMakerGUI
         }
         private async void WriteToAirTable_Click(object sender, RoutedEventArgs e)
         {
-            TemplateSourceItem table = AirTableComboBox.SelectedItem as TemplateSourceItem;
+            TemplateSourceItem? table = AirTableComboBox.SelectedItem as TemplateSourceItem;
             List<AddTemplateRow> selected = template_rows.Where(row => row.SelectCheckBox.IsChecked == true).ToList();
             if (table == null || selected.Count == 0)
             {
@@ -569,8 +576,9 @@ namespace DicomTemplateMakerGUI
             try
             {
                 WriteToAirTable_Button.Content = "Writing " + selected.Count + " template(s)...";
+                // A row without a name is rejected by the write planner as before: it treats null and empty alike.
                 IReadOnlyList<WriteResult> results = await table.WriteTemplatesAsync(
-                    selected.Select(row => new KeyValuePair<string, IEnumerable<ROIClass>>(row.templateMaker.TemplateName, row.templateMaker.ROIs)).ToList(),
+                    selected.Select(row => new KeyValuePair<string, IEnumerable<ROIClass>>(row.templateMaker.TemplateName ?? string.Empty, row.templateMaker.ROIs)).ToList(),
                     progress,
                     CancellationToken.None);
                 ProgressBar.Value = 100;
@@ -610,7 +618,7 @@ namespace DicomTemplateMakerGUI
             List<string> warnings = results.SelectMany(r => r.Warnings.Select(w => r.Site + ": " + w)).Distinct().Take(30).ToList();
             return warnings.Count == 0 ? summary : summary + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, warnings);
         }
-        private void check_airtables(TemplateSourceItem airtable)
+        private void check_airtables(TemplateSourceItem? airtable)
         {
             bool canWrite = airtable != null && AirTableCheckbox.IsChecked == true;
             WriteToAirTable_Button.IsEnabled = canWrite;
@@ -635,18 +643,10 @@ namespace DicomTemplateMakerGUI
 
         private void CreateVarianXml_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
-            dialog.InitialDirectory = ".";
             string suspected_directory = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
-            if (Directory.Exists(suspected_directory))
+            string? output_directory = FileDialogs.PickFolder(this, "Select where to write the Varian XML templates", Directory.Exists(suspected_directory) ? suspected_directory : ".");
+            if (output_directory != null)
             {
-                dialog.InitialDirectory = suspected_directory;
-                dialog.DefaultDirectory = suspected_directory;
-            }
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string output_directory = dialog.FileName;
                 if (!Directory.Exists(output_directory))
                 {
                     Directory.CreateDirectory(output_directory);
@@ -654,7 +654,7 @@ namespace DicomTemplateMakerGUI
                 bool any_select = false;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
-                    if ((bool)template_row.SelectCheckBox.IsChecked)
+                    if (template_row.SelectCheckBox.IsChecked == true)
                     {
                         any_select = true;
                     }
@@ -669,31 +669,24 @@ namespace DicomTemplateMakerGUI
                 Selected_CheckBox.IsChecked = true;
                 foreach (AddTemplateRow template_row in template_rows)
                 {
-                    if (!(bool)template_row.SelectCheckBox.IsChecked)
+                    if (template_row.SelectCheckBox.IsChecked != true)
                     {
                         continue;
                     }
                     VarianXmlWriter xmlwriter = new VarianXmlWriter();
-                    xmlwriter.LoadROIsFromPath(template_row.templateMaker.path, template_row.templateMaker.Ontologies);
-                    xmlwriter.SaveFile(Path.Combine(output_directory, $"{Path.GetFileName(template_row.templateMaker.path)}.xml"));
+                    string template_path = template_row.TemplatePath;
+                    xmlwriter.LoadROIsFromPath(template_path, template_row.templateMaker.Ontologies);
+                    xmlwriter.SaveFile(Path.Combine(output_directory, $"{Path.GetFileName(template_path)}.xml"));
                 }
             }
         }
 
         private void Load_XMLs_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.xml");
-            dialog.InitialDirectory = ".";
             string suspected_directory = @"\\ro-ariaimg-v\va_data$\ProgramData\Vision\Templates\structure";
-            if (Directory.Exists(suspected_directory))
+            string? xml_directory = FileDialogs.PickFolder(this, "Select the folder of Varian XML templates to import", Directory.Exists(suspected_directory) ? suspected_directory : ".");
+            if (xml_directory != null)
             {
-                dialog.InitialDirectory = suspected_directory;
-                dialog.DefaultDirectory = suspected_directory;
-            }
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                string xml_directory = dialog.FileName;
                 foreach (string file in Directory.GetFiles(xml_directory, "*.xml"))
                 {
                     //string new_file = @"K:\Template_Output_VarianXml\AbdPelv_Anal.xml";
@@ -719,7 +712,7 @@ namespace DicomTemplateMakerGUI
 
         private async void LoadAirTables_Click(object sender, RoutedEventArgs e)
         {
-            TemplateSourceItem table = AirTableComboBox.SelectedItem as TemplateSourceItem;
+            TemplateSourceItem? table = AirTableComboBox.SelectedItem as TemplateSourceItem;
             if (table == null)
             {
                 return;

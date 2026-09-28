@@ -22,7 +22,7 @@ namespace DicomTemplateMakerGUI.Windows
         }
 
         /// <summary>The source that was added, or null if the dialog was cancelled.</summary>
-        public TemplateSourceItem AddedSource { get; private set; }
+        public TemplateSourceItem? AddedSource { get; private set; }
 
         private void AddAirTableTextUpdate(object sender, TextChangedEventArgs e)
         {
@@ -40,7 +40,7 @@ namespace DicomTemplateMakerGUI.Windows
                 && API_PasswordBox.Password.Trim().Length > 0
                 && Base_TextBox.Text.Trim().Length > 0
                 && Table_TextBox.Text.Trim().Length > 0;
-            string problem = allFilled
+            string? problem = allFilled
                 ? AirtableIds.Validate(TableName_TextBox.Text, Base_TextBox.Text, Table_TextBox.Text, API_PasswordBox.Password)
                 : null;
             Validation_Text.Text = problem ?? string.Empty;
@@ -58,7 +58,7 @@ namespace DicomTemplateMakerGUI.Windows
             Validation_Text.Text = string.Empty;
             try
             {
-                string problem = await catalog.TestConnectionAsync(baseId, table, token, CancellationToken.None);
+                string? problem = await catalog.TestConnectionAsync(baseId, table, token, CancellationToken.None);
                 if (problem != null)
                 {
                     Validation_Text.Text = problem;

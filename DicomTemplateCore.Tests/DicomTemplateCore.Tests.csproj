@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DicomTemplateCore\DicomTemplateCore.csproj" />
+  </ItemGroup>
+
+  <!-- Real inputs from the application folder, so the tests exercise what ships. -->
+  <ItemGroup>
+    <None Include="..\DicomTemplateMakerGUI\Structure Template.xml" Link="TestData\Structure Template.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Xaml_Maker\Abdomen.xml" Link="TestData\Abdomen.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\DicomTemplateMakerGUI\template_RS.dcm" Link="template_RS.dcm" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\DicomTemplateMakerGUI\SmallCT\*.dcm" LinkBase="TestData\SmallCT" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="TestData\*.golden.*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

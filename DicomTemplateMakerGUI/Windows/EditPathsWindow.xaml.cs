@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Controls;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using DicomTemplateMakerGUI.StackPanelClasses;
+using System.Windows.Media;
 using DicomTemplateMakerGUI.Services;
+using DicomTemplateMakerGUI.StackPanelClasses;
 
 namespace DicomTemplateMakerGUI.Windows
 {
@@ -16,7 +15,7 @@ namespace DicomTemplateMakerGUI.Windows
         private TemplateMaker template_maker;
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
-        List<string> dicom_tag_list = new List<string> {"Series Description", "Study Description"}; //, "Modality"
+        List<string> dicom_tag_list = new List<string> { "Series Description", "Study Description" }; //, "Modality"
         public EditPathsWindow(TemplateMaker template_maker)
         {
             InitializeComponent();
@@ -47,13 +46,11 @@ namespace DicomTemplateMakerGUI.Windows
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = true;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            string? folder = FileDialogs.PickFolder(this, "Select a folder that receives DICOM images", ".");
+            if (folder != null)
             {
-                template_maker.Paths.Add(dialog.FileName);
-                PathsRow new_row = new PathsRow(template_maker, dialog.FileName);
+                template_maker.Paths.Add(folder);
+                PathsRow new_row = new PathsRow(template_maker, folder);
                 PathsStackPanel.Children.Add(new_row);
             }
             if (template_maker.Paths.Count != 0)
