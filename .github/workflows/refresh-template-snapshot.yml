@@ -42,43 +42,27 @@ jobs:
       - name: Build the export tool
         run: dotnet build TemplateSnapshotTool -c Release
 
-      # TEMPORARY: compare the table's columns with the ones the program maps. Prints no data.
-      - name: Check table columns
-        env:
-          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
-          BASE_ID: ${{ vars.TG263_BASE_ID || 'appYl68lenTOFqTDh' }}
-          TABLE_ID: ${{ vars.TG263_TABLE_ID || 'tblex7IPsmm8hvVEc' }}
-        run: |
-          mapped='["Structure","CommonName","Type","Colors_RGB","RGB","Template_Recommend","Template_Consider","SchemeCode","Scheme","ContextGroupVersion","MappingResource","ContextIdentifier","MappingResourceName","MappingResourceUID","ContextUID","TG_263","TG_263R","TG_263Spanish","TG_263SpanishR","TG_263French","TG_263FrenchR","DVH_Color","DVH_Style","DVH_Width","DVH_Type_Index","DVH_ContourStyle","Record"]'
-          code=$(curl -sS -o tables.json -w '%{http_code}' -H "Authorization: Bearer $AIRTABLE_PAT" "https://api.airtable.com/v0/meta/bases/$BASE_ID/tables")
-          echo "Schema request: HTTP $code"
-          jq --arg t "$TABLE_ID" --argjson m "$mapped" -r '
-            (.tables[] | select(.id == $t)) as $tab
-            | ($tab.fields | map({(.name): .type}) | add) as $types
-            | "Missing mapped columns: " + ([$m[] | select($types[.] == null)] | join(","))
-            , "Present mapped columns and types: " + ([$m[] | select($types[.] != null) | "\(.)=\($types[.])"] | join(", "))
-            , "Other columns in the table (not exported): \(($tab.fields | length) - ([$m[] | select($types[.] != null)] | length))"' tables.json
-          rm -f tables.json
-
       - name: Export snapshot from Airtable
         id: export
         env:
           AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
           BASE_ID: ${{ vars.TG263_BASE_ID || 'appYl68lenTOFqTDh' }}
           TABLE_ID: ${{ vars.TG263_TABLE_ID || 'tblex7IPsmm8hvVEc' }}
+          MISSING_COLUMNS: RGB,ContextGroupVersion,MappingResource,ContextIdentifier,MappingResourceName,MappingResourceUID,ContextUID,TG_263SpanishR,TG_263FrenchR
         run: |
           if [ -z "$AIRTABLE_PAT" ]; then
             echo "::warning::The AIRTABLE_PAT secret is not set; skipping the snapshot refresh."
             exit 0
           fi
           # The export only ever requests named columns, so any mapped column the table lacks must be
-          # excluded here (the tool stops and names it otherwise); the TG-263 table has no CommonName
-          # or RGB column (colours come from Colors_RGB). Sorting by the autonumber "Record" column
-          # fixes the record order, which Airtable leaves unspecified and which decides ROI order
-          # within each template.
+          # excluded here (the tool stops and names it otherwise). The TG-263 table has no RGB column
+          # (colours come from Colors_RGB), none of the six ontology detail columns (the program
+          # fills in its Varian/FMA defaults) and no reversed Spanish or French names. Sorting by the
+          # autonumber "Record" column fixes the record order, which Airtable leaves unspecified and
+          # which decides ROI order within each template.
           dotnet run --no-build --project TemplateSnapshotTool -c Release -- \
             --base "$BASE_ID" --table "$TABLE_ID" --name TG263 \
-            --exclude-fields CommonName,RGB --sort-field Record \
+            --exclude-fields "$MISSING_COLUMNS" --sort-field Record \
             --output TemplateSnapshots/TG263.json
 
       - name: Commit the snapshot if it changed
