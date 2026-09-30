@@ -60,6 +60,11 @@ jobs:
           code=$(curl -sS -o bases.json -w '%{http_code}' -H "$auth" https://api.airtable.com/v0/meta/bases)
           if [ "$code" = 200 ]; then
             echo "Bases this token can reach: $(jq '.bases | length' bases.json); includes $BASE_ID: $(jq --arg b "$BASE_ID" 'any(.bases[]; .id == $b)' bases.json)"
+            echo "Reachable base ids and your permission on each: $(jq -c '[.bases[] | {id, permissionLevel}]' bases.json)"
+            for b in $(jq -r '.bases[].id' bases.json); do
+              code=$(curl -sS -o read.json -w '%{http_code}' -H "$auth" "https://api.airtable.com/v0/$b/$TABLE_ID?maxRecords=1")
+              echo "Table $TABLE_ID in $b: HTTP $code"
+            done
           else
             echo "List bases: HTTP $code (needs schema.bases:read; not required for the export)"
           fi
