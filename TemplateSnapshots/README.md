@@ -14,6 +14,6 @@ To export locally:
 
 ```
 AIRTABLE_PAT=pat... dotnet run --project TemplateSnapshotTool -- \
-  --base app5LkQceQZAPhBJx --table tblex7IPsmm8hvVEc --name TG263 \
+  --base appYl68lenTOFqTDh --table tblex7IPsmm8hvVEc --name TG263 \
   --sort-field Record --output TemplateSnapshots/TG263.json
 ```
