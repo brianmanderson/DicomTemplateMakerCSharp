@@ -4,8 +4,8 @@
 #
 # One-time setup (repository Settings > Secrets and variables > Actions):
 #   secret   AIRTABLE_PAT      a personal access token with data.records:read on the TG-263 base only
-#   variable TG263_BASE_ID     optional, defaults to appzWlVKRp9TrrTUJ
-#   variable TG263_TABLE_ID    optional, defaults to tblltR3aTxlJUwaGa
+#   variable TG263_BASE_ID     optional, defaults to app5LkQceQZAPhBJx (the maintainers' TG-263 base)
+#   variable TG263_TABLE_ID    optional, defaults to tblex7IPsmm8hvVEc
 # GitHub disables scheduled workflows in public repositories after 60 days without repository
 # activity; re-enable it from the Actions tab, or run it manually, if that happens.
 name: Refresh TG-263 template snapshot
@@ -46,20 +46,20 @@ jobs:
         id: export
         env:
           AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
-          BASE_ID: ${{ vars.TG263_BASE_ID || 'appzWlVKRp9TrrTUJ' }}
-          TABLE_ID: ${{ vars.TG263_TABLE_ID || 'tblltR3aTxlJUwaGa' }}
+          BASE_ID: ${{ vars.TG263_BASE_ID || 'app5LkQceQZAPhBJx' }}
+          TABLE_ID: ${{ vars.TG263_TABLE_ID || 'tblex7IPsmm8hvVEc' }}
         run: |
           if [ -z "$AIRTABLE_PAT" ]; then
             echo "::warning::The AIRTABLE_PAT secret is not set; skipping the snapshot refresh."
             exit 0
           fi
-          # The TG-263 table has no CommonName or RGB columns; naming them up front saves two calls.
-          # Sorting by the autonumber "Record" column fixes the record order, which Airtable leaves
-          # unspecified and which decides ROI order within each template. Only mapped template
-          # columns are ever written to the public file.
+          # No columns are excluded: if the table lacks one of the mapped columns, the export costs
+          # one extra call and downloads every column instead. Sorting by the autonumber "Record"
+          # column fixes the record order, which Airtable leaves unspecified and which decides ROI
+          # order within each template. Only mapped template columns are ever written to the public file.
           dotnet run --no-build --project TemplateSnapshotTool -c Release -- \
             --base "$BASE_ID" --table "$TABLE_ID" --name TG263 \
-            --exclude-fields CommonName,RGB --sort-field Record \
+            --sort-field Record \
             --output TemplateSnapshots/TG263.json
 
       - name: Commit the snapshot if it changed
