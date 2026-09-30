@@ -53,13 +53,13 @@ jobs:
             echo "::warning::The AIRTABLE_PAT secret is not set; skipping the snapshot refresh."
             exit 0
           fi
-          # No columns are excluded: if the table lacks one of the mapped columns, the export costs
-          # one extra call and downloads every column instead. Sorting by the autonumber "Record"
-          # column fixes the record order, which Airtable leaves unspecified and which decides ROI
-          # order within each template. Only mapped template columns are ever written to the public file.
+          # The export only ever requests named columns, so any mapped column the table lacks must be
+          # excluded here (the tool stops and names it otherwise); the TG-263 table has no CommonName
+          # column. Sorting by the autonumber "Record" column fixes the record order, which Airtable
+          # leaves unspecified and which decides ROI order within each template.
           dotnet run --no-build --project TemplateSnapshotTool -c Release -- \
             --base "$BASE_ID" --table "$TABLE_ID" --name TG263 \
-            --sort-field Record \
+            --exclude-fields CommonName --sort-field Record \
             --output TemplateSnapshots/TG263.json
 
       - name: Commit the snapshot if it changed
