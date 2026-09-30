@@ -1,9 +1,9 @@
-﻿<Application x:Class="DicomTemplateMakerGUI.App"
+<Application x:Class="DicomTemplateMakerGUI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DicomTemplateMakerGUI"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:DicomTemplateMakerGUI">
+    <!-- No StartupUri: App.OnStartup sets up logging and the template folder, then opens the main window. -->
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>

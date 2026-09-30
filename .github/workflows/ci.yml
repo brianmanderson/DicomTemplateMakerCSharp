@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore DicomTemplateMaker.sln
+
+      # Warnings are errors (Directory.Build.props). The WPF app compiles on Linux too
+      # (EnableWindowsTargeting), so both runners build the whole solution.
+      - name: Build
+        run: dotnet build DicomTemplateMaker.sln -c Release --no-restore
+
+      - name: Test
+        run: dotnet test --solution DicomTemplateMaker.sln -c Release --no-build
+
+      - name: Check formatting
+        if: runner.os == 'Linux'
+        run: dotnet format DicomTemplateMaker.sln --verify-no-changes --no-restore
+
+  release:
+    name: Publish release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-and-test
+    runs-on: windows-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+
+      # Self-contained single-file build: users need no .NET runtime installed. Data files the program
+      # reads at run time (template_RS.dcm, SmallCT, the TG-263 snapshot, ...) sit next to the exe.
+      - name: Publish
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          dotnet publish DicomTemplateMakerGUI/DicomTemplateMakerGUI.csproj -c Release -r win-x64 --self-contained true `
+            -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:Version=$version `
+            -o publish/DicomTemplateMaker
+          if (-not (Test-Path publish/DicomTemplateMaker/TemplateSnapshots/TG263.json)) {
+            Write-Warning "TemplateSnapshots/TG263.json is missing: run the snapshot workflow before releasing so offline users get the shared templates."
+          }
+          Compress-Archive -Path publish/DicomTemplateMaker/* -DestinationPath "DicomTemplateMaker-${{ github.ref_name }}-win-x64.zip"
+
+      - name: Create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" "DicomTemplateMaker-${{ github.ref_name }}-win-x64.zip" --generate-notes --verify-tag

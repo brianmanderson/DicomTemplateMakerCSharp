@@ -1,173 +1,291 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Windows.Media;
+using DicomTemplateMakerGUI.Editors;
+using DicomTemplateMakerGUI.Services;
 using ROIOntologyClass;
-
 
 namespace DicomTemplateMakerGUI.StackPanelClasses
 {
-    class AddROIRow : StackPanel
+    /// <summary>
+    /// One ROI in the template editor. Every change goes to the ROI in memory and is reported through the
+    /// <c>changed</c> callback; the row never writes files (the window saves the template).
+    /// </summary>
+    internal sealed class AddROIRow : StackPanel
     {
-        Button color_button, dvh_color_button, link_button;
-        private ROIClass roi;
-        private TextBox roi_name_textbox;
-        private List<ROIClass> roi_list;
-        private List<OntologyCodeClass> ontologies_list;
-        private CheckBox DeleteCheckBox;
-        private Button DeleteButton;
-        private string roi_path;
-        public AddROIRow(List<ROIClass> _roi_list, ROIClass _roi, string path, List<OntologyCodeClass> _ontologies_list) //, 
+        internal const double IncludeWidth = 50;
+        internal const double NameWidth = 200;
+        internal const double OntologyWidth = 175;
+        internal const double TypeWidth = 150;
+        internal const double ColourWidth = 75;
+        internal const double LinkWidth = 75;
+        internal const double LineStyleWidth = 75;
+        internal const double DeleteLabelWidth = 55;
+        internal const double DeleteCheckWidth = 25;
+        internal const double DeleteButtonWidth = 75;
+
+        private static readonly IReadOnlyList<string> DvhLineStyles = new[] { "solid", "-------", "*******", "-*-*-*-", "-**-**-" };
+
+        private readonly ROIClass roi;
+        private readonly List<ROIClass> roi_list;
+        private readonly Action changed;
+        private readonly TextBox roi_name_textbox;
+        private readonly ComboBox ontology_combobox;
+        private readonly Button color_button;
+        private readonly Button dvh_color_button;
+        private readonly CheckBox DeleteCheckBox;
+        private readonly Button DeleteButton;
+        private readonly TextBlock status_text;
+        private string? rename_problem;
+
+        /// <param name="roiList">The template's ROIs (the row removes its ROI from it when deleted, and checks names against it).</param>
+        /// <param name="ontologies">The codes offered.</param>
+        /// <param name="changed">Called after every change to the ROI.</param>
+        public AddROIRow(List<ROIClass> roiList, ROIClass roi, List<OntologyCodeClass> ontologies, Action changed)
         {
-            roi = _roi;
-            roi_list = _roi_list;
-            roi_path = path;
-            ontologies_list = _ontologies_list;
-            Orientation = Orientation.Horizontal;
+            this.roi = roi;
+            roi_list = roiList;
+            this.changed = changed;
+            Orientation = Orientation.Vertical;
+            Margin = new Thickness(0, 0, 0, 2);
+            StackPanel controls = new StackPanel { Orientation = Orientation.Horizontal };
+            Children.Add(controls);
 
-            CheckBox included_checkbox = new CheckBox();
-            Binding check_box_binding = new Binding("Include");
-            check_box_binding.Source = roi;
-            included_checkbox.SetBinding(CheckBox.IsCheckedProperty, check_box_binding);
-            included_checkbox.Width = 50;
-            Children.Add(included_checkbox);
-
-            roi_name_textbox = new TextBox();
-            roi_name_textbox.Text = roi.ROIName;
-            roi_name_textbox.TextChanged += TextValueChange;
-            roi_name_textbox.Width = 200;
-            Children.Add(roi_name_textbox);
-
-            Binding ontology_binding = new Binding("Ontology_Class");
-            ontology_binding.Source = roi;
-            ComboBox ontology_combobox = new ComboBox();
-            ontology_combobox.SetBinding(ComboBox.SelectedItemProperty, ontology_binding);
-            ontology_combobox.ItemsSource = ontologies_list;
-            ontology_combobox.DisplayMemberPath = "CodeMeaning";
-            ontology_combobox.Width = 175;
-            Children.Add(ontology_combobox);
-
-            List<string> interpreters = new List<string> { "ORGAN", "PTV", "CTV", "GTV", "MARKER", "AVOIDANCE", "CONTROL", "BOLUS", "EXTERNAL", "ISOCENTER", "REGISTRATION", "CONTRAST_AGENT",
-                "CAVITY", "BRACHY_CHANNEL", "BRACHY_ACCESSORY", "SUPPORT", "FIXATION", "DOSE_REGION", "DOSE_MEASUREMENT", "BRACHY_SRC_APP", "TREATED_VOLUME", "IRRAD_VOLUME"};
-            Binding interp_binding = new Binding("ROI_Interpreted_type");
-            interp_binding.Source = roi;
-
-            ComboBox roi_interp_combobox = new ComboBox();
-            roi_interp_combobox.SetBinding(ComboBox.SelectedItemProperty, interp_binding);
-            roi_interp_combobox.ItemsSource = interpreters;
-            if (interpreters.Contains(roi.ROI_Interpreted_type.ToUpper()))
+            CheckBox included_checkbox = new CheckBox
             {
-                roi_interp_combobox.SelectedItem = roi.ROI_Interpreted_type.ToUpper();
-            }
-            roi_interp_combobox.Width = 150;
-            Children.Add(roi_interp_combobox);
-            color_button = new Button();
-            color_button.Background = roi.ROI_Brush;
-            color_button.Width = 75;
+                Width = IncludeWidth,
+                VerticalAlignment = VerticalAlignment.Center,
+                IsChecked = roi.Include,
+                ToolTip = "Ticked: recommended ROI. Not ticked: optional ROI (Airtable's recommended and optional lists).",
+            };
+            included_checkbox.Click += (sender, e) =>
+            {
+                roi.Include = included_checkbox.IsChecked == true;
+                changed();
+            };
+            controls.Children.Add(included_checkbox);
+
+            // Newtonsoft leaves ROIName null for a hand-edited file that says "ROIName": null.
+            roi_name_textbox = new TextBox { Width = NameWidth, Text = (string?)roi.ROIName ?? string.Empty, VerticalContentAlignment = VerticalAlignment.Center };
+            roi_name_textbox.TextChanged += TextValueChange;
+            controls.Children.Add(roi_name_textbox);
+
+            ontology_combobox = new ComboBox { Width = OntologyWidth, ItemsSource = ontologies, DisplayMemberPath = nameof(OntologyCodeClass.CodeMeaning) };
+            ontology_combobox.SelectedItem = FindOntology(ontologies, roi.Ontology_Class);
+            ontology_combobox.ToolTip = DescribeCode(roi.Ontology_Class);
+            ontology_combobox.SelectionChanged += Ontology_SelectionChanged;
+            controls.Children.Add(ontology_combobox);
+
+            // Set before the handler is attached: showing a type does not change it (a Varian file's "Organ" stays as it is).
+            ComboBox roi_interp_combobox = new ComboBox { Width = TypeWidth, ItemsSource = InterpretedTypes.All };
+            roi_interp_combobox.SelectedItem = InterpretedTypes.Find(roi.ROI_Interpreted_type);
+            roi_interp_combobox.SelectionChanged += (sender, e) =>
+            {
+                if (roi_interp_combobox.SelectedItem is string type)
+                {
+                    roi.ROI_Interpreted_type = type;
+                    changed();
+                    UpdateStatus();
+                }
+            };
+            controls.Children.Add(roi_interp_combobox);
+
+            color_button = new Button { Width = ColourWidth, Background = RoiBrushes.Fill(roi), ToolTip = "ROI colour: click to change." };
             color_button.Click += color_button_Click;
-            Children.Add(color_button);
+            controls.Children.Add(color_button);
 
-            dvh_color_button = new Button();
-            dvh_color_button.Background = roi.DVH_Brush;
-            dvh_color_button.Width = 75;
+            dvh_color_button = new Button { Width = ColourWidth, Background = RoiBrushes.DvhLine(roi), ToolTip = "DVH line colour: click to change." };
             dvh_color_button.Click += dvh_color_button_Click;
-            Children.Add(dvh_color_button);
+            controls.Children.Add(dvh_color_button);
 
-            link_button = new Button();
-            link_button.Width = 75;
-            link_button.Content = "Link?";
+            Button link_button = new Button { Width = LinkWidth, Content = "Link", ToolTip = "Make the DVH line follow the ROI colour." };
             link_button.Click += link_button_Click;
-            Children.Add(link_button);
+            controls.Children.Add(link_button);
 
-
-            List<string> dvh_line_style = new List<string> { "solid", "-------", "*******", "-*-*-*-", "-**-**-" };
-            Binding line_style_binding = new Binding("DVHLineStyle");
-            line_style_binding.Source = roi;
-
-            ComboBox roi_dvh_line_style_combobox = new ComboBox();
-            roi_dvh_line_style_combobox.SetBinding(ComboBox.SelectedItemProperty, line_style_binding);
-            roi_dvh_line_style_combobox.ItemsSource = dvh_line_style;
-            roi_dvh_line_style_combobox.Width = 75;
-            if (dvh_line_style.Contains(roi.DVHLineStyle))
+            ComboBox roi_dvh_line_style_combobox = new ComboBox { Width = LineStyleWidth, ItemsSource = DvhLineStyles };
+            // DVHLineStyle is null for a hand-edited file that says so.
+            if (DvhLineStyles.Contains((string?)roi.DVHLineStyle))
             {
                 roi_dvh_line_style_combobox.SelectedItem = roi.DVHLineStyle;
             }
-            Children.Add(roi_dvh_line_style_combobox);
 
-            Label DeleteLabel = new Label();
-            DeleteLabel.Content = "Delete?";
-            DeleteLabel.Width = 50;
-            Children.Add(DeleteLabel);
-            
-            DeleteCheckBox = new CheckBox();
-            DeleteCheckBox.Width = 30;
+            roi_dvh_line_style_combobox.SelectionChanged += (sender, e) =>
+            {
+                if (roi_dvh_line_style_combobox.SelectedItem is string style)
+                {
+                    roi.DVHLineStyle = style;
+                    changed();
+                }
+            };
+            controls.Children.Add(roi_dvh_line_style_combobox);
+
+            controls.Children.Add(new Label { Content = "Delete?", Width = DeleteLabelWidth });
+
+            DeleteCheckBox = new CheckBox { Width = DeleteCheckWidth, VerticalAlignment = VerticalAlignment.Center };
             DeleteCheckBox.Checked += CheckBox_DataContextChanged;
             DeleteCheckBox.Unchecked += CheckBox_DataContextChanged;
-            Children.Add(DeleteCheckBox);
+            controls.Children.Add(DeleteCheckBox);
 
-            DeleteButton = new Button();
-            DeleteButton.IsEnabled = false;
-            DeleteButton.Content = "Delete";
-            DeleteButton.Width = 150;
+            DeleteButton = new Button { Content = "Delete", Width = DeleteButtonWidth, IsEnabled = false, ToolTip = "Removes this ROI from the template when the template is saved." };
             DeleteButton.Click += DeleteButton_Click;
-            Children.Add(DeleteButton);
+            controls.Children.Add(DeleteButton);
+
+            status_text = new TextBlock { Margin = new Thickness(IncludeWidth, 0, 0, 2), TextWrapping = TextWrapping.Wrap, MaxWidth = 900, HorizontalAlignment = HorizontalAlignment.Left };
+            Children.Add(status_text);
+            UpdateStatus();
         }
+
+        /// <summary>The column headings, with the same widths as the rows.</summary>
+        internal static StackPanel Header()
+        {
+            StackPanel header = new StackPanel { Orientation = Orientation.Horizontal };
+            header.Children.Add(HeaderLabel("Include?", IncludeWidth));
+            header.Children.Add(HeaderLabel("ROI name", NameWidth));
+            header.Children.Add(HeaderLabel("Ontology", OntologyWidth));
+            header.Children.Add(HeaderLabel("Interpreted type", TypeWidth));
+            header.Children.Add(HeaderLabel("ROI colour", ColourWidth));
+            header.Children.Add(HeaderLabel("DVH colour", ColourWidth));
+            header.Children.Add(HeaderLabel(string.Empty, LinkWidth));
+            header.Children.Add(HeaderLabel("DVH line", LineStyleWidth));
+            return header;
+        }
+
+        private static Label HeaderLabel(string text, double width)
+        {
+            return new Label { Content = text, Width = width, FontWeight = FontWeights.SemiBold, Padding = new Thickness(2, 5, 2, 5) };
+        }
+
+        /// <summary>The list's entry for <paramref name="code"/>: the same object, else the same code value and scheme; null when none.</summary>
+        private static OntologyCodeClass? FindOntology(List<OntologyCodeClass> ontologies, OntologyCodeClass? code)
+        {
+            if (code == null)
+            {
+                return null;
+            }
+
+            return ontologies.FirstOrDefault(o => ReferenceEquals(o, code))
+                ?? ontologies.FirstOrDefault(o => o.CodeValue == code.CodeValue && o.Scheme == code.Scheme);
+        }
+
+        private static string DescribeCode(OntologyCodeClass? code)
+        {
+            return code == null
+                ? "No ontology code."
+                : $"{code.CodeMeaning} (code {code.CodeValue ?? "none"}, {code.Scheme ?? "no scheme"})";
+        }
+
+        private void Ontology_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ontology_combobox.SelectedItem is OntologyCodeClass code)
+            {
+                roi.Ontology_Class = code;
+                ontology_combobox.ToolTip = DescribeCode(code);
+                changed();
+                UpdateStatus();
+            }
+        }
+
         private void CheckBox_DataContextChanged(object sender, RoutedEventArgs e)
         {
-            bool delete_checked = DeleteCheckBox.IsChecked ?? false;
-            DeleteButton.IsEnabled = false;
-            if (delete_checked)
-            {
-                DeleteButton.IsEnabled = true;
-            }
+            DeleteButton.IsEnabled = DeleteCheckBox.IsChecked == true;
         }
-        private void DeleteButton_Click(object sender, System.EventArgs e)
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             roi_list.Remove(roi);
-            Children.Clear();
-            delete_previous();
-        }
-        private void color_button_Click(object sender, System.EventArgs e)
-        {
-            System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
-            if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (Parent is Panel panel)
             {
-                roi.update_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+                panel.Children.Remove(this);
+            }
+
+            changed();
+        }
+
+        private void color_button_Click(object sender, RoutedEventArgs e)
+        {
+            using System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                roi.update_color(dialog.Color.R, dialog.Color.G, dialog.Color.B);
                 set_button_color();
+                changed();
             }
         }
-        private void link_button_Click(object sender, System.EventArgs e)
+
+        private void link_button_Click(object sender, RoutedEventArgs e)
         {
             roi.DVHLineColor = "-16777216";
             roi.build_dvh_line_color();
             set_button_color();
+            changed();
         }
+
         private void set_button_color()
         {
-            color_button.Background = roi.ROI_Brush;
-            dvh_color_button.Background = roi.DVH_Brush;
+            color_button.Background = RoiBrushes.Fill(roi);
+            dvh_color_button.Background = RoiBrushes.DvhLine(roi);
         }
-        private void dvh_color_button_Click(object sender, System.EventArgs e)
+
+        private void dvh_color_button_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.ColorDialog MyDialog = new System.Windows.Forms.ColorDialog();
-            if (MyDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using System.Windows.Forms.ColorDialog dialog = new System.Windows.Forms.ColorDialog();
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                roi.update_dvh_color(MyDialog.Color.R, MyDialog.Color.G, MyDialog.Color.B);
+                roi.update_dvh_color(dialog.Color.R, dialog.Color.G, dialog.Color.B);
                 set_button_color();
+                changed();
             }
         }
-        private void delete_previous()
-        {
-            ROIClassTools.SaveROIsToFolder(roi_list, roi_path);
-        }
+
+        /// <summary>
+        /// Renames the ROI when the typed name is usable (N6: the name is set before the change is reported, so a save
+        /// that follows has it). A name that is empty or taken by another ROI is not applied and the reason is shown.
+        /// </summary>
         private void TextValueChange(object sender, TextChangedEventArgs e)
         {
-            delete_previous();
-            roi.ROIName = roi_name_textbox.Text;
+            string text = roi_name_textbox.Text;
+            rename_problem = NameRules.RoiNameProblem(text, roi_list, roi);
+            if (rename_problem == null && !string.Equals(text, roi.ROIName, StringComparison.Ordinal))
+            {
+                roi.ROIName = text;
+                changed();
+            }
+
+            UpdateStatus();
+        }
+
+        private void UpdateStatus()
+        {
+            var problems = new List<string>();
+            if (rename_problem != null)
+            {
+                problems.Add("Not renamed: " + rename_problem);
+            }
+
+            string? type_problem = InterpretedTypes.Problem(roi.ROI_Interpreted_type);
+            if (type_problem != null)
+            {
+                problems.Add(type_problem);
+            }
+
+            if (roi.Ontology_Class == null)
+            {
+                problems.Add("No ontology code: choose one, or generated RTs leave this ROI out.");
+            }
+
+            string? warning = NameRules.RoiNameWarning((string?)roi.ROIName);
+            EditorBrushes.ShowStatus(status_text, problems, warning);
+            if (rename_problem != null)
+            {
+                roi_name_textbox.BorderBrush = EditorBrushes.Error;
+            }
+            else
+            {
+                roi_name_textbox.ClearValue(Control.BorderBrushProperty);
+            }
         }
     }
 }

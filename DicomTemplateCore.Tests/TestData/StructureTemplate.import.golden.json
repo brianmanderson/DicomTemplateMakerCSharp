@@ -1,0 +1,37 @@
+[
+  {
+    "color_string": "0\\0\\255",
+    "dvh_color_string": null,
+    "TypeIndex": "2",
+    "ContourStyle": "",
+    "DVHLineStyle": "solid",
+    "DVHLineColor": "-16777216",
+    "DVHLineWidth": "1",
+    "Include": true,
+    "Ontology_Class": {
+      "ContextUID": "1.2.246.352.7.2.11",
+      "MappingResourceUID": "1.2.246.352.7.1.1",
+      "MappingResourceName": "Varian Medical Systems",
+      "ContextIdentifier": "VMS011",
+      "MappingResource": "99VMS",
+      "ContextGroupVersion": "20161209",
+      "Scheme": "99VMS_STRUCTCODE",
+      "CodeValue": "BODY",
+      "CodeMeaning": "BODY"
+    },
+    "ROIName": "BODY",
+    "RGB": [
+      0,
+      0,
+      255
+    ],
+    "RGB_DVH": null,
+    "ROI_Interpreted_type": "BODY",
+    "R_DVH": 0,
+    "G_DVH": 0,
+    "B_DVH": 255,
+    "R": 0,
+    "G": 0,
+    "B": 255
+  }
+]

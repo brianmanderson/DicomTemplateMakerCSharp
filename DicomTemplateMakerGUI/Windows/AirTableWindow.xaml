@@ -3,30 +3,115 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        xmlns:vm="clr-namespace:DicomTemplateMakerGUI.ViewModels;assembly=DicomTemplateMaker.Presentation"
         mc:Ignorable="d"
-        Title="AirTableWindow" Height="600" Width="780">
-    <Grid>
-        <Grid>
-            <Button x:Name="BuildButton" Content="Build Default Templates" HorizontalAlignment="Left" Margin="10,10,0,0" IsEnabled="False" VerticalAlignment="Top" Width="750" Height="36" Click="Build_button_click"/>
-            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,209,13,0">
-                <StackPanel Margin="20,20,20,20" x:Name="StackDefaultAirtablePanel">
-                </StackPanel>
-            </ScrollViewer>
-            <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="36" Margin="508,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="230"/>
-            <Label Name="Status_Label" Background="Yellow" Content="Status: Select a template to show..." HorizontalAlignment="Left" Margin="22,115,0,0" VerticalAlignment="Top" Height="26" Width="224"/>
-            <ComboBox Name="Template_ComboBox" HorizontalAlignment="Left" Margin="206,48,0,0" VerticalAlignment="Top" Width="554" SelectionChanged="Template_ComboBox_SelectionChanged"/>
-            <Label Content="Templates to show..." HorizontalAlignment="Left" Margin="22,46,0,0" VerticalAlignment="Top" Height="26" Width="164"/>
-            <CheckBox Name="Delete_CheckBox" Content="Delete Template?" HorizontalAlignment="Left" Margin="206,83,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked"/>
-            <Button x:Name="DeleteButton" Content="Delete?" HorizontalAlignment="Left" Margin="333,79,0,0" IsEnabled="False" VerticalAlignment="Top" Width="200" Height="21" Click="DeleteTemplate_Click"/>
-            <Button x:Name="AddTableButton" Content="Add Airtable?" HorizontalAlignment="Left" Margin="538,79,0,0" VerticalAlignment="Top" Width="200" Height="21" Click="AddAirTable_Click"/>
-            <Label x:Name="TemplateNameLabel" Content="Template Name" HorizontalAlignment="Left" Visibility="Visible" Margin="14,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-            <Label x:Name="IncludeLabel" Content="Include in build?" HorizontalAlignment="Left" Visibility="Visible" Margin="184,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-            <Label x:Name="CheckBoxLabel" Content="Check box" HorizontalAlignment="Left" Visibility="Visible" Margin="364,174,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-            <Label x:Name="SearchLabel" Content="Search templates" HorizontalAlignment="Left" Visibility="Visible" Margin="401,111,0,0" VerticalAlignment="Top" Height="26" Width="102"/>
-            <Button x:Name="SelectAllButton" Content="Select all?" HorizontalAlignment="Left" Margin="251,114,0,0" IsEnabled="False" VerticalAlignment="Top" Width="145" Height="23" Click="SelectAll_Click"/>
-            <ComboBox x:Name="Language_ComboBox" HorizontalAlignment="Left" Margin="22,117,0,0" VerticalAlignment="Top" Width="207"/>
-            <CheckBox x:Name="Laterality_CheckBox" Content="Check for laterality first (L_Breast, not BreastL)" HorizontalAlignment="Left" Margin="22,150,0,0" VerticalAlignment="Top"/>
-        </Grid>
+        d:DataContext="{d:DesignInstance Type=vm:OnlineTemplatesViewModel}"
+        Title="Online Templates" Height="700" Width="800" MinHeight="480" MinWidth="640">
+  <Window.Resources>
+    <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    <Style x:Key="HideWhenEmpty" TargetType="TextBlock">
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Style.Triggers>
+        <Trigger Property="Text" Value="">
+          <Setter Property="Visibility" Value="Collapsed"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+  </Window.Resources>
+  <DockPanel Margin="12">
+    <!-- Which template source to show, and managing the user's own Airtable tables. -->
+    <Grid DockPanel.Dock="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label Content="Templates to _show" Target="{Binding ElementName=SourceComboBox}" VerticalAlignment="Center"/>
+      <ComboBox x:Name="SourceComboBox" Grid.Column="1" Margin="4,0" VerticalAlignment="Center"
+                ItemsSource="{Binding Sources}" SelectedItem="{Binding SelectedSource}" DisplayMemberPath="Name"/>
+      <Button Grid.Column="2" Content="_Add Airtable table..." Padding="10,3" Margin="4,0"
+              Command="{Binding AddTableCommand}"/>
+      <Button Grid.Column="3" Content="_Remove connection" Padding="10,3" Margin="4,0,0,0"
+              ToolTip="Forget this Airtable table on this computer (the table itself is not changed)."
+              Command="{Binding RemoveConnectionCommand}"/>
     </Grid>
+
+    <!-- Loading. -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,10,0,0">
+      <Button Content="Refresh" Width="105" Height="28"
+              ToolTip="Check for changes since the last download (usually one request)."
+              Command="{Binding RefreshCommand}"/>
+      <Button Content="Full refresh" Width="105" Height="28" Margin="6,0,0,0"
+              ToolTip="Download the whole table again (one request per 100 records)."
+              Command="{Binding FullRefreshCommand}"/>
+      <Button Content="Cancel" Width="80" Height="28" Margin="6,0,0,0"
+              ToolTip="Stop the download; the copy loaded earlier stays available."
+              Command="{Binding CancelCommand}"/>
+    </StackPanel>
+    <StackPanel DockPanel.Dock="Top" Margin="0,8,0,0">
+      <TextBlock Text="{Binding StatusText}" Background="Yellow" Padding="4,2" Style="{StaticResource HideWhenEmpty}"/>
+      <TextBlock Text="{Binding ProgressText}" Style="{StaticResource HideWhenEmpty}"/>
+      <TextBlock Text="{Binding SourceStatusText}" Style="{StaticResource HideWhenEmpty}"/>
+      <TextBlock Text="{Binding CacheAgeText}" Foreground="DimGray" Style="{StaticResource HideWhenEmpty}"/>
+      <TextBlock Text="{Binding ErrorText}" Foreground="DarkRed" Style="{StaticResource HideWhenEmpty}"/>
+    </StackPanel>
+
+    <!-- Naming choices, shown only when the templates offer them. -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,8,0,0">
+      <ComboBox Width="207" Margin="0,0,12,0"
+                ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}"
+                Visibility="{Binding IsLanguageChoiceVisible, Converter={StaticResource BoolToVisibility}}"/>
+      <CheckBox Content="Check for laterality first (L_Breast, not BreastL)" VerticalAlignment="Center"
+                IsChecked="{Binding LateralityFirst}"
+                Visibility="{Binding IsLateralityChoiceVisible, Converter={StaticResource BoolToVisibility}}"/>
+    </StackPanel>
+
+    <!-- Search and selection. -->
+    <Grid DockPanel.Dock="Top" Margin="0,8,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Label Content="Search t_emplates" Target="{Binding ElementName=SearchTextBox}" VerticalAlignment="Center"/>
+      <TextBox x:Name="SearchTextBox" Grid.Column="1" Margin="4,0" VerticalContentAlignment="Center" Height="26"
+               Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"/>
+      <Button Grid.Column="2" Content="Select all shown" Padding="10,3" Margin="4,0"
+              ToolTip="Tick every template the search shows. Templates hidden by the search are not changed."
+              Command="{Binding SelectAllVisibleCommand}"/>
+      <Button Grid.Column="3" Content="Clear all" Padding="10,3" Margin="4,0,0,0"
+              ToolTip="Untick every template, including those hidden by the search."
+              Command="{Binding ClearSelectionCommand}"/>
+    </Grid>
+    <TextBlock DockPanel.Dock="Top" Margin="0,6,0,0" Text="{Binding SelectionSummary}" Style="{StaticResource HideWhenEmpty}"/>
+
+    <Button DockPanel.Dock="Bottom" Content="Build selected templates" Height="36" Margin="0,10,0,0" Background="LightGreen"
+            ToolTip="Create a template folder for every ticked template. You are asked before anything is replaced."
+            Command="{Binding BuildCommand}"/>
+
+    <!-- The templates of the selected source. -->
+    <Border BorderBrush="Gray" BorderThickness="1" Margin="0,8,0,0">
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ItemsControl ItemsSource="{Binding VisibleRows}" Margin="6">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type vm:TemplateRowViewModel}">
+              <StackPanel Orientation="Horizontal" Margin="0,2">
+                <CheckBox Width="300" VerticalAlignment="Center" ToolTip="Build this template"
+                          IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanBuild}">
+                  <TextBlock Text="{Binding SiteName}" TextTrimming="CharacterEllipsis"/>
+                </CheckBox>
+                <TextBlock Width="70" VerticalAlignment="Center" Text="{Binding RoiCountText}"/>
+                <TextBlock Text="already exists" Foreground="DarkOrange" FontWeight="SemiBold" VerticalAlignment="Center"
+                           ToolTip="A template folder with this name exists; building replaces it."
+                           Visibility="{Binding AlreadyExists, Converter={StaticResource BoolToVisibility}}"/>
+                <TextBlock Foreground="DarkRed" VerticalAlignment="Center" Text="{Binding Problem}" Style="{StaticResource HideWhenEmpty}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+    </Border>
+  </DockPanel>
 </Window>
