@@ -1,49 +1,103 @@
-﻿<Window x:Class="DicomTemplateMakerGUI.Windows.MakeTemplateWindow"
+<Window x:Class="DicomTemplateMakerGUI.Windows.MakeTemplateWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="MakeTemplateWindow" Height="600" Width="1215">
-    <Grid>
-        <Button x:Name="AddROIFromRTButton" Background="LightGreen" Content="Add ROIs from RT Structure File" HorizontalAlignment="Left" Margin="23,89,0,0" VerticalAlignment="Top" Click="Select_File_Click" Height="37" Width="246" IsEnabled="False"/>
-        <Button x:Name="pathsButton" IsEnabled="False" Content="Edit monitored DICOM paths" HorizontalAlignment="Left" Margin="592,86,0,0" VerticalAlignment="Top" Click="PathsButtonClick" Height="37" Width="210"/>
-        <Label Name="FileLocationLabel" Visibility="Hidden" Content="" HorizontalAlignment="Left" Height="37" Margin="287,40,0,0" VerticalAlignment="Top" Width="481" Grid.ColumnSpan="3"/>
-        <Label Name="TemplateNameLabel" Content="Output Template Name:" HorizontalAlignment="Left" Height="37" Margin="23,36,0,0" VerticalAlignment="Top" Width="137"/>
-        <Label Name="ROINameLabel" Content="ROI Name" HorizontalAlignment="Left" Height="44" Margin="500,131,0,0" VerticalAlignment="Top" Width="170"/>
-        <TextBox x:Name="TemplateTextBox" Background="LightGreen" TextChanged="TemplateNameChanged" HorizontalAlignment="Left" Height="41" Margin="168,32,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="292"/>
-        <TextBox x:Name="ROITextBox" IsEnabled="False" TextChanged="ROINameChanged" HorizontalAlignment="Left" Height="45" Margin="500,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="170"/>
-        <Button x:Name="BuildButton" Background="LightGreen" Content="Build Template!" HorizontalAlignment="Left" Height="41" Margin="465,32,0,0" VerticalAlignment="Top" Width="210" Click="Build_Button_Click"/>
-        <Button x:Name="AddROIButton" Content="Add ROI" HorizontalAlignment="Left" Height="45" Margin="973,165,0,0" VerticalAlignment="Top" Width="210" Click="AddROI_Click" IsEnabled="False"/>
-        <Button x:Name="ColorButton" IsEnabled="False" Content="" HorizontalAlignment="Left" Height="45" Margin="888,165,0,0" VerticalAlignment="Top" Width="80" Click="ChangeColor_Click"/>
-        <Button x:Name="RefreshButton" Content="Refresh" HorizontalAlignment="Left" Height="34" Margin="423,226,0,0" VerticalAlignment="Top" Width="140" Click="Refresh_Click" IsEnabled="False"/>
-        <Button x:Name="UpdateButton" Visibility="Hidden" Content="Save Changes" HorizontalAlignment="Left" Height="34" Margin="748,95,0,0" VerticalAlignment="Top" Width="138" Click="Save_Changes_Click" IsEnabled="False"/>
-        <Button x:Name="Update_and_ExitButton" Content="Save and Exit" HorizontalAlignment="Left" Height="34" Margin="973,220,0,0" VerticalAlignment="Top" Width="210" Click="Save_and_Exit_Click" IsEnabled="False"/>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="23,308,0,10">
-            <StackPanel x:Name="ROIStackPanel">
+        Title="Template editor" Height="760" Width="1215" MinHeight="560" MinWidth="1100"
+        WindowStartupLocation="CenterOwner" Closing="Window_Closing">
+    <Grid x:Name="EditorContent" Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Template name, build and rename -->
+        <WrapPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Content="_Template name:" Target="{Binding ElementName=TemplateTextBox}" VerticalAlignment="Center"/>
+            <TextBox x:Name="TemplateTextBox" Width="260" Height="30" VerticalContentAlignment="Center" TextChanged="TemplateNameChanged"/>
+            <Button x:Name="BuildButton" Content="Build template" Width="150" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="Build_Button_Click"
+                    ToolTip="Creates the template's folder and saves it."/>
+            <Button x:Name="Rename_Button" Content="Rename template…" Width="150" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="Rename_template_Click"
+                    ToolTip="Available once the template has been built."/>
+        </WrapPanel>
+        <TextBlock Grid.Row="1" x:Name="TemplateStatusText" Margin="4,4,0,0" TextWrapping="Wrap" Visibility="Collapsed"/>
+
+        <!-- RT file and monitored folders -->
+        <WrapPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+            <Button x:Name="AddROIFromRTButton" Content="Add ROIs from RT Structure file…" Width="250" Height="30" IsEnabled="False" Click="Select_File_Click"/>
+            <Button x:Name="pathsButton" Content="Edit monitored DICOM paths…" Width="220" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="PathsButtonClick"/>
+            <TextBlock x:Name="PathsStatusText" Margin="10,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="560"/>
+        </WrapPanel>
+
+        <!-- Add an ROI -->
+        <GroupBox Grid.Row="3" Header="Add an ROI" Margin="0,10,0,0" Padding="6">
+            <StackPanel>
+                <WrapPanel Orientation="Horizontal">
+                    <StackPanel Margin="0,0,8,0">
+                        <Label Content="_Search ontology" Target="{Binding ElementName=Ontology_TextBox}" Padding="0,0,0,3"/>
+                        <TextBox x:Name="Ontology_TextBox" Width="200" Height="30" VerticalContentAlignment="Center" IsEnabled="False" TextChanged="OntologyNameChanged"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,8,0">
+                        <Label Content="_Ontology" Target="{Binding ElementName=OntologyComboBox}" Padding="0,0,0,3"/>
+                        <ComboBox x:Name="OntologyComboBox" Width="250" Height="30" VerticalContentAlignment="Center" IsEnabled="False" SelectionChanged="AddRoiInputChanged"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,8,0">
+                        <Label Content="ROI _name" Target="{Binding ElementName=ROITextBox}" Padding="0,0,0,3"/>
+                        <TextBox x:Name="ROITextBox" Width="180" Height="30" VerticalContentAlignment="Center" IsEnabled="False" TextChanged="ROINameChanged"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,8,0">
+                        <Label Content="ROI t_ype" Target="{Binding ElementName=InterpComboBox}" Padding="0,0,0,3"/>
+                        <ComboBox x:Name="InterpComboBox" Width="170" Height="30" VerticalContentAlignment="Center" IsEnabled="False" SelectionChanged="AddRoiInputChanged"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,0,8,0">
+                        <Label Content="Colour" Padding="0,0,0,3"/>
+                        <Button x:Name="ColorButton" Width="70" Height="30" IsEnabled="False" Click="ChangeColor_Click" ToolTip="Click to choose the new ROI's colour."/>
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Bottom">
+                        <Button x:Name="AddROIButton" Content="Add ROI" Width="130" Height="30" IsEnabled="False" Click="AddROI_Click"/>
+                    </StackPanel>
+                </WrapPanel>
+                <TextBlock x:Name="AddRoiStatusText" Margin="0,6,0,0" TextWrapping="Wrap" Visibility="Collapsed"/>
             </StackPanel>
+        </GroupBox>
+
+        <!-- ROI list tools -->
+        <WrapPanel Grid.Row="4" Orientation="Horizontal" Margin="0,10,0,4">
+            <Label Content="Search ROIs (name, type, ontology):" Target="{Binding ElementName=SearchBox_TextBox}" VerticalAlignment="Center"/>
+            <TextBox x:Name="SearchBox_TextBox" Width="200" Height="30" VerticalContentAlignment="Center" TextChanged="SearchTextUpdate"/>
+            <Button x:Name="RefreshButton" Content="Refresh" Width="100" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="Refresh_Click"/>
+            <Button x:Name="Select_All_Button" Content="Include all shown" Width="140" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="SelectAll_Click"
+                    ToolTip="Ticks Include? for the ROIs the search shows."/>
+            <Button x:Name="UnSelect_All_Button" Content="Exclude all shown" Width="140" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="UnSelectAll_Click"
+                    ToolTip="Clears Include? for the ROIs the search shows."/>
+        </WrapPanel>
+
+        <ContentControl Grid.Row="5" x:Name="RoiHeaderHost" Focusable="False"/>
+        <ScrollViewer Grid.Row="6" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ROIStackPanel"/>
         </ScrollViewer>
-        <ComboBox Name="InterpComboBox" IsEnabled="False" HorizontalAlignment="Left" Height="45" Margin="675,166,0,0" VerticalAlignment="Top" Width="208" SelectionChanged="OnSelectionChanged"/>
-        <TextBox x:Name="SearchBox_TextBox" TextChanged="SearchTextUpdate" HorizontalAlignment="Left" Height="43" Margin="241,223,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="173"/>
-        <Label Content="Search by name, type, ontology" HorizontalAlignment="Left" Height="43" Margin="23,224,0,0" VerticalAlignment="Top" Width="207"/>
-        <Label Content="Add paths to monitor:" HorizontalAlignment="Left" Height="37" Margin="447,89,0,0" VerticalAlignment="Top" Width="140"/>
-        <Label x:Name="ROINameLabel_Copy" Content="Ontology Name" HorizontalAlignment="Left" Height="27" Margin="259,131,0,0" VerticalAlignment="Top" Width="118"/>
-        <TextBox x:Name="Ontology_TextBox" IsEnabled="True" TextChanged="OntologyNameChanged" HorizontalAlignment="Left" Height="45" Margin="10,166,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="244"/>
-        <ComboBox x:Name="OntologyComboBox" IsEnabled="True" HorizontalAlignment="Left" Height="45" Margin="259,166,0,0" VerticalAlignment="Top" Width="236" SelectionChanged="OnSelectionChanged"/>
-        <Label x:Name="ROINameLabel_Copy1" Content="Search ontology" HorizontalAlignment="Left" Height="27" Margin="10,139,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="ROINameLabel_Copy2" Content="ROI Type" HorizontalAlignment="Left" Height="44" Margin="675,131,0,0" VerticalAlignment="Top" Width="170"/>
-        <Label Content="Include?" HorizontalAlignment="Left" Height="43" Margin="23,274,0,0" VerticalAlignment="Top" Width="69"/>
-        <Label Content="ROI Name" HorizontalAlignment="Left" Height="43" Margin="107,275,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="Ontology" HorizontalAlignment="Left" Height="43" Margin="271,275,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="Interpreted Type" HorizontalAlignment="Left" Height="43" Margin="445,275,0,0" VerticalAlignment="Top" Width="147"/>
-        <Button x:Name="Select_All_Button" Content="Select Include All" HorizontalAlignment="Left" Height="34" Margin="592,226,0,0" VerticalAlignment="Top" Width="140" Click="SelectAll_Click" IsEnabled="False"/>
-        <Button x:Name="UnSelect_All_Button" Content="Unselect Include All" HorizontalAlignment="Left" Height="34" Margin="737,226,0,0" VerticalAlignment="Top" Width="140" Click="UnSelectAll_Click" IsEnabled="False"/>
-        <ComboBox x:Name="AirTableComboBox" HorizontalAlignment="Left" Height="37" Margin="858,36,0,0" VerticalAlignment="Top" Width="276" SelectionChanged="AirTableSelectionChanged"/>
-        <Button x:Name="WriteToAirTable_Button" Content="Write to AirTable" HorizontalAlignment="Left" Height="37" Margin="858,89,0,0" VerticalAlignment="Top" Width="276" Click="WriteToAirTable_Click" IsEnabled="False"/>
-        <Button x:Name="Rename_Button" Content="Rename template" HorizontalAlignment="Left" Height="41" Margin="680,32,0,0" VerticalAlignment="Top" Width="165" Click="Rename_template_Click"/>
-        <Label Content="ROI Color" HorizontalAlignment="Left" Height="43" Margin="594,274,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="DVH Color" HorizontalAlignment="Left" Height="43" Margin="674,274,0,0" VerticalAlignment="Top" Width="70"/>
-        <Label Content="DVH Line Style" HorizontalAlignment="Left" Height="43" Margin="816,274,0,0" VerticalAlignment="Top" Width="106"/>
+
+        <!-- Airtable, save and close -->
+        <DockPanel Grid.Row="7" Margin="0,10,0,0" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                <Label Content="Airtable table:" VerticalAlignment="Center"/>
+                <ComboBox x:Name="AirTableComboBox" Width="200" Height="30" VerticalContentAlignment="Center" SelectionChanged="AirTableSelectionChanged"/>
+                <Button x:Name="WriteToAirTable_Button" Content="Write to Airtable" Width="210" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="WriteToAirTable_Click"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                <Button x:Name="UpdateButton" Content="Save" Width="90" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="Save_Changes_Click"/>
+                <Button x:Name="Update_and_ExitButton" Content="Save and close" Width="120" Height="30" Margin="8,0,0,0" IsEnabled="False" Click="Save_and_Exit_Click"/>
+                <Button x:Name="CloseButton" Content="Close" Width="90" Height="30" Margin="8,0,0,0" Click="Close_Click"/>
+            </StackPanel>
+            <TextBlock x:Name="SaveStatusText" Margin="12,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Right" TextWrapping="Wrap"/>
+        </DockPanel>
     </Grid>
 </Window>

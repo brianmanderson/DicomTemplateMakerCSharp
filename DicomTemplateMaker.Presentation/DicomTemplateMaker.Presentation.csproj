@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Platform-neutral presentation layer: template sources and the view models of the online-template
+    windows. No WPF types, so everything here is tested on any OS. Namespaces keep their historical
+    DicomTemplateMakerGUI.* names so the GUI's usings do not change.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>DicomTemplateMakerGUI</RootNamespace>
+    <AssemblyName>DicomTemplateMaker.Presentation</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DicomTemplateCore\DicomTemplateCore.csproj" />
+    <ProjectReference Include="..\ROIOntologyClass\ROIOntologyClass.csproj" />
+    <ProjectReference Include="..\TemplateSync\TemplateSync.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DicomTemplateMaker.Presentation.Tests" />
+  </ItemGroup>
+
+</Project>

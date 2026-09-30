@@ -1,21 +1,84 @@
-﻿<Window x:Class="DicomTemplateMakerGUI.Windows.AddAirTableTemplate"
+<Window x:Class="DicomTemplateMakerGUI.Windows.AddAirTableTemplate"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
+        xmlns:vm="clr-namespace:DicomTemplateMakerGUI.ViewModels;assembly=DicomTemplateMaker.Presentation"
         mc:Ignorable="d"
-        Title="AddAirTableTemplate" Height="225" Width="500">
-    <Grid>
-        <Button x:Name="AddAirTableButton" Content="Add a Airtable and Close" HorizontalAlignment="Left" Margin="10,7,0,0" IsEnabled="False" VerticalAlignment="Top" Width="419" Height="36" Click="AddAirTableButton_Click"/>
-        <TextBox x:Name="API_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="43" Margin="145,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
-        <Label Content="Personal Access Token" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top" Height="26" Width="135"/>
-        <TextBox x:Name="Base_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="145,118,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
-        <Label Content="Base Key" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-        <TextBox x:Name="Table_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="145,144,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
-        <Label Content="Table Key" HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
-        <TextBox x:Name="TableName_TextBox" TextChanged="AddAirTableTextUpdate" HorizontalAlignment="Left" Height="24" Margin="145,44,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="284"/>
-        <Label Content="Table Name" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Height="26" Width="116"/>
+        d:DataContext="{d:DesignInstance Type=vm:AddAirtableTableViewModel}"
+        Title="Add an Airtable table" Width="580" SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+  <Window.Resources>
+    <!-- The message under a field; its DataContext is that field's FieldStatus. An empty message keeps its line, so the layout does not jump. -->
+    <Style x:Key="FieldMessage" TargetType="TextBlock">
+      <Setter Property="Text" Value="{Binding DisplayText}"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Setter Property="Margin" Value="4,2,0,8"/>
+      <Setter Property="Foreground" Value="DimGray"/>
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Severity}" Value="{x:Static vm:FieldSeverity.Success}">
+          <Setter Property="Foreground" Value="DarkGreen"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Severity}" Value="{x:Static vm:FieldSeverity.Warning}">
+          <Setter Property="Foreground" Value="#FF9A5B00"/>
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Severity}" Value="{x:Static vm:FieldSeverity.Error}">
+          <Setter Property="Foreground" Value="DarkRed"/>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+  </Window.Resources>
+  <Grid Margin="12">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
 
-    </Grid>
+    <Label Grid.Row="0" Content="_Name" Target="{Binding ElementName=Name_TextBox}"/>
+    <TextBox x:Name="Name_TextBox" Grid.Row="0" Grid.Column="1" Height="24" VerticalContentAlignment="Center"
+             IsEnabled="{Binding CanEdit}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+    <TextBlock Grid.Row="1" Grid.Column="1" DataContext="{Binding NameStatus}" Style="{StaticResource FieldMessage}"/>
+
+    <Label Grid.Row="2" Content="Personal access _token" Target="{Binding ElementName=API_PasswordBox}"/>
+    <PasswordBox x:Name="API_PasswordBox" Grid.Row="2" Grid.Column="1" Height="24" VerticalContentAlignment="Center"
+                 IsEnabled="{Binding CanEdit}" PasswordChanged="TokenChanged"
+                 ToolTip="Create one at airtable.com/create/tokens with the data.records:read and data.records:write scopes for this base."/>
+    <TextBlock Grid.Row="3" Grid.Column="1" DataContext="{Binding TokenStatus}" Style="{StaticResource FieldMessage}"/>
+
+    <Label Grid.Row="4" Content="_Base id" Target="{Binding ElementName=Base_TextBox}"/>
+    <TextBox x:Name="Base_TextBox" Grid.Row="4" Grid.Column="1" Height="24" VerticalContentAlignment="Center"
+             IsEnabled="{Binding CanEdit}" Text="{Binding BaseId, UpdateSourceTrigger=PropertyChanged}"
+             ToolTip="Starts with app; it is the part of the base's address after airtable.com/. You can paste the table's whole address."/>
+    <TextBlock Grid.Row="5" Grid.Column="1" DataContext="{Binding BaseIdStatus}" Style="{StaticResource FieldMessage}"/>
+
+    <Label Grid.Row="6" Content="Tab_le id or name" Target="{Binding ElementName=Table_TextBox}"/>
+    <TextBox x:Name="Table_TextBox" Grid.Row="6" Grid.Column="1" Height="24" VerticalContentAlignment="Center"
+             IsEnabled="{Binding CanEdit}" Text="{Binding Table, UpdateSourceTrigger=PropertyChanged}"
+             ToolTip="Starts with tbl; it follows the base id in the table's address. The table's exact name also works."/>
+    <TextBlock Grid.Row="7" Grid.Column="1" DataContext="{Binding TableStatus}" Style="{StaticResource FieldMessage}"/>
+
+    <TextBlock Grid.Row="8" Grid.ColumnSpan="2" DataContext="{Binding ConnectionStatus}" Style="{StaticResource FieldMessage}"/>
+
+    <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
+      <Button Content="Test _connection" MinWidth="120" Height="30" Padding="10,0"
+              ToolTip="One request that reads a single record, to prove the ids and the token work."
+              Command="{Binding TestConnectionCommand}"/>
+      <Button Content="_Save" MinWidth="90" Height="30" Margin="8,0,0,0"
+              ToolTip="Tests the connection if needed, then stores the table with its token encrypted for your Windows account."
+              Command="{Binding SaveCommand}"/>
+      <Button Content="Cancel" MinWidth="90" Height="30" Margin="8,0,0,0"
+              Command="{Binding CancelCommand}"/>
+    </StackPanel>
+  </Grid>
 </Window>

@@ -1,24 +1,60 @@
-﻿<Window x:Class="DicomTemplateMakerGUI.Windows.EditPathsWindow"
+<Window x:Class="DicomTemplateMakerGUI.Windows.EditPathsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DicomTemplateMakerGUI.Windows"
         mc:Ignorable="d"
-        Title="EditPathsWindow" Height="500" Width="800">
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,40,150,231">
-            <StackPanel Height="307" x:Name="PathsStackPanel" />
-        </ScrollViewer>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,296,150,89">
-            <StackPanel x:Name="RequirementStackPanel" Height="172"/>
-        </ScrollViewer>
-        <Button x:Name="Add_Path_Button" Content="Add Path" HorizontalAlignment="Left" Height="26" Margin="158,10,0,0" VerticalAlignment="Top" Width="214" Click="Button_Click"/>
-        <Button Content="Save and Close" HorizontalAlignment="Left" Height="85" Margin="663,10,0,0" VerticalAlignment="Top" Width="119" Click="Save_Click"/>
-        <ComboBox Name="DicomTag_Combobox" HorizontalAlignment="Left" Margin="10,264,0,0" VerticalAlignment="Top" Width="200" Height="26"/>
-        <TextBox x:Name="Dicomtag_TextBox" HorizontalAlignment="Left" Height="26" Margin="215,264,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="181" TextChanged="TagText_Changed"/>
-        <Button x:Name="AddDicom_Button" Content="Add DICOM requirement" IsEnabled="False" HorizontalAlignment="Left" Height="26" Margin="401,264,0,0" VerticalAlignment="Top" Width="241" Click="Add_Requirement"/>
-        <Label Content="Add a monitored path:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="142"/>
-        <Label Content="Add a required DICOM aspect" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top" Width="255"/>
+        Title="Monitored folders and DICOM requirements" Height="600" Width="820" MinHeight="420" MinWidth="640"
+        WindowStartupLocation="CenterOwner" Closing="Window_Closing">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" x:Name="IntroText" TextWrapping="Wrap" Foreground="#FF5A5A5A"
+                   Text="The RT generator looks for new images in the monitored folders (and all folders inside them) and writes an RT for each series that meets the DICOM requirements."/>
+
+        <DockPanel Grid.Row="1" Margin="0,10,0,4" LastChildFill="True">
+            <Button DockPanel.Dock="Right" x:Name="Add_Path_Button" Content="Add folder…" Width="140" Height="28" Click="Button_Click"/>
+            <TextBlock x:Name="PathsHeader" Text="Monitored folders" FontWeight="SemiBold" VerticalAlignment="Center"/>
+        </DockPanel>
+        <Border Grid.Row="2" BorderBrush="#FFBBBBBB" BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel x:Name="PathsStackPanel" Margin="4"/>
+            </ScrollViewer>
+        </Border>
+
+        <TextBlock Grid.Row="3" Text="DICOM requirements" FontWeight="SemiBold" Margin="0,12,0,0"/>
+        <TextBlock Grid.Row="4" x:Name="RequirementsIntro" TextWrapping="Wrap" Foreground="#FF5A5A5A" Margin="0,2,0,4"
+                   Text="A series meets them when its Series Description matches any Series Description requirement, or its Study Description matches any Study Description requirement. A match means one contains the other, ignoring case. With no requirements, every series in the monitored folders gets an RT."/>
+        <StackPanel Grid.Row="5">
+            <WrapPanel Orientation="Horizontal">
+                <ComboBox x:Name="DicomTag_Combobox" Width="200" Height="28" VerticalContentAlignment="Center" SelectionChanged="Tag_Changed"/>
+                <TextBox x:Name="Dicomtag_TextBox" Width="220" Height="28" Margin="8,0,0,0" VerticalContentAlignment="Center" TextChanged="TagText_Changed"/>
+                <Button x:Name="AddDicom_Button" Content="Add DICOM requirement" Width="190" Height="28" Margin="8,0,0,0" IsEnabled="False" Click="Add_Requirement"/>
+            </WrapPanel>
+            <TextBlock x:Name="RequirementStatusText" Margin="0,4,0,4" TextWrapping="Wrap" Visibility="Collapsed"/>
+        </StackPanel>
+        <Border Grid.Row="6" BorderBrush="#FFBBBBBB" BorderThickness="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel x:Name="RequirementStackPanel" Margin="4"/>
+            </ScrollViewer>
+        </Border>
+
+        <TextBlock Grid.Row="7" x:Name="SaveNoteText" Margin="0,8,0,0" TextWrapping="Wrap" Visibility="Collapsed"/>
+        <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="Save_Button" Content="Save and close" Width="130" Height="30" Click="Save_Click"/>
+            <Button x:Name="Cancel_Button" Content="Cancel" Width="90" Height="30" Margin="8,0,0,0" Click="Cancel_Click"
+                    ToolTip="Closes without saving; the changes made here are discarded."/>
+        </StackPanel>
     </Grid>
 </Window>

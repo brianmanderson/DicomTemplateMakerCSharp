@@ -1,200 +1,311 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using DicomTemplateMakerGUI.Editors;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.StackPanelClasses;
-using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.Extensions.Logging;
 using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Windows
 {
     /// <summary>
-    /// Interaction logic for EditOntologyWindow.xaml
+    /// N16: edits the ontology library. Changes stay in this window until Save; closing with unsaved changes asks
+    /// first. A code value is required and the reasons are shown as text; deleting an entry that templates use says
+    /// which templates first.
     /// </summary>
     public partial class EditOntologyWindow : Window
     {
-        Brush lightgreen = new SolidColorBrush(Color.FromRgb(144, 238, 144));
-        Brush white = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-        Brush red = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-        Brush yellow = new SolidColorBrush(Color.FromRgb(255, 255, 0));
-        private string onto_path;
-        public TemplateMaker template_maker;
-        private List<AddTemplateRow> template_rows;
+        private const string WindowTitle = "Edit ontologies";
+        private readonly ILogger<EditOntologyWindow> logger = AppLog.For<EditOntologyWindow>();
+        private readonly string onto_path;
+        private readonly List<AddTemplateRow> template_rows;
+        // Entries added or edited in this window: they must be valid before the library is saved. Older entries with a
+        // problem are shown but do not block saving.
+        private readonly HashSet<OntologyCodeClass> touched = new HashSet<OntologyCodeClass>(ReferenceEqualityComparer.Instance);
+        private List<OntologyCodeClass> library = new List<OntologyCodeClass>();
+        private bool dirty;
+
+        /// <summary>Throws <see cref="TemplateLoadException"/> when the library cannot be read (the main window checks first).</summary>
+        /// <param name="path">The template folder; the library is in its Ontologies folder.</param>
         public EditOntologyWindow(string path, List<AddTemplateRow> template_rows)
         {
-            onto_path = Path.Combine(path, "Ontologies");
+            onto_path = Path.Combine(path, TemplateRootResolver.OntologiesFolderName);
             this.template_rows = template_rows;
-            if (!Directory.Exists(onto_path))
-            {
-                Directory.CreateDirectory(onto_path);
-            }
             InitializeComponent();
-            OntologyStackPanel.Children.Add(TopRow());
-            BuildFromFolders();
+            NoteText.Text = "The ontology library (" + Path.Combine(onto_path, OntologyTools.LibraryFileName) + ") is the list of codes offered when adding ROIs. "
+                + "Changes are kept in this window until you press Save. Templates keep the codes they were saved with.";
+            OntologyHeaderHost.Content = AddOntologyRow.Header();
+            LoadLibrary();
+            check_status();
         }
+
+        /// <summary>Reads the library from disk, dropping any unsaved changes.</summary>
+        private void LoadLibrary()
+        {
+            library = OntologyTools.LoadOntologiesFromFolder(onto_path);
+            SortLibrary();
+            touched.Clear();
+            dirty = false;
+            RefreshView();
+            UpdateSaveState();
+        }
+
+        private void SortLibrary()
+        {
+            // CodeMeaning is null for a hand-edited file that says so; string.Compare orders null first.
+            library.Sort((p, q) => string.Compare(p.CodeMeaning, q.CodeMeaning, StringComparison.CurrentCulture));
+        }
+
+        private void MarkChanged()
+        {
+            dirty = true;
+            UpdateSaveState();
+        }
+
+        private void UpdateSaveState()
+        {
+            SaveStatusText.Text = dirty ? "Unsaved changes" : string.Empty;
+            SaveStatusText.Foreground = EditorBrushes.Warning;
+            Title = dirty ? WindowTitle + " (unsaved changes)" : WindowTitle;
+        }
+
+        /// <summary>The new-entry form: Add is enabled only for a valid entry, and the reason is shown as text.</summary>
         private void check_status()
         {
-            AddOntology_Button.IsEnabled = false;
-            SearchBox_TextBox.IsEnabled = false;
-            PreferredNameTextBox.Background = white;
-            CodeValue_TextBox.Background = white;
-            AddOntology_Button.Background = white;
-            if (template_maker.Ontologies.Count > 0)
+            string name = PreferredNameTextBox.Text;
+            string code = CodeValue_TextBox.Text;
+            string scheme = CodeScheme_TextBox.Text;
+            if (name.Length == 0 && code.Length == 0 && scheme.Length == 0)
             {
-                SearchBox_TextBox.IsEnabled = true;
+                AddOntology_Button.IsEnabled = false;
+                EditorBrushes.ShowStatus(EntryStatusText, Array.Empty<string>(), null, "Enter a common name, a code value and a coding scheme, then press Add to library.");
+                return;
             }
-            if (template_maker.Ontologies.Where(p => p.CodeValue == CodeValue_TextBox.Text).Any())
-            {
-                CodeValue_TextBox.Background = yellow;
-            }
-            if (template_maker.Ontologies.Where(p => p.CodeMeaning.ToLower() == PreferredNameTextBox.Text.ToLower()).Any())
-            {
-                PreferredNameTextBox.Background = yellow;
-            }
-            if (CodeValue_TextBox.Background == yellow & PreferredNameTextBox.Background == yellow)
-            {
-                CodeValue_TextBox.Background = red;
-                PreferredNameTextBox.Background = red;
-            }
-            if (PreferredNameTextBox.Background != red & CodeValue_TextBox.Background != red)
-            {
-                if (PreferredNameTextBox.Text != "")
-                {
-                    if (CodeScheme_TextBox.Text != "")
-                    {
-                        {
-                            AddOntology_Button.IsEnabled = true;
-                            AddOntology_Button.Background = lightgreen;
-                        }
-                    }
-                }
-            }
+
+            string? problem = OntologyEntryRules.Problem(name, code, scheme, library, null);
+            AddOntology_Button.IsEnabled = problem == null;
+            EditorBrushes.ShowStatus(EntryStatusText, problem == null ? Array.Empty<string>() : new[] { problem }, problem == null ? OntologyEntryRules.Warning(name, library, null) : null);
         }
+
         private void UpdateText(object sender, TextChangedEventArgs e)
         {
             check_status();
         }
+
         private void SearchTextUpdate(object sender, TextChangedEventArgs e)
         {
             RefreshView();
         }
-        private StackPanel TopRow()
-        {
-            StackPanel top_row = new StackPanel();
-            top_row.Orientation = Orientation.Horizontal;
 
-            Label name_label = new Label();
-            name_label.Width = 200;
-            name_label.Content = "Common Name";
-            top_row.Children.Add(name_label);
-
-            Label code_value = new Label();
-            code_value.Width = 200;
-            code_value.Content = "Code Value";
-            top_row.Children.Add(code_value);
-
-            Label code_scheme = new Label();
-            code_scheme.Width = 150;
-            code_scheme.Content = "Coding Scheme";
-            top_row.Children.Add(code_scheme);
-            return top_row;
-        }
         private void RefreshView()
         {
             OntologyStackPanel.Children.Clear();
-            OntologyStackPanel.Children.Add(TopRow());
-            string text = SearchBox_TextBox.Text.ToLower();
-            foreach (OntologyCodeClass onto in template_maker.Ontologies)
+            string query = SearchBox_TextBox.Text;
+            foreach (OntologyCodeClass onto in library.Where(entry => OntologyEntryRules.Matches(entry, query)))
             {
-                bool add_onto = false;
-                if (onto.CodeMeaning.ToLower().Contains(text))
-                {
-                    add_onto = true;
-                }
-                else if (onto.CodeValue.ToLower().Contains(text))
-                {
-                    add_onto = true;
-                }
-                else if (onto.Scheme.ToLower().Contains(text))
-                {
-                    add_onto = true;
-                }
-                if (add_onto)
-                {
-                    AddOntologyRow new_row = new AddOntologyRow(template_maker.Ontologies, onto, onto_path);
-                    OntologyStackPanel.Children.Add(new_row);
-                }
+                OntologyStackPanel.Children.Add(new AddOntologyRow(onto, library, OnEntryChanged, DeleteEntry));
             }
         }
 
-        private void AddOntology_Click(object sender, RoutedEventArgs e)
+        private void OnEntryChanged(OntologyCodeClass entry)
         {
-            OntologyCodeClass onto = new OntologyCodeClass(PreferredNameTextBox.Text, CodeValue_TextBox.Text, CodeScheme_TextBox.Text);
-            template_maker.Ontologies.Add(onto);
-            template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-            PreferredNameTextBox.Text = "";
-            CodeValue_TextBox.Text = "";
-            CodeScheme_TextBox.Text = "";
-            Save_Changes_Click(sender, e);
+            touched.Add(entry);
+            MarkChanged();
+            check_status();
+        }
+
+        /// <summary>Removes an entry from the library in this window; when templates use it, names them and asks first.</summary>
+        private void DeleteEntry(OntologyCodeClass entry)
+        {
+            IReadOnlyList<string> users = OntologyEntryRules.TemplatesUsing(entry, template_rows.Select(row => row.templateMaker));
+            if (users.Count > 0 && MessageBox.Show(this, EditorMessages.ConfirmDeleteOntology(entry, users), "Delete ontology entry",
+                MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            library.Remove(entry);
+            touched.Remove(entry);
+            MarkChanged();
             RefreshView();
             check_status();
         }
 
-        private void AddOntologyFromRT_Click(object sender, RoutedEventArgs e)
+        private void AddOntology_Click(object sender, RoutedEventArgs e)
         {
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog("*.dcm");
-            dialog.InitialDirectory = ".";
-            dialog.IsFolderPicker = false;
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            string name = PreferredNameTextBox.Text;
+            string code = CodeValue_TextBox.Text;
+            string scheme = CodeScheme_TextBox.Text;
+            if (OntologyEntryRules.Problem(name, code, scheme, library, null) != null)
             {
-                string dicom_file = dialog.FileName;
-                template_maker.interpret_RT(dicom_file);
+                check_status();
+                return;
+            }
+
+            OntologyCodeClass onto = new OntologyCodeClass(name.Trim(), code.Trim(), scheme.Trim());
+            library.Add(onto);
+            SortLibrary();
+            touched.Add(onto);
+            MarkChanged();
+            PreferredNameTextBox.Text = string.Empty;
+            CodeValue_TextBox.Text = string.Empty;
+            CodeScheme_TextBox.Text = string.Empty;
+            RefreshView();
+            check_status();
+        }
+
+        private async void AddOntologyFromRT_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                const string title = "Add codes from an RT Structure file";
+                string? dicom_file = await FileDialogs.PickFileAsync(this, "Select an RT Structure file", FileDialogs.DicomFilter, FolderPurpose.RtFile);
+                if (dicom_file == null)
+                {
+                    return;
+                }
+
+                HashSet<OntologyCodeClass> before = new HashSet<OntologyCodeClass>(library, ReferenceEqualityComparer.Instance);
+                TemplateMaker reader = new TemplateMaker { Ontologies = library };
+                if (!RtStructureSetFile.TryInterpret(reader, dicom_file, out string? error))
+                {
+                    logger.LogWarning("Could not add codes from {File}: {Error}", dicom_file, error);
+                    MessageBox.Show(this, error ?? "The file could not be read.", title, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                List<OntologyCodeClass> added = library.Where(entry => !before.Contains(entry)).ToList();
+                foreach (OntologyCodeClass entry in added)
+                {
+                    touched.Add(entry);
+                }
+
+                logger.LogInformation("Added {Count} code(s) from {File} to the ontology library (not saved yet).", added.Count, dicom_file);
+                if (added.Count > 0)
+                {
+                    MarkChanged();
+                }
+
                 RefreshView();
                 check_status();
-                Save_Changes();
+                MessageBox.Show(this, added.Count == 0 ? "The file's codes are all in the library already." : (added.Count == 1 ? "1 code was added." : added.Count + " codes were added.") + " Press Save to keep them.",
+                    title, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                // UI boundary: an async event handler must not let an exception escape.
+                logger.LogError(ex, "Adding codes from an RT Structure file failed.");
+                MessageBox.Show(this, "Adding codes from an RT Structure file failed: " + ex.Message, "Add codes from an RT Structure file", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void Save_Changes()
+
+        /// <summary>Saves the library, unless an entry changed in this window still has a problem.</summary>
+        private bool Save()
         {
-            OntologyTools.SaveOntologiesToFolder(template_maker.Ontologies, onto_path);
+            List<string> problems = new List<string>();
+            foreach (OntologyCodeClass entry in library.Where(touched.Contains))
+            {
+                string? problem = OntologyEntryRules.Problem(entry.CodeMeaning, entry.CodeValue, entry.Scheme, library, entry);
+                if (problem != null)
+                {
+                    problems.Add((string.IsNullOrWhiteSpace(entry.CodeMeaning) ? "(no name)" : entry.CodeMeaning) + ": " + problem);
+                }
+            }
+
+            if (problems.Count > 0)
+            {
+                MessageBox.Show(this, EditorMessages.OntologyNotSaved(problems), WindowTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            try
+            {
+                OntologyTools.SaveOntologiesToFolder(library, onto_path);
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+                logger.LogError(ex, "The ontology library could not be saved in {Path}.", onto_path);
+                MessageBox.Show(this, "The ontology library could not be saved in " + onto_path + ": " + ex.Message, WindowTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            logger.LogInformation("Saved the ontology library in {Path} ({Count} entries).", onto_path, library.Count);
+            touched.Clear();
+            dirty = false;
+            UpdateSaveState();
+            return true;
         }
+
         private void Save_Changes_Click(object sender, RoutedEventArgs e)
         {
-            Save_Changes();
+            Save();
         }
-        private void remake_onto()
-        {
-            template_maker = new TemplateMaker();
-            template_maker.set_onto_path(onto_path);
-            template_maker.Ontologies = OntologyTools.LoadOntologiesFromFolder(onto_path);
-            template_maker.Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-        }
-        private void BuildFromFolders()
-        {
-            remake_onto();
-            RefreshView();
-        }
+
         private void Save_and_Exit_Click(object sender, RoutedEventArgs e)
         {
-            Save_Changes_Click(sender, e);
+            if (Save())
+            {
+                Close();
+            }
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
             Close();
+        }
+
+        private void Window_Closing(object? sender, CancelEventArgs e)
+        {
+            if (!dirty)
+            {
+                return;
+            }
+
+            MessageBoxResult answer = MessageBox.Show(this, EditorMessages.UnsavedChanges("the ontology library"), "Unsaved changes",
+                MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+            if (answer == MessageBoxResult.Yes)
+            {
+                e.Cancel = !Save();
+            }
+            else if (answer == MessageBoxResult.Cancel)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void FMA_SNOMED_Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path);
+            if (dirty)
+            {
+                MessageBoxResult answer = MessageBox.Show(this, "The conversion reads the ontology library from disk. Save your changes first?"
+                    + Environment.NewLine + Environment.NewLine + "Yes saves them. No discards them. Cancel goes back.", "Change ontology scheme",
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+                if (answer == MessageBoxResult.Cancel || (answer == MessageBoxResult.Yes && !Save()))
+                {
+                    return;
+                }
+            }
+
+            ChangeOntologyWindow onto_window = new ChangeOntologyWindow(template_rows, onto_path) { Owner = this };
             onto_window.ShowDialog();
-            BuildFromFolders();
+            try
+            {
+                LoadLibrary();
+            }
+            catch (TemplateLoadException ex)
+            {
+                // The editor now holds no library, so it closes rather than let a save replace the file.
+                logger.LogWarning(ex, "The ontology library could not be read again after a scheme conversion.");
+                MessageBox.Show(this, ex.Message + Environment.NewLine + Environment.NewLine + "The ontology library was left unchanged. Repair or remove the file, then open the editor again.",
+                    WindowTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                dirty = false;
+                Close();
+            }
         }
     }
 }
