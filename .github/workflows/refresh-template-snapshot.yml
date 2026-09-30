@@ -42,6 +42,31 @@ jobs:
       - name: Build the export tool
         run: dotnet build TemplateSnapshotTool -c Release
 
+      # TEMPORARY: diagnose why Airtable rejects the token. Prints no token or record data.
+      - name: Diagnose Airtable access
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          BASE_ID: ${{ vars.TG263_BASE_ID || 'app5LkQceQZAPhBJx' }}
+          TABLE_ID: ${{ vars.TG263_TABLE_ID || 'tblex7IPsmm8hvVEc' }}
+        run: |
+          yn() { if eval "$1"; then echo yes; else echo no; fi; }
+          echo "Token length: ${#AIRTABLE_PAT}"
+          echo "Starts with 'pat': $(yn '[[ $AIRTABLE_PAT == pat* ]]')"
+          echo "Contains a dot: $(yn '[[ $AIRTABLE_PAT == *.* ]]')"
+          echo "Contains whitespace or line breaks: $(yn '[[ $AIRTABLE_PAT =~ [[:space:]] ]]')"
+          auth="Authorization: Bearer $AIRTABLE_PAT"
+          code=$(curl -sS -o whoami.json -w '%{http_code}' -H "$auth" https://api.airtable.com/v0/meta/whoami)
+          echo "whoami: HTTP $code; scopes/error: $(jq -c '{scopes, error}' whoami.json)"
+          code=$(curl -sS -o bases.json -w '%{http_code}' -H "$auth" https://api.airtable.com/v0/meta/bases)
+          if [ "$code" = 200 ]; then
+            echo "Bases this token can reach: $(jq '.bases | length' bases.json); includes $BASE_ID: $(jq --arg b "$BASE_ID" 'any(.bases[]; .id == $b)' bases.json)"
+          else
+            echo "List bases: HTTP $code (needs schema.bases:read; not required for the export)"
+          fi
+          code=$(curl -sS -o read.json -w '%{http_code}' -H "$auth" "https://api.airtable.com/v0/$BASE_ID/$TABLE_ID?maxRecords=1")
+          echo "Read one record from $BASE_ID/$TABLE_ID: HTTP $code; error: $(jq -c '.error // "none"' read.json); records returned: $(jq '.records | length // 0' read.json)"
+          rm -f whoami.json bases.json read.json
+
       - name: Export snapshot from Airtable
         id: export
         env:
