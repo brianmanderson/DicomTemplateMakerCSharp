@@ -55,11 +55,12 @@ jobs:
           fi
           # The export only ever requests named columns, so any mapped column the table lacks must be
           # excluded here (the tool stops and names it otherwise); the TG-263 table has no CommonName
-          # column. Sorting by the autonumber "Record" column fixes the record order, which Airtable
-          # leaves unspecified and which decides ROI order within each template.
+          # or RGB column (colours come from Colors_RGB). Sorting by the autonumber "Record" column
+          # fixes the record order, which Airtable leaves unspecified and which decides ROI order
+          # within each template.
           dotnet run --no-build --project TemplateSnapshotTool -c Release -- \
             --base "$BASE_ID" --table "$TABLE_ID" --name TG263 \
-            --exclude-fields CommonName --sort-field Record \
+            --exclude-fields CommonName,RGB --sort-field Record \
             --output TemplateSnapshots/TG263.json
 
       - name: Commit the snapshot if it changed
