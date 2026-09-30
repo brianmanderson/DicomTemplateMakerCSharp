@@ -1,0 +1,6721 @@
+{
+  "schemaVersion": 1,
+  "sourceName": "TG263",
+  "baseId": "appYl68lenTOFqTDh",
+  "tableId": "tblex7IPsmm8hvVEc",
+  "generatedAtUtc": "2026-09-30T21:46:50.2740828+00:00",
+  "recordCount": 246,
+  "records": [
+    {
+      "id": "recw0PPvcjLPh0yC8",
+      "createdTime": "2021-09-03T13:31:23.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Breast_Eval",
+        "TG_263": "PTV_Breast_Eval",
+        "TG_263R": "PTV_Breast_Eval",
+        "TG_263Spanish": "PTV_Mama_Eval",
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "Thorax_BreastWBI",
+          "Thorax_BreastRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recxprYkn0Eijvkf7",
+      "createdTime": "2021-09-03T13:31:23.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTVsb_Eval",
+        "TG_263": "PTVsb_Eval",
+        "TG_263R": "PTVsb_Eval",
+        "TG_263Spanish": "PTVlq_Eval",
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recUdyzSD1ullnNI7",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_LN_Ax",
+        "TG_263": "PTV_LN_Ax",
+        "TG_263R": "PTV_LN_Ax",
+        "TG_263Spanish": "PTV_GL_Ax",
+        "Template_Consider": [
+          "_Targets_Breast",
+          "_Targets_CW"
+        ],
+        "Template_Recommend": [
+          "_Targets_RNI",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recHRJWNaL3roadK1",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_LN_Sclav",
+        "TG_263": "PTV_LN_Sclav",
+        "TG_263R": "PTV_LN_Sclav",
+        "TG_263Spanish": "PTV_GL_Sclav",
+        "Template_Consider": [
+          "_Targets_Breast",
+          "_Targets_CW"
+        ],
+        "Template_Recommend": [
+          "_Targets_RNI",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recUz0tFqFKHiuO2B",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_LN_IMN",
+        "TG_263": "PTV_LN_IMN",
+        "TG_263R": "PTV_LN_IMN",
+        "TG_263Spanish": "PTV_GL_CMI",
+        "Template_Consider": [
+          "_Targets_Breast",
+          "_Targets_CW"
+        ],
+        "Template_Recommend": [
+          "_Targets_RNI",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recjEF55CpknPQrnV",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "361716006",
+        "Structure": "Breast_L",
+        "TG_263": "Breast_L",
+        "TG_263French": "Sein_G",
+        "TG_263R": "L_Breast",
+        "TG_263Spanish": "Mama_I",
+        "Template_Consider": [
+          "CNS_Craniospinal"
+        ],
+        "Template_Recommend": [
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recuy4hNvK6FS213V",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "44029006",
+        "Structure": "Lung_L",
+        "TG_263": "Lung_L",
+        "TG_263French": "Poumon_G",
+        "TG_263R": "L_Lung",
+        "TG_263Spanish": "Pulmon_I",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "H&N_LX_HPX_Thyroid",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Thoracic",
+          "CNS_Craniospinal",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast",
+          "Brachy_Endobronch"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recLpiHIuMa60QWOT",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Teal:034,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "3341006",
+        "Structure": "Lung_R",
+        "TG_263": "Lung_R",
+        "TG_263French": "Poumon_D",
+        "TG_263R": "R_Lung",
+        "TG_263Spanish": "Pulmon_D",
+        "Template_Consider": [
+          "AbdPelv_Spleen",
+          "H&N_LX_HPX_Thyroid",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_Stomach",
+          "CNS_Thoracic",
+          "CNS_Craniospinal",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast",
+          "Brachy_Endobronch"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recdHfFlUgNERtUz7",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "80891009",
+        "Structure": "Heart",
+        "TG_263": "Heart",
+        "TG_263French": "Coeur",
+        "TG_263R": "Heart",
+        "TG_263Spanish": "Corazon",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "H&N_LX_HPX_Thyroid",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Thoracic",
+          "CNS_Craniospinal",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recMZXj0nR5t0U49k",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "59438005",
+        "Structure": "A_LAD",
+        "TG_263": "A_LAD",
+        "TG_263R": "LAD_A",
+        "TG_263Spanish": "A_DAI",
+        "Template_Consider": [
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Template_Recommend": [
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec8H3tohBsCfmtwt",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "723375004",
+        "Structure": "BrachialPlex_L",
+        "TG_263": "BrachialPlex_L",
+        "TG_263French": "PlexBrachial_G",
+        "TG_263R": "L_BrachialPlex",
+        "TG_263Spanish": "PlexoBraquial_I",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Lung"
+        ],
+        "Template_Recommend": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "Thorax_Esoph_S"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recq751eTJoKjmGar",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "723374000",
+        "Structure": "BrachialPlex_R",
+        "TG_263": "BrachialPlex_R",
+        "TG_263French": "PlexBrachial_D",
+        "TG_263R": "R_BrachialPlex",
+        "TG_263Spanish": "PlexoBraquial_D",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Lung"
+        ],
+        "Template_Recommend": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "Thorax_Esoph_S"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recT9fiJjDgucb46d",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV",
+        "TG_263": "GTV",
+        "TG_263French": "GTV",
+        "TG_263R": "GTV",
+        "TG_263Spanish": "GTV",
+        "Template_Consider": [
+          "Thorax_AxillaSCN"
+        ],
+        "Template_Recommend": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "_Targets_Details",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Endobronch",
+          "Brachy_Ocular",
+          "Brachy_Skin",
+          "CNS_Brain"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recj1MS1kaKDtrh2d",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV",
+        "TG_263": "CTV",
+        "TG_263French": "CTV",
+        "TG_263R": "CTV",
+        "TG_263Spanish": "CTV",
+        "Template_Recommend": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast",
+          "Brachy_Endobronch",
+          "Brachy_Gyn",
+          "Brachy_Ocular",
+          "Brachy_Prostate",
+          "Brachy_Skin",
+          "CNS_Brain"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recBj3OhNmVF8ufNu",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTVp",
+        "TG_263": "GTVp",
+        "TG_263R": "GTVp",
+        "TG_263Spanish": "GTVp",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Oropharynx",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Anal",
+          "Thorax_Esoph_S"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "rec2rGx7zZfAPYURO",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTVn",
+        "TG_263": "GTVn",
+        "TG_263R": "GTVn",
+        "TG_263Spanish": "GTVn",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "_Targets_Details",
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "AbdPelv_ProstBed"
+        ],
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "reck8C5V7MTVeike4",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Low",
+        "TG_263": "CTV_Low",
+        "TG_263R": "CTV_Low",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "CNS_Brain"
+        ],
+        "Template_Recommend": [
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "AbdPelv_Anal"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recKHdsGeajiceaty",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Low",
+        "TG_263": "PTV_Low",
+        "TG_263R": "PTV_Low",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "CNS_Brain"
+        ],
+        "Template_Recommend": [
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "AbdPelv_Anal"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recYw7hOrW9pRSSJm",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Mid",
+        "TG_263": "CTV_Mid",
+        "TG_263R": "CTV_Mid",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "AbdPelv_RetroperitonealSpace"
+        ],
+        "Template_Recommend": [
+          "_Targets_3Levels"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recDSPs9gZmAJpBDY",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Mid",
+        "TG_263": "PTV_Mid",
+        "TG_263R": "PTV_Mid",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal"
+        ],
+        "Template_Recommend": [
+          "_Targets_3Levels"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recTIJRA3CfsF49zq",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_High",
+        "TG_263": "CTV_High",
+        "TG_263R": "CTV_High",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "CNS_Brain"
+        ],
+        "Template_Recommend": [
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "AbdPelv_Anal"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "reccOjRZuCVrzq3Gi",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_High",
+        "TG_263": "PTV_High",
+        "TG_263R": "PTV_High",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "CNS_Brain"
+        ],
+        "Template_Recommend": [
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "AbdPelv_Anal"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recj2CIUN0fns6ely",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Magenta:255,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "12738006",
+        "Structure": "Brain-GTV",
+        "TG_263": "Brain-GTV",
+        "TG_263French": "Cerveau-GTV",
+        "TG_263R": "Brain-GTV",
+        "TG_263Spanish": "Cerebro-GTV",
+        "Template_Consider": [
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recLn4uInAMjc3koB",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "113305005",
+        "Structure": "Cerebellum",
+        "TG_263": "Cerebellum",
+        "TG_263French": "Cervelet",
+        "TG_263R": "Cerebellum",
+        "TG_263Spanish": "Cerebelo",
+        "Template_Consider": [
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec7suZZcexLfhNKj",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Brown:165,042,042"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "772065000",
+        "Structure": "Cochlea_R",
+        "TG_263": "Cochlea_R",
+        "TG_263French": "Cochlee_D",
+        "TG_263R": "R_Cochlea",
+        "TG_263Spanish": "Coclea_D",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Face_Parotid",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec5nVk0aQcKXC0cM",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "8966001",
+        "Structure": "Eye_L",
+        "TG_263": "Eye_L",
+        "TG_263French": "Oeil_G",
+        "TG_263R": "L_Eye",
+        "TG_263Spanish": "Ojo_I",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal",
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recand5cR1MJeFLN2",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "18944008",
+        "Structure": "Eye_R",
+        "TG_263": "Eye_R",
+        "TG_263French": "Oeil_D",
+        "TG_263R": "R_Eye",
+        "TG_263Spanish": "Ojo_D",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal",
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "receTPM5TtUC68v2j",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "5366008",
+        "Structure": "Hippocampi",
+        "TG_263": "Hippocampi",
+        "TG_263French": "Hippocampes",
+        "TG_263R": "Hippocampi",
+        "TG_263Spanish": "Hipocampos",
+        "Template_Consider": [
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recKPqBQkP6EAChAP",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "5366008",
+        "Structure": "Hippocampus_L",
+        "TG_263": "Hippocampus_L",
+        "TG_263French": "Hippocampe_G",
+        "TG_263R": "L_Hippocampus",
+        "TG_263Spanish": "Hipocampo_I",
+        "Template_Consider": [
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recVFIyIA5ICGNDgX",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Teal:034,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "5366008",
+        "Structure": "Hippocampus_R",
+        "TG_263": "Hippocampus_R",
+        "TG_263French": "Hippocampe_D",
+        "TG_263R": "R_Hippocampus",
+        "TG_263Spanish": "Hipocampo_D",
+        "Template_Consider": [
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recBbbEELCC0FhIYL",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "18855009",
+        "Structure": "Lacrimal_Glnd_R",
+        "TG_263": "Glnd_Lacrimal_R",
+        "TG_263French": "Glnd_Lacrymale_D",
+        "TG_263R": "R_Lacrimal_Glnd",
+        "TG_263Spanish": "Glnd_Lagrimal_D",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Face_Parotid",
+          "H&N_Nasopharynx",
+          "H&N_Sinonasal"
+        ],
+        "Template_Recommend": [
+          "H&N_Orbit"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reccW9WRmWb9qmmQC",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "88258005",
+        "Structure": "Lens_L",
+        "TG_263": "Lens_L",
+        "TG_263French": "Lentille_G",
+        "TG_263R": "L_Lens",
+        "TG_263Spanish": "Cristalino_I",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal",
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recyLg6FCwqnFnCNa",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "244453006",
+        "Structure": "OpticChiasm",
+        "TG_263": "OpticChiasm",
+        "TG_263French": "ChiasmeOpt",
+        "TG_263R": "OpticChiasm",
+        "TG_263Spanish": "QuiasOptico",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recHCdvcW0Lgp4vH1",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "721896007",
+        "Structure": "Orbit_L",
+        "TG_263": "Orbit_L",
+        "TG_263French": "Orbite_G",
+        "TG_263R": "L_Orbit",
+        "TG_263Spanish": "Orbita_I",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recDB5tTQRpbp4LEh",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "721897003",
+        "Structure": "Orbit_R",
+        "TG_263": "Orbit_R",
+        "TG_263French": "Orbite_D",
+        "TG_263R": "R_Orbit",
+        "TG_263Spanish": "Orbita_D",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recFqWa1Zfu1etng9",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "56329008",
+        "Structure": "Pituitary",
+        "TG_263": "Pituitary",
+        "TG_263French": "Pituitaire",
+        "TG_263R": "Pituitary",
+        "TG_263Spanish": "Pituitaria",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Nasopharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Craniospinal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec5zgWWpvyZK6911",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "2748008",
+        "Structure": "SpinalCord",
+        "TG_263": "SpinalCord",
+        "TG_263French": "Moelle",
+        "TG_263R": "SpinalCord",
+        "TG_263Spanish": "MedulaEspi",
+        "Template_Consider": [
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Brain",
+          "CNS_Cervical",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec0w405cHrUKoIpG",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "244800006",
+        "Structure": "Constrict_Musc_S",
+        "TG_263": "Musc_Constrict_S",
+        "TG_263French": "Musc_Constrict_S",
+        "TG_263R": "S_Constrict_Musc",
+        "TG_263Spanish": "Musc_Constric_S",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec5qOptqtjxnsROw",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "244802003",
+        "Structure": "Constrict_Musc_M",
+        "TG_263": "Musc_Constrict_M",
+        "TG_263French": "Musc_Constrict_M",
+        "TG_263R": "M_Constrict_Musc",
+        "TG_263Spanish": "Musc_Constric_M",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recwGuP4Vbevbop3j",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Teal:034,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "244803008",
+        "Structure": "Constrict_Musc_I",
+        "TG_263": "Musc_Constrict_I",
+        "TG_263French": "Musc_Constrict_I",
+        "TG_263R": "I_Constrict_Musc",
+        "TG_263Spanish": "Musc_Constric_In",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rechjzSJtZ1Mn2XDE",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Teal:034,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "28276008",
+        "Structure": "Cricopharyngeus",
+        "TG_263": "Cricopharyngeus",
+        "TG_263French": "Cricopharyngee",
+        "TG_263R": "Cricopharyngeus",
+        "TG_263Spanish": "Cricofaringeo",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recWwJnuwkjXbixar",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Citrus:164,164,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "772064001",
+        "Structure": "Cochlea_L",
+        "TG_263": "Cochlea_L",
+        "TG_263French": "Cochlee_G",
+        "TG_263R": "L_Cochlea",
+        "TG_263Spanish": "Coclea_I",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Face_Parotid",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recpnanQ95t78VRez",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Khaki:240,230,140"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "74262004",
+        "Structure": "Oral_Cavity",
+        "TG_263": "Cavity_Oral",
+        "TG_263French": "Cavite_Orale",
+        "TG_263R": "Oral_Cavity",
+        "TG_263Spanish": "Cavidad_Oral",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Face_Parotid",
+          "H&N_Sinonasal",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recYZGUEauuGurvfV",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Magenta:255,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "81083006",
+        "Structure": "Lips",
+        "TG_263": "Lips",
+        "TG_263French": "Levres",
+        "TG_263R": "Lips",
+        "TG_263Spanish": "Labios",
+        "Template_Consider": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_Face_Parotid",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recAU9UFM4oGfsRn5",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mauve:200,180,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "44178003",
+        "Structure": "Parotid_L",
+        "TG_263": "Parotid_L",
+        "TG_263French": "Parotide_G",
+        "TG_263R": "L_Parotid",
+        "TG_263Spanish": "Parotida_I",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Orbit",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recjYh21zeffyfoJh",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "85706002",
+        "Structure": "Parotid_R",
+        "TG_263": "Parotid_R",
+        "TG_263French": "Parotide_D",
+        "TG_263R": "R_Parotid",
+        "TG_263Spanish": "Parotida_D",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Orbit",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recg96rl4SWl0fgXe",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "45289007",
+        "Structure": "Parotids",
+        "TG_263": "Parotids",
+        "TG_263French": "Parotides",
+        "TG_263R": "Parotids",
+        "TG_263Spanish": "Parotidas",
+        "Template_Consider": [
+          "H&N_Neck",
+          "H&N_Orbit"
+        ],
+        "Template_Recommend": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reczAC2WhlqFmXp7p",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "80984007",
+        "Structure": "Lacrimal_Glnd_L",
+        "TG_263": "Glnd_Lacrimal_L",
+        "TG_263French": "Glnd_Lacrymale_G",
+        "TG_263R": "L_Lacrimal_Glnd",
+        "TG_263Spanish": "Glnd_Lagrimal_I",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Face_Parotid",
+          "H&N_Nasopharynx",
+          "H&N_Sinonasal"
+        ],
+        "Template_Recommend": [
+          "H&N_Orbit"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recq6wSf98iRG3yTA",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "32849002",
+        "Structure": "Esophagus",
+        "TG_263": "Esophagus",
+        "TG_263French": "Oesophage",
+        "TG_263R": "Esophagus",
+        "TG_263Spanish": "Esofago",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Neck",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Stomach",
+          "CNS_Cervical",
+          "CNS_Thoracic",
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Oropharynx",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rectqFweUsl4Rqj9u",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Magenta:255,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "12738006",
+        "Structure": "Brain",
+        "TG_263": "Brain",
+        "TG_263French": "Cerveau",
+        "TG_263R": "Brain",
+        "TG_263Spanish": "Cerebro",
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recwQXvnwEqvfafY9",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "15926001",
+        "Structure": "Brainstem",
+        "TG_263": "Brainstem",
+        "TG_263French": "TroncCereb",
+        "TG_263R": "Brainstem",
+        "TG_263Spanish": "TroncoEncef",
+        "Template_Consider": [
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Cervical",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec2x8yX82pVB72XA",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "72345007",
+        "Structure": "Lens_R",
+        "TG_263": "Lens_R",
+        "TG_263French": "Lentille_D",
+        "TG_263R": "R_Lens",
+        "TG_263Spanish": "Cristalino_D",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal",
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recxd07uYmNjXtsmY",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Lemon Chiffon:255,255,187"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "4596009",
+        "Structure": "Larynx",
+        "TG_263": "Larynx",
+        "TG_263French": "Larynx",
+        "TG_263R": "Larynx",
+        "TG_263Spanish": "Laringe",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Neck",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph"
+        ],
+        "Template_Recommend": [
+          "H&N_Nasopharynx",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recKVtMgq16AfLSE7",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mauve:200,180,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "724379002",
+        "Structure": "OpticNrv_L",
+        "TG_263": "OpticNrv_L",
+        "TG_263French": "NerfOptiq_G",
+        "TG_263R": "L_OpticNrv",
+        "TG_263Spanish": "NrvOptico_I",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reczXaf79H4F9yiO0",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "724380004",
+        "Structure": "OpticNrv_R",
+        "TG_263": "OpticNrv_R",
+        "TG_263French": "NerfOptiq_D",
+        "TG_263R": "R_OpticNrv",
+        "TG_263Spanish": "NrvOptico_D",
+        "Template_Consider": [
+          "H&N_Oropharynx"
+        ],
+        "Template_Recommend": [
+          "CNS_Brain",
+          "CNS_Craniospinal",
+          "H&N_Nasopharynx",
+          "H&N_Orbit",
+          "H&N_Sinonasal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rech9bJDVISHGpryd",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "3057000",
+        "Structure": "Nerve",
+        "TG_263": "Nerve",
+        "TG_263French": "Nerf",
+        "TG_263R": "Nerve",
+        "TG_263Spanish": "Nervio",
+        "Template_Consider": [
+          "Extremities"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recADgjpXUsAJPFbc",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "48065005",
+        "Structure": "Submand_Glnd_L",
+        "TG_263": "Glnd_Submand_L",
+        "TG_263French": "Glnd_Sousmax_G",
+        "TG_263R": "L_Submand_Glnd",
+        "TG_263Spanish": "Glnd_Submand_I",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Face_Parotid",
+          "H&N_Sinonasal",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recCs5T1MvckwDnog",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "91590006",
+        "Structure": "Submand_Glnd_R",
+        "TG_263": "Glnd_Submand_R",
+        "TG_263French": "Glnd_Sousmax_D",
+        "TG_263R": "R_Submand_Glnd",
+        "TG_263Spanish": "Glnd_Submand_D",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Face_Parotid",
+          "H&N_Sinonasal",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recs3xr2rXt70kl8s",
+      "createdTime": "2021-09-03T13:32:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Teal:034,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "69748006",
+        "Structure": "Thyroid_Glnd",
+        "TG_263": "Glnd_Thyroid",
+        "TG_263French": "Glnd_Thyroide",
+        "TG_263R": "Thyroid_Glnd",
+        "TG_263Spanish": "Glnd_Tiroidea",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recfvpvXWhDmjbMB6",
+      "createdTime": "2021-09-03T13:49:16.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Watercourse:000,110,051"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "244437008",
+        "Structure": "SpinalCord_PRVXX",
+        "TG_263": "SpinalCord_PRVXX",
+        "TG_263French": "Moelle_PRVXX",
+        "TG_263R": "SpinalCord_PRVXX",
+        "TG_263Spanish": "MedulaEspi_PRV",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec1e2L3JXtc0hQRf",
+      "createdTime": "2021-09-03T13:53:41.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "60075002",
+        "Structure": "Esophagus_Cervical",
+        "TG_263": "Esophagus_S",
+        "TG_263French": "Oesophage_S",
+        "TG_263R": "S_Esophagus",
+        "TG_263Spanish": "Esofago_S",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec63trQNCuo2ZZ4N",
+      "createdTime": "2021-09-03T14:00:36.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Lime:000,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "261188006",
+        "Structure": "BODY",
+        "TG_263": "BODY",
+        "TG_263French": "Corps",
+        "TG_263R": "BODY",
+        "TG_263Spanish": "Cuerpo",
+        "Template_Recommend": [
+          "_Miscellaneous",
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Brain",
+          "CNS_Cervical",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Sacral",
+          "CNS_Craniospinal",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast",
+          "Brachy_Endobronch",
+          "Brachy_Gyn",
+          "Brachy_Ocular",
+          "Brachy_Prostate",
+          "Brachy_Skin"
+        ],
+        "Type": "EXTERNAL"
+      }
+    },
+    {
+      "id": "recQMU0ZTkYVrjfY2",
+      "createdTime": "2021-09-03T15:21:16.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Breast",
+        "TG_263": "CTV_Breast",
+        "TG_263R": "CTV_Breast",
+        "TG_263Spanish": "CTV_Mama",
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "Thorax_BreastWBI",
+          "Thorax_BreastRNI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recAdbrjxTO38YVqa",
+      "createdTime": "2021-09-03T15:21:33.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_ChestWall",
+        "TG_263": "CTV_ChestWall",
+        "TG_263R": "CTV_ChestWall",
+        "TG_263Spanish": "CTV_ParedToracica",
+        "Template_Recommend": [
+          "_Targets_CW",
+          "Thorax_CWRNI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recjpspL74Mnhpgs4",
+      "createdTime": "2021-09-03T15:21:54.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_LN_Ax",
+        "TG_263": "CTV_LN_Ax",
+        "TG_263R": "CTV_LN_Ax",
+        "TG_263Spanish": "CTV_GL_Ax",
+        "Template_Consider": [
+          "_Targets_Breast",
+          "_Targets_CW"
+        ],
+        "Template_Recommend": [
+          "_Targets_RNI",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recGFp9zi9iYwoP8B",
+      "createdTime": "2021-09-03T15:23:29.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_LN_IMN",
+        "TG_263": "CTV_LN_IMN",
+        "TG_263R": "CTV_LN_IMN",
+        "TG_263Spanish": "CTV_GL_CMI",
+        "Template_Consider": [
+          "_Targets_Breast",
+          "_Targets_CW"
+        ],
+        "Template_Recommend": [
+          "_Targets_RNI",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recceQFLfUhdcOZo2",
+      "createdTime": "2021-09-03T15:23:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_LN_Sclav",
+        "TG_263": "CTV_LN_Sclav",
+        "TG_263R": "CTV_LN_Sclav",
+        "TG_263Spanish": "CTV_GL_Sclav",
+        "Template_Consider": [
+          "_Targets_Breast",
+          "_Targets_CW"
+        ],
+        "Template_Recommend": [
+          "_Targets_RNI",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec5lYbS80UD9A4Iu",
+      "createdTime": "2021-09-03T15:40:22.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Breast",
+        "TG_263": "PTV_Breast",
+        "TG_263R": "PTV_Breast",
+        "TG_263Spanish": "PTV_Mama",
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "Thorax_BreastWBI",
+          "Thorax_BreastRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recjALzTBwQllhyFo",
+      "createdTime": "2021-09-03T15:40:31.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_ChestWall",
+        "TG_263": "PTV_ChestWall",
+        "TG_263R": "PTV_ChestWall",
+        "TG_263Spanish": "PTV_ParedToracica",
+        "Template_Recommend": [
+          "_Targets_CW",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recD0XrAqMd3RjzgI",
+      "createdTime": "2021-09-03T15:40:59.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTVsb",
+        "TG_263": "PTVsb",
+        "TG_263R": "PTVsb",
+        "TG_263Spanish": "PTVlq",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details"
+        ],
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recLRVlKPGNMJs9JU",
+      "createdTime": "2021-09-03T15:41:09.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_ChestWall_Eval",
+        "TG_263": "PTV_ChestWall_Eval",
+        "TG_263R": "PTV_ChestWall_Eval",
+        "TG_263Spanish": "PTV_ParedToracica_Eval",
+        "Template_Recommend": [
+          "_Targets_CW",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recyHd2qWXGRZrTGR",
+      "createdTime": "2021-09-03T15:41:29.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Lumpectomy",
+        "TG_263": "CTV_Lumpectomy",
+        "TG_263R": "CTV_Lumpectomy",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec3ESdKXNmHfHbmj",
+      "createdTime": "2021-09-03T15:49:20.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV_Lumpectomy",
+        "TG_263": "GTV_Lumpectomy",
+        "TG_263R": "GTV_Lumpectomy",
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recbAp72RJl2MOO5M",
+      "createdTime": "2021-09-03T15:49:36.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "12402003",
+        "Structure": "Scar",
+        "TG_263": "Scar",
+        "TG_263French": "Cicatrice",
+        "TG_263R": "Scar",
+        "TG_263Spanish": "Cicatriz",
+        "Template_Consider": [
+          "_Miscellaneous",
+          "Extremities"
+        ],
+        "Template_Recommend": [
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Thorax_CWRNI",
+          "_Targets_CW"
+        ],
+        "Type": "MARKER"
+      }
+    },
+    {
+      "id": "rec4akFlg4gJiQ8RJ",
+      "createdTime": "2021-09-03T15:49:50.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Scar",
+        "TG_263": "CTV_Scar",
+        "TG_263R": "CTV_Scar",
+        "TG_263Spanish": "CTV_Cicatriz",
+        "Template_Consider": [
+          "_Targets_CW",
+          "Thorax_CWRNI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recYjR8LoRElVhfoj",
+      "createdTime": "2021-09-03T15:49:57.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Scar",
+        "TG_263": "PTV_Scar",
+        "TG_263R": "PTV_Scar",
+        "TG_263Spanish": "PTV_Cicatriz",
+        "Template_Consider": [
+          "_Targets_CW",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recAjyNlsuhyrJNyk",
+      "createdTime": "2021-09-03T15:50:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Scar_Eval",
+        "TG_263": "PTV_Scar_Eval",
+        "TG_263R": "PTV_Scar_Eval",
+        "TG_263Spanish": "PTV_Cicatriz_Eval",
+        "Template_Consider": [
+          "_Targets_CW",
+          "Thorax_CWRNI"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recvBlheWJQEvhBYf",
+      "createdTime": "2021-09-04T00:05:05.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "113197003",
+        "Structure": "Ribs",
+        "TG_263": "Ribs",
+        "TG_263French": "Cotes",
+        "TG_263R": "Ribs",
+        "TG_263Spanish": "Costillas",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recm1sqAwtmanJ6dz",
+      "createdTime": "2021-09-04T00:05:17.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "4866005",
+        "Structure": "Constrict_Musc",
+        "TG_263": "Musc_Constrict",
+        "TG_263French": "Musc_Constrict",
+        "TG_263R": "Constrict_Musc",
+        "TG_263Spanish": "Musc_Constric",
+        "Template_Consider": [
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_Esoph_S"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recg5gujJ26Y2x6Du",
+      "createdTime": "2021-09-04T00:18:10.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Sangria:164,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "69695003",
+        "Structure": "Stomach",
+        "TG_263": "Stomach",
+        "TG_263French": "Estomac",
+        "TG_263R": "Stomach",
+        "TG_263Spanish": "Estomago",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "AbdPelv_Liver",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "Thorax_Lung"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Pancreas",
+          "AbdPelv_Spleen",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recKG6Qe7VZPmOj3U",
+      "createdTime": "2021-09-04T00:20:06.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "78961009",
+        "Structure": "Spleen",
+        "TG_263": "Spleen",
+        "TG_263French": "Rate",
+        "TG_263R": "Spleen",
+        "TG_263Spanish": "Bazo",
+        "Template_Consider": [
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_Stomach",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Pancreas"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recN4tj8noppUUcYy",
+      "createdTime": "2021-09-04T00:21:58.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "10200004",
+        "Structure": "Liver",
+        "TG_263": "Liver",
+        "TG_263French": "Foie",
+        "TG_263R": "Liver",
+        "TG_263Spanish": "Higado",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "Thorax_Esoph",
+          "Thorax_Lung"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Stomach",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reccJ9NqsywoDwWXU",
+      "createdTime": "2021-09-04T00:23:22.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "44567001",
+        "Structure": "Trachea",
+        "TG_263": "Trachea",
+        "TG_263French": "Trachee",
+        "TG_263R": "Trachea",
+        "TG_263Spanish": "Traquea ",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rectydkr9Cv7eLy8C",
+      "createdTime": "2021-09-04T00:24:17.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "75245000",
+        "Structure": "Bronchus_L",
+        "TG_263": "Bronchus_L",
+        "TG_263French": "Bronche_G",
+        "TG_263R": "L_Bronchus",
+        "TG_263Spanish": "Bronquio_I",
+        "Template_Consider": [
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recxmOiFftwBr9ryo",
+      "createdTime": "2021-09-04T00:25:33.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Lemon Chiffon:255,255,187"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "70074004",
+        "Structure": "Bronchus_R",
+        "TG_263": "Bronchus_R",
+        "TG_263French": "Broche_D",
+        "TG_263R": "R_Bronchus",
+        "TG_263Spanish": "Bronquio_D",
+        "Template_Consider": [
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reciWiM5A2bYq2Gto",
+      "createdTime": "2021-09-04T00:29:53.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Citrus:164,164,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "30315005",
+        "Structure": "Bowel_Small",
+        "TG_263": "Bowel_Small",
+        "TG_263French": "Intestin_Petit",
+        "TG_263R": "Small_Bowel",
+        "TG_263Spanish": "Intestino_Delg",
+        "Template_Consider": [
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Spleen",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Stomach",
+          "Thorax_Esoph_GEJ",
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec1PxJhNalrMwVTP",
+      "createdTime": "2021-09-04T00:31:20.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "38848004",
+        "Structure": "Duodenum",
+        "TG_263": "Duodenum",
+        "TG_263French": "Duodenum",
+        "TG_263R": "Duodenum",
+        "TG_263Spanish": "Duodeno",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "AbdPelv_Paraaortic"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recKCW3TP9FAKy2uy",
+      "createdTime": "2021-09-04T00:31:42.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "18639004",
+        "Structure": "Kidney_L",
+        "TG_263": "Kidney_L",
+        "TG_263French": "Rein_G",
+        "TG_263R": "L_Kidney",
+        "TG_263Spanish": "Rinones_I",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "CNS_Thoracic",
+          "Thorax_Esoph"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recGtx8dyXDD51Qtx",
+      "createdTime": "2021-09-04T00:32:53.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "9846003",
+        "Structure": "Kidney_R",
+        "TG_263": "Kidney_R",
+        "TG_263French": "Rein_D",
+        "TG_263R": "R_Kidney",
+        "TG_263Spanish": "Rinones_D",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "AbdPelv_Spleen",
+          "CNS_Thoracic",
+          "Thorax_Esoph"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Stomach",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec11mWlpHIwANOVl",
+      "createdTime": "2021-09-04T00:34:49.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "64033007",
+        "Structure": "Kidneys",
+        "TG_263": "Kidneys",
+        "TG_263French": "Reins",
+        "TG_263R": "Kidneys",
+        "TG_263Spanish": "Rinones",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "AbdPelv_Liver",
+          "AbdPelv_Spleen",
+          "Thorax_Esoph"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Stomach",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recOHaEfJitQqdbz8",
+      "createdTime": "2021-09-04T00:39:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "7173007",
+        "Structure": "CaudaEquina",
+        "TG_263": "CaudaEquina",
+        "TG_263French": "QueueDeCheval",
+        "TG_263R": "CaudaEquina",
+        "TG_263Spanish": "CaudaEquina",
+        "Template_Consider": [
+          "AbdPelv_Paraaortic"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_RenalAdrenal",
+          "CNS_Lumbar",
+          "CNS_Sacral"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec4PkNjCmqn3Epxk",
+      "createdTime": "2021-09-04T00:43:29.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Sangria:164,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "60184004",
+        "Structure": "Colon_Sigmoid",
+        "TG_263": "Colon_Sigmoid",
+        "TG_263French": "Colon_Sigmoide",
+        "TG_263R": "Sigmoid_Colon",
+        "TG_263Spanish": "Colon_Sigmoide",
+        "Template_Consider": [
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "CNS_Sacral"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "Brachy_Gyn",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec4fJggpveBl3JOf",
+      "createdTime": "2021-09-04T00:44:53.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Brown:165,042,042"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "34402009",
+        "Structure": "Rectum",
+        "TG_263": "Rectum",
+        "TG_263French": "Rectum",
+        "TG_263R": "Rectum",
+        "TG_263Spanish": "Recto",
+        "Template_Consider": [
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "Brachy_Gyn",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recVnWmnsmCiciwN8",
+      "createdTime": "2021-09-04T00:45:12.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "26559004",
+        "Structure": "Ureter_L",
+        "TG_263": "Ureter_L",
+        "TG_263French": "Uretere_G",
+        "TG_263R": "L_Ureter",
+        "TG_263Spanish": "Ureter_I",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec9MlkS6UVUW8ZTG",
+      "createdTime": "2021-09-04T00:46:24.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Teal:034,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "25308007",
+        "Structure": "Ureter_R",
+        "TG_263": "Ureter_R",
+        "TG_263French": "Uretere_D",
+        "TG_263R": "R_Ureter",
+        "TG_263Spanish": "Ureter_D",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recU5xJ3cwU0vCQLZ",
+      "createdTime": "2021-09-04T00:46:47.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "89837001",
+        "Structure": "Bladder",
+        "TG_263": "Bladder",
+        "TG_263French": "Vessie",
+        "TG_263R": "Bladder",
+        "TG_263Spanish": "Vejiga",
+        "Template_Consider": [
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "Brachy_Gyn",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recfXwdtvcXF70Y3C",
+      "createdTime": "2021-09-04T00:47:43.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "43981004",
+        "Structure": "Ovary_L",
+        "TG_263": "Ovary_L",
+        "TG_263French": "Ovaire_G",
+        "TG_263R": "L_Ovary",
+        "TG_263Spanish": "Ovario_I",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recQfwawnFqRN0LUZ",
+      "createdTime": "2021-09-04T00:48:09.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "20837000",
+        "Structure": "Ovary_R",
+        "TG_263": "Ovary_R",
+        "TG_263French": "Ovaire_D",
+        "TG_263R": "R_Ovary",
+        "TG_263Spanish": "Ovario_D",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recOgTA70VUtPTNAU",
+      "createdTime": "2021-09-04T00:48:26.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mauve:200,180,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "71934003",
+        "Structure": "Genitalia",
+        "TG_263": "Genitals",
+        "TG_263French": "OG",
+        "TG_263R": "Genitals",
+        "TG_263Spanish": "Genitales",
+        "Template_Consider": [
+          "AbdPelv_Anal",
+          "AbdPelv_Rectum",
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec9nXS6ImToLC6gP",
+      "createdTime": "2021-09-04T00:48:58.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "13648007",
+        "Structure": "Urethra",
+        "TG_263": "Urethra",
+        "TG_263French": "Uretre",
+        "TG_263R": "Urethra",
+        "TG_263Spanish": "Uretra ",
+        "Template_Consider": [
+          "AbdPelv_Prostate"
+        ],
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recTg5zfNjtCH9wtk",
+      "createdTime": "2021-09-04T00:49:35.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "52737000",
+        "Structure": "PenileBulb",
+        "TG_263": "PenileBulb",
+        "TG_263French": "BulbePenien",
+        "TG_263R": "PenileBulb",
+        "TG_263Spanish": "BulboPene",
+        "Template_Recommend": [
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec6d9QADVXqceL6K",
+      "createdTime": "2021-09-04T00:50:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Magenta:255,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "76784001",
+        "Structure": "Vagina",
+        "TG_263": "Vagina",
+        "TG_263French": "Vagin",
+        "TG_263R": "Vagina",
+        "TG_263Spanish": "Vagina ",
+        "Template_Consider": [
+          "AbdPelv_Anal",
+          "AbdPelv_Rectum"
+        ],
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recLRmiyLQaPvdVSi",
+      "createdTime": "2021-09-04T00:50:59.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "14016003",
+        "Structure": "BoneMarrow",
+        "TG_263": "BoneMarrow",
+        "TG_263French": "MoelleOsseuse",
+        "TG_263R": "BoneMarrow",
+        "TG_263Spanish": "MedulaOsea",
+        "Template_Consider": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Rectum",
+          "Extremities"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recjIpjJ0s7klMBZz",
+      "createdTime": "2021-09-04T00:51:22.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "773966005",
+        "Structure": "Femur_Head_L",
+        "TG_263": "Femur_Head_L",
+        "TG_263French": "Femur_Tete_G",
+        "TG_263R": "L_Head_Femur",
+        "TG_263Spanish": "Femur_Cabeza_I",
+        "Template_Recommend": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reccEB12BSjHsi4Jo",
+      "createdTime": "2021-09-04T00:52:32.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "773967001",
+        "Structure": "Femur_Head_R",
+        "TG_263": "Femur_Head_R",
+        "TG_263French": "Femur_Tete_D",
+        "TG_263R": "R_Head_Femur",
+        "TG_263Spanish": "Femur_Cabeza_D",
+        "Template_Recommend": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rece8xf1hWHcvzDA8",
+      "createdTime": "2021-09-09T13:20:26.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "14742008",
+        "Structure": "Bowel_Large",
+        "TG_263": "Bowel_Large",
+        "TG_263French": "Intestin_Grand",
+        "TG_263R": "Large_Bowel",
+        "TG_263Spanish": "Intestino_Grueso",
+        "Template_Consider": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Sacral",
+          "CNS_Craniospinal",
+          "Thorax_Esoph_GEJ"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reckBGPkVm7As5gfP",
+      "createdTime": "2021-09-09T13:20:36.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Brown:165,042,042"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "113276009",
+        "Structure": "Bowel_Bag",
+        "TG_263": "Bag_Bowel",
+        "TG_263French": "Sac_Intestin",
+        "TG_263R": "Bowel_Bag",
+        "TG_263Spanish": "Bolsa_Intestino",
+        "Template_Consider": [
+          "AbdPelv_Anal",
+          "AbdPelv_Bladder",
+          "AbdPelv_Gyn",
+          "AbdPelv_Liver",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recqfiqzFFU0ZzlM4",
+      "createdTime": "2021-09-09T13:38:19.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "71341001",
+        "Structure": "Femurs",
+        "TG_263": "Femurs",
+        "TG_263French": "Femurs",
+        "TG_263R": "Femurs",
+        "TG_263Spanish": "Femures",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recPnzmSRLlnzZ7FW",
+      "createdTime": "2021-09-09T13:42:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV",
+        "TG_263": "PTV",
+        "TG_263R": "PTV",
+        "TG_263Spanish": "PTV",
+        "Template_Recommend": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed",
+          "AbdPelv_Rectum",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Orbit",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast",
+          "Brachy_Endobronch",
+          "Brachy_Gyn",
+          "Brachy_Ocular",
+          "Brachy_Prostate",
+          "Brachy_Skin",
+          "CNS_Brain"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recG0qHldgFzTe8Lg",
+      "createdTime": "2021-09-09T13:54:34.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "89508007",
+        "Structure": "Gluteal_Folds",
+        "TG_263": "Gluteal_Folds",
+        "TG_263R": "Folds_Gluteal",
+        "Template_Consider": [
+          "AbdPelv_Anal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recDkuztGJno1yVaW",
+      "createdTime": "2021-09-09T13:55:13.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "29850006",
+        "Structure": "IliacCrest",
+        "TG_263": "IliacCrest",
+        "TG_263French": "CreteIliaque",
+        "TG_263R": "IliacCrest",
+        "TG_263Spanish": "CrestaIliaca",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recs7nrZMueHHcCJu",
+      "createdTime": "2021-09-14T15:54:39.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "42774007",
+        "Structure": "Testes",
+        "TG_263": "Testes",
+        "TG_263French": "Testicules",
+        "TG_263R": "Testes",
+        "TG_263Spanish": "Testiculos",
+        "Template_Consider": [
+          "CNS_Sacral",
+          "CNS_Craniospinal"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recHRE3iL6TGxsYKJ",
+      "createdTime": "2021-09-18T11:57:30.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Magenta:255,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "62397004",
+        "Structure": "SacralPlex",
+        "TG_263": "SacralPlex",
+        "TG_263French": "PlexusSacral",
+        "TG_263R": "SacralPlex",
+        "TG_263Spanish": "PlexoSacro",
+        "Template_Consider": [
+          "AbdPelv_Gyn",
+          "CNS_Sacral"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recYxFEVHQZdzgIQN",
+      "createdTime": "2021-11-13T20:39:08.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "88",
+        "Structure": "zPTV_High",
+        "TG_263": "zPTV_High",
+        "TG_263R": "zPTV_High",
+        "Template_Consider": [
+          "_Targets_Details",
+          "AbdPelv_Pancreas"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "rec4NxqFGyAjvyjv7",
+      "createdTime": "2021-11-13T20:40:05.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "88",
+        "Structure": "zPTV_Mid",
+        "TG_263": "zPTV_Mid",
+        "TG_263R": "zPTV_Mid",
+        "Template_Consider": [
+          "_Targets_Details",
+          "AbdPelv_Pancreas"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recjfC68T2Keqljkj",
+      "createdTime": "2022-01-21T22:04:41.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "181422007",
+        "Structure": "Prostate",
+        "TG_263": "Prostate",
+        "TG_263French": "Prostate",
+        "TG_263R": "Prostate",
+        "TG_263Spanish": "Prostata",
+        "Template_Consider": [
+          "AbdPelv_Bladder"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Prostate",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recamID9ehRIIJbE0",
+      "createdTime": "2022-01-21T22:05:06.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "64739004",
+        "Structure": "Seminal_Ves",
+        "TG_263": "SeminalVes",
+        "TG_263French": "VesSeminal",
+        "TG_263R": "SeminalVes",
+        "TG_263Spanish": "VesSeminal",
+        "Template_Recommend": [
+          "AbdPelv_Prostate",
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recJWrEVhXDfsZbva",
+      "createdTime": "2022-01-21T22:06:02.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "66040006",
+        "Structure": "Pubic_Bone",
+        "TG_263": "Pubic_Bone",
+        "TG_263French": "Os_Pubien",
+        "TG_263R": "Bone_Pubic",
+        "TG_263Spanish": "Hueso_Pubica",
+        "Template_Consider": [
+          "AbdPelv_Prostate",
+          "AbdPelv_ProstBed"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recDhk6616e2f3mW7",
+      "createdTime": "2022-02-22T16:29:22.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTVn",
+        "TG_263": "CTVn",
+        "TG_263R": "CTVn",
+        "TG_263Spanish": "CTVn",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "_Targets_Details",
+          "AbdPelv_Bladder"
+        ],
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec273ZqAe6fYtJY6",
+      "createdTime": "2022-02-22T16:29:29.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTVp",
+        "TG_263": "CTVp",
+        "TG_263R": "CTVp",
+        "TG_263Spanish": "CTVp",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "_Targets_Details",
+          "AbdPelv_Bladder"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recuOyND5GA7Gueb0",
+      "createdTime": "2022-02-22T17:49:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "39607008",
+        "Structure": "Lungs",
+        "TG_263": "Lungs",
+        "TG_263French": "Poumons",
+        "TG_263R": "Lungs",
+        "TG_263Spanish": "Pulmones",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "AbdPelv_Spleen",
+          "H&N_LX_HPX_Thyroid",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Stomach",
+          "CNS_Thoracic",
+          "CNS_Craniospinal",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus",
+          "Brachy_Breast",
+          "Brachy_Endobronch"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec4uM3lFyfodtgbG",
+      "createdTime": "2022-02-22T19:18:09.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "1201745009",
+        "Structure": "ITV",
+        "TG_263": "ITV",
+        "TG_263R": "ITV",
+        "TG_263Spanish": "ITV",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_1Level",
+          "_Targets_2Levels",
+          "_Targets_3Levels",
+          "_Targets_4Levels",
+          "_Targets_Details",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace"
+        ],
+        "Template_Recommend": [
+          "AbdPelv_Liver",
+          "Thorax_Lung"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recJZldtsfqN8lsnT",
+      "createdTime": "2022-02-22T19:23:50.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_HighˆLN_3cm+",
+        "TG_263": "CTV_HighˆLN_3cm+",
+        "TG_263R": "CTV_HighˆLN_3cm+",
+        "Template_Consider": [
+          "AbdPelv_Anal"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recpFJxxhPIGJs2YN",
+      "createdTime": "2022-02-22T19:30:27.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_MidˆLN_3cm-",
+        "TG_263": "CTV_MidˆLN_3cm-",
+        "TG_263R": "CTV_MidˆLN_3cm-",
+        "Template_Consider": [
+          "AbdPelv_Anal"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recbfk1LDOElql5rd",
+      "createdTime": "2022-02-22T20:06:47.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_High",
+        "TG_263": "_TS_CTV_High",
+        "TG_263R": "_TS_CTV_High",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recKsKyvZtZpy9KoF",
+      "createdTime": "2022-02-22T20:08:00.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_Mid",
+        "TG_263": "_TS_CTV_Mid",
+        "TG_263R": "_TS_CTV_Mid",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec2O0GKCFzC2t1tM",
+      "createdTime": "2022-02-22T20:08:11.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_Low",
+        "TG_263": "_TS_CTV_Low",
+        "TG_263R": "_TS_CTV_Low",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recqIS3ZP2rwPLLiS",
+      "createdTime": "2022-02-22T20:08:28.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "_TS_GTVn",
+        "TG_263": "_TS_GTVn",
+        "TG_263R": "_TS_GTVn",
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recJKqM3vPL0AFU1z",
+      "createdTime": "2022-02-22T20:08:38.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV",
+        "TG_263": "_TS_CTV",
+        "TG_263R": "_TS_CTV",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "reclPe5ozP1z2NtZ8",
+      "createdTime": "2022-02-22T20:09:10.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_High",
+        "TG_263": "_TS_PTV_High",
+        "TG_263R": "_TS_PTV_High",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recbRgUm3CyyYOKcS",
+      "createdTime": "2022-02-22T20:09:23.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_Mid",
+        "TG_263": "_TS_PTV_Mid",
+        "TG_263R": "_TS_PTV_Mid",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recwj4Mfdlfe6xOEG",
+      "createdTime": "2022-02-22T20:09:40.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_Low",
+        "TG_263": "_TS_PTV_Low",
+        "TG_263R": "_TS_PTV_Low",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recyJHgE3shRBojdp",
+      "createdTime": "2022-02-22T20:10:57.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "_TS_GTV",
+        "TG_263": "_TS_GTV",
+        "TG_263R": "_TS_GTV",
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recBxwor0nPjfrOVI",
+      "createdTime": "2022-02-22T20:23:23.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "361715005",
+        "Structure": "Breast_R",
+        "TG_263": "Breast_R",
+        "TG_263French": "Sein_D",
+        "TG_263R": "R_Breast",
+        "TG_263Spanish": "Mama_D",
+        "Template_Consider": [
+          "CNS_Craniospinal"
+        ],
+        "Template_Recommend": [
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI",
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recVu5JdL6BYCPCGc",
+      "createdTime": "2022-02-22T20:26:01.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTVsb",
+        "TG_263": "_TS_CTVsb",
+        "TG_263R": "_TS_CTVsb",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recRVrrNvIi3waKC9",
+      "createdTime": "2022-02-22T20:26:18.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_LN_IMN",
+        "TG_263": "_TS_CTV_LN_IMN",
+        "TG_263R": "_TS_CTV_LN_IMN",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recP5TWi2JtWhNcAn",
+      "createdTime": "2022-02-22T20:26:28.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_LN_Ax",
+        "TG_263": "_TS_CTV_LN_Ax",
+        "TG_263R": "_TS_CTV_LN_Ax",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recfVzpYT9M5VQa8g",
+      "createdTime": "2022-02-22T20:26:36.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_CW",
+        "TG_263": "_TS_CTV_CW",
+        "TG_263R": "_TS_CTV_CW",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec7xrIfvkaCwSGKG",
+      "createdTime": "2022-02-22T20:26:46.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_Breast",
+        "TG_263": "_TS_CTV_Breast",
+        "TG_263R": "_TS_CTV_Breast",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec5ZInr0YEQNw6hM",
+      "createdTime": "2022-02-22T20:27:13.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_LN_Sclav",
+        "TG_263": "_TS_CTV_LN_Sclav",
+        "TG_263R": "_TS_CTV_LN_Sclav",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec1gaovzmuawHRpt",
+      "createdTime": "2022-02-22T20:30:17.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTV_Scar",
+        "TG_263": "_TS_CTV_Scar",
+        "TG_263R": "_TS_CTV_Scar",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "reccUr705f6MroD0k",
+      "createdTime": "2022-02-22T20:33:53.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_Breast",
+        "TG_263": "_TS_PTV_Breast",
+        "TG_263R": "_TS_PTV_Breast",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recxyaE2Ws7Ge0cIq",
+      "createdTime": "2022-02-22T20:34:00.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_ChestWall",
+        "TG_263": "_TS_PTV_ChestWall",
+        "TG_263R": "_TS_PTV_ChestWall",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recisoUvA0FwvDR4U",
+      "createdTime": "2022-02-22T20:34:13.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_LN_Ax",
+        "TG_263": "_TS_PTV_LN_Ax",
+        "TG_263R": "_TS_PTV_LN_Ax",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recJAh5n0Ig80KWnR",
+      "createdTime": "2022-02-22T20:34:20.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_LN_IMN",
+        "TG_263": "_TS_PTV_LN_IMN",
+        "TG_263R": "_TS_PTV_LN_IMN",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "reccmK50zeaEVbY2j",
+      "createdTime": "2022-02-22T20:34:26.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_LN_Sclav",
+        "TG_263": "_TS_PTV_LN_Sclav",
+        "TG_263R": "_TS_PTV_LN_Sclav",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recJYPYPdApYItPZ6",
+      "createdTime": "2022-02-22T20:34:35.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTVsb",
+        "TG_263": "_TS_PTVsb",
+        "TG_263R": "_TS_PTVsb",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "reciiEpv0B5X6FFXq",
+      "createdTime": "2022-02-22T20:34:47.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_Scar",
+        "TG_263": "_TS_PTV_Scar",
+        "TG_263R": "_TS_PTV_Scar",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recVYwjNb6h1wFjdx",
+      "createdTime": "2022-02-22T20:34:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_Breast_Eval",
+        "TG_263": "_TS_PTV_Breast_Eval",
+        "TG_263R": "_TS_PTV_Breast_Eval",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recsOXEFMhXlSMC8K",
+      "createdTime": "2022-02-22T20:35:03.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_CW_Eval",
+        "TG_263": "_TS_PTV_CW_Eval",
+        "TG_263R": "_TS_PTV_CW_Eval",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "rec9zSL3EM0AWSyDv",
+      "createdTime": "2022-02-22T20:35:14.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTVsb_Eval",
+        "TG_263": "_TS_PTVsb_Eval",
+        "TG_263R": "_TS_PTVsb_Eval",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "rec9YeL2pJxOd6cyJ",
+      "createdTime": "2022-02-22T20:35:22.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV_Scar_Eval",
+        "TG_263": "_TS_PTV_Scar_Eval",
+        "TG_263R": "_TS_PTV_Scar_Eval",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recYA4mSkuWbjbWrb",
+      "createdTime": "2022-02-22T21:19:47.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "1201745009",
+        "Structure": "_TS_ITV",
+        "TG_263": "_TS_ITV",
+        "TG_263R": "_TS_ITV",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recRpyxHycZdE1gBP",
+      "createdTime": "2022-02-22T21:35:27.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Sangria:164,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "34381000",
+        "Structure": "Anal_Canal",
+        "TG_263": "Canal_Anal",
+        "TG_263French": "Canal_Anal",
+        "TG_263R": "Anal_Canal",
+        "TG_263Spanish": "Canal_Anal",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recRV33BphcXUDE5k",
+      "createdTime": "2022-02-22T21:36:08.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "15825003",
+        "Structure": "A_Aorta",
+        "TG_263": "A_Aorta",
+        "TG_263French": "A_Aorte",
+        "TG_263R": "Aorta_A",
+        "TG_263Spanish": "A_Aorta",
+        "Template_Consider": [
+          "AbdPelv_Pancreas"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recUvVocaYZZPmOVp",
+      "createdTime": "2022-02-22T21:36:33.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Sangria:164,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "28700002",
+        "Structure": "Carina",
+        "TG_263": "Carina",
+        "TG_263French": "Carine",
+        "TG_263R": "Carina",
+        "TG_263Spanish": "Carina",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recAYjEvLSanLVbVY",
+      "createdTime": "2022-02-22T21:37:06.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "99",
+        "Structure": "Fid",
+        "TG_263": "Fid",
+        "TG_263R": "Fid",
+        "Template_Consider": [
+          "_Miscellaneous"
+        ],
+        "Type": "MARKER"
+      }
+    },
+    {
+      "id": "recoIQSKPmvaWl3II",
+      "createdTime": "2022-02-22T21:37:15.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Sangria:164,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "340772002",
+        "Structure": "GreatVes",
+        "TG_263": "GreatVes",
+        "TG_263French": "GrosVais",
+        "TG_263R": "GreatVes",
+        "TG_263Spanish": "GranVasos",
+        "Template_Consider": [
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recfQn4I45q4frguW",
+      "createdTime": "2022-02-22T21:37:26.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "243135003",
+        "Structure": "Spacer",
+        "TG_263": "Spacer",
+        "TG_263R": "Spacer",
+        "Template_Consider": [
+          "_Miscellaneous"
+        ],
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "AVOIDANCE"
+      }
+    },
+    {
+      "id": "recJdIABkCbpzLXM9",
+      "createdTime": "2022-02-22T21:37:58.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "360056009",
+        "Structure": "Pacemaker",
+        "TG_263": "IED_Pacemaker",
+        "TG_263R": "Pacemaker_IED",
+        "TG_263Spanish": "Marcapasos",
+        "Template_Consider": [
+          "_Miscellaneous"
+        ],
+        "Type": "AVOIDANCE"
+      }
+    },
+    {
+      "id": "recs8c1RTI37AKMtw",
+      "createdTime": "2022-02-22T21:38:31.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "20795001",
+        "Structure": "Skin05",
+        "TG_263": "Skin05",
+        "TG_263French": "Peau05",
+        "TG_263R": "Skin05",
+        "TG_263Spanish": "Piel05",
+        "Template_Consider": [
+          "_Miscellaneous",
+          "Extremities",
+          "Brachy_Gyn"
+        ],
+        "Template_Recommend": [
+          "Brachy_Breast",
+          "Brachy_Prostate",
+          "Brachy_Skin"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recAWznRMR06pjK4f",
+      "createdTime": "2022-02-22T21:43:47.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "89837001",
+        "Structure": "Bladder-CTV",
+        "TG_263": "Bladder-CTV",
+        "TG_263French": "Vessie-CTV",
+        "TG_263R": "Bladder-CTV",
+        "TG_263Spanish": "Vejiga-CTV",
+        "Template_Recommend": [
+          "AbdPelv_ProstBed"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recKvTTGeyWEp2inU",
+      "createdTime": "2022-02-22T21:56:16.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "360769001",
+        "Structure": "Bone",
+        "TG_263": "Bone",
+        "TG_263French": "Os",
+        "TG_263R": "Bone",
+        "TG_263Spanish": "Hueso",
+        "Template_Consider": [
+          "Extremities"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recx9TVR8K2hGU1QQ",
+      "createdTime": "2022-02-22T22:01:48.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "78904004",
+        "Structure": "Chestwall",
+        "TG_263": "Chestwall",
+        "TG_263French": "ParoiThoraciq",
+        "TG_263R": "Chestwall",
+        "TG_263Spanish": "ParedToracica",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recFvm3GUhXBzlchG",
+      "createdTime": "2022-02-22T23:19:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Magenta:255,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "39607008",
+        "Structure": "Lungs-GTV",
+        "TG_263": "Lungs-GTV",
+        "TG_263French": "Poumons-GTV",
+        "TG_263R": "Lungs-GTV",
+        "TG_263Spanish": "Pulmones-GTV",
+        "Template_Recommend": [
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recj60ERfl0gRwx6F",
+      "createdTime": "2022-02-22T23:21:05.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "91609006",
+        "Structure": "Mandible_Bone",
+        "TG_263": "Bone_Mandible",
+        "TG_263French": "Os_Mandibule",
+        "TG_263R": "Mandible_Bone",
+        "TG_263Spanish": "Hueso_Mandibula",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "H&N_Orbit",
+          "H&N_Sinonasal",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recgL9cxHRTYz5IBf",
+      "createdTime": "2022-02-22T23:35:24.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "42774007",
+        "Structure": "Testis_NAdj",
+        "TG_263": "Testes_NAdj",
+        "TG_263R": "NAdj_Testes",
+        "TG_263Spanish": "Testiculo_NAdy",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recoyrcDflVX1NEyL",
+      "createdTime": "2022-03-08T21:04:36.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV1^GTV/Cervix/Uterus",
+        "TG_263": "CTV1^GTV/Cervix/Uterus",
+        "TG_263R": "CTV1^GTV/Cervix/Uterus",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recyx3l3lVHQXNIXW",
+      "createdTime": "2022-03-08T21:05:32.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV2^Parametria/Vagina",
+        "TG_263": "CTV2^Parametria/Vagina",
+        "TG_263R": "CTV2^Parametria/Vagina",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recnYvLaWKJzYTc1H",
+      "createdTime": "2022-05-25T13:48:36.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "69105007",
+        "Structure": "A_Carotid",
+        "TG_263": "A_Carotid",
+        "TG_263French": "A_Carotide",
+        "TG_263R": "Carotid_A",
+        "TG_263Spanish": "A_Carotida",
+        "Template_Consider": [
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recT07eUgtwIyn1AV",
+      "createdTime": "2022-05-25T13:52:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "41695006",
+        "Structure": "Scalp",
+        "TG_263": "Scalp",
+        "TG_263French": "CuirChevelu",
+        "TG_263R": "Scalp",
+        "TG_263Spanish": "CueroCabelludo",
+        "Template_Consider": [
+          "_Miscellaneous",
+          "CNS_Brain"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recIMxdjEHSKBD5hf",
+      "createdTime": "2022-05-25T14:35:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Lemon Chiffon:255,255,187"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "31389004",
+        "Structure": "Oropharynx",
+        "TG_263": "Oropharynx",
+        "TG_263French": "Oropharynx",
+        "TG_263R": "Oropharynx",
+        "TG_263Spanish": "Orofaringe",
+        "Template_Consider": [
+          "CNS_Cervical"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reckSMFhMUz1tHqPx",
+      "createdTime": "2022-06-14T20:22:34.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "53620006",
+        "Structure": "TM_Joint",
+        "TG_263": "Joint_TM",
+        "TG_263French": "Artic_TM",
+        "TG_263R": "TM_Joint",
+        "TG_263Spanish": "Artic_TM",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recmiNPQsRFFMR0O2",
+      "createdTime": "2022-06-14T20:24:07.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "52718009",
+        "Structure": "Temporal_Lobe_L",
+        "TG_263": "Lobe_Temporal_L",
+        "TG_263French": "Lobe_Temporal_G",
+        "TG_263R": "L_Temporal_Lobe",
+        "TG_263Spanish": "Lob_Temporal_I",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Face_Parotid",
+          "H&N_Orbit",
+          "H&N_Sinonasal"
+        ],
+        "Template_Recommend": [
+          "H&N_Nasopharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec5kwpaD4O7uJC6k",
+      "createdTime": "2022-06-14T20:37:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "78029007",
+        "Structure": "Temporal_Lobe_R",
+        "TG_263": "Lobe_Temporal_R",
+        "TG_263French": "Lobe_Temporal_D",
+        "TG_263R": "R_Temporal_Lobe",
+        "TG_263Spanish": "Lob_Temporal_D",
+        "Template_Consider": [
+          "CNS_Brain",
+          "H&N_Face_Parotid",
+          "H&N_Orbit",
+          "H&N_Sinonasal"
+        ],
+        "Template_Recommend": [
+          "H&N_Nasopharynx"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec8C9XSWdN3xtiG1",
+      "createdTime": "2022-06-14T20:40:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "58443009",
+        "Structure": "Retina_L",
+        "TG_263": "Retina_L",
+        "TG_263French": "Retine_G",
+        "TG_263R": "L_Retina",
+        "TG_263Spanish": "Retina_I",
+        "Template_Consider": [
+          "H&N_Orbit",
+          "CNS_Brain"
+        ],
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec1S5JB8wVPn5qnn",
+      "createdTime": "2022-06-14T20:41:26.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Cerulean:000,119,170"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "5597008",
+        "Structure": "Retina_R",
+        "TG_263": "Retina_R",
+        "TG_263French": "Retine_D",
+        "TG_263R": "R_Retina",
+        "TG_263Spanish": "Retina_D",
+        "Template_Consider": [
+          "H&N_Orbit",
+          "CNS_Brain"
+        ],
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recgJAwaGVpeo3grK",
+      "createdTime": "2022-06-14T21:26:02.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Electric Indigo:128,000,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "87878005",
+        "Structure": "Ventricle_L",
+        "TG_263": "Ventricle_L",
+        "TG_263French": "Ventricule_G",
+        "TG_263R": "L_Ventricle",
+        "TG_263Spanish": "Ventriculo_I",
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec01DbRnP8IAVRtF",
+      "createdTime": "2022-06-14T21:29:08.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Orange:255,165,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "102297006",
+        "Structure": "Bronchus_Main",
+        "TG_263": "Bronchus_Main",
+        "TG_263French": "Bronche_Princ",
+        "TG_263R": "Main_Bronchus",
+        "TG_263Spanish": "Bronquio_Ppal",
+        "Template_Consider": [
+          "CNS_Cervical",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recpl2evFWtvtyUvq",
+      "createdTime": "2022-06-14T21:47:28.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "64131007",
+        "Structure": "V_Venacava_I",
+        "TG_263": "V_Venacava_I",
+        "TG_263French": "V_Cave_I",
+        "TG_263R": "I_Venacava_V",
+        "TG_263Spanish": "V_Venacava_In",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reclLBr64l8fAkRjJ",
+      "createdTime": "2022-06-14T21:49:43.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "79741001",
+        "Structure": "BileDuct_Common",
+        "TG_263": "BileDuct_Common",
+        "TG_263French": "VoieBiliaire_Com",
+        "TG_263R": "Common_BileDuct",
+        "TG_263Spanish": "Conductos_Biliar",
+        "Template_Consider": [
+          "AbdPelv_Liver"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recGsd45zxLeS70LD",
+      "createdTime": "2022-06-14T21:50:51.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "28231008",
+        "Structure": "GallBladder",
+        "TG_263": "Gallbladder",
+        "TG_263French": "VesiculeBiliaire",
+        "TG_263R": "Gallbladder",
+        "TG_263Spanish": "VesiculaBiliar",
+        "Template_Consider": [
+          "AbdPelv_Liver"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recHpzbX9ePe26k7G",
+      "createdTime": "2022-06-14T21:59:51.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "39937001",
+        "Structure": "Skin",
+        "TG_263": "Skin",
+        "TG_263French": "Peau",
+        "TG_263R": "Skin",
+        "TG_263Spanish": "Piel",
+        "Template_Recommend": [
+          "Extremities",
+          "Brachy_Prostate",
+          "Brachy_Skin"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reciWPjWUSFwtwWDP",
+      "createdTime": "2022-06-14T22:00:16.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "36668004",
+        "Structure": "Joint_Spc",
+        "TG_263": "Spc_Joint",
+        "TG_263French": "Esp_Artic",
+        "TG_263R": "Joint_Spc",
+        "TG_263Spanish": "Esp_Artic",
+        "Template_Recommend": [
+          "Extremities"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rece9WNfeuVDuw9ib",
+      "createdTime": "2022-06-14T23:30:39.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "99",
+        "Structure": "Hi HU",
+        "TG_263": "Hi HU",
+        "TG_263R": "Hi HU",
+        "Template_Consider": [
+          "_Miscellaneous"
+        ],
+        "Type": "AVOIDANCE"
+      }
+    },
+    {
+      "id": "recNADTZOwimZ35kd",
+      "createdTime": "2022-06-16T00:59:54.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTVsb",
+        "TG_263": "GTVsb",
+        "TG_263R": "GTVsb",
+        "TG_263Spanish": "GTVlq",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recUoeSPJFYaQyQBR",
+      "createdTime": "2022-06-16T12:38:11.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTVsb",
+        "TG_263": "CTVsb",
+        "TG_263R": "CTVsb",
+        "TG_263Spanish": "CTVlq",
+        "Template_Consider": [
+          "_Targets_Basic",
+          "_Targets_Details",
+          "AbdPelv_Bladder",
+          "AbdPelv_Stomach",
+          "Extremities",
+          "H&N_Face_Parotid",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "Thorax_Esoph_S"
+        ],
+        "Template_Recommend": [
+          "_Targets_Breast",
+          "H&N_LX_HPX_Thyroid",
+          "Thorax_BreastRNI",
+          "Thorax_BreastPBI",
+          "Thorax_BreastWBI"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "rec2JbR83EOfyMp3U",
+      "createdTime": "2022-06-25T15:50:41.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "_TS_PTV",
+        "TG_263": "_TS_PTV",
+        "TG_263R": "_TS_PTV",
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "rech6XWgeJxWgOCPy",
+      "createdTime": "2022-06-25T15:51:41.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "_TS_GTVp",
+        "TG_263": "_TS_GTVp",
+        "TG_263R": "_TS_GTVp",
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recSpZHzfVyMzWym2",
+      "createdTime": "2022-06-25T15:52:35.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "_TS_GTVsb",
+        "TG_263": "_TS_GTVsb",
+        "TG_263R": "_TS_GTVsb",
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recAe5j0WXAwHkkZr",
+      "createdTime": "2022-06-25T15:52:54.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTVn",
+        "TG_263": "_TS_CTVn",
+        "TG_263R": "_TS_CTVn",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recIsfMPsHNM4NhBw",
+      "createdTime": "2022-06-25T15:53:02.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTVp",
+        "TG_263": "_TS_CTVp",
+        "TG_263R": "_TS_CTVp",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recBAais5daEWac4n",
+      "createdTime": "2022-06-25T15:53:19.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "_TS_CTVsb",
+        "TG_263": "_TS_CTVsb",
+        "TG_263R": "_TS_CTVsb",
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recDweuv97sjjOLhV",
+      "createdTime": "2022-06-30T22:12:10.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "61853006",
+        "Structure": "SpinalCanal",
+        "TG_263": "SpinalCanal",
+        "TG_263French": "CanalRach",
+        "TG_263R": "SpinalCanal",
+        "TG_263Spanish": "CanalEspi",
+        "Template_Consider": [
+          "AbdPelv_Liver",
+          "AbdPelv_Pancreas",
+          "AbdPelv_Paraaortic",
+          "AbdPelv_RenalAdrenal",
+          "AbdPelv_RetroperitonealSpace",
+          "AbdPelv_Spleen",
+          "AbdPelv_Stomach",
+          "CNS_Cervical",
+          "CNS_Thoracic",
+          "CNS_Lumbar",
+          "CNS_Craniospinal",
+          "H&N_Face_Parotid",
+          "H&N_LX_HPX_Thyroid",
+          "H&N_Nasopharynx",
+          "H&N_Neck",
+          "H&N_Oropharynx",
+          "H&N_Sinonasal",
+          "Thorax_BreastRNI",
+          "Thorax_CWRNI",
+          "Thorax_AxillaSCN",
+          "Thorax_Esoph_S",
+          "Thorax_Esoph",
+          "Thorax_Esoph_GEJ",
+          "Thorax_Lung",
+          "Thorax_Mediastinum_Thymus"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec2ZIW8LMU4nPGYR",
+      "createdTime": "2022-07-27T18:13:00.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Mid01",
+        "TG_263": "CTV_Mid01",
+        "TG_263R": "CTV_Mid01",
+        "Template_Consider": [
+          "_Targets_Details"
+        ],
+        "Template_Recommend": [
+          "_Targets_4Levels"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recJk6Lc5eGE2AHq1",
+      "createdTime": "2022-07-27T18:13:09.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Mid02",
+        "TG_263": "CTV_Mid02",
+        "TG_263R": "CTV_Mid02",
+        "Template_Consider": [
+          "_Targets_Details"
+        ],
+        "Template_Recommend": [
+          "_Targets_4Levels"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recmrqHUats1hniIz",
+      "createdTime": "2022-07-27T18:13:20.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Mid01",
+        "TG_263": "PTV_Mid01",
+        "TG_263R": "PTV_Mid01",
+        "Template_Consider": [
+          "_Targets_Details"
+        ],
+        "Template_Recommend": [
+          "_Targets_4Levels"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recZK6TUxKj6D8B6P",
+      "createdTime": "2022-07-27T18:13:27.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Mid02",
+        "TG_263": "PTV_Mid02",
+        "TG_263R": "PTV_Mid02",
+        "Template_Consider": [
+          "_Targets_Details"
+        ],
+        "Template_Recommend": [
+          "_Targets_4Levels"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recfjOxYlBMnyAaIN",
+      "createdTime": "2022-11-24T15:11:30.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_ev12",
+        "TG_263": "CTV_ev12",
+        "TG_263R": "CTV_ev12",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recscr3BP3ZVE9vhS",
+      "createdTime": "2022-11-24T15:11:31.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Surf",
+        "TG_263": "PTV_Surf",
+        "TG_263R": "PTV_Surf",
+        "TG_263Spanish": "PTV_Superfic",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recvdR9nKp0jchjTw",
+      "createdTime": "2022-11-24T15:11:32.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mauve:200,180,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "88",
+        "Structure": "zPTVopt",
+        "TG_263": "zPTVopt",
+        "TG_263R": "zPTVopt",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "Control"
+      }
+    },
+    {
+      "id": "recBQZYydhUesPUul",
+      "createdTime": "2022-11-24T15:11:38.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Eval",
+        "TG_263": "PTV_Eval",
+        "TG_263R": "PTV_Eval",
+        "TG_263Spanish": "PTV_Eval",
+        "Template_Recommend": [
+          "Brachy_Breast",
+          "Brachy_Prostate"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recQUTvuPbOsGSscY",
+      "createdTime": "2022-11-24T15:11:39.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "706280008",
+        "Structure": "Appl_evXX",
+        "TG_263": "Appl_evXX",
+        "TG_263R": "Appl_evXX",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "BRACHY_SRC_APP"
+      }
+    },
+    {
+      "id": "recF4dhtC2zWvDkfi",
+      "createdTime": "2022-11-24T15:11:40.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "735084003",
+        "Structure": "Breast_R-PTV",
+        "TG_263": "Breast_R-PTV",
+        "TG_263French": "Sein_D-PTV",
+        "TG_263R": "R_Breast-PTV",
+        "TG_263Spanish": "Mama_D_PTV",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recUF4MFWiqrdgVzk",
+      "createdTime": "2022-11-24T15:11:41.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "735084003",
+        "Structure": "Breast_R-CTV",
+        "TG_263": "Breast_R-CTV",
+        "TG_263French": "Sein_G-CTV",
+        "TG_263R": "R_Breast-CTV",
+        "TG_263Spanish": "Mama_D-CTV",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recBkY9oYGvuF0UlJ",
+      "createdTime": "2022-11-24T15:11:42.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "735083009",
+        "Structure": "Breast_L-PTV",
+        "TG_263": "Breast_L-PTV",
+        "TG_263French": "Sein_G-PTV",
+        "TG_263R": "L_Breast-PTV",
+        "TG_263Spanish": "Mama_I-PTV",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec1ADYzRNOCKjQSb",
+      "createdTime": "2022-11-24T15:11:43.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "735083009",
+        "Structure": "Breast_L-CTV",
+        "TG_263": "Breast_L-CTV",
+        "TG_263French": "Sein_G-CTV",
+        "TG_263R": "L_Breast-CTV",
+        "TG_263Spanish": "Mama_I-CTV",
+        "Template_Recommend": [
+          "Brachy_Breast"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recNDXRC3aemcQ5JJ",
+      "createdTime": "2022-11-24T15:11:43.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "54268001",
+        "Structure": "LN_Pelvic_R",
+        "TG_263": "LN_Pelvic_R",
+        "TG_263French": "GL_Pelvien_G",
+        "TG_263R": "R_Pelvic_LN",
+        "TG_263Spanish": "GL_Pelvicos_D",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "IRRAD_VOLUME"
+      }
+    },
+    {
+      "id": "recquY3COhiodnar5",
+      "createdTime": "2022-11-24T15:11:46.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "54268001",
+        "Structure": "LN_Pelvic_L",
+        "TG_263": "LN_Pelvic_L",
+        "TG_263French": "GL_Pelvien_D",
+        "TG_263R": "L_Pelvic_LN",
+        "TG_263Spanish": "GL_Pelvicos_I",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "IRRAD_VOLUME"
+      }
+    },
+    {
+      "id": "recNq0aBdHoBN3D6m",
+      "createdTime": "2022-11-24T15:11:49.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Dodger Blue:000,127,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "314399000",
+        "Structure": "Prostate_evXX",
+        "TG_263": "Prostate_evXX",
+        "TG_263French": "Prostate_evXX",
+        "TG_263R": "Prostate_evXX",
+        "TG_263Spanish": "Prostata_EvXX",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recCsBYKEvpblX4c2",
+      "createdTime": "2022-11-24T15:11:50.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "722739008",
+        "Structure": "Femur_R",
+        "TG_263": "Femur_R",
+        "TG_263French": "Femur_D",
+        "TG_263R": "R_Femur",
+        "TG_263Spanish": "Femur_D",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "reclfEvlHiegQOO1i",
+      "createdTime": "2022-11-24T15:11:52.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "722738000",
+        "Structure": "Femur_L",
+        "TG_263": "Femur_L",
+        "TG_263French": "Femur_G",
+        "TG_263R": "L_Femur",
+        "TG_263Spanish": "Femur_I",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec3qFyu0ttTMnGiU",
+      "createdTime": "2022-11-24T15:11:52.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV1",
+        "TG_263": "CTV1",
+        "TG_263French": "CTV1",
+        "TG_263R": "CTV1",
+        "TG_263Spanish": "CTV1",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recb3kqfG7jlAEcWw",
+      "createdTime": "2022-11-24T15:11:53.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV2",
+        "TG_263": "CTV2",
+        "TG_263French": "CTV2",
+        "TG_263R": "CTV2",
+        "TG_263Spanish": "CTV2",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recyXxk22gi7wIy1v",
+      "createdTime": "2022-11-24T15:11:54.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "54268001",
+        "Structure": "LN_Pelvics",
+        "TG_263": "LN_Pelvics",
+        "TG_263French": "GL_Pelviens",
+        "TG_263R": "Pelvics_LN",
+        "TG_263Spanish": "GL_Pelvicos",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "IRRAD_VOLUME"
+      }
+    },
+    {
+      "id": "recug3voafkIxnk45",
+      "createdTime": "2022-11-24T15:11:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV1",
+        "TG_263": "GTV1",
+        "TG_263French": "GTV1",
+        "TG_263R": "GTV1",
+        "TG_263Spanish": "GTV1",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recjKSJiZjsAxNblE",
+      "createdTime": "2022-11-24T15:11:55.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV2",
+        "TG_263": "GTV2",
+        "TG_263French": "GTV2",
+        "TG_263R": "GTV2",
+        "TG_263Spanish": "GTV2",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recsJ4dS7KzxuRrif",
+      "createdTime": "2022-11-24T15:11:56.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_Eval",
+        "TG_263": "CTV_Eval",
+        "TG_263R": "CTV_Eval",
+        "TG_263Spanish": "CTV_Eval",
+        "Template_Recommend": [
+          "Brachy_Prostate"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recrLlSnNV0d2ykNi",
+      "createdTime": "2022-11-24T15:11:57.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_ev10",
+        "TG_263": "PTV_ev10",
+        "TG_263R": "PTV_ev10",
+        "Template_Recommend": [
+          "Brachy_Skin"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "rec6FK2SAz3RToHYB",
+      "createdTime": "2022-11-24T15:11:58.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "20795001",
+        "Structure": "Skin03",
+        "TG_263": "Skin03",
+        "TG_263French": "Peau03",
+        "TG_263R": "Skin03",
+        "TG_263Spanish": "Piel03",
+        "Template_Consider": [
+          "Brachy_Gyn"
+        ],
+        "Template_Recommend": [
+          "Brachy_Skin"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recNzTYHqiu0Qm1Yu",
+      "createdTime": "2022-11-24T15:11:58.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Aquamarine:127,255,212"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "706280008",
+        "Structure": "Appl_Surf",
+        "TG_263": "Appl_Surf",
+        "TG_263R": "Appl_Surf",
+        "Template_Recommend": [
+          "Brachy_Skin"
+        ],
+        "Type": "BRACHY_SRC_APP"
+      }
+    },
+    {
+      "id": "reccgjDBF5cUz6sUW",
+      "createdTime": "2022-11-24T15:11:59.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_Boost",
+        "TG_263": "PTV_Boost",
+        "TG_263R": "PTV_Boost",
+        "TG_263Spanish": "PTV_Boost",
+        "Template_Recommend": [
+          "Brachy_Endobronch",
+          "Brachy_Skin",
+          "Brachy_Ocular"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recxuv0R42c95N879",
+      "createdTime": "2022-11-24T15:12:00.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "721899000",
+        "Structure": "OpticDisc_L",
+        "TG_263": "OpticDisc_L",
+        "TG_263French": "DisqueOptique_G",
+        "TG_263R": "L_OpticDisc",
+        "TG_263Spanish": "DiscoOptico_I",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recAfmkVBO289LL0E",
+      "createdTime": "2022-11-24T15:12:00.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Baby Blue:100,255,233"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "721900005",
+        "Structure": "OpticDisc_R",
+        "TG_263": "OpticDisc_R",
+        "TG_263French": "DisqueOptique_D",
+        "TG_263R": "R_OpticDisc",
+        "TG_263Spanish": "DiscoOptico_D",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recgCKR9NnyZvNQIb",
+      "createdTime": "2022-11-24T15:12:01.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "68703001",
+        "Structure": "Choroid",
+        "TG_263": "Choroid",
+        "TG_263French": "Choroide",
+        "TG_263R": "Choroid",
+        "TG_263Spanish": "Coroides",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recOeyXj66KvEhiju",
+      "createdTime": "2022-11-24T15:12:02.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mauve:200,180,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "280544008",
+        "Structure": "Apex",
+        "TG_263": "Apex",
+        "TG_263R": "Apex",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recT7zAoyJBR3HXVO",
+      "createdTime": "2022-11-24T15:12:02.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "74235007",
+        "Structure": "Sclera_Inner",
+        "TG_263": "Sclera_Inner",
+        "TG_263R": "Inner_Sclera",
+        "TG_263Spanish": "Esclerotica_Int",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec73PrIbVFrbphye",
+      "createdTime": "2022-11-24T15:12:03.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "76729009",
+        "Structure": "Sclera_Outer",
+        "TG_263": "Sclera_Outer",
+        "TG_263R": "Outer_Sclera",
+        "TG_263Spanish": "Esclerotica_Ext",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recE7cGqHwmnctZAf",
+      "createdTime": "2022-11-24T15:12:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_XXXX",
+        "TG_263": "PTV_XXXX",
+        "TG_263R": "PTV_XXXX",
+        "TG_263Spanish": "PTV_XXXX",
+        "Template_Recommend": [
+          "Brachy_Endobronch",
+          "Brachy_Ocular"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recSSBFQrw5MlLjdx",
+      "createdTime": "2022-11-24T15:12:04.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Brown:165,042,042"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "88",
+        "Structure": "Eye_Origin_R",
+        "TG_263": "Eye_Origin_R",
+        "TG_263R": "R_Origin_Eye",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recRFZpTifBAtACFU",
+      "createdTime": "2022-11-24T15:12:05.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Brown:165,042,042"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "88",
+        "Structure": "Eye_Origin_L",
+        "TG_263": "Eye_Origin_L",
+        "TG_263R": "L_Origin_Eye",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recYncs2k0vQL9hSD",
+      "createdTime": "2022-11-24T15:12:06.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "67046006",
+        "Structure": "Fovea_L",
+        "TG_263": "Fovea_L",
+        "TG_263French": "Fovea_G",
+        "TG_263R": "L_Fovea",
+        "TG_263Spanish": "Fovea_I",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recnZRPn6BDAc2qsa",
+      "createdTime": "2022-11-24T15:12:07.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "67046006",
+        "Structure": "Fovea_R",
+        "TG_263": "Fovea_R",
+        "TG_263French": "Fovea_D",
+        "TG_263R": "R_Fovea",
+        "TG_263Spanish": "Fovea_D",
+        "Template_Recommend": [
+          "Brachy_Ocular"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "rec4wER6CAFjbgsa8",
+      "createdTime": "2022-11-24T15:12:08.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV_LR",
+        "TG_263": "GTV_LR",
+        "TG_263R": "GTV_LR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recqOCJEZDXb5PnXr",
+      "createdTime": "2022-11-24T15:12:08.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV_IR",
+        "TG_263": "GTV_IR",
+        "TG_263R": "GTV_IR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recI0UlgLIAeBNYQQ",
+      "createdTime": "2022-11-24T15:12:09.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Chartreuse:125,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228791009",
+        "Structure": "GTV_HR",
+        "TG_263": "GTV_HR",
+        "TG_263R": "GTV_HR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "GTV"
+      }
+    },
+    {
+      "id": "recaiQ28bUPLKCxlb",
+      "createdTime": "2022-11-24T15:12:10.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_LR",
+        "TG_263": "CTV_LR",
+        "TG_263R": "CTV_LR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recNwKx5QzZ5aHPJs",
+      "createdTime": "2022-11-24T15:12:10.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_IR",
+        "TG_263": "CTV_IR",
+        "TG_263R": "CTV_IR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recFkJqfURpw7Seh5",
+      "createdTime": "2022-11-24T15:12:11.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228792002",
+        "Structure": "CTV_HR",
+        "TG_263": "CTV_HR",
+        "TG_263R": "CTV_HR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "CTV"
+      }
+    },
+    {
+      "id": "recSmZyTXudK4XhME",
+      "createdTime": "2022-11-24T15:12:12.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Yellow:255,255,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_LR",
+        "TG_263": "PTV_LR",
+        "TG_263R": "PTV_LR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recAb2twRT0zAqrVH",
+      "createdTime": "2022-11-24T15:12:13.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Navy Blue:006,082,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_IR",
+        "TG_263": "PTV_IR",
+        "TG_263R": "PTV_IR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recoqeZTyWWS0mKnX",
+      "createdTime": "2022-11-24T15:12:14.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Red:255,000,000"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "228793007",
+        "Structure": "PTV_HR",
+        "TG_263": "PTV_HR",
+        "TG_263R": "PTV_HR",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "PTV"
+      }
+    },
+    {
+      "id": "recS9pSwdxhz70Om9",
+      "createdTime": "2022-11-24T15:12:15.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mauve:200,180,255"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "263355003",
+        "Structure": "Vagina_Surf",
+        "TG_263": "Vagina_Surf",
+        "TG_263French": "Vagin_Surf",
+        "TG_263R": "Surf_Vagina",
+        "TG_263Spanish": "Vagina_Superfic",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recpCO9GcDKPWMQEo",
+      "createdTime": "2022-11-24T15:12:15.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Mintgreen:138,255,173"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "71252005",
+        "Structure": "Cervix",
+        "TG_263": "Cervix",
+        "TG_263French": "ColDeUterus",
+        "TG_263R": "Cervix",
+        "TG_263Spanish": "CuelloUtero",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recEzffrVpUjDmr5K",
+      "createdTime": "2022-11-24T15:12:16.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "20795001",
+        "Structure": "SkinXX",
+        "TG_263": "SkinXX",
+        "TG_263French": "PeauXX",
+        "TG_263R": "SkinXX",
+        "TG_263Spanish": "PielXX",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    },
+    {
+      "id": "recy9f5hBfw1QhB44",
+      "createdTime": "2022-11-24T15:12:17.000Z",
+      "fields": {
+        "Colors_RGB": [
+          "Persimmon:233,067,067"
+        ],
+        "DVH_Color": "-16777216",
+        "DVH_Style": "solid",
+        "DVH_Type_Index": "2",
+        "DVH_Width": "1",
+        "Scheme": "SCT",
+        "SchemeCode": "20795001",
+        "Structure": "SkinXX_PRVXX",
+        "TG_263": "SkinXX_PRVXX",
+        "TG_263French": "PeauXX_PRVXX",
+        "TG_263R": "SkinXX_PRVXX",
+        "TG_263Spanish": "PielXX_PRVXX",
+        "Template_Recommend": [
+          "Brachy_Gyn"
+        ],
+        "Type": "ORGAN"
+      }
+    }
+  ]
+}
