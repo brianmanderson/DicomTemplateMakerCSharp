@@ -505,6 +505,56 @@ public sealed class OnlineTemplatesViewModelTests : IDisposable
         Assert.Empty(dialogs.Shown);
     }
 
+    /// <summary>SHA-256 of the published snapshot at b185504 (TemplateSnapshots/TG263.json, 2026-09-30).</summary>
+    private const string SnapshotSha256 = "059cd49e731fcc564ff36444ff7b9761fd43fd08ddae4448e7e383d51eac03c4";
+
+    /// <summary>
+    /// The frozen copy of that snapshot once it exists (plan P1.3), else the published snapshot itself; either
+    /// way the hash is checked first, so a refreshed snapshot fails here rather than as a changed template.
+    /// </summary>
+    private static string SnapshotPath()
+    {
+        string frozen = Templates.RepositoryFile("TemplateSync.Tests", "TestData", "TG263.2026-09-30.json");
+        return File.Exists(frozen) ? frozen : Templates.RepositoryFile("TemplateSnapshots", "TG263.json");
+    }
+
+    private static string Sha256(byte[] bytes) => Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(bytes));
+
+    /// <summary>
+    /// Characterisation of e7f0572 (plan P1.1): three snapshot sites built through the window with the default
+    /// naming choice give exactly these All_ROIs.json files. Line endings are normalised because the JSON is
+    /// written with the platform's newline.
+    /// </summary>
+    [Fact]
+    public async Task Snapshot_sites_built_with_the_default_naming_choice_match_the_e7f0572_characterisation()
+    {
+        string snapshotPath = SnapshotPath();
+        Assert.Equal(SnapshotSha256, Sha256(File.ReadAllBytes(snapshotPath)));
+        TableSnapshot snapshot = SnapshotStore.Parse(File.ReadAllText(snapshotPath));
+        catalog.AddSource(new FakeTableSource(TemplateSourceCatalog.SharedSourceName, writable: false, snapshot));
+        OnlineTemplatesViewModel vm = CreateViewModel();
+        await vm.StartAsync();
+        var expected = new Dictionary<string, string>
+        {
+            ["AbdPelv_Anal"] = "781ffd4cc4b9a15ef349d6c5bd3ba4cb265f50c19b71347f5b29b098a589dfe1",
+            ["H&N_Nasopharynx"] = "c9b006d0b0fcece9b1546898022cae42fe6ae2c14a601f91de6e261b69ce47c8",
+            ["Thorax_BreastRNI"] = "b82bf43c8388e77aaf9df19bdcef42ed3c29331820c2b08b42a67b9d9a74b30c",
+        };
+        foreach (string site in expected.Keys)
+        {
+            Row(vm, site).IsSelected = true;
+        }
+
+        dialogs.Answers.Enqueue(true);
+        await vm.BuildCommand.ExecuteAsync(null);
+
+        var actual = expected.Keys.ToDictionary(
+            site => site,
+            site => Sha256(System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(Path.Combine(folder.Path, site, "All_ROIs.json")).Replace("\r\n", "\n", StringComparison.Ordinal))));
+        Assert.Equal(expected, actual);
+        Assert.Equal(1, closeRequests);
+    }
+
     [Theory]
     [InlineData(0, "just now")]
     [InlineData(59, "just now")]
