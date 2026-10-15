@@ -113,6 +113,7 @@ public sealed class DicomInventoryTests
         Assert.Contains("(3006,0002) StructureSetLabel LO 1 4 Abc", lines);
         Assert.Contains("(3006,002A) ROIDisplayColor IS 3 8 255\\0\\10", lines);
         Assert.Equal("(0002,0000) FileMetaInformationGroupLength UL 1 4 <DERIVED>", lines[0]);
+        Assert.Equal("(0002,0001) FileMetaInformationVersion OB 1 2 0001", lines[1]);
         Assert.Contains("(0028,0010) Rows US 1 2 512", lines);
     }
 

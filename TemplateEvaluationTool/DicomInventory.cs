@@ -104,7 +104,7 @@ namespace TemplateEvaluationTool
                 {
                     (string value, bool masked) = Value(element, masker);
                     string length = masked ? "*" : element.Buffer.Size.ToString(CultureInfo.InvariantCulture);
-                    string line = head + " " + element.Count.ToString(CultureInfo.InvariantCulture) + " " + length + " " + value;
+                    string line = head + " " + Multiplicity(element).ToString(CultureInfo.InvariantCulture) + " " + length + " " + value;
                     text.Append(line.TrimEnd()).Append('\n');
                 }
                 else
@@ -157,7 +157,7 @@ namespace TemplateEvaluationTool
                 return (string.Join("\\", element.Get<DicomTag[]>().Select(Format)), false);
             }
 
-            if (vr == DicomVR.OB || vr == DicomVR.OW || vr == DicomVR.OF || vr == DicomVR.OD || vr == DicomVR.OL || vr == DicomVR.OV || vr == DicomVR.UN)
+            if (IsBinary(vr))
             {
                 return (Hex(element.Buffer), false);
             }
@@ -180,6 +180,13 @@ namespace TemplateEvaluationTool
                 : throw new NotSupportedException("No inventory format for VR " + vr.Code + " at " + Format(element.Tag) + ".");
             return string.Join("\\", values.Select(v => v.ToString(null, CultureInfo.InvariantCulture)));
         }
+
+        /// <summary>The value multiplicity. fo-dicom counts the bytes or words of the binary VRs, whose VM is 1 (PS3.5 6.4).</summary>
+        private static int Multiplicity(DicomElement element)
+            => IsBinary(element.ValueRepresentation) ? (element.Buffer.Size == 0 ? 0 : 1) : element.Count;
+
+        private static bool IsBinary(DicomVR vr)
+            => vr == DicomVR.OB || vr == DicomVR.OW || vr == DicomVR.OF || vr == DicomVR.OD || vr == DicomVR.OL || vr == DicomVR.OV || vr == DicomVR.UN;
 
         private static string Hex(IByteBuffer buffer)
         {
