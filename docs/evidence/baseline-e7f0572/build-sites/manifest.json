@@ -1,0 +1,25 @@
+{
+  "tool": "TemplateEvaluationTool",
+  "toolVersion": "1.1.0+c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "command": "build-sites",
+  "arguments": [
+    "--snapshot",
+    "TemplateSnapshots/TG263.json",
+    "--naming",
+    "default",
+    "--data-dir",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/data",
+    "--out",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/sites"
+  ],
+  "gitSha": "c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "gitDirty": false,
+  "inputs": [
+    {
+      "role": "snapshot",
+      "path": "TemplateSnapshots/TG263.json",
+      "sha256": "059cd49e731fcc564ff36444ff7b9761fd43fd08ddae4448e7e383d51eac03c4"
+    }
+  ],
+  "createdUtc": "2026-10-15T18:42:31.8859693+00:00"
+}

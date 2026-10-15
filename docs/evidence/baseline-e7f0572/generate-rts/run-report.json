@@ -1,0 +1,1386 @@
+{
+  "sampleFilesCopied": 4,
+  "writtenCount": 53,
+  "hasFailures": false,
+  "errors": [],
+  "reports": [
+    {
+      "template": "AbdPelv_Anal",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Anal",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Anal_UIDUID#1.dcm",
+            "RoiCount": 22
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Bladder",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Bladder",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Bladder_UIDUID#1.dcm",
+            "RoiCount": 25
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Gyn",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Gyn",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Gyn_UIDUID#1.dcm",
+            "RoiCount": 19
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Liver",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Liver",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Liver_UIDUID#1.dcm",
+            "RoiCount": 33
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Pancreas",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Pancreas",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Pancreas_UIDUID#1.dcm",
+            "RoiCount": 27
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Paraaortic",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Paraaortic",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Paraaortic_UIDUID#1.dcm",
+            "RoiCount": 23
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_ProstBed",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_ProstBed",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_ProstBed_UIDUID#1.dcm",
+            "RoiCount": 23
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Prostate",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Prostate",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Prostate_UIDUID#1.dcm",
+            "RoiCount": 25
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Rectum",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Rectum",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Rectum_UIDUID#1.dcm",
+            "RoiCount": 21
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_RenalAdrenal",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_RenalAdrenal",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_RenalAdrenal_UIDUID#1.dcm",
+            "RoiCount": 25
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_RetroperitonealSpace",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_RetroperitonealSpace",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_RetroperitonealSpace_UIDUID#1.dcm",
+            "RoiCount": 22
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Spleen",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Spleen",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Spleen_UIDUID#1.dcm",
+            "RoiCount": 24
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "AbdPelv_Stomach",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "AbdPelv_Stomach",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/AbdPelv_Stomach_UIDUID#1.dcm",
+            "RoiCount": 28
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Brachy_Breast",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Brachy_Breast",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Brachy_Breast_UIDUID#1.dcm",
+            "RoiCount": 22
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Brachy_Endobronch",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Brachy_Endobronch",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Brachy_Endobronch_UIDUID#1.dcm",
+            "RoiCount": 9
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Brachy_Gyn",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Brachy_Gyn",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Brachy_Gyn_UIDUID#1.dcm",
+            "RoiCount": 24
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Brachy_Ocular",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Brachy_Ocular",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Brachy_Ocular_UIDUID#1.dcm",
+            "RoiCount": 22
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Brachy_Prostate",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Brachy_Prostate",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Brachy_Prostate_UIDUID#1.dcm",
+            "RoiCount": 29
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Brachy_Skin",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Brachy_Skin",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Brachy_Skin_UIDUID#1.dcm",
+            "RoiCount": 10
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "CNS_Brain",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "CNS_Brain",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/CNS_Brain_UIDUID#1.dcm",
+            "RoiCount": 34
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "CNS_Cervical",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "CNS_Cervical",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/CNS_Cervical_UIDUID#1.dcm",
+            "RoiCount": 18
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "CNS_Craniospinal",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "CNS_Craniospinal",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/CNS_Craniospinal_UIDUID#1.dcm",
+            "RoiCount": 36
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "CNS_Lumbar",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "CNS_Lumbar",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/CNS_Lumbar_UIDUID#1.dcm",
+            "RoiCount": 11
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "CNS_Sacral",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "CNS_Sacral",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/CNS_Sacral_UIDUID#1.dcm",
+            "RoiCount": 12
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "CNS_Thoracic",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "CNS_Thoracic",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/CNS_Thoracic_UIDUID#1.dcm",
+            "RoiCount": 14
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Extremities",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Extremities",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Extremities_UIDUID#1.dcm",
+            "RoiCount": 19
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_Face_Parotid",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_Face_Parotid",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_Face_Parotid_UIDUID#1.dcm",
+            "RoiCount": 35
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_LX_HPX_Thyroid",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_LX_HPX_Thyroid",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_LX_HPX_Thyroid_UIDUID#1.dcm",
+            "RoiCount": 35
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_Nasopharynx",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_Nasopharynx",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_Nasopharynx_UIDUID#1.dcm",
+            "RoiCount": 42
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_Neck",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_Neck",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_Neck_UIDUID#1.dcm",
+            "RoiCount": 32
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_Orbit",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_Orbit",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_Orbit_UIDUID#1.dcm",
+            "RoiCount": 31
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_Oropharynx",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_Oropharynx",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_Oropharynx_UIDUID#1.dcm",
+            "RoiCount": 40
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "H&N_Sinonasal",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "H&N_Sinonasal",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/H&N_Sinonasal_UIDUID#1.dcm",
+            "RoiCount": 33
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_AxillaSCN",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_AxillaSCN",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_AxillaSCN_UIDUID#1.dcm",
+            "RoiCount": 18
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_BreastPBI",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_BreastPBI",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_BreastPBI_UIDUID#1.dcm",
+            "RoiCount": 12
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_BreastRNI",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_BreastRNI",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_BreastRNI_UIDUID#1.dcm",
+            "RoiCount": 28
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_BreastWBI",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_BreastWBI",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_BreastWBI_UIDUID#1.dcm",
+            "RoiCount": 15
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_CWRNI",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_CWRNI",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_CWRNI_UIDUID#1.dcm",
+            "RoiCount": 26
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_Esoph",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_Esoph",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_Esoph_UIDUID#1.dcm",
+            "RoiCount": 25
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_Esoph_GEJ",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_Esoph_GEJ",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_Esoph_GEJ_UIDUID#1.dcm",
+            "RoiCount": 25
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_Esoph_S",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_Esoph_S",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_Esoph_S_UIDUID#1.dcm",
+            "RoiCount": 29
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_Lung",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_Lung",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_Lung_UIDUID#1.dcm",
+            "RoiCount": 28
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "Thorax_Mediastinum_Thymus",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "Thorax_Mediastinum_Thymus",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/Thorax_Mediastinum_Thymus_UIDUID#1.dcm",
+            "RoiCount": 23
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Miscellaneous",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Miscellaneous",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Miscellaneous_UIDUID#1.dcm",
+            "RoiCount": 8
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_1Level",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_1Level",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_1Level_UIDUID#1.dcm",
+            "RoiCount": 8
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_2Levels",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_2Levels",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_2Levels_UIDUID#1.dcm",
+            "RoiCount": 10
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_3Levels",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_3Levels",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_3Levels_UIDUID#1.dcm",
+            "RoiCount": 12
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_4Levels",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_4Levels",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_4Levels_UIDUID#1.dcm",
+            "RoiCount": 14
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_Basic",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_Basic",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_Basic_UIDUID#1.dcm",
+            "RoiCount": 17
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_Breast",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_Breast",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_Breast_UIDUID#1.dcm",
+            "RoiCount": 13
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_CW",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_CW",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_CW_UIDUID#1.dcm",
+            "RoiCount": 13
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_Details",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_Details",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_Details_UIDUID#1.dcm",
+            "RoiCount": 23
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    },
+    {
+      "template": "_Targets_RNI",
+      "report": {
+        "StartedAt": "<DATETIME>",
+        "Duration": "<DURATION>",
+        "Written": [
+          {
+            "TemplateName": "_Targets_RNI",
+            "Directory": "<out>/series",
+            "SeriesInstanceUid": "UID#1",
+            "Path": "<out>/series/_Targets_RNI_UIDUID#1.dcm",
+            "RoiCount": 6
+          }
+        ],
+        "Skipped": [],
+        "RoiFailures": [],
+        "Errors": [],
+        "WrittenCount": 1,
+        "RoiFailureCount": 0,
+        "ErrorCount": 0,
+        "WaitingCount": 0,
+        "BackingOffCount": 0,
+        "HasErrors": false,
+        "Summary": "1 RT(s) written, 0 ROI failure(s), 0 error(s), 0 folder(s) waiting"
+      }
+    }
+  ]
+}

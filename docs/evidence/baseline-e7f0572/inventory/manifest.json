@@ -1,0 +1,287 @@
+{
+  "tool": "TemplateEvaluationTool",
+  "toolVersion": "1.1.0+c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "command": "inventory",
+  "arguments": [
+    "--in",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/rt",
+    "--out",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/inventory"
+  ],
+  "gitSha": "c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "gitDirty": false,
+  "inputs": [
+    {
+      "role": "rt",
+      "path": "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/rt",
+      "files": [
+        {
+          "path": "series/AbdPelv_Anal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "1e810771abbbc91400508fb8ddd4753ef1746d0d927c0b3e06fd92e9292e07c7",
+          "inventory": "AbdPelv_Anal.txt"
+        },
+        {
+          "path": "series/AbdPelv_Bladder_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "a3a2f3c41dbb6f23be690e711a43764606ea7857aa5a8c02b8795f1f3e5b7ae0",
+          "inventory": "AbdPelv_Bladder.txt"
+        },
+        {
+          "path": "series/AbdPelv_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "9ba5a50358f5b2f60d60c685764f1443728807e9caa7c23ed75faf41f072fbe5",
+          "inventory": "AbdPelv_Gyn.txt"
+        },
+        {
+          "path": "series/AbdPelv_Liver_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ed72a7d74d2d06622b7b11cfb5fd81f29438109ee0b0efec0ccc1cd415ce3e1a",
+          "inventory": "AbdPelv_Liver.txt"
+        },
+        {
+          "path": "series/AbdPelv_Pancreas_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "d5649f9db3a63ac04f41abaed58882425c981a71ca561ed131a619b2d1a451de",
+          "inventory": "AbdPelv_Pancreas.txt"
+        },
+        {
+          "path": "series/AbdPelv_Paraaortic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "17bfd0fff43539568fd328d766c0598ac407c4f1c9f6a9646a373d6879de9ea8",
+          "inventory": "AbdPelv_Paraaortic.txt"
+        },
+        {
+          "path": "series/AbdPelv_ProstBed_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "7e66ccfbda8d97539b519e6d273a5268c88f36f85bf8f5dfdea080d11f607ab4",
+          "inventory": "AbdPelv_ProstBed.txt"
+        },
+        {
+          "path": "series/AbdPelv_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "340c747e49f092564bc19ef258ebe8f8388c9d2699feebf3b1771e6ac294cb84",
+          "inventory": "AbdPelv_Prostate.txt"
+        },
+        {
+          "path": "series/AbdPelv_Rectum_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "8561b16a9eac44f5c138af8f67d7a3fbdfff1a012e4d6dae43e9648e78dc3259",
+          "inventory": "AbdPelv_Rectum.txt"
+        },
+        {
+          "path": "series/AbdPelv_RenalAdrenal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "cb21a28225e4041f211d60ee56d7d2f80fcc9bc6d0b4411c0cff6717baeb611f",
+          "inventory": "AbdPelv_RenalAdrenal.txt"
+        },
+        {
+          "path": "series/AbdPelv_RetroperitonealSpace_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ff087eda867476540b7026ee79a2350552de011ee8bea2e4555089f131cdd343",
+          "inventory": "AbdPelv_RetroperitonealSpace.txt"
+        },
+        {
+          "path": "series/AbdPelv_Spleen_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "5c32d6899e6cbeb31594dc014f1b0f5e7b9bae9e5d6e59eeadd0717a3fe8ba8a",
+          "inventory": "AbdPelv_Spleen.txt"
+        },
+        {
+          "path": "series/AbdPelv_Stomach_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "3292853f10a229ad6ae31b70907691cdaabbda3847c7a54b2930912b4484b191",
+          "inventory": "AbdPelv_Stomach.txt"
+        },
+        {
+          "path": "series/Brachy_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "f95a406564dee0bd12c844f24da47b70bd09dec413d46ecd4d5cb99529d82965",
+          "inventory": "Brachy_Breast.txt"
+        },
+        {
+          "path": "series/Brachy_Endobronch_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "9297dc9719a0bbc3238fcc9b18974b5ba6ba41295488477d44ed491592de5dd3",
+          "inventory": "Brachy_Endobronch.txt"
+        },
+        {
+          "path": "series/Brachy_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "09f8867c160e7e0483445b272f881f6431619fa75a3b1cb2d7c6d7d0520c65bb",
+          "inventory": "Brachy_Gyn.txt"
+        },
+        {
+          "path": "series/Brachy_Ocular_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ed6f7059c66fba1c053c049645f42064146d2c64cd3ebad19320f286df68a984",
+          "inventory": "Brachy_Ocular.txt"
+        },
+        {
+          "path": "series/Brachy_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "73f0203f84b3a38cc376420a39880a48d8a97bf6fdd1c5b8f0c5e1895701e420",
+          "inventory": "Brachy_Prostate.txt"
+        },
+        {
+          "path": "series/Brachy_Skin_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "a3cf94eb214c9025b3eb83bd9ee278ff8b59af7eef260c5192952bc093afe991",
+          "inventory": "Brachy_Skin.txt"
+        },
+        {
+          "path": "series/CNS_Brain_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "7aa6b7a26dc633ea37ea29cc44bcc1b32b109a8f5f2a197029c3ec7791181d4c",
+          "inventory": "CNS_Brain.txt"
+        },
+        {
+          "path": "series/CNS_Cervical_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ff9f7baf04411b55832cbcda4da22c4fa831b213a7a2beeb6c4a4eaf80a138f4",
+          "inventory": "CNS_Cervical.txt"
+        },
+        {
+          "path": "series/CNS_Craniospinal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "e4b05d6726b60d9d4a2cd418162c59d6553dd4fb6eeff766ef996fee7c6d8fa1",
+          "inventory": "CNS_Craniospinal.txt"
+        },
+        {
+          "path": "series/CNS_Lumbar_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "2dd8711b1285187ae9a7b810ee37f2cfe5c7214dcce528909b96fafb4551cef5",
+          "inventory": "CNS_Lumbar.txt"
+        },
+        {
+          "path": "series/CNS_Sacral_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "60265fb292b80b55879cd09aa32e6adff00132391dc9df13ef52ee187fff9992",
+          "inventory": "CNS_Sacral.txt"
+        },
+        {
+          "path": "series/CNS_Thoracic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "b2ac8a69563d45bc36f48d1d1b8b1a4b276128259fe721d137a940232d83e666",
+          "inventory": "CNS_Thoracic.txt"
+        },
+        {
+          "path": "series/Extremities_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "9499dec311c9996c0cac9239ac3b31e35074fc7cee2ad40b9aba28c090aecce1",
+          "inventory": "Extremities.txt"
+        },
+        {
+          "path": "series/H&N_Face_Parotid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "47394c578070e6ee0ac4d1fbd8994e74a2ba7affea8b8e41dd8b0f9ee12b67d3",
+          "inventory": "H&N_Face_Parotid.txt"
+        },
+        {
+          "path": "series/H&N_LX_HPX_Thyroid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "d2b47b7faea35a8955fbe762fd88a3a9aca2f9fe25f40d4b6db5e9a7352663a8",
+          "inventory": "H&N_LX_HPX_Thyroid.txt"
+        },
+        {
+          "path": "series/H&N_Nasopharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "355fb9c464609bc0d6afbce7bd6465c2c3d4b62073437d04be527f810ad2b1f8",
+          "inventory": "H&N_Nasopharynx.txt"
+        },
+        {
+          "path": "series/H&N_Neck_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "c6a9798f862c965fb4cbed574ecd7efcb5083dce99d19a49d793ae9a8fc15a9e",
+          "inventory": "H&N_Neck.txt"
+        },
+        {
+          "path": "series/H&N_Orbit_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "45f30399f446825642a1c6fdb1534fc81bc99b5938074103f99f009afd6378ac",
+          "inventory": "H&N_Orbit.txt"
+        },
+        {
+          "path": "series/H&N_Oropharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "a164929eede0a227bea25fb9b9eff9b95c19483f38dca2ffc46b05de783e38f5",
+          "inventory": "H&N_Oropharynx.txt"
+        },
+        {
+          "path": "series/H&N_Sinonasal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "f54c2d19adb147a0103b75cd4911308cab45b369468c57656ab80098c20b9f70",
+          "inventory": "H&N_Sinonasal.txt"
+        },
+        {
+          "path": "series/Thorax_AxillaSCN_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "9ee7fc5f045939bcb849570e6eaf75f6d4365cde6bd91531048d6056197bf288",
+          "inventory": "Thorax_AxillaSCN.txt"
+        },
+        {
+          "path": "series/Thorax_BreastPBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "82fbc552b74d17811f62a80530de9d3a58d360225879efb453a0fa3dc4b546fb",
+          "inventory": "Thorax_BreastPBI.txt"
+        },
+        {
+          "path": "series/Thorax_BreastRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "639beb7dcb1fbf34bcfc10e33c777e337090d5611d3e25f967c5d31d0119db20",
+          "inventory": "Thorax_BreastRNI.txt"
+        },
+        {
+          "path": "series/Thorax_BreastWBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "395e0fac99cf4f73b81735269df81d1be1f0fa417c59f927fcfe6ba7ae2cd607",
+          "inventory": "Thorax_BreastWBI.txt"
+        },
+        {
+          "path": "series/Thorax_CWRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "748a5703a7f70cc6008c61b83038dfcc4a7f3803d74f02013d2362304700b9ff",
+          "inventory": "Thorax_CWRNI.txt"
+        },
+        {
+          "path": "series/Thorax_Esoph_GEJ_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ad96296de79c9b7be71acf02eee95d61f9414293d9447382442e6659d40b8e2d",
+          "inventory": "Thorax_Esoph_GEJ.txt"
+        },
+        {
+          "path": "series/Thorax_Esoph_S_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "eef3561d87c5cfb0adb5a75ef84703299d8089a0744ea505cefcb66b1724f431",
+          "inventory": "Thorax_Esoph_S.txt"
+        },
+        {
+          "path": "series/Thorax_Esoph_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "e9a327064357cf1cdf78e50b9eafc8247a111497e31699aa168068ce7aa0f352",
+          "inventory": "Thorax_Esoph.txt"
+        },
+        {
+          "path": "series/Thorax_Lung_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "4fd473b655315759afd8d1355ec515cf542f2c8b4a63027c34bcb61d4a9f478c",
+          "inventory": "Thorax_Lung.txt"
+        },
+        {
+          "path": "series/Thorax_Mediastinum_Thymus_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "79927c9f6ec4a9d7c6d9c8bde04b809fb0237074c1d800d340da1518dc0771ae",
+          "inventory": "Thorax_Mediastinum_Thymus.txt"
+        },
+        {
+          "path": "series/_Miscellaneous_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "b89749f8b815c598515afc361ad9c96aed69e5c71735a87eeb44af90ea145ab0",
+          "inventory": "_Miscellaneous.txt"
+        },
+        {
+          "path": "series/_Targets_1Level_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "d864d9f5521ab1e2f4240978f02219da44f2b5230cdc023f85b26b93e402d601",
+          "inventory": "_Targets_1Level.txt"
+        },
+        {
+          "path": "series/_Targets_2Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "38ec9cb39455a042419cd49084971d4ce9cb0f861c6f6d90cc1ddf66e525445e",
+          "inventory": "_Targets_2Levels.txt"
+        },
+        {
+          "path": "series/_Targets_3Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "dda62df9601e5694831633e647415ed290b58117eeb5603a88ef675a5e059043",
+          "inventory": "_Targets_3Levels.txt"
+        },
+        {
+          "path": "series/_Targets_4Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ad38befe8747cb7a80226bbba3b82c633ebf8951305df883fd40ae290ed93126",
+          "inventory": "_Targets_4Levels.txt"
+        },
+        {
+          "path": "series/_Targets_Basic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "384376e14b4d23cb1effb0f678ade06f02f7add6cbc64c9f5401a59ab2e0a51f",
+          "inventory": "_Targets_Basic.txt"
+        },
+        {
+          "path": "series/_Targets_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "ace27668cfc6984bbabae2dae0e7abbf64a2a3c02569f381dce64c7ba63d0197",
+          "inventory": "_Targets_Breast.txt"
+        },
+        {
+          "path": "series/_Targets_CW_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "cab811a4013cfdfb5634e3955a0b5ca637d78a5bc9900054d52d91c2d68b14b9",
+          "inventory": "_Targets_CW.txt"
+        },
+        {
+          "path": "series/_Targets_Details_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "c332ff7592ec6e974e04ec98eaf4fcfd23c9965857a2d8a7f674161e1260e835",
+          "inventory": "_Targets_Details.txt"
+        },
+        {
+          "path": "series/_Targets_RNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+          "sha256": "72c14a2ffd7687e6c63a7d265d4003ddbd3bec6731f491e548d8b0f87aaece8e",
+          "inventory": "_Targets_RNI.txt"
+        }
+      ]
+    }
+  ],
+  "createdUtc": "2026-10-15T18:42:33.1494826+00:00"
+}

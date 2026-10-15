@@ -1,0 +1,695 @@
+{
+  "tool": "TemplateEvaluationTool",
+  "toolVersion": "1.1.0+c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "command": "generate-rts",
+  "arguments": [
+    "--sites",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/sites",
+    "--images",
+    "DicomTemplateMakerGUI/SmallCT",
+    "--out",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/rt"
+  ],
+  "gitSha": "c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "gitDirty": false,
+  "inputs": [
+    {
+      "role": "sites",
+      "path": "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/sites",
+      "files": [
+        {
+          "path": "AbdPelv_Anal/All_ROIs.json",
+          "sha256": "94740a6260a5ec2d08dd10ded078fb60b4be22559c30e92880d8a3f55a43e757"
+        },
+        {
+          "path": "AbdPelv_Anal/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Anal/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Bladder/All_ROIs.json",
+          "sha256": "9e96b1e369acc3435954efa22c1505ade0fc31ae86bf017735c577eb8ee3536e"
+        },
+        {
+          "path": "AbdPelv_Bladder/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Bladder/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Gyn/All_ROIs.json",
+          "sha256": "4b9885f663076bfec16a7ef6f671ec4ada4b63111016716f7ad1a601a36c79d8"
+        },
+        {
+          "path": "AbdPelv_Gyn/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Gyn/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Liver/All_ROIs.json",
+          "sha256": "092a2af5f789a5bd1ab7ebff30675c251fb04dba0c9430dd86b478bba5e24dfd"
+        },
+        {
+          "path": "AbdPelv_Liver/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Liver/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Pancreas/All_ROIs.json",
+          "sha256": "1cd1650d0d784f53e3d87ab16c03e35017337bee13bd124c2a350d282c303911"
+        },
+        {
+          "path": "AbdPelv_Pancreas/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Pancreas/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Paraaortic/All_ROIs.json",
+          "sha256": "2fc07dc32389761e56cecc24664f04a102416ba24c9c78b34f17fcabf3eca487"
+        },
+        {
+          "path": "AbdPelv_Paraaortic/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Paraaortic/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_ProstBed/All_ROIs.json",
+          "sha256": "23618644aec9062c306ba77f9801030c3603abbfd03e5f0f8457c7924eded88a"
+        },
+        {
+          "path": "AbdPelv_ProstBed/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_ProstBed/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Prostate/All_ROIs.json",
+          "sha256": "453800e2eeb7c84d8d33dd7a0db8ba098d5a77c99d074384166e54c60fca57df"
+        },
+        {
+          "path": "AbdPelv_Prostate/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Prostate/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Rectum/All_ROIs.json",
+          "sha256": "71c5e83c51dabd291f597c32bae9ce828e3eb37c9c219d741092e06ff5b7e18b"
+        },
+        {
+          "path": "AbdPelv_Rectum/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Rectum/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_RenalAdrenal/All_ROIs.json",
+          "sha256": "fe6f19bdb9c5bae269d6a5090f8fe9dc8f2e808e4d3e026e77ea9f7e9dbf8b25"
+        },
+        {
+          "path": "AbdPelv_RenalAdrenal/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_RenalAdrenal/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_RetroperitonealSpace/All_ROIs.json",
+          "sha256": "1823f71432ae94e5ad092df32e43460a33754157f604f6eda1b02f36cdd8d36c"
+        },
+        {
+          "path": "AbdPelv_RetroperitonealSpace/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_RetroperitonealSpace/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Spleen/All_ROIs.json",
+          "sha256": "a28db9aba593adc2442216f8badab3848311056332d3d6617ac7a932a732acf1"
+        },
+        {
+          "path": "AbdPelv_Spleen/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Spleen/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Stomach/All_ROIs.json",
+          "sha256": "10fcb9ce31570a9f2af2f4368123097948422f7250ee72513580de4da74c1f8e"
+        },
+        {
+          "path": "AbdPelv_Stomach/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "AbdPelv_Stomach/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Breast/All_ROIs.json",
+          "sha256": "27a74c009a7e89bbf7c30f999441a16f0ec2b639db1d1e86fd1ea3bb7b2887b8"
+        },
+        {
+          "path": "Brachy_Breast/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Breast/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Endobronch/All_ROIs.json",
+          "sha256": "4307f962892fe99ab9e087617fbadaa307fb74130f140b829d681ac29b7aaca4"
+        },
+        {
+          "path": "Brachy_Endobronch/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Endobronch/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Gyn/All_ROIs.json",
+          "sha256": "3e185e163104cdcbda291d1389316c8fa71b941f69c058e30ed51c15ced90fc3"
+        },
+        {
+          "path": "Brachy_Gyn/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Gyn/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Ocular/All_ROIs.json",
+          "sha256": "1af4bd097209056081335740cc8077d4a483b0191fb6d6bbe43c7b05779a0a22"
+        },
+        {
+          "path": "Brachy_Ocular/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Ocular/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Prostate/All_ROIs.json",
+          "sha256": "4a89d84eab73ff3ff7d1d96585e0171dd16b5a84c8be4affbce5b4631c998e27"
+        },
+        {
+          "path": "Brachy_Prostate/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Prostate/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Skin/All_ROIs.json",
+          "sha256": "da6ca8f5ad395bec36d02ba7a3124bfecf30d2cf0d9d9c79e9d0f896d0c326b6"
+        },
+        {
+          "path": "Brachy_Skin/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Brachy_Skin/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Brain/All_ROIs.json",
+          "sha256": "d8e48cf6bd87d0d2e61e7c53f162472eb6c0907bb9c9aefb179566881c6c8362"
+        },
+        {
+          "path": "CNS_Brain/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Brain/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Cervical/All_ROIs.json",
+          "sha256": "f123b796226f357aa265f79cb5fa4b4c434434e4dcf477666ecb5f1c0729f3c0"
+        },
+        {
+          "path": "CNS_Cervical/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Cervical/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Craniospinal/All_ROIs.json",
+          "sha256": "40cf2382ec403369ef270c46308c5898dfec28fa9b307fbd3fab9c00c31ef005"
+        },
+        {
+          "path": "CNS_Craniospinal/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Craniospinal/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Lumbar/All_ROIs.json",
+          "sha256": "27a3fcbe3350084de52b0fc86539b7cc5f3752369a152f50fafa1b533fd6e635"
+        },
+        {
+          "path": "CNS_Lumbar/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Lumbar/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Sacral/All_ROIs.json",
+          "sha256": "f48123fc1885446434f52ef79f3513a7363f55b38b9dba837b5f760b33d0ac4d"
+        },
+        {
+          "path": "CNS_Sacral/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Sacral/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Thoracic/All_ROIs.json",
+          "sha256": "fc1f1e2b25c099080a04c728b9a7d9d2ecae3794e53cac9decfe11dfbf5bc53a"
+        },
+        {
+          "path": "CNS_Thoracic/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "CNS_Thoracic/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Extremities/All_ROIs.json",
+          "sha256": "a499d2ad984b1fb5e2d5eecf514c18d3fdcd69fb0eb36e854f1e6164fe6626b8"
+        },
+        {
+          "path": "Extremities/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Extremities/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Face_Parotid/All_ROIs.json",
+          "sha256": "0ab63485311589faffafb73c30ab92bda67ea7ea909a29ad673ef9030a7a3fcf"
+        },
+        {
+          "path": "H&N_Face_Parotid/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Face_Parotid/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_LX_HPX_Thyroid/All_ROIs.json",
+          "sha256": "9ac4892794e8ca2687f4b9b781105c8099d5712bbf0189c03ef8ecad14df02ac"
+        },
+        {
+          "path": "H&N_LX_HPX_Thyroid/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_LX_HPX_Thyroid/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Nasopharynx/All_ROIs.json",
+          "sha256": "cc0557e0c9fadb85f2cc7be49788c0eba3c3533317ca5b989e4431cdb3f5378f"
+        },
+        {
+          "path": "H&N_Nasopharynx/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Nasopharynx/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Neck/All_ROIs.json",
+          "sha256": "e19b7d6304e0664962ae5cae0dad1fb82a58014acbba4f33f8ae363075c31e1c"
+        },
+        {
+          "path": "H&N_Neck/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Neck/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Orbit/All_ROIs.json",
+          "sha256": "f1b8c0fffde707b474bcd3d36a86fcd3c0d0dd53f304c35ed2f78c0017b6c621"
+        },
+        {
+          "path": "H&N_Orbit/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Orbit/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Oropharynx/All_ROIs.json",
+          "sha256": "022c3ed43d160a22938b509505ed90db6eefe7eca4fd2d8d5f5fd31dab3e173f"
+        },
+        {
+          "path": "H&N_Oropharynx/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Oropharynx/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Sinonasal/All_ROIs.json",
+          "sha256": "44e130d00db94e63ce4a10934c27dc1dce6821c530f3baaed83a4ea6d74ca1b7"
+        },
+        {
+          "path": "H&N_Sinonasal/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "H&N_Sinonasal/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_AxillaSCN/All_ROIs.json",
+          "sha256": "56ab0ef270c47c814953e098155e7cf7b6e6d2336054861e69d10599a114da97"
+        },
+        {
+          "path": "Thorax_AxillaSCN/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_AxillaSCN/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_BreastPBI/All_ROIs.json",
+          "sha256": "de267ee8492b3b8e61cc08a07a04a43cd99d6830201c6583d4f22290c3e39f5a"
+        },
+        {
+          "path": "Thorax_BreastPBI/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_BreastPBI/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_BreastRNI/All_ROIs.json",
+          "sha256": "5c9f1e9f378c36ccf4c15cd17296b90713964d4f2626fa1ef586c226a515cebd"
+        },
+        {
+          "path": "Thorax_BreastRNI/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_BreastRNI/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_BreastWBI/All_ROIs.json",
+          "sha256": "086ddd8239e4ca605dcd2f3b2fa4558e9d79ddf631263d53f475cc1f285d0b4c"
+        },
+        {
+          "path": "Thorax_BreastWBI/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_BreastWBI/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_CWRNI/All_ROIs.json",
+          "sha256": "5ec799896544dd94eef660e80e14ba969101d032756bd592dee2a887388d87e1"
+        },
+        {
+          "path": "Thorax_CWRNI/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_CWRNI/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Esoph/All_ROIs.json",
+          "sha256": "806461000b0e19bb86ba756f836089b5a9422b7f8d826120dd740a9312dde0f5"
+        },
+        {
+          "path": "Thorax_Esoph/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Esoph/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Esoph_GEJ/All_ROIs.json",
+          "sha256": "d8d3aa8cb7deaf45940a50b01f7a4343ee8879f80f1390b4aacf7b4048a134b1"
+        },
+        {
+          "path": "Thorax_Esoph_GEJ/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Esoph_GEJ/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Esoph_S/All_ROIs.json",
+          "sha256": "18fbb26cc3ac76e3df4df6809283fac6c97f76ce6209b6cd67fb613e4b0d83bd"
+        },
+        {
+          "path": "Thorax_Esoph_S/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Esoph_S/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Lung/All_ROIs.json",
+          "sha256": "daa1deb6f6b7c0b01043435802b87d146f64cef52baf851963a1025da709d69f"
+        },
+        {
+          "path": "Thorax_Lung/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Lung/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Mediastinum_Thymus/All_ROIs.json",
+          "sha256": "60c92e46e1f7a0c5bbe204f582edccc156a1a1c1c028415bd55a054fc07bee02"
+        },
+        {
+          "path": "Thorax_Mediastinum_Thymus/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "Thorax_Mediastinum_Thymus/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Miscellaneous/All_ROIs.json",
+          "sha256": "19cac34a509e4bf5ace125e474b9c3f176f5c145a598fed521ede21165d81f29"
+        },
+        {
+          "path": "_Miscellaneous/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Miscellaneous/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_1Level/All_ROIs.json",
+          "sha256": "703ad20d3c3027b9298626d10e584bb0c4af4b13137e30217ced21075dc13f71"
+        },
+        {
+          "path": "_Targets_1Level/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_1Level/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_2Levels/All_ROIs.json",
+          "sha256": "3a5238941f16952c96d9142db035553043bb2be92695fbe905bee151767602d2"
+        },
+        {
+          "path": "_Targets_2Levels/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_2Levels/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_3Levels/All_ROIs.json",
+          "sha256": "4f9ea440d531aaf57b4e43afaff39685fa1a0791a40d3f3c9b8ec5577170777e"
+        },
+        {
+          "path": "_Targets_3Levels/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_3Levels/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_4Levels/All_ROIs.json",
+          "sha256": "23c283aadf16b3e86ff14c57233966caa18a4588e6fd8184e2b31ace4f5f8881"
+        },
+        {
+          "path": "_Targets_4Levels/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_4Levels/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_Basic/All_ROIs.json",
+          "sha256": "1769ef30217835b8c7c83c11aad556e4a679351e888ea6d535924e24ee3fc004"
+        },
+        {
+          "path": "_Targets_Basic/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_Basic/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_Breast/All_ROIs.json",
+          "sha256": "f197a16d41ccae5a7be4207eef6dd2c8d49c1f6c49275a16ef5c54f0196f9886"
+        },
+        {
+          "path": "_Targets_Breast/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_Breast/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_CW/All_ROIs.json",
+          "sha256": "1f6695bb3ab6ce343413f1cbaf39411603102a0ad73aa9132621d04708cc9a41"
+        },
+        {
+          "path": "_Targets_CW/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_CW/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_Details/All_ROIs.json",
+          "sha256": "cb12e7f268b65b8b8e48374326e05b928fe98f082ea0b88cc4c838f03419b98c"
+        },
+        {
+          "path": "_Targets_Details/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_Details/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_RNI/All_ROIs.json",
+          "sha256": "891cabe5f427b1bb488d31b73e3d3e87196bdde3615283f49dd6c64d5d90c570"
+        },
+        {
+          "path": "_Targets_RNI/DicomTags.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "_Targets_RNI/Paths.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "build-warnings.json",
+          "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+        },
+        {
+          "path": "sites.json",
+          "sha256": "f5d6361fefe641c3c6bf40b55b11fef8f9fec582880d2d6a7fcdad9114bae223"
+        }
+      ]
+    },
+    {
+      "role": "images",
+      "path": "DicomTemplateMakerGUI/SmallCT",
+      "files": [
+        {
+          "path": "vhm.1001.dcm",
+          "sha256": "f9a61a1ee5edea23b771343d57040b29c8bf2b230bd0712d86a1e53b64217cf5"
+        },
+        {
+          "path": "vhm.1002.dcm",
+          "sha256": "451c536b2ba98ac1b7fa497f7cca820f706f76d3eb9e8daf07dae8fb1cb432ff"
+        },
+        {
+          "path": "vhm.1003.dcm",
+          "sha256": "be05cab76fd255e8b57ea557b3de968dfc67eb633436667a633028a69e20975d"
+        },
+        {
+          "path": "vhm.1004.dcm",
+          "sha256": "49c53ba03d1c88576b8ca1e7c4f3850144d1e1c8856bb88f61e29c50001fde60"
+        }
+      ]
+    },
+    {
+      "role": "template-rs",
+      "path": "DicomTemplateMakerGUI/template_RS.dcm",
+      "sha256": "22402e0ee49e116e6437ffa6bf1d8b8e32400e2d0b2b0ea39cc0761e6abc6ed6"
+    }
+  ],
+  "createdUtc": "2026-10-15T18:42:32.7246501+00:00"
+}
