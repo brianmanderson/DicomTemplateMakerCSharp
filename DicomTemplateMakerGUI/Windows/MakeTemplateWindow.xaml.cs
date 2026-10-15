@@ -487,7 +487,7 @@ namespace DicomTemplateMakerGUI.Windows
                 }
 
                 int before = template_maker.ROIs.Count;
-                if (!RtStructureSetFile.TryInterpret(template_maker, picked, out string? error))
+                if (!RtStructureSetFile.TryInterpret(template_maker, picked, out string? error, out IReadOnlyList<string> skipped))
                 {
                     logger.LogWarning("Could not add ROIs from {File}: {Error}", picked, error);
                     MessageBox.Show(this, error ?? "The file could not be read.", title, MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -496,6 +496,10 @@ namespace DicomTemplateMakerGUI.Windows
 
                 int added = template_maker.ROIs.Count - before;
                 logger.LogInformation("Added {Count} ROI(s) from {File} to template {Template}.", added, picked, TemplateName);
+                foreach (string reason in skipped)
+                {
+                    logger.LogWarning("Skipped an ROI of {File}: {Reason}", picked, reason);
+                }
                 if (added > 0)
                 {
                     MarkChanged();
@@ -503,8 +507,9 @@ namespace DicomTemplateMakerGUI.Windows
 
                 add_roi_rows();
                 UpdateAddRoiState();
-                MessageBox.Show(this, added == 0 ? "The file's ROIs are all in the template already." : (added == 1 ? "1 ROI was added." : added + " ROIs were added.") + " Save the template to keep them.",
-                    title, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(this, (added == 0 ? "The file's ROIs are all in the template already." : (added == 1 ? "1 ROI was added." : added + " ROIs were added.") + " Save the template to keep them.")
+                    + RtStructureSetFile.DescribeSkipped(skipped),
+                    title, MessageBoxButton.OK, skipped.Count == 0 ? MessageBoxImage.Information : MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {

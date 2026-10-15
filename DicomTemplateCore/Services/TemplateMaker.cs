@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using FellowOakDicom;
+using DicomTemplateMakerGUI.DicomTemplateServices;
 using ROIOntologyClass;
 
 namespace DicomTemplateMakerGUI.Services
@@ -43,7 +44,8 @@ namespace DicomTemplateMakerGUI.Services
         public List<string> Paths;
         public Dictionary<string, List<string>> DicomTags = new Dictionary<string, List<string>>();
         public string? output;
-        public Dictionary<int, string>? color_dict, interp_dict, name_dict, code_meaning_dict, code_value_dict,
+        public Dictionary<int, string>? color_dict, name_dict;
+        public Dictionary<int, string?>? interp_dict, code_meaning_dict, code_value_dict,
             coding_scheme_designator_dict, context_group_version_dict, context_identifier_dict, context_uid_dict, mapping_resource_dict,
             mapping_resource_name_dict, mapping_resourceUID_dict;
         DicomFile? RT_file;
@@ -51,6 +53,10 @@ namespace DicomTemplateMakerGUI.Services
         /// Legacy files that categorize_folder could not migrate; they were kept on disk. One line per file.
         /// </summary>
         public List<string> LoadWarnings { get; } = new List<string>();
+        /// <summary>
+        /// ROIs of the RT that the last interpret_RT call could not read, with the reason. One line per ROI.
+        /// </summary>
+        public List<string> SkippedRois { get; } = new List<string>();
         private const string PathsFileName = "Paths.txt";
         private const string DicomTagsFileName = "DicomTags.txt";
         // The folder whose Paths.txt and DicomTags.txt Paths and DicomTags came from or were last saved to. There,
@@ -78,105 +84,161 @@ namespace DicomTemplateMakerGUI.Services
         {
             return folder ?? throw new InvalidOperationException(setter + " has not been called on this TemplateMaker.");
         }
-        public void interpret_RT(string dicom_file)
+        /// <summary>
+        /// Adds the ROIs of the RT Structure Set <paramref name="dicom_file"/> to ROIs (an ROI whose name is already
+        /// there is kept as it is) and their codes to Ontologies. A code is shared with the Ontologies entry of the same
+        /// meaning, value and scheme, never with an entry that only has the same value (see <see cref="SameCode"/>).
+        /// <para>An ROI that cannot be read whole is skipped and listed in <see cref="SkippedRois"/> with the reason:
+        /// no name, no display colour, no RT ROI Observations item, or no complete code (Code Value, Coding Scheme
+        /// Designator and Code Meaning). The context and mapping attributes of a code are optional.</para>
+        /// </summary>
+        /// <returns>The number of ROIs read, including those whose name was already in ROIs.</returns>
+        public int interpret_RT(string dicom_file)
         {
             color_dict = new Dictionary<int, string>();
-            interp_dict = new Dictionary<int, string>();
+            interp_dict = new Dictionary<int, string?>();
             name_dict = new Dictionary<int, string>();
-            code_meaning_dict = new Dictionary<int, string>();
-            code_value_dict = new Dictionary<int, string>();
-            coding_scheme_designator_dict = new Dictionary<int, string>();
-            context_group_version_dict = new Dictionary<int, string>();
-            context_identifier_dict = new Dictionary<int, string>();
-            context_uid_dict = new Dictionary<int, string>();
-            mapping_resource_dict = new Dictionary<int, string>();
-            mapping_resource_name_dict = new Dictionary<int, string>();
-            mapping_resourceUID_dict = new Dictionary<int, string>();
+            code_meaning_dict = new Dictionary<int, string?>();
+            code_value_dict = new Dictionary<int, string?>();
+            coding_scheme_designator_dict = new Dictionary<int, string?>();
+            context_group_version_dict = new Dictionary<int, string?>();
+            context_identifier_dict = new Dictionary<int, string?>();
+            context_uid_dict = new Dictionary<int, string?>();
+            mapping_resource_dict = new Dictionary<int, string?>();
+            mapping_resource_name_dict = new Dictionary<int, string?>();
+            mapping_resourceUID_dict = new Dictionary<int, string?>();
+            SkippedRois.Clear();
             RT_file = DicomFile.Open(dicom_file, FileReadOption.ReadAll);
-            foreach (DicomDataset rt_contour in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.ROIContourSequence))
+            foreach (DicomDataset rt_contour in Items(RT_file.Dataset, DicomTag.ROIContourSequence))
             {
-                int roi_number = rt_contour.GetSingleValue<int>(DicomTag.ReferencedROINumber);
-                string color = rt_contour.GetString(DicomTag.ROIDisplayColor);
-                color_dict.Add(roi_number, color);
-            }
-            foreach (DicomDataset rt_observation in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.RTROIObservationsSequence))
-            {
-                int ref_number = rt_observation.GetSingleValue<int>(DicomTag.ReferencedROINumber);
-                string interp = rt_observation.GetString(DicomTag.RTROIInterpretedType);
-                interp_dict.Add(ref_number, interp);
-                DicomSequence rt_roi_identification_sequence = rt_observation.GetDicomItem<DicomSequence>(DicomTag.RTROIIdentificationCodeSequence);
-                if (rt_roi_identification_sequence != null)
+                if (!rt_contour.TryGetSingleValue(DicomTag.ReferencedROINumber, out int roi_number))
                 {
-                    foreach (DicomDataset rt_ident in rt_roi_identification_sequence)
-                    {
-                        code_meaning_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeMeaning));
-                        code_value_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodeValue));
-                        coding_scheme_designator_dict.Add(ref_number, rt_ident.GetString(DicomTag.CodingSchemeDesignator));
-                        context_group_version_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextGroupVersion));
-                        context_identifier_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextIdentifier));
-                        context_uid_dict.Add(ref_number, rt_ident.GetString(DicomTag.ContextUID));
-                        mapping_resource_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResource));
-                        mapping_resource_name_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResourceName));
-                        mapping_resourceUID_dict.Add(ref_number, rt_ident.GetString(DicomTag.MappingResourceUID));
-                        break;
-                    }
+                    SkippedRois.Add("An ROI Contour item has no Referenced ROI Number, so its colour belongs to no ROI.");
+                    continue;
+                }
+                string? color = Optional(rt_contour, DicomTag.ROIDisplayColor);
+                if (color != null)
+                {
+                    color_dict.Add(roi_number, color);
                 }
             }
-            foreach (DicomDataset rt_struct in RT_file.Dataset.GetDicomItem<DicomSequence>(DicomTag.StructureSetROISequence))
+            foreach (DicomDataset rt_observation in Items(RT_file.Dataset, DicomTag.RTROIObservationsSequence))
             {
-                int ref_number = rt_struct.GetSingleValue<int>(DicomTag.ROINumber);
-                string name = rt_struct.GetString(DicomTag.ROIName);
-                name_dict.Add(ref_number, name);
-            }
-            foreach (int key in color_dict.Keys)
-            {
-                if (interp_dict.ContainsKey(key))
+                if (!rt_observation.TryGetSingleValue(DicomTag.ReferencedROINumber, out int ref_number))
                 {
-                    if (name_dict.ContainsKey(key))
-                    {
-                        string[] colors = color_dict[key].Split('\\');
-                        OntologyCodeClass code_class = new OntologyCodeClass();
-                        if (code_meaning_dict.ContainsKey(key))
-                        {
-                            code_class = new OntologyCodeClass(code_meaning_dict[key], code_value_dict[key], coding_scheme_designator_dict[key], context_group_version_dict[key], mapping_resource_dict[key],
-                                context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
-                        }
-                        ROIClass new_roi;
-                        foreach (OntologyCodeClass o in Ontologies)
-                        {
-                            if (o.CodeValue == code_class.CodeValue)
-                            {
-                                code_class = o;
-                                break;
-                            }
-                        }
-                        new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
-                        foreach (ROIClass r in ROIs)
-                        {
-                            if (r.ROIName == name_dict[key])
-                            {
-                                new_roi = r;
-                                break;
-                            }
-                        }
-                        if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
-                        {
-                            ROIs.Add(new_roi);
-                        }
-                        if (!Ontologies.Any(p => p.CodeMeaning == code_class.CodeMeaning) & !Ontologies.Any(p => p.CodeValue == code_class.CodeValue))
-                        {
-                            Ontologies.Add(code_class);
-                            Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
-                            new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name_dict[key], interp_dict[key], code_class);
-                            if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
-                            {
-                                ROIs.Add(new_roi);
-                            }
-                        }
-                    }
+                    SkippedRois.Add("An RT ROI Observations item has no Referenced ROI Number, so its type and code belong to no ROI.");
+                    continue;
+                }
+                interp_dict.Add(ref_number, Optional(rt_observation, DicomTag.RTROIInterpretedType));
+                DicomDataset? rt_ident = Items(rt_observation, DicomTag.RTROIIdentificationCodeSequence).FirstOrDefault();
+                if (rt_ident != null)
+                {
+                    code_meaning_dict.Add(ref_number, Optional(rt_ident, DicomTag.CodeMeaning));
+                    code_value_dict.Add(ref_number, Optional(rt_ident, DicomTag.CodeValue));
+                    coding_scheme_designator_dict.Add(ref_number, Optional(rt_ident, DicomTag.CodingSchemeDesignator));
+                    context_group_version_dict.Add(ref_number, Optional(rt_ident, DicomTag.ContextGroupVersion));
+                    context_identifier_dict.Add(ref_number, Optional(rt_ident, DicomTag.ContextIdentifier));
+                    context_uid_dict.Add(ref_number, Optional(rt_ident, DicomTag.ContextUID));
+                    mapping_resource_dict.Add(ref_number, Optional(rt_ident, DicomTag.MappingResource));
+                    mapping_resource_name_dict.Add(ref_number, Optional(rt_ident, DicomTag.MappingResourceName));
+                    mapping_resourceUID_dict.Add(ref_number, Optional(rt_ident, DicomTag.MappingResourceUID));
                 }
             }
+            foreach (DicomDataset rt_struct in Items(RT_file.Dataset, DicomTag.StructureSetROISequence))
+            {
+                if (!rt_struct.TryGetSingleValue(DicomTag.ROINumber, out int ref_number))
+                {
+                    SkippedRois.Add((Optional(rt_struct, DicomTag.ROIName) ?? "An ROI without a name") + ": its Structure Set ROI item has no ROI Number, so it has no colour, type or code.");
+                    continue;
+                }
+                name_dict.Add(ref_number, Optional(rt_struct, DicomTag.ROIName) ?? string.Empty);
+            }
+            foreach (int key in color_dict.Keys.Concat(interp_dict.Keys).Distinct().Where(key => !name_dict.ContainsKey(key)))
+            {
+                SkippedRois.Add($"ROI number {key}: it has no Structure Set ROI item, so it has no name.");
+            }
+
+            int read = 0;
+            foreach (KeyValuePair<int, string> named in name_dict)
+            {
+                int key = named.Key;
+                string name = named.Value;
+                string? skipped = WhyNotRead(key, name);
+                if (skipped != null)
+                {
+                    SkippedRois.Add((string.IsNullOrWhiteSpace(name) ? "ROI number " + key : name + " (ROI number " + key + ")") + ": " + skipped);
+                    continue;
+                }
+
+                string[] colors = color_dict[key].Split('\\');
+                OntologyCodeClass code_class = new OntologyCodeClass(code_meaning_dict[key]!, code_value_dict[key], coding_scheme_designator_dict[key], context_group_version_dict[key], mapping_resource_dict[key],
+                    context_identifier_dict[key], mapping_resource_name_dict[key], mapping_resourceUID_dict[key], context_uid_dict[key]);
+                OntologyCodeClass? known = Ontologies.FirstOrDefault(o => SameCode(o, code_class));
+                if (known != null)
+                {
+                    code_class = known;
+                }
+                else
+                {
+                    Ontologies.Add(code_class);
+                    Ontologies.Sort((p, q) => p.CodeMeaning.CompareTo(q.CodeMeaning));
+                }
+                ROIClass new_roi = new ROIClass(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]), name, interp_dict[key], code_class);
+                if (!ROIs.Any(p => p.ROIName == new_roi.ROIName))
+                {
+                    ROIs.Add(new_roi);
+                }
+                read++;
+            }
+            return read;
         }
+
+        /// <summary>Why interpret_RT skips ROI number <paramref name="key"/>, or null when it can be read.</summary>
+        private string? WhyNotRead(int key, string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return "it has no name.";
+            }
+            if (color_dict == null || !color_dict.ContainsKey(key))
+            {
+                return "it has no ROI Display Color.";
+            }
+            if (interp_dict == null || !interp_dict.ContainsKey(key))
+            {
+                return "it has no RT ROI Observations item, so it has no interpreted type or code.";
+            }
+            if (code_value_dict == null || code_meaning_dict == null || coding_scheme_designator_dict == null || !code_value_dict.ContainsKey(key))
+            {
+                return "it has no RT ROI Identification Code, and ROIs without a code are not imported.";
+            }
+            OntologyCodeClass parts = new OntologyCodeClass { CodeMeaning = code_meaning_dict[key] ?? string.Empty, CodeValue = code_value_dict[key], Scheme = coding_scheme_designator_dict[key] };
+            string? missing = RtStructureBuilder.MissingCodeParts(parts);
+            return missing == null ? null : "its RT ROI Identification Code has no " + missing + ", and ROIs without a complete code are not imported.";
+        }
+
+        /// <summary>The items of <paramref name="sequence"/>; none when the sequence is absent.</summary>
+        private static IEnumerable<DicomDataset> Items(DicomDataset dataset, DicomTag sequence)
+        {
+            return dataset.TryGetSequence(sequence, out DicomSequence? items) && items != null ? items.Items : Enumerable.Empty<DicomDataset>();
+        }
+
+        /// <summary>The value of <paramref name="tag"/>; null when it is absent.</summary>
+        private static string? Optional(DicomDataset dataset, DicomTag tag)
+        {
+            return dataset.TryGetString(tag, out string? value) ? value : null;
+        }
+
+        /// <summary>
+        /// True when two codes have the same meaning, value and scheme. Ontologies are matched on all three, never on the
+        /// value alone: the TG-263 templates give one code (228793007, planning target volume) to dozens of names, each
+        /// with its own meaning, and matching on the value gave all of them the first one's meaning.
+        /// </summary>
+        private static bool SameCode(OntologyCodeClass a, OntologyCodeClass b)
+        {
+            return a.CodeMeaning == b.CodeMeaning && a.CodeValue == b.CodeValue && a.Scheme == b.Scheme;
+        }
+
         public void clear_folder()
         {
             string output_folder = RequireFolder(output, nameof(define_output));
@@ -300,7 +362,7 @@ namespace DicomTemplateMakerGUI.Services
                 OntologyCodeClass? code_class = roi.Ontology_Class;
                 if (code_class != null && !string.IsNullOrEmpty(code_class.CodeValue))
                 {
-                    if (!Ontologies.Any(o => o.CodeValue == code_class.CodeValue))
+                    if (!Ontologies.Any(o => SameCode(o, code_class)))
                     {
                         Ontologies.Add(code_class);
                     }
@@ -484,10 +546,11 @@ namespace DicomTemplateMakerGUI.Services
                         continue;
                     }
 
+                    // The entry with the same meaning, value and scheme; see SameCode.
                     bool contains_code_class = false;
                     foreach (OntologyCodeClass o in Ontologies)
                     {
-                        if (o.CodeValue == code_class.CodeValue)
+                        if (SameCode(o, code_class))
                         {
                             contains_code_class = true;
                             roi.Ontology_Class = o;
