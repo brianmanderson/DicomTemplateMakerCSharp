@@ -6,6 +6,28 @@ using TemplateSync.Model;
 
 namespace DicomTemplateMakerGUI.Services
 {
+    /// <summary>Why <see cref="TemplateEntryMapper.ToRoiWrapper(SiteRoi, Action{TemplateEntryProblem, string})"/> reported an entry.</summary>
+    public enum TemplateEntryProblem
+    {
+        /// <summary>The record has no Structure name; it is skipped.</summary>
+        EmptyName,
+
+        /// <summary>The name has no usable characters and there is no code; it is skipped.</summary>
+        NoUsableCharacters,
+
+        /// <summary>No valid colour; the ROI is kept in red.</summary>
+        RedFallbackColour,
+
+        /// <summary>The DVH colour does not parse; the ROI colour is used.</summary>
+        BadDvhColour,
+
+        /// <summary>The code lacks a value or a scheme; generated RTs leave the ROI out.</summary>
+        IncompleteCode,
+
+        /// <summary>A value of the record could not be read; it is skipped.</summary>
+        UnreadableRecord,
+    }
+
     /// <summary>
     /// Converts between Airtable template entries and the program's ROI classes. Reading follows the
     /// rules of the former ReadAirTable.add_roi; writing follows the former AirTableEntry(ROIClass)
@@ -25,17 +47,25 @@ namespace DicomTemplateMakerGUI.Services
         /// </summary>
         public static ROIWrapper? ToRoiWrapper(SiteRoi siteRoi, ICollection<string> warnings)
         {
+            return ToRoiWrapper(siteRoi, (_, message) => warnings.Add(message));
+        }
+
+        /// <summary>
+        /// As <see cref="ToRoiWrapper(SiteRoi, ICollection{string})"/>, but each warning is reported with its kind.
+        /// </summary>
+        public static ROIWrapper? ToRoiWrapper(SiteRoi siteRoi, Action<TemplateEntryProblem, string> report)
+        {
             AirTableEntry entry = siteRoi.Entry;
             if (string.IsNullOrWhiteSpace(entry.Structure))
             {
-                warnings.Add("Skipped an Airtable record with an empty Structure name.");
+                report(TemplateEntryProblem.EmptyName, "Skipped an Airtable record with an empty Structure name.");
                 return null;
             }
 
             string codeMeaning = entry.CommonName ?? entry.Structure;
             if (OntologyCodeClass.RemoveIllegalCharacters(codeMeaning).Length == 0 && entry.SchemeCode == null)
             {
-                warnings.Add(entry.Structure + ": skipped because its name has no usable characters and it has no code.");
+                report(TemplateEntryProblem.NoUsableCharacters, entry.Structure + ": skipped because its name has no usable characters and it has no code.");
                 return null;
             }
 
@@ -58,7 +88,7 @@ namespace DicomTemplateMakerGUI.Services
                     r = FallbackR;
                     g = FallbackG;
                     b = FallbackB;
-                    warnings.Add(entry.Structure + ": no valid colour in the table, so it is shown in red.");
+                    report(TemplateEntryProblem.RedFallbackColour, entry.Structure + ": no valid colour in the table, so it is shown in red.");
                 }
 
                 ROIClass roi = new ROIClass(r, g, b, entry.Structure, entry.Type, ontology);
@@ -73,7 +103,7 @@ namespace DicomTemplateMakerGUI.Services
                     {
                         roi.DVHLineColor = new ROIClass().DVHLineColor;
                         roi.build_dvh_line_color();
-                        warnings.Add(entry.Structure + ": DVH colour '" + entry.DVH_Color + "' is not valid; using the ROI colour.");
+                        report(TemplateEntryProblem.BadDvhColour, entry.Structure + ": DVH colour '" + entry.DVH_Color + "' is not valid; using the ROI colour.");
                     }
                 }
 
@@ -91,14 +121,14 @@ namespace DicomTemplateMakerGUI.Services
                 string? missing = RtStructureBuilder.MissingCodeParts(ontology);
                 if (missing != null)
                 {
-                    warnings.Add(entry.Structure + ": its code has no " + missing + " in the table, so generated RTs leave it out until a complete code is chosen for it.");
+                    report(TemplateEntryProblem.IncompleteCode, entry.Structure + ": its code has no " + missing + " in the table, so generated RTs leave it out until a complete code is chosen for it.");
                 }
 
                 return new ROIWrapper(roi, entry.Structure, entry.TG_263R, entry.TG_263Spanish, entry.TG_263SpanishR, entry.TG_263French, entry.TG_263FrenchR);
             }
             catch (Exception ex) when (ex is FormatException || ex is OverflowException)
             {
-                warnings.Add(entry.Structure + ": skipped because the record could not be read (" + ex.Message + ").");
+                report(TemplateEntryProblem.UnreadableRecord, entry.Structure + ": skipped because the record could not be read (" + ex.Message + ").");
                 return null;
             }
         }

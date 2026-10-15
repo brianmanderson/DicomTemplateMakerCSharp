@@ -34,14 +34,14 @@ namespace DicomTemplateMakerGUI.ViewModels
         /// <summary>Starts every template name listed in the build confirmation.</summary>
         internal const string ListBullet = "  • ";
 
-        private static readonly IReadOnlyList<string> LanguageChoices = Array.AsReadOnly(new[] { "English/Ingles/Anglais", "Spanish/Espanol/Espagnol", "French/Frances/Francais" });
+        private static readonly IReadOnlyList<string> LanguageChoices = Array.AsReadOnly(new[] { NamingChoice.English, "Spanish/Espanol/Espagnol", "French/Frances/Francais" });
 
         private readonly ITemplateSourceCatalog catalog;
         private readonly IDialogService dialogs;
         private readonly Func<TemplateSourceItem?> showAddTable;
         private readonly IClock clock;
         private readonly string templateFolder;
-        private readonly string ontologyFolder;
+        private readonly SiteBuilder builder;
         private readonly List<TemplateRowViewModel> rows = new List<TemplateRowViewModel>();
         private readonly HashSet<TemplateRowViewModel> visible = new HashSet<TemplateRowViewModel>();
         private CancellationTokenSource? operation;
@@ -58,7 +58,7 @@ namespace DicomTemplateMakerGUI.ViewModels
             this.catalog = catalog ?? throw new ArgumentNullException(nameof(catalog));
             this.dialogs = dialogs ?? throw new ArgumentNullException(nameof(dialogs));
             this.templateFolder = templateFolder ?? throw new ArgumentNullException(nameof(templateFolder));
-            this.ontologyFolder = ontologyFolder ?? throw new ArgumentNullException(nameof(ontologyFolder));
+            builder = new SiteBuilder(templateFolder, ontologyFolder ?? throw new ArgumentNullException(nameof(ontologyFolder)));
             this.showAddTable = showAddTable ?? throw new ArgumentNullException(nameof(showAddTable));
             this.clock = clock ?? SystemClock.Instance;
             StatusText = string.Empty;
@@ -289,13 +289,12 @@ namespace DicomTemplateMakerGUI.ViewModels
             }
 
             // Everything the build needs from the rows and choices is taken here, on the UI thread.
-            var jobs = new List<(string Site, List<ROIClass> Rois)>();
-            var warnings = new List<string>();
+            var naming = new NamingChoice(SelectedLanguage ?? string.Empty, LateralityFirst, IsLanguageChoiceVisible, IsLateralityChoiceVisible);
+            var jobs = new List<SiteJob>();
+            var warnings = new List<SiteBuildWarning>();
             foreach (TemplateRowViewModel row in selected)
             {
-                List<ROIWrapper> wrappers = row.Source.BuildRoiWrappers(row.SiteName, warnings);
-                ApplyNamingChoice(wrappers);
-                jobs.Add((row.SiteName, wrappers.Select(x => x.roi).ToList()));
+                jobs.Add(SiteBuilder.Prepare(row.Source.Index, row.SiteName, naming, warnings));
             }
 
             CancellationTokenSource cts = BeginOperation();
@@ -312,7 +311,7 @@ namespace DicomTemplateMakerGUI.ViewModels
             Exception? failure = null;
             try
             {
-                built = await Task.Run(() => BuildTemplates(jobs, progress, cts.Token), CancellationToken.None);
+                built = await Task.Run(() => builder.Build(jobs, progress, cts.Token), CancellationToken.None);
             }
             catch (Exception ex)
             {
@@ -334,7 +333,7 @@ namespace DicomTemplateMakerGUI.ViewModels
                     row.AlreadyExists = Directory.Exists(TemplatePath(row.SiteName));
                 }
 
-                BuildFailure buildFailure = failure as BuildFailure ?? new BuildFailure(0, failure);
+                SiteBuildException buildFailure = failure as SiteBuildException ?? new SiteBuildException(0, failure);
                 Exception cause = buildFailure.InnerException ?? buildFailure;
                 if (cause is OperationCanceledException)
                 {
@@ -352,64 +351,10 @@ namespace DicomTemplateMakerGUI.ViewModels
             if (warnings.Count > 0)
             {
                 dialogs.ShowWarning(BuildTitle, "The " + (built == 1 ? "template was" : built + " templates were") + " built with these notes:" + Environment.NewLine + Environment.NewLine
-                    + ListLimited(warnings.Distinct().ToList(), 30, string.Empty));
+                    + ListLimited(warnings.Select(w => w.Message).Distinct().ToList(), 30, string.Empty));
             }
 
             CloseRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <summary>The build loop, off the UI thread. Throws <see cref="BuildFailure"/> with the count built so far.</summary>
-        private int BuildTemplates(IReadOnlyList<(string Site, List<ROIClass> Rois)> jobs, IProgress<string> progress, CancellationToken cancellationToken)
-        {
-            int built = 0;
-            try
-            {
-                // Read first: a library that cannot be read stops the build before any template is written.
-                OntologyTools.LoadOntologiesFromFolder(ontologyFolder);
-                foreach ((string site, List<ROIClass> rois) in jobs)
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    progress.Report("Building " + (built + 1) + " of " + jobs.Count + ": " + site);
-                    TemplateMaker evaluator = new TemplateMaker();
-                    evaluator.define_output(TemplatePath(site));
-                    evaluator.ROIs = rois;
-                    evaluator.make_template();
-                    built++;
-                }
-            }
-            catch (Exception ex)
-            {
-                // The templates written so far still bring their codes into the library.
-                if (built > 0)
-                {
-                    TryMergeCodes(jobs.Take(built));
-                }
-
-                throw new BuildFailure(built, ex);
-            }
-
-            try
-            {
-                progress.Report("Updating the ontology library…");
-                OntologyTools.MergeOntologiesIntoFolder(jobs.SelectMany(j => j.Rois.Select(roi => roi.Ontology_Class)), ontologyFolder);
-                return built;
-            }
-            catch (Exception ex)
-            {
-                throw new BuildFailure(built, ex);
-            }
-        }
-
-        private void TryMergeCodes(IEnumerable<(string Site, List<ROIClass> Rois)> jobs)
-        {
-            try
-            {
-                OntologyTools.MergeOntologiesIntoFolder(jobs.SelectMany(j => j.Rois.Select(roi => roi.Ontology_Class)), ontologyFolder);
-            }
-            catch (Exception ex) when (ex is TemplateLoadException || ex is IOException || ex is UnauthorizedAccessException)
-            {
-                // The build failure is what gets reported; the codes are added the next time the templates are read.
-            }
         }
 
         /// <summary>True while templates are being written; the window must not close meanwhile (Cancel stops the build).</summary>
@@ -526,7 +471,7 @@ namespace DicomTemplateMakerGUI.ViewModels
                 List<ROIWrapper> wrappers = source.BuildRoiWrappers(site, ignored);
                 anyLateral |= wrappers.Any(x => x.has_lateral);
                 anyOtherLanguage |= wrappers.Any(x => x.has_other_lanuages);
-                bool canBuild = IsUsableFolderName(site);
+                bool canBuild = SiteBuilder.IsUsableFolderName(site);
                 var row = new TemplateRowViewModel(site, source, wrappers.Count, canBuild, canBuild && Directory.Exists(TemplatePath(site)));
                 row.PropertyChanged += OnRowPropertyChanged;
                 rows.Add(row);
@@ -622,52 +567,7 @@ namespace DicomTemplateMakerGUI.ViewModels
             AddTableCommand.NotifyCanExecuteChanged();
         }
 
-        /// <summary>Applies the language and laterality choices exactly as the window always has.</summary>
-        private void ApplyNamingChoice(List<ROIWrapper> wrappers)
-        {
-            string language = SelectedLanguage ?? string.Empty;
-            bool languageVisible = IsLanguageChoiceVisible;
-            bool lateralityVisible = IsLateralityChoiceVisible;
-            bool reverse = LateralityFirst;
-            foreach (ROIWrapper r_wrapper in wrappers)
-            {
-                if (languageVisible)
-                {
-                    if (language.Contains("French", StringComparison.Ordinal))
-                    {
-                        if (lateralityVisible) { r_wrapper.Set_French(reverse); } else { r_wrapper.Set_French(); }
-                    }
-                    else if (language.Contains("Spanish", StringComparison.Ordinal))
-                    {
-                        if (lateralityVisible) { r_wrapper.Set_Spanish(reverse); } else { r_wrapper.Set_Spanish(); }
-                    }
-                    else if (language.Contains("English", StringComparison.Ordinal))
-                    {
-                        if (lateralityVisible) { r_wrapper.Set_English(reverse); } else { r_wrapper.Set_English(); }
-                    }
-                }
-                else if (lateralityVisible)
-                {
-                    r_wrapper.Set_English(reverse);
-                }
-            }
-        }
-
-        private string TemplatePath(string site) => Path.Combine(templateFolder, site);
-
-        /// <summary>
-        /// A site becomes one folder directly inside the template folder, so its name must be a single valid
-        /// folder name: no separators or other invalid characters, and not "." or "..".
-        /// </summary>
-        internal static bool IsUsableFolderName(string name)
-        {
-            return !string.IsNullOrWhiteSpace(name)
-                && name != "."
-                && name != ".."
-                && name.IndexOfAny(Path.GetInvalidFileNameChars()) < 0
-                && name.IndexOf(Path.DirectorySeparatorChar) < 0
-                && name.IndexOf(Path.AltDirectorySeparatorChar) < 0;
-        }
+        private string TemplatePath(string site) => builder.TemplatePath(site);
 
         private string DescribeBuild(int count, int hidden, List<string> existing)
         {
@@ -744,18 +644,6 @@ namespace DicomTemplateMakerGUI.ViewModels
             }
 
             return (int)age.TotalDays + " days ago";
-        }
-
-        /// <summary>A build that stopped: how many templates were written before <see cref="Exception.InnerException"/>.</summary>
-        private sealed class BuildFailure : Exception
-        {
-            public BuildFailure(int built, Exception inner)
-                : base(inner.Message, inner)
-            {
-                Built = built;
-            }
-
-            public int Built { get; }
         }
     }
 }
