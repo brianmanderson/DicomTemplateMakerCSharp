@@ -17,4 +17,9 @@
     <ProjectReference Include="..\TemplateSync\TemplateSync.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Frozen snapshot fixtures (SnapshotFactsTests); stored byte-exact, see .gitattributes. -->
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

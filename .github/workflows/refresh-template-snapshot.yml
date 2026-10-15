@@ -2,10 +2,20 @@
 # download them over plain HTTPS without an Airtable token. Each run costs one Airtable API call
 # per 100 records (3 calls for 246 records), instead of every user spending ~250 calls per load.
 #
-# One-time setup (repository Settings > Secrets and variables > Actions):
+# A changed snapshot is never pushed straight to the branch: it must pass
+# `TemplateSnapshotTool check` (gates: at least 240 records, required fields, parseable colours) and
+# is then proposed as a pull request whose description is the check summary. A failed gate fails
+# the run and opens nothing. The pull request comes from the fixed branch
+# snapshot-refresh/<branch the workflow ran on>, so a later run updates the open pull request.
+#
+# One-time setup (repository Settings):
 #   secret   AIRTABLE_PAT      a personal access token with data.records:read on the TG-263 base only
 #   variable TG263_BASE_ID     optional, defaults to appYl68lenTOFqTDh (the maintainers' TG-263 base)
 #   variable TG263_TABLE_ID    optional, defaults to tblex7IPsmm8hvVEc
+#   Actions > General > "Allow GitHub Actions to create and approve pull requests" must be on.
+# Pull requests opened with the workflow token do not trigger pull_request workflows, so this
+# workflow dispatches ci.yml on the snapshot branch itself; its result shows on the pull request.
+# Without the secret a manual run fails and a scheduled run only warns.
 # GitHub disables scheduled workflows in public repositories after 60 days without repository
 # activity; re-enable it from the Actions tab, or run it manually, if that happens.
 name: Refresh TG-263 template snapshot
@@ -27,7 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      contents: write   # only the final push uses it
+      contents: write        # push the snapshot branch (last step only)
+      pull-requests: write   # open or update the pull request
+      actions: write         # dispatch ci.yml on the snapshot branch
     steps:
       # Actions are pinned to commit SHAs; the comment names the release.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -36,42 +48,83 @@ jobs:
 
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
-          dotnet-version: '10.0.x'
+          global-json-file: global.json
+
+      - name: Check for the Airtable secret
+        id: secret
+        env:
+          HAS_PAT: ${{ secrets.AIRTABLE_PAT != '' }}
+        run: |
+          if [ "$HAS_PAT" = "true" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          elif [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "::error::The AIRTABLE_PAT secret is not set, so the snapshot cannot be refreshed."
+            exit 1
+          else
+            echo "::warning::The AIRTABLE_PAT secret is not set; skipping the scheduled snapshot refresh."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
 
       # Restore and build without the Airtable secret in the environment.
       - name: Build the export tool
+        if: steps.secret.outputs.present == 'true'
         run: dotnet build TemplateSnapshotTool -c Release
 
+      # Every column is requested and only the mapped template columns are kept, so the table may
+      # lack mapped columns (it has no RGB, context or reversed Spanish/French columns) or hold extra
+      # ones without any per-table list here. Sorting by the autonumber "Record" column fixes the
+      # record order, which Airtable leaves unspecified and which decides ROI order within each template.
       - name: Export snapshot from Airtable
         id: export
+        if: steps.secret.outputs.present == 'true'
         env:
           AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
           BASE_ID: ${{ vars.TG263_BASE_ID || 'appYl68lenTOFqTDh' }}
           TABLE_ID: ${{ vars.TG263_TABLE_ID || 'tblex7IPsmm8hvVEc' }}
-          MISSING_COLUMNS: RGB,ContextGroupVersion,MappingResource,ContextIdentifier,MappingResourceName,MappingResourceUID,ContextUID,TG_263SpanishR,TG_263FrenchR
         run: |
-          if [ -z "$AIRTABLE_PAT" ]; then
-            echo "::warning::The AIRTABLE_PAT secret is not set; skipping the snapshot refresh."
-            exit 0
-          fi
-          # The export only ever requests named columns, so any mapped column the table lacks must be
-          # excluded here (the tool stops and names it otherwise). The TG-263 table has no RGB column
-          # (colours come from Colors_RGB), none of the six ontology detail columns (the program
-          # fills in its Varian/FMA defaults) and no reversed Spanish or French names. Sorting by the
-          # autonumber "Record" column fixes the record order, which Airtable leaves unspecified and
-          # which decides ROI order within each template.
           dotnet run --no-build --project TemplateSnapshotTool -c Release -- \
-            --base "$BASE_ID" --table "$TABLE_ID" --name TG263 \
-            --exclude-fields "$MISSING_COLUMNS" --sort-field Record \
+            --base "$BASE_ID" --table "$TABLE_ID" --name TG263 --sort-field Record \
             --output TemplateSnapshots/TG263.json
 
-      - name: Commit the snapshot if it changed
+      - name: Check the snapshot
+        if: steps.export.outputs.changed == 'true'
+        run: |
+          status=0
+          dotnet run --no-build --project TemplateSnapshotTool -c Release -- \
+            check TemplateSnapshots/TG263.json --summary "$RUNNER_TEMP/snapshot-check.md" || status=$?
+          cat "$RUNNER_TEMP/snapshot-check.md" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$status" -ne 0 ]; then
+            echo "::error::The refreshed snapshot failed a publication gate (exit $status); nothing was proposed."
+          fi
+          exit "$status"
+
+      - name: Open or update the pull request
         if: steps.export.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          BASE: ${{ github.ref_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
+          branch="snapshot-refresh/$BASE"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
           git add TemplateSnapshots/TG263.json
           git commit -m "Refresh TG-263 template snapshot"
-          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${GITHUB_REF_NAME}"
+          git push --force "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:refs/heads/$branch"
+
+          body="$RUNNER_TEMP/pr-body.md"
+          {
+            echo "Automated export of the shared TG-263 Airtable table ([run]($RUN_URL)). Review the diff and merge to publish it to every user."
+            echo
+            cat "$RUNNER_TEMP/snapshot-check.md"
+          } > "$body"
+
+          number=$(gh pr list --head "$branch" --base "$BASE" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh pr edit "$number" --body-file "$body"
+            echo "Updated pull request #$number."
+          else
+            gh pr create --head "$branch" --base "$BASE" --title "Refresh TG-263 template snapshot" --body-file "$body"
+          fi
+          gh workflow run ci.yml --ref "$branch"

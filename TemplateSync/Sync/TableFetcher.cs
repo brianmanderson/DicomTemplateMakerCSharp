@@ -46,8 +46,7 @@ namespace TemplateSync.Sync
             IReadOnlyList<string>? sortFields,
             IClock clock,
             IProgress<string>? progress,
-            CancellationToken cancellationToken,
-            bool allowUnfilteredFallback = true)
+            CancellationToken cancellationToken)
         {
             var result = new FetchResult
             {
@@ -101,16 +100,6 @@ namespace TemplateSync.Sync
                     {
                         throw new AirtableException(
                             "This Airtable table has no 'Structure' column, so it is not a template table. Check the table id.",
-                            ex.StatusCode,
-                            ex.ErrorType,
-                            ex,
-                            ex.ApiMessage);
-                    }
-
-                    if (!allowUnfilteredFallback)
-                    {
-                        throw new AirtableException(
-                            $"The table has no '{unknown ?? "(unknown)"}' column. Add it to the excluded fields; all columns are never exported.",
                             ex.StatusCode,
                             ex.ErrorType,
                             ex,

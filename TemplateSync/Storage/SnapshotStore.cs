@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
@@ -126,9 +127,16 @@ namespace TemplateSync.Storage
             }
         }
 
+        /// <summary>Indented JSON with LF line endings on every OS, so the published file does not depend on where it was written.</summary>
         public static string Serialize(TableSnapshot snapshot)
         {
-            return JsonConvert.SerializeObject(snapshot, Json.IndentedSettings) + "\n";
+            using var text = new StringWriter(CultureInfo.InvariantCulture) { NewLine = "\n" };
+            using (var writer = new JsonTextWriter(text) { Formatting = Formatting.Indented })
+            {
+                JsonSerializer.Create(Json.IndentedSettings).Serialize(writer, snapshot);
+            }
+
+            return text + "\n";
         }
     }
 }

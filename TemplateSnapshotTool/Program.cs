@@ -6,14 +6,38 @@ using TemplateSync.Sync;
 // Usage:
 //   AIRTABLE_PAT=pat... dotnet run --project TemplateSnapshotTool -- \
 //       --base appXXXXXXXXXXXXXX --table tblXXXXXXXXXXXXXX --name TG263 \
-//       --output TemplateSnapshots/TG263.json [--exclude-fields CommonName,RGB] [--sort-field Record] [--allow-shrink]
+//       --output TemplateSnapshots/TG263.json [--sort-field Record] [--allow-shrink]
+//   dotnet run --project TemplateSnapshotTool -- check TemplateSnapshots/TG263.json [--summary check.md]
 //
-// Exit codes: 0 written or unchanged, 2 bad arguments, 3 Airtable error, 4 refused (table shrank by half or more).
+// The export requests every column and keeps only the mapped template columns, so no exclude list is
+// needed; --exclude-fields is still accepted from older command lines and ignored.
+//
+// Exit codes: 0 written, unchanged or check passed, 2 bad arguments, 3 Airtable error,
+// 4 refused (table shrank by half or more), 5 check failed a gate.
+const string Usage = "Usage: --base <appId> --table <tblId> --name <name> --output <file> [--sort-field <column>] [--allow-shrink]\n"
+    + "   or: check <file> [--summary <markdown file>]";
+
+if (args.Length > 0 && args[0] == "check")
+{
+    if (args.Length == 2 || (args.Length == 4 && args[2] == "--summary"))
+    {
+        return SnapshotCheck.RunCommand(args[1], args.Length == 4 ? args[3] : null, Console.Out);
+    }
+
+    Console.Error.WriteLine(Usage);
+    return 2;
+}
+
 var options = ParseArguments(args);
 if (options == null)
 {
-    Console.Error.WriteLine("Usage: --base <appId> --table <tblId> --name <name> --output <file> [--exclude-fields a,b] [--sort-field <column>] [--allow-shrink]");
+    Console.Error.WriteLine(Usage);
     return 2;
+}
+
+if (options.IgnoredExcludeFields)
+{
+    Console.WriteLine("--exclude-fields is no longer needed: every column is requested and only the mapped columns are kept. Ignoring it.");
 }
 
 string? token = Environment.GetEnvironmentVariable(AirtableConnectionStore.TokenEnvironmentVariable);
@@ -33,7 +57,7 @@ var api = new AirtableHttpClient(http, token, options: new AirtableClientOptions
 TableSnapshot fresh;
 try
 {
-    fresh = await TableExporter.ExportAsync(api, options.BaseId, options.TableId, options.Name, options.ExcludeFields, options.SortField == null ? null : new[] { options.SortField }, null, new Progress<string>(Console.WriteLine), CancellationToken.None);
+    fresh = await TableExporter.ExportAsync(api, options.BaseId, options.TableId, options.Name, options.SortField == null ? null : new[] { options.SortField }, null, new Progress<string>(Console.WriteLine), CancellationToken.None);
 }
 catch (AirtableException ex)
 {
@@ -97,11 +121,8 @@ static Options? ParseArguments(string[] args)
         return null;
     }
 
-    string[] exclude = values.TryGetValue("exclude-fields", out string? list)
-        ? list.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-        : Array.Empty<string>();
     string? sortField = values.TryGetValue("sort-field", out string? sort) && !string.IsNullOrWhiteSpace(sort) ? sort : null;
-    return new Options(baseId, tableId, name, output, exclude, sortField, allowShrink);
+    return new Options(baseId, tableId, name, output, sortField, allowShrink, values.ContainsKey("exclude-fields"));
 }
 
-internal sealed record Options(string BaseId, string TableId, string Name, string Output, string[] ExcludeFields, string? SortField, bool AllowShrink);
+internal sealed record Options(string BaseId, string TableId, string Name, string Output, string? SortField, bool AllowShrink, bool IgnoredExcludeFields);
