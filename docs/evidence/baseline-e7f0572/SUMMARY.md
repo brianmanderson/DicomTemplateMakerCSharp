@@ -19,6 +19,14 @@ dotnet run --project TemplateEvaluationTool -c Release -- inventory --in $OUT/rt
 | `DicomTemplateMakerGUI/template_RS.dcm` (the seed every RT is cloned from) | `22402e0ee49e116e6437ffa6bf1d8b8e32400e2d0b2b0ea39cc0761e6abc6ed6` |
 | `DicomTemplateMakerGUI/SmallCT` (4 slices, Explicit VR LE, no Specific Character Set) | per file in `generate-rts/manifest.json` |
 
+**Sample CT identity (plan P0.2).** On 2026-10-16 the previous patient identity in `DicomTemplateMakerGUI/SmallCT`
+was replaced by the fictitious test patient `ZZTEST^TG263TEMPLATE` (ID `ZZTEST-0001`, no birth date, new `2.25.`
+UIDs; `tools/reidentify_sample_ct.py`), and `generate-rts/`, `inventory/` and `validators/` were regenerated from
+it at `e35c5f3`, from sites built from the frozen snapshot `TemplateSync.Tests/TestData/TG263.2026-09-30.json`
+(same site files as `build-sites/manifest.json` records). In every inventory only the values copied from the images
+changed (`ReferringPhysicianName` and `PatientBirthDate` are now empty, `PatientIdentityRemoved` `YES` and
+`DeidentificationMethod` are new); `run-report.json` and every other inventory line are unchanged.
+
 **Why this is the behaviour of `e7f0572`.** Between `e7f0572` and `c96ce25` the RT generation code
 (`DicomTemplateCore`, `ROIOntologyClass`, `TemplateSync`) is unchanged except for a new overload in
 `TemplateEntryMapper` that reports each warning's kind with the same message. The site building moved from
@@ -205,6 +213,7 @@ on 2026-10-16 from the frozen snapshot (`dicom3tools` 20260927, `dicom-validator
 and the current edition. Result: `dciodvfy` reports no errors; `validate_iods` reports one error per RT, the
 retired `ROIObservationLabel` (gap C9), which `docs/evidence/validator-allowlist.json` accepts until the
 provenance step removes it. The warnings map to C1 (Varian context attributes on SNOMED codes), C4
-(`ROIInterpreter` in the retired person-name form) and the sample CT's own `PatientName` and
-`ReferringPhysicianName` values (plan P0.2). Patient-identifying values are masked in every report. The CI job
-`dicom-validation` (`.github/workflows/ci.yml`) repeats this on every push and pull request.
+(`ROIInterpreter` in the retired person-name form); the warnings on the sample CT's own `PatientName` and
+`ReferringPhysicianName` values went away with its new identity (plan P0.2). Patient-identifying values are masked
+in every report. The CI job `dicom-validation` (`.github/workflows/ci.yml`) repeats this on every push and pull
+request.
