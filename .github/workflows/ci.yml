@@ -52,10 +52,19 @@ jobs:
   # (dicom3tools) and validate_iods (dicom-validator), and the TPS-realism rules of the evaluation tool's realism
   # command. Errors must be covered by docs/evidence/validator-allowlist.json; warnings are reported in the uploaded
   # artifact.
+  # It then C-STOREs every RT (and the CT slices it references) to an Orthanc container and reads the ROI
+  # names, colours, types and codes back through Orthanc's REST API. That is a transfer and read-back check,
+  # not a conformance oracle: Orthanc stores files the validators reject.
   dicom-validation:
     name: DICOM validation
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    services:
+      orthanc:
+        image: jodogne/orthanc:1.13.0
+        ports:
+          - 4242:4242
+          - 8042:8042
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -84,7 +93,7 @@ jobs:
       # Pinned on purpose: validate_iods --edition 2025b is the last edition in which the three ROI
       # sequences are Type 1, so an RT with zero ROIs fails (the script also reports the current edition).
       - name: Install the validators
-        run: python -m pip install --disable-pip-version-check "dicom3tools==20260927" "dicom-validator==0.9.0" "pydicom==3.0.2"
+        run: python -m pip install --disable-pip-version-check "dicom3tools==20260927" "dicom-validator==0.9.0" "pydicom==3.0.2" "pynetdicom==3.0.4"
 
       - name: Validate
         run: |
@@ -95,10 +104,20 @@ jobs:
       # standard validators fail, so both reports are in the artifact. Errors must be covered by a "realism" entry of
       # the allowlist; warnings are reported in realism.md.
       - name: Realism check
-        if: (success() || failure()) && steps.generate.outcome == 'success'
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}
         run: |
           dotnet run --project TemplateEvaluationTool -c Release --no-build -- realism \
             --in "$RUNNER_TEMP/eval/rt" --out "$RUNNER_TEMP/eval/realism" --allowlist docs/evidence/validator-allowlist.json
+
+      # Runs even when Validate failed, so a validator regression does not hide the transfer result.
+      - name: Orthanc smoke test
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}
+        run: |
+          # Orthanc is up once /system answers; 401 counts, the script logs in with the image's default user.
+          up() { code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8042/system || true); [ "$code" = 200 ] || [ "$code" = 401 ]; }
+          for i in $(seq 1 60); do up && break; sleep 2; done
+          up || { echo "Orthanc did not start"; exit 1; }
+          python -I tools/dicom-validation/orthanc_smoke.py --rt-dir "$RUNNER_TEMP/eval/rt" --out "$RUNNER_TEMP/eval/orthanc"
 
       - name: Upload validation reports
         if: always()
@@ -108,6 +127,7 @@ jobs:
           path: |
             ${{ runner.temp }}/eval/validators
             ${{ runner.temp }}/eval/realism
+            ${{ runner.temp }}/eval/orthanc
           if-no-files-found: warn
 
   release:
