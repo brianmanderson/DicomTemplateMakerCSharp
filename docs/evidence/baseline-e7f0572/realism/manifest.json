@@ -1,0 +1,241 @@
+{
+  "tool": "TemplateEvaluationTool",
+  "toolVersion": "1.1.0+9cad5a411bc16ffabffd54d1d1ca99b91b6ac457",
+  "command": "realism",
+  "arguments": [
+    "--in",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-distracted-heyrovsky-ab276d/17116ba1-e4ed-4ad0-bab0-72c3d37598c4/scratchpad/eval2/rt",
+    "--out",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-distracted-heyrovsky-ab276d/17116ba1-e4ed-4ad0-bab0-72c3d37598c4/scratchpad/eval2/realism",
+    "--allowlist",
+    "docs/evidence/validator-allowlist.json"
+  ],
+  "gitSha": "9cad5a411bc16ffabffd54d1d1ca99b91b6ac457",
+  "gitDirty": false,
+  "inputs": [
+    {
+      "role": "rt",
+      "path": "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-distracted-heyrovsky-ab276d/17116ba1-e4ed-4ad0-bab0-72c3d37598c4/scratchpad/eval2/rt",
+      "files": [
+        {
+          "path": "series/AbdPelv_Anal_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "96f041347c1ac27d65460e129b3f9f9aceb4aa07aff1a485ea353b91cf8e08ae"
+        },
+        {
+          "path": "series/AbdPelv_Bladder_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "23dccbd03641bd013ef6ea0683aaf370fcbb6e90ce2474161292c1d015ce7d18"
+        },
+        {
+          "path": "series/AbdPelv_Gyn_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "e8d3ec771fffe7e325470f07732cf7c4fc36645e74df4182b7773762ff27b584"
+        },
+        {
+          "path": "series/AbdPelv_Liver_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "a0d3962f8849d202b065281d50bc8af97bd3be945ba8e058b8dfd5b38dab25d6"
+        },
+        {
+          "path": "series/AbdPelv_Pancreas_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "28105d32130ed511e44891b7c4c5343295cb671b1352848c30e15b02a01396c7"
+        },
+        {
+          "path": "series/AbdPelv_Paraaortic_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "44c98cdf7733ad9343eb78345f40305ef807982d8fe863f16e19a301a1c85e16"
+        },
+        {
+          "path": "series/AbdPelv_ProstBed_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "24d744d434c909b1e803afe22427a3b8c308c2eb93d430b9fcd07049fe79de7b"
+        },
+        {
+          "path": "series/AbdPelv_Prostate_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "0a5b743375468fefc92e387c546dab712952188fd9ab18d29c2e65497e281f7b"
+        },
+        {
+          "path": "series/AbdPelv_Rectum_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "c29b780e77db7b08b362d24d9c8a842bcf80c959ebaf3990b57eab8d2af617ea"
+        },
+        {
+          "path": "series/AbdPelv_RenalAdrenal_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "fb3a97f62e7d3899e4c71cf5c0add190914b4b6555f8b6212f31843a5c555c69"
+        },
+        {
+          "path": "series/AbdPelv_RetroperitonealSpace_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "dbb0cbb9c76ea6522de14360dc46131ed127038a5179c4e5fc51f37cbc9b1407"
+        },
+        {
+          "path": "series/AbdPelv_Spleen_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "74d69ae8e2744aac07af5409b139bd43240922f564867bf939a9c8bf1c3e7859"
+        },
+        {
+          "path": "series/AbdPelv_Stomach_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "d3b73c92cf73a6d0b04185f8416fa6cdff7210b74501d07ca22d60dc37222702"
+        },
+        {
+          "path": "series/Brachy_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "0ab7df52b5204b004c04cf3c63db97bcd14c957f382f16f10d232effd5dc6bad"
+        },
+        {
+          "path": "series/Brachy_Endobronch_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "e9cb1bd069d77fe0a44b7807637ddfef31c7cc46db6a690c11ca858ee0e61155"
+        },
+        {
+          "path": "series/Brachy_Gyn_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "028770081f54f1753af89c82e560b0442e8bd88428c7807fdc425e056209235b"
+        },
+        {
+          "path": "series/Brachy_Ocular_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "e1124f78c579f57eb7a28182fa9ad1e253bc4ac1d38e278b457032ee0d35d541"
+        },
+        {
+          "path": "series/Brachy_Prostate_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "533749014d0bef28a506c53bfb8d4006bb2cee19dce9615574f1ac31cf0b017f"
+        },
+        {
+          "path": "series/Brachy_Skin_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "30a999841894bd9bfdfbb9673fe028d108c5d242f255b567789c2510b7d3b23c"
+        },
+        {
+          "path": "series/CNS_Brain_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "96f93f685b9da22b93431fb03664a8454a73a0b3f1cb6fece6420867992a990e"
+        },
+        {
+          "path": "series/CNS_Cervical_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "a056861b3f6653fc7f63bb7203bbad99d9fb074509f2ffa248a026b0ae06b226"
+        },
+        {
+          "path": "series/CNS_Craniospinal_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "80ccdcc5fe425da6170a3f71a292749b5b832de3c001c975685ad0ba87289cb0"
+        },
+        {
+          "path": "series/CNS_Lumbar_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "b0ed5cbd05b7385938acd865e66cc69c040fc2384b8fd2428caabe227b94d4b3"
+        },
+        {
+          "path": "series/CNS_Sacral_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "f8fa58fd50fa96f51e258770f4053a85ee0d6f819f975aa11ebf72b27b6206c4"
+        },
+        {
+          "path": "series/CNS_Thoracic_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "538c6a97d2d26ee91723aa542df44a05092dc2ff05bb9c0b977bf3f00ac89362"
+        },
+        {
+          "path": "series/Extremities_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "791860acf93884106162fd27c2f00f42cdd3806915435f058acf3d5e6ce7698d"
+        },
+        {
+          "path": "series/H&N_Face_Parotid_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "b3541e60a72b4a100f313d5023aca73321aab683ce591a7ddd7940abfb75300b"
+        },
+        {
+          "path": "series/H&N_LX_HPX_Thyroid_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "c4848dacb17fbbf5116014393ed1ff437c0781ea8f831852a9b6e3f6b153539a"
+        },
+        {
+          "path": "series/H&N_Nasopharynx_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "f4e81ea07bf8fed51fee0b19f69b471aa066fb0a3d0c92f1d98e828cc00d846d"
+        },
+        {
+          "path": "series/H&N_Neck_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "f971445dd67f8872ace4333ff226e93999538a180080cf187cb4c9fec0e53230"
+        },
+        {
+          "path": "series/H&N_Orbit_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "4fb03b275c1cf251f1838ff83480b49165862b57000317fb82b229b7b3620e5e"
+        },
+        {
+          "path": "series/H&N_Oropharynx_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "c62ea4d98f0834042ec4554eceb26e9de35396d4654085f48fa7cb687f709fdd"
+        },
+        {
+          "path": "series/H&N_Sinonasal_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "68be983078def2acab6cab38e10550e728ecdb12a0e175683ed047a0cac786e6"
+        },
+        {
+          "path": "series/Thorax_AxillaSCN_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "512c50f971e31db4f28aad8d70c01ec8b7770fcf952df2a2580fa31fd4594d78"
+        },
+        {
+          "path": "series/Thorax_BreastPBI_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "dacb44a6e994a7e83ed892c6b83b007a196b5324b6b64cb9186df78d28a2299e"
+        },
+        {
+          "path": "series/Thorax_BreastRNI_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "ca128c91359576b0cdea4cc50259574a1b0d2d7f62d65358e75e921a271eafd9"
+        },
+        {
+          "path": "series/Thorax_BreastWBI_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "6204e8cd5a15b5fe0546632fef6880291166458f814def9bac98c54bd2114d5b"
+        },
+        {
+          "path": "series/Thorax_CWRNI_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "a47d9db445e927b81fc6dc5c4a1927a92ec8e0bc1b9e28fa9bfdd4e85aa06ac6"
+        },
+        {
+          "path": "series/Thorax_Esoph_GEJ_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "91df051ec6aaf458182d20ac1c32d88a21f4c7437ca4ef016ad65b8ef28795f7"
+        },
+        {
+          "path": "series/Thorax_Esoph_S_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "0a93b63d9071b517de59f4770fdba1c8dbd2d83257f3e19581725f1ad5a4f020"
+        },
+        {
+          "path": "series/Thorax_Esoph_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "1025345c5c8e0b4a31edb4a2c3045dfbed9b991b1cc89a4cdc2b8e8f34a7d8a3"
+        },
+        {
+          "path": "series/Thorax_Lung_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "39c45d96678113a4e521b9502226e069897fddd9fbd75cef3707e370f8f42742"
+        },
+        {
+          "path": "series/Thorax_Mediastinum_Thymus_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "4477eded16aba41277fc96dd2288a3ba6418191ca78e1c7b7eb6a01c2b378206"
+        },
+        {
+          "path": "series/_Miscellaneous_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "241c8f45d335c3e54121d9ada8f04d8b98f93244e94bacd183cad9c6ab98b0d0"
+        },
+        {
+          "path": "series/_Targets_1Level_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "8ea9e92c1be35af6be452c402cd7afd8628319ceb59006fdb9489a5a87ee1b0f"
+        },
+        {
+          "path": "series/_Targets_2Levels_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "7bd65393634be57bcfed89eeefac835ffb690ca460a7430ceb1642f90abf6fba"
+        },
+        {
+          "path": "series/_Targets_3Levels_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "fd551e4c4d6f83ff73f21167cf2dd62ec50dcecbe6a09452222d1ad3a9b04dbd"
+        },
+        {
+          "path": "series/_Targets_4Levels_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "424d6e9b58029cdbb2fa5bc6679cbd9e7527375983942a89803ffb951446ac86"
+        },
+        {
+          "path": "series/_Targets_Basic_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "774eb535708a25a4b7ccedf30ee22c8a0444771eadb5f2b350b08d47c0ab7d8f"
+        },
+        {
+          "path": "series/_Targets_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "cc18fc4c92cc337451b96e5a8ca4b6ef97713150f5fc98190abc76fc50d586c7"
+        },
+        {
+          "path": "series/_Targets_CW_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "5c316b3b6ace55f72975279575162a401b6269d3de1a2bc61c8579be7459760e"
+        },
+        {
+          "path": "series/_Targets_Details_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "e3aa1513e25b3f677678c4af9ab458c520c5b21122a348b046534980360aab6d"
+        },
+        {
+          "path": "series/_Targets_RNI_UID2.25.279807263898541607461237963382274624702.dcm",
+          "sha256": "8582d14f60d4a52fdc5f18e7a433694efb7375f70b24d2ed1a005a5e858cd04d"
+        }
+      ]
+    },
+    {
+      "role": "allowlist",
+      "path": "docs/evidence/validator-allowlist.json",
+      "sha256": "1d7b19a4930349ba3d68a1954fcee251f3d323d2fa488a2cfe7476df1c373dee"
+    }
+  ],
+  "createdUtc": "2026-10-16T22:34:55.7226385+00:00"
+}

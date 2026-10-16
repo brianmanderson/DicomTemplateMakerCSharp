@@ -1,11 +1,19 @@
 {
-  "description": "Validator errors that CI accepts because a known gap in the generated RT Structure Sets explains them. Each id refers to the conformance gaps C1-C13 of the overhaul plan. Entries may only be removed, never added, without a review that names the gap they cover.",
+  "description": "Validator errors that CI accepts because a known gap in the generated RT Structure Sets explains them. Each id refers to one of the conformance gaps C1-C13, or to a decision (D1-D22) still pending with the maintainers, of the overhaul plan. Entries with \"tool\": \"realism\" are read by the TemplateEvaluationTool realism command and match on \"rule\" (the RtRealismChecker rule id) plus \"pattern\" (a regular expression over the message). Entries may only be removed, never added, without a review that names the gap they cover.",
   "entries": [
     {
       "tool": "validate_iods",
       "pattern": "Tag \\(3006,0085\\) \\(ROI Observation Label\\) is unexpected",
       "id": "C9",
       "reason": "ROIObservationLabel is retired; RtStructureBuilder still writes it (truncated to 16 characters) until the provenance step of the overhaul removes it.",
+      "added": "2026-10-16"
+    },
+    {
+      "tool": "realism",
+      "rule": "RR8",
+      "pattern": "SCT code value '(88|99)' is not 6 to 18 digits",
+      "id": "D1b",
+      "reason": "Decision pending: seven snapshot records (zPTV_High, zPTV_Mid, zPTVopt, Eye_Origin_L, Eye_Origin_R, Fid, Hi HU) carry the placeholder SchemeCode 88 or 99, which the generator writes as an SCT code value; how to code structures without a SNOMED CT concept is decision D1b.",
       "added": "2026-10-16"
     }
   ]

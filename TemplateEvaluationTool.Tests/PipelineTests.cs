@@ -1,4 +1,5 @@
 using FellowOakDicom;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace TemplateEvaluationTool.Tests;
@@ -90,6 +91,29 @@ public sealed class PipelineTests : IDisposable
         Assert.Throws<UsageException>(() => BuildSitesCommand.Run(new[] { "--snapshot", snapshot, "--naming", "default", "--data-dir", Path.Combine(scratch, "data"), "--out", sites }));
         Assert.Throws<UsageException>(() => BuildSitesCommand.Run(new[] { "--snapshot", snapshot, "--naming", "french", "--data-dir", Path.Combine(scratch, "data"), "--out", Path.Combine(scratch, "new") }));
         Assert.Throws<UsageException>(() => BuildSitesCommand.Run(new[] { "--snapshot", snapshot, "--bogus", "x" }));
+    }
+
+    [Fact]
+    public void Realism_passes_the_frozen_snapshot_rts_only_with_the_repository_allowlist()
+    {
+        string run = Path.Combine(scratch, "realism");
+        Assert.Equal(0, BuildSitesCommand.Run(new[] { "--snapshot", Repository("TemplateSync.Tests", "TestData", "TG263.2026-09-30.json"), "--naming", "default", "--data-dir", Path.Combine(run, "data"), "--out", Path.Combine(run, "sites") }));
+        Assert.Equal(0, GenerateRtsCommand.Run(new[] { "--sites", Path.Combine(run, "sites"), "--images", Repository("DicomTemplateMakerGUI", "SmallCT"), "--out", Path.Combine(run, "rt") }));
+        string allowlist = Repository("docs", "evidence", "validator-allowlist.json");
+
+        Assert.Equal(0, RealismCommand.Run(new[] { "--in", Path.Combine(run, "rt"), "--out", Path.Combine(run, "allowed"), "--allowlist", allowlist }));
+        Assert.Equal(1, RealismCommand.Run(new[] { "--in", Path.Combine(run, "rt"), "--out", Path.Combine(run, "bare") }));
+
+        JObject report = JObject.Parse(File.ReadAllText(Path.Combine(run, "allowed", RealismCommand.JsonFileName)));
+        Assert.Equal(53, (int)report["files"]!);
+        Assert.Equal(0, (int)report["unallowedErrors"]!);
+        var findings = ((JArray)report["findings"]!).Cast<JObject>().ToList();
+        // The placeholder codes 88 and 99 of seven snapshot records (decision D1b) are the only errors.
+        Assert.All(findings.Where(f => (string?)f["severity"] == "error"), f => Assert.Equal(("RR8", "D1b"), ((string?)f["rule"], (string?)f["allowlistedAs"])));
+        Assert.Equal(53, findings.Count(f => ((string)f["message"]!).StartsWith("ROI Observation Label (3006,0085), retired", StringComparison.Ordinal)));
+        Assert.True(File.Exists(Path.Combine(run, "allowed", RealismCommand.MarkdownFileName)));
+
+        Assert.Throws<UsageException>(() => RealismCommand.Run(new[] { "--in", Path.Combine(run, "rt"), "--out", Path.Combine(run, "missing"), "--allowlist", Path.Combine(run, "none.json") }));
     }
 
     [Fact]

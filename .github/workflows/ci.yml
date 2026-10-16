@@ -49,8 +49,9 @@ jobs:
 
   # Independent DICOM validation of the RT Structure Sets the program generates: builds the 53 TG-263 sites
   # from the frozen snapshot, writes one RT per site on the bundled sample CT, then runs dciodvfy
-  # (dicom3tools) and validate_iods (dicom-validator). Errors must be covered by
-  # docs/evidence/validator-allowlist.json; warnings are reported in the uploaded artifact.
+  # (dicom3tools) and validate_iods (dicom-validator), and the TPS-realism rules of the evaluation tool's realism
+  # command. Errors must be covered by docs/evidence/validator-allowlist.json; warnings are reported in the uploaded
+  # artifact.
   # It then C-STOREs every RT (and the CT slices it references) to an Orthanc container and reads the ROI
   # names, colours, types and codes back through Orthanc's REST API. That is a transfer and read-back check,
   # not a conformance oracle: Orthanc stores files the validators reject.
@@ -99,6 +100,15 @@ jobs:
           python -I tools/dicom-validation/validate_rts.py --rt-dir "$RUNNER_TEMP/eval/rt" \
             --out "$RUNNER_TEMP/eval/validators" --allowlist docs/evidence/validator-allowlist.json
 
+      # What planning systems require beyond the standard (RtRealismChecker, rules RR1-RR10). Runs even when the
+      # standard validators fail, so both reports are in the artifact. Errors must be covered by a "realism" entry of
+      # the allowlist; warnings are reported in realism.md.
+      - name: Realism check
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}
+        run: |
+          dotnet run --project TemplateEvaluationTool -c Release --no-build -- realism \
+            --in "$RUNNER_TEMP/eval/rt" --out "$RUNNER_TEMP/eval/realism" --allowlist docs/evidence/validator-allowlist.json
+
       # Runs even when Validate failed, so a validator regression does not hide the transfer result.
       - name: Orthanc smoke test
         if: ${{ !cancelled() && steps.generate.outcome == 'success' }}
@@ -116,6 +126,7 @@ jobs:
           name: dicom-validation-reports
           path: |
             ${{ runner.temp }}/eval/validators
+            ${{ runner.temp }}/eval/realism
             ${{ runner.temp }}/eval/orthanc
           if-no-files-found: warn
 
