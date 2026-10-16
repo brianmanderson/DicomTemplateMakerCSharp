@@ -1,4 +1,5 @@
 using System.Net;
+using Newtonsoft.Json.Linq;
 using TemplateSync.Airtable;
 using TemplateSync.Storage;
 using TemplateSync.Sync;
@@ -189,7 +190,7 @@ public sealed class SnapshotStoreTests : IDisposable
 public sealed class TableExporterTests
 {
     [Fact]
-    public async Task Export_is_list_only_honours_known_missing_fields_and_sorts_field_names()
+    public async Task Export_requests_every_column_keeps_only_the_mapped_ones_and_sorts_field_names()
     {
         var handler = new FakeHttpHandler();
         handler.Respond(HttpStatusCode.OK, AirtableJson.Page(new[] { AirtableJson.Record("rec00000000000001", new { Type = "ORGAN", Structure = "Brain", FMAID = "50801", Notes = "internal" }) }, "off"))
@@ -197,10 +198,10 @@ public sealed class TableExporterTests
         var clock = new FakeClock(new DateTimeOffset(2026, 9, 28, 0, 0, 0, TimeSpan.Zero));
         var api = new AirtableHttpClient(new HttpClient(handler), "patTEST.token", clock, new AirtableClientOptions(), new RequestThrottle(TimeSpan.Zero));
 
-        TableSnapshot snapshot = await TableExporter.ExportAsync(api, "appzWlVKRp9TrrTUJ", "tblltR3aTxlJUwaGa", "TG263", new[] { "CommonName", "RGB" }, new[] { "Record" }, clock, null, CancellationToken.None);
+        TableSnapshot snapshot = await TableExporter.ExportAsync(api, "appzWlVKRp9TrrTUJ", "tblltR3aTxlJUwaGa", "TG263", new[] { "Record" }, clock, null, CancellationToken.None);
 
         Assert.Equal(2, handler.Requests.Count);
-        Assert.DoesNotContain("CommonName", handler.Requests[0].Uri.QueryValues("fields[]"));
+        Assert.All(handler.Requests, r => Assert.Empty(r.Uri.QueryValues("fields[]")));
         Assert.Equal(new[] { "Record" }, handler.Requests[0].Uri.QueryValues("sort[0][field]"));
         Assert.Equal(new[] { "asc" }, handler.Requests[0].Uri.QueryValues("sort[0][direction]"));
         Assert.Equal(new[] { "Record" }, handler.Requests[1].Uri.QueryValues("sort[0][field]"));
@@ -211,17 +212,65 @@ public sealed class TableExporterTests
     }
 
     [Fact]
-    public async Task Export_fails_rather_than_publishing_every_column_when_a_column_is_missing()
+    public async Task Export_stops_on_an_Airtable_error_without_retrying()
     {
         var handler = new FakeHttpHandler();
-        handler.Respond((HttpStatusCode)422, AirtableJson.Error("UNKNOWN_FIELD_NAME", "Unknown field name: \"DVH_ContourStyle\""));
+        handler.Respond((HttpStatusCode)422, AirtableJson.Error("UNKNOWN_FIELD_NAME", "Unknown field name: \"Record\""));
         var clock = new FakeClock(new DateTimeOffset(2026, 9, 28, 0, 0, 0, TimeSpan.Zero));
         var api = new AirtableHttpClient(new HttpClient(handler), "patTEST.token", clock, new AirtableClientOptions(), new RequestThrottle(TimeSpan.Zero));
 
-        AirtableException ex = await Assert.ThrowsAsync<AirtableException>(() =>
-            TableExporter.ExportAsync(api, "appzWlVKRp9TrrTUJ", "tblltR3aTxlJUwaGa", "TG263", null, null, clock, null, CancellationToken.None));
+        await Assert.ThrowsAsync<AirtableException>(() =>
+            TableExporter.ExportAsync(api, "appzWlVKRp9TrrTUJ", "tblltR3aTxlJUwaGa", "TG263", new[] { "Record" }, clock, null, CancellationToken.None));
 
-        Assert.Contains("DVH_ContourStyle", ex.Message);
         Assert.Single(handler.Requests);
+    }
+
+    /// <summary>
+    /// Plan step P2.9: an all-columns export of the table behind the frozen snapshot writes that snapshot byte for
+    /// byte. The response is built from the snapshot the way Airtable returns the live table (no live call is made):
+    /// fields in a different order, plus the unmapped columns the table has (the autonumber <c>Record</c>, <c>FMAID</c>,
+    /// a primary-field style <c>Name</c>), three pages of 100.
+    /// </summary>
+    [Fact]
+    public async Task Export_of_an_all_columns_response_writes_the_frozen_snapshot_byte_for_byte()
+    {
+        JObject frozen = FrozenSnapshot.Raw();
+        var records = ((JArray)frozen["records"]!).Cast<JObject>().Select((record, index) =>
+        {
+            var fields = new JObject();
+            foreach (JProperty field in ((JObject)record["fields"]!).Properties().Reverse())
+            {
+                fields[field.Name] = field.Value.DeepClone();
+                if (field.Name == "SchemeCode")
+                {
+                    fields["FMAID"] = "88";
+                }
+            }
+
+            fields["Record"] = index + 1;
+            fields["Name"] = "row " + (index + 1).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return new JObject { ["id"] = record["id"], ["createdTime"] = record["createdTime"], ["fields"] = fields };
+        }).ToList();
+        Assert.Equal(246, records.Count);
+
+        var handler = new FakeHttpHandler();
+        handler.Respond(HttpStatusCode.OK, AirtableJson.Page(records.Take(100), "itrPage2/" + records[100]["id"]))
+               .Respond(HttpStatusCode.OK, AirtableJson.Page(records.Skip(100).Take(100), "itrPage3/" + records[200]["id"]))
+               .Respond(HttpStatusCode.OK, AirtableJson.Page(records.Skip(200)));
+        var clock = new FakeClock(DateTimeOffset.Parse((string)frozen["generatedAtUtc"]!, System.Globalization.CultureInfo.InvariantCulture));
+        var api = new AirtableHttpClient(new HttpClient(handler), "patTEST.token", clock, new AirtableClientOptions(), new RequestThrottle(TimeSpan.Zero));
+
+        TableSnapshot snapshot = await TableExporter.ExportAsync(api, "appYl68lenTOFqTDh", "tblex7IPsmm8hvVEc", "TG263", new[] { "Record" }, clock, null, CancellationToken.None);
+        using var temp = new TempDirectory();
+        string output = temp.File("TG263.json");
+        SnapshotStore.WriteFile(output, snapshot);
+
+        Assert.Equal(3, handler.Requests.Count);
+        Assert.All(handler.Requests, r =>
+        {
+            Assert.Empty(r.Uri.QueryValues("fields[]"));
+            Assert.Equal(new[] { "Record" }, r.Uri.QueryValues("sort[0][field]"));
+        });
+        Assert.Equal(FrozenSnapshot.Bytes, File.ReadAllBytes(output));
     }
 }

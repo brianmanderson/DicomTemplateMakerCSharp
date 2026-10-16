@@ -113,10 +113,12 @@ Optional `settings.json` keys: `cacheTimeToLiveHours` (default 24), `fullRefresh
 ### Maintainers: publishing the shared TG-263 snapshot
 
 `.github/workflows/refresh-template-snapshot.yml` exports the TG-263 Airtable table weekly (or on
-demand from the Actions tab) and commits `TemplateSnapshots/TG263.json` when it changes. It costs
-one API call per 100 records. Add a repository secret `AIRTABLE_PAT` holding a token with
-`data.records:read` on the TG-263 base only, then run the workflow once so the snapshot exists
-before the next release. See [`TemplateSnapshots/README.md`](TemplateSnapshots/README.md).
+demand from the Actions tab). When `TemplateSnapshots/TG263.json` changes and passes
+`TemplateSnapshotTool check`, it opens (or updates) a pull request with the check summary; merging
+it publishes the snapshot. It costs one API call per 100 records. Add a repository secret
+`AIRTABLE_PAT` holding a token with `data.records:read` on the TG-263 base only and allow GitHub
+Actions to create pull requests (Settings > Actions > General), then run the workflow once so the
+snapshot exists before the next release. See [`TemplateSnapshots/README.md`](TemplateSnapshots/README.md).
 
 The shared base can still be copied for your own use from https://airtable.com/shrk6XcfLggdTwetI.
 

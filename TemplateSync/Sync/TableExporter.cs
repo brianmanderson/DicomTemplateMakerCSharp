@@ -13,6 +13,8 @@ namespace TemplateSync.Sync
 {
     /// <summary>
     /// Produces the published, token-free snapshot of a table (used by the CI refresh job).
+    /// Every column is requested and <see cref="Normalize"/> keeps only the mapped ones, so a table that
+    /// lacks a mapped column, or gains or renames another, still exports without a per-table exclude list.
     /// Output is deterministic: records follow the requested server-side sort (Airtable's default
     /// order is unspecified) and each record's fields are sorted, so an unchanged table yields a
     /// byte-identical file and no git change.
@@ -24,14 +26,13 @@ namespace TemplateSync.Sync
             string baseId,
             string tableId,
             string sourceName,
-            IEnumerable<string>? knownMissingFields,
             IReadOnlyList<string>? sortFields,
             IClock? clock,
             IProgress<string>? progress,
             CancellationToken cancellationToken)
         {
             IClock time = clock ?? SystemClock.Instance;
-            FetchResult fetched = await TableFetcher.FetchAsync(api, baseId, tableId, null, knownMissingFields, false, sortFields, time, progress, cancellationToken, allowUnfilteredFallback: false).ConfigureAwait(false);
+            FetchResult fetched = await TableFetcher.FetchAsync(api, baseId, tableId, null, null, fieldsFilterDisabled: true, sortFields, time, progress, cancellationToken).ConfigureAwait(false);
             return new TableSnapshot
             {
                 SourceName = sourceName,

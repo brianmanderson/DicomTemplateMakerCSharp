@@ -11,3 +11,5 @@
 *.pptx binary
 *.pdf binary
 *.pkl binary
+# Frozen fixtures are compared byte for byte (SHA-256), so no line-ending conversion.
+TemplateSync.Tests/TestData/** -text
