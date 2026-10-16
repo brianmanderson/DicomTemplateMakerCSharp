@@ -17,15 +17,17 @@
 (0008,0050) AccessionNumber SH 1 2 1
 (0008,0060) Modality CS 1 8 RTSTRUCT
 (0008,0070) Manufacturer LO 1 14 UCSD Residency
-(0008,0090) ReferringPhysicianName PN 1 * <MASKED>
+(0008,0090) ReferringPhysicianName PN 0 0
 (0008,1030) StudyDescription LO 1 18 Visible Human Male
 (0008,103E) SeriesDescription LO 1 10 Anonymized
 (0008,1070) OperatorsName PN 0 0
 (0008,1090) ManufacturerModelName LO 1 20 Universal_RT_Creator
 (0010,0010) PatientName PN 1 * <MASKED>
 (0010,0020) PatientID LO 1 * <MASKED>
-(0010,0030) PatientBirthDate DA 1 * <MASKED>
+(0010,0030) PatientBirthDate DA 0 0
 (0010,0040) PatientSex CS 1 * <MASKED>
+(0012,0062) PatientIdentityRemoved CS 1 4 YES
+(0012,0063) DeidentificationMethod LO 1 54 DicomTemplateMakerCSharp tools/reidentify_sample_ct.py
 (0018,1020) SoftwareVersions LO 1 28 Hello_from_Brian_M_Anderson
 (0020,000D) StudyInstanceUID UI 1 * UID#2
 (0020,000E) SeriesInstanceUID UI 1 * UID#3
