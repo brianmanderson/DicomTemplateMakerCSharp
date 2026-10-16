@@ -14,7 +14,8 @@ dotnet run --project TemplateEvaluationTool -c Release -- inventory --in $OUT/rt
 
 | Input | SHA-256 |
 | --- | --- |
-| `TemplateSnapshots/TG263.json` (generated 2026-09-30, last changed in `b185504`) | `059cd49e731fcc564ff36444ff7b9761fd43fd08ddae4448e7e383d51eac03c4` |
+| `TemplateSnapshots/TG263.json` (generated 2026-09-30, last changed in `b185504`), as read on Windows with CRLF (184,255 bytes; this is what `build-sites/manifest.json` records) | `059cd49e731fcc564ff36444ff7b9761fd43fd08ddae4448e7e383d51eac03c4` |
+| The same file as committed, LF (177,534 bytes; a Linux checkout) | `94d0fbf4d6d7548fc5810050f04ec864c7af129766918c6511b9ffe3faa86d71` |
 | `DicomTemplateMakerGUI/template_RS.dcm` (the seed every RT is cloned from) | `22402e0ee49e116e6437ffa6bf1d8b8e32400e2d0b2b0ea39cc0761e6abc6ed6` |
 | `DicomTemplateMakerGUI/SmallCT` (4 slices, Explicit VR LE, no Specific Character Set) | per file in `generate-rts/manifest.json` |
 

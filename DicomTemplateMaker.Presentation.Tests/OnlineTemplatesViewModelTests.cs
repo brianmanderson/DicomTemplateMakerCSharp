@@ -505,8 +505,12 @@ public sealed class OnlineTemplatesViewModelTests : IDisposable
         Assert.Empty(dialogs.Shown);
     }
 
-    /// <summary>SHA-256 of the published snapshot at b185504 (TemplateSnapshots/TG263.json, 2026-09-30).</summary>
-    private const string SnapshotSha256 = "059cd49e731fcc564ff36444ff7b9761fd43fd08ddae4448e7e383d51eac03c4";
+    /// <summary>
+    /// SHA-256 of the published snapshot at b185504 (TemplateSnapshots/TG263.json, 2026-09-30) as committed, with LF
+    /// line endings (177,534 bytes). A Windows checkout with core.autocrlf has CRLF (184,255 bytes, SHA-256 059cd49e...),
+    /// so the file is hashed with its line endings normalised.
+    /// </summary>
+    private const string SnapshotSha256 = "94d0fbf4d6d7548fc5810050f04ec864c7af129766918c6511b9ffe3faa86d71";
 
     /// <summary>The characterised sites and the hash of each one's All_ROIs.json at e7f0572 (see <see cref="RoisFileHash"/>).</summary>
     internal static readonly IReadOnlyDictionary<string, string> CharacterisedSites = new Dictionary<string, string>
@@ -524,11 +528,26 @@ public sealed class OnlineTemplatesViewModelTests : IDisposable
     {
         string frozen = Templates.RepositoryFile("TemplateSync.Tests", "TestData", "TG263.2026-09-30.json");
         string path = File.Exists(frozen) ? frozen : Templates.RepositoryFile("TemplateSnapshots", "TG263.json");
-        Assert.Equal(SnapshotSha256, Sha256(File.ReadAllBytes(path)));
+        Assert.Equal(SnapshotSha256, Sha256(WithLfLineEndings(File.ReadAllBytes(path))));
         return path;
     }
 
     internal static string Sha256(byte[] bytes) => Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(bytes));
+
+    /// <summary>The bytes with every CR LF pair replaced by LF, as Git stores a text file.</summary>
+    private static byte[] WithLfLineEndings(byte[] bytes)
+    {
+        var result = new List<byte>(bytes.Length);
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            if (bytes[i] != 13 || i + 1 >= bytes.Length || bytes[i + 1] != 10)
+            {
+                result.Add(bytes[i]);
+            }
+        }
+
+        return result.ToArray();
+    }
 
     /// <summary>SHA-256 of a template's All_ROIs.json with line endings normalised (the JSON is written with the platform's newline).</summary>
     internal static string RoisFileHash(string templateFolder)
