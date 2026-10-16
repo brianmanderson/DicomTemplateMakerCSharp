@@ -208,3 +208,15 @@ provenance step removes it. The warnings map to C1 (Varian context attributes on
 (`ROIInterpreter` in the retired person-name form) and the sample CT's own `PatientName` and
 `ReferringPhysicianName` values (plan P0.2). Patient-identifying values are masked in every report. The CI job
 `dicom-validation` (`.github/workflows/ci.yml`) repeats this on every push and pull request.
+
+## TPS realism (plan P2.4)
+
+`realism/` holds the report of the evaluation tool's `realism` command (`RtRealismChecker`, rules RR1-RR10:
+what planning systems require beyond the standard) over the same 53 RTs, regenerated on 2026-10-16 from the
+frozen snapshot: `realism.json` (every finding with file, rule, severity and message), `realism.md` and the
+manifest. Result: PASS with the allowlist. The only errors are 9 RR8 findings, the placeholder code values `88`
+and `99` written as SCT codes for seven snapshot records (zPTV_High, zPTV_Mid, zPTVopt, Eye_Origin_L,
+Eye_Origin_R, Fid, Hi HU), allowlisted as decision D1b (pending). The warnings are RR9 in every RT for the
+retired `ROIObservationLabel` (gap C9) and for the Varian context attributes on SNOMED codes (gap C1), and RR6
+for `PTV_ChestWall_Eval` (18 characters, over the TG-263 limit of 16) in two RTs. No other rule finds anything.
+No group 0010 value appears in the report.
