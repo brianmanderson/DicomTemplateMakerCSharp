@@ -8,712 +8,712 @@
   "passed": true,
   "findings": [
     {
-      "file": "series/AbdPelv_Anal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Anal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Anal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Anal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Bladder_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Bladder_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Bladder_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Bladder_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Gyn_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Gyn_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Liver_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Liver_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Liver_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Liver_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Pancreas_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Pancreas_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'zPTV_High': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/AbdPelv_Pancreas_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Pancreas_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'zPTV_Mid': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/AbdPelv_Pancreas_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Pancreas_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Pancreas_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Pancreas_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Paraaortic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Paraaortic_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Paraaortic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Paraaortic_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_ProstBed_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_ProstBed_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_ProstBed_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_ProstBed_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Prostate_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Prostate_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Rectum_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Rectum_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Rectum_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Rectum_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_RenalAdrenal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_RenalAdrenal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_RenalAdrenal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_RenalAdrenal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_RetroperitonealSpace_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_RetroperitonealSpace_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_RetroperitonealSpace_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_RetroperitonealSpace_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Spleen_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Spleen_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Spleen_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Spleen_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/AbdPelv_Stomach_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Stomach_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/AbdPelv_Stomach_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/AbdPelv_Stomach_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Brachy_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'zPTVopt': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/Brachy_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Brachy_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Brachy_Endobronch_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Endobronch_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Brachy_Endobronch_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Endobronch_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Brachy_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Gyn_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Brachy_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Gyn_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Brachy_Ocular_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Ocular_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'Eye_Origin_R': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/Brachy_Ocular_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Ocular_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'Eye_Origin_L': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/Brachy_Ocular_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Ocular_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Brachy_Ocular_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Ocular_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Brachy_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Prostate_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Brachy_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Prostate_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Brachy_Skin_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Skin_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Brachy_Skin_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Brachy_Skin_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/CNS_Brain_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Brain_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/CNS_Brain_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Brain_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/CNS_Cervical_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Cervical_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/CNS_Cervical_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Cervical_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/CNS_Craniospinal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Craniospinal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/CNS_Craniospinal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Craniospinal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/CNS_Lumbar_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Lumbar_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/CNS_Lumbar_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Lumbar_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/CNS_Sacral_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Sacral_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/CNS_Sacral_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Sacral_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/CNS_Thoracic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Thoracic_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/CNS_Thoracic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/CNS_Thoracic_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Extremities_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Extremities_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Extremities_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Extremities_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_Face_Parotid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Face_Parotid_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_Face_Parotid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Face_Parotid_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_LX_HPX_Thyroid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_LX_HPX_Thyroid_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_LX_HPX_Thyroid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_LX_HPX_Thyroid_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_Nasopharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Nasopharynx_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_Nasopharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Nasopharynx_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_Neck_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Neck_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_Neck_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Neck_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_Orbit_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Orbit_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_Orbit_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Orbit_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_Oropharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Oropharynx_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_Oropharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Oropharynx_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/H&N_Sinonasal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Sinonasal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/H&N_Sinonasal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/H&N_Sinonasal_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_AxillaSCN_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_AxillaSCN_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_AxillaSCN_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_AxillaSCN_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_BreastPBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_BreastPBI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_BreastPBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_BreastPBI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_BreastRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_BreastRNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_BreastRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_BreastRNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_BreastWBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_BreastWBI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_BreastWBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_BreastWBI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_CWRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_CWRNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR6",
       "severity": "warning",
       "message": "ROI name 'PTV_ChestWall_Eval' has 18 characters; TG-263 keeps names to 16."
     },
     {
-      "file": "series/Thorax_CWRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_CWRNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_CWRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_CWRNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_Esoph_GEJ_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Esoph_GEJ_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_Esoph_GEJ_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Esoph_GEJ_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_Esoph_S_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Esoph_S_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_Esoph_S_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Esoph_S_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_Esoph_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Esoph_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_Esoph_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Esoph_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_Lung_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Lung_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_Lung_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Lung_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/Thorax_Mediastinum_Thymus_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Mediastinum_Thymus_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/Thorax_Mediastinum_Thymus_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/Thorax_Mediastinum_Thymus_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Miscellaneous_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Miscellaneous_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'Fid': SCT code value '99' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/_Miscellaneous_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Miscellaneous_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'Hi HU': SCT code value '99' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/_Miscellaneous_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Miscellaneous_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Miscellaneous_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Miscellaneous_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_1Level_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_1Level_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_1Level_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_1Level_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_2Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_2Levels_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_2Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_2Levels_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_3Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_3Levels_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_3Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_3Levels_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_4Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_4Levels_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_4Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_4Levels_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_Basic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Basic_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_Basic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Basic_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Breast_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_CW_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_CW_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR6",
       "severity": "warning",
       "message": "ROI name 'PTV_ChestWall_Eval' has 18 characters; TG-263 keeps names to 16."
     },
     {
-      "file": "series/_Targets_CW_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_CW_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_CW_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_CW_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_Details_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Details_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'zPTV_High': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/_Targets_Details_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Details_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR8",
       "severity": "error",
       "message": "ROI 'zPTV_Mid': SCT code value '88' is not 6 to 18 digits.",
       "allowlistedAs": "D1b"
     },
     {
-      "file": "series/_Targets_Details_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Details_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_Details_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_Details_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
     },
     {
-      "file": "series/_Targets_RNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_RNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "Codes of scheme SCT carry Varian context attributes (Context Identifier VMS011, Context UID 1.2.246.352.7.2.11, Mapping Resource 99VMS, Mapping Resource Name Varian Medical Systems, Mapping Resource UID 1.2.246.352.7.1.1); they describe Varian's structure code dictionary, not that scheme."
     },
     {
-      "file": "series/_Targets_RNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm",
+      "file": "series/_Targets_RNI_UID2.25.279807263898541607461237963382274624702.dcm",
       "rule": "RR9",
       "severity": "warning",
       "message": "ROI Observation Label (3006,0085), retired from the standard, is present in every RT ROI Observations item."
