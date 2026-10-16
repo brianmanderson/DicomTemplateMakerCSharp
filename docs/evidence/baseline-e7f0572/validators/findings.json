@@ -7,7 +7,7 @@
   "gatedEdition": "2025b",
   "dciodvfy": {
     "errors": 0,
-    "warnings": 4818
+    "warnings": 4712
   },
   "validate_iods": {
     "edition": "2025b",
@@ -30,11 +30,6 @@
   "warnings": [
     {
       "tool": "dciodvfy",
-      "pattern": "</PatientName(0010,0010)[n]> - Value dubious for this VR [PN] = <MASKED> - Retired Person Name form",
-      "count": 53
-    },
-    {
-      "tool": "dciodvfy",
       "pattern": "</RTROIObservationsSequence(3006,0080)[n]/ROIInterpreter(3006,00a6)[n]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form",
       "count": 1178
     },
@@ -52,11 +47,6 @@
       "tool": "dciodvfy",
       "pattern": "</RTROIObservationsSequence(3006,0080)[n]/RTROIIdentificationCodeSequence(3006,0086)[n]/MappingResourceUID(0008,0118)[n]> - Unrecognized defined term = <1.2.246.352.7.1.1>",
       "count": 1178
-    },
-    {
-      "tool": "dciodvfy",
-      "pattern": "</ReferringPhysicianName(0008,0090)[n]> - Value dubious for this VR [PN] = <Unknown> - Retired Person Name form",
-      "count": 53
     }
   ],
   "currentEditionErrors": [

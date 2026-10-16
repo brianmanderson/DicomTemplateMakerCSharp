@@ -138,11 +138,13 @@ namespace TemplateEvaluationTool
 
     /// <summary>
     /// Makes run-report.json reproducible: the output folder becomes <c>&lt;out&gt;</c>, UIDs become <c>UID#n</c>
-    /// (as in the inventories, numbered within this file), StartedAt and Duration are masked.
+    /// (as in the inventories, numbered within this file), StartedAt and Duration are masked. A UID needs four or
+    /// more components, so version numbers such as 1.1.0 stay visible; UUID-derived UIDs (<c>2.25.</c> and one
+    /// integer) have three and are matched by their root.
     /// </summary>
     internal static class RunReportMasking
     {
-        private static readonly Regex Uid = new Regex(@"(?<![0-9]|[0-9]\.)[0-2](\.(0|[1-9][0-9]*)){3,}(?![0-9]|\.[0-9])", RegexOptions.CultureInvariant);
+        private static readonly Regex Uid = new Regex(@"(?<![0-9]|[0-9]\.)([0-2](\.(0|[1-9][0-9]*)){3,}|2\.25\.(0|[1-9][0-9]*))(?![0-9]|\.[0-9])", RegexOptions.CultureInvariant);
 
         public static JToken Mask(JToken report, string outDir)
         {

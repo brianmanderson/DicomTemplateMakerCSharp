@@ -1,21 +1,21 @@
 {
   "tool": "TemplateEvaluationTool",
-  "toolVersion": "1.1.0+c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "toolVersion": "1.1.0+e35c5f3916ecd3dd89ce5f1f1ad106bcead8b2ab",
   "command": "generate-rts",
   "arguments": [
     "--sites",
-    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/sites",
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-modest-jones-31df89/757cf81c-31a5-4690-ab51-a995df43f558/scratchpad/ev/sites",
     "--images",
     "DicomTemplateMakerGUI/SmallCT",
     "--out",
-    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/rt"
+    "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-modest-jones-31df89/757cf81c-31a5-4690-ab51-a995df43f558/scratchpad/ev/rt"
   ],
-  "gitSha": "c96ce253fc11721f6b3f2d4ebedf4894f0e5e51b",
+  "gitSha": "e35c5f3916ecd3dd89ce5f1f1ad106bcead8b2ab",
   "gitDirty": false,
   "inputs": [
     {
       "role": "sites",
-      "path": "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-hungry-ptolemy-f18b6c/de4b3c95-283a-4fa8-9c99-f251b75a0694/scratchpad/baseline2/sites",
+      "path": "~/AppData/Local/Temp/claude/C--Users-Markb-Modular-Projects-DicomTemplateMakerCSharp--claude-worktrees-modest-jones-31df89/757cf81c-31a5-4690-ab51-a995df43f558/scratchpad/ev/sites",
       "files": [
         {
           "path": "AbdPelv_Anal/All_ROIs.json",
@@ -669,19 +669,19 @@
       "files": [
         {
           "path": "vhm.1001.dcm",
-          "sha256": "f9a61a1ee5edea23b771343d57040b29c8bf2b230bd0712d86a1e53b64217cf5"
+          "sha256": "876fafe1f6386c7d5436949c70bef611f5b7d9ec5610950f1cec73b3a6f22ce4"
         },
         {
           "path": "vhm.1002.dcm",
-          "sha256": "451c536b2ba98ac1b7fa497f7cca820f706f76d3eb9e8daf07dae8fb1cb432ff"
+          "sha256": "090f830030e55c378e9304c0dbb86d896c535d053c3896f320ec577e687d9e38"
         },
         {
           "path": "vhm.1003.dcm",
-          "sha256": "be05cab76fd255e8b57ea557b3de968dfc67eb633436667a633028a69e20975d"
+          "sha256": "e406e6ebf2baa125068225f1127edf5420519b79d2b3e413c10b07026e4954c3"
         },
         {
           "path": "vhm.1004.dcm",
-          "sha256": "49c53ba03d1c88576b8ca1e7c4f3850144d1e1c8856bb88f61e29c50001fde60"
+          "sha256": "f5e977ec13b0d9a95caf4ed6409c56b10d4a514f40f840ad7e0783330f3a257e"
         }
       ]
     },
@@ -691,5 +691,5 @@
       "sha256": "22402e0ee49e116e6437ffa6bf1d8b8e32400e2d0b2b0ea39cc0761e6abc6ed6"
     }
   ],
-  "createdUtc": "2026-10-15T18:42:32.7246501+00:00"
+  "createdUtc": "2026-10-16T22:22:49.6584816+00:00"
 }
