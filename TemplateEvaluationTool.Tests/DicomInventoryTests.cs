@@ -136,4 +136,23 @@ public sealed class DicomInventoryTests
         Assert.Equal("version 1.1.0 and 1.2.840.10008.1.2 (Implicit VR Little Endian: Default Transfer Syntax for DICOM)", (string?)report["Other"]);
         Assert.Equal("<DATETIME>", (string?)report["StartedAt"]);
     }
+
+    [Fact]
+    public void Uuid_derived_uids_in_the_run_report_are_masked()
+    {
+        string outDir = Path.Combine(Path.GetTempPath(), "evaluation-out");
+        const string seriesUid = "2.25.279807263898541607461237963382274624702";
+        var report = new Newtonsoft.Json.Linq.JObject
+        {
+            ["Path"] = Path.Combine(outDir, "series", $"Lung_UID{seriesUid}.dcm"),
+            ["SeriesInstanceUid"] = seriesUid,
+            ["Other"] = "2.25.1.2 is not a UUID-derived UID but has four components",
+        };
+
+        RunReportMasking.Mask(report, outDir);
+
+        Assert.Equal("<out>/series/Lung_UIDUID#1.dcm", (string?)report["Path"]);
+        Assert.Equal("UID#1", (string?)report["SeriesInstanceUid"]);
+        Assert.Equal("UID#2 is not a UUID-derived UID but has four components", (string?)report["Other"]);
+    }
 }
