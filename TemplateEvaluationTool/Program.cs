@@ -6,9 +6,10 @@ using TemplateEvaluationTool;
 //   dotnet run --project TemplateEvaluationTool -- build-sites --snapshot <TG263.json> --naming default --data-dir <dir> --out <sites>
 //   dotnet run --project TemplateEvaluationTool -- generate-rts --sites <sites> --images <ct folder> --out <rt> [--template-rs <file>]
 //   dotnet run --project TemplateEvaluationTool -- inventory --in <rt> --out <inventory>
+//   dotnet run --project TemplateEvaluationTool -- realism --in <rt> --out <realism> [--allowlist docs/evidence/validator-allowlist.json]
 //
-// Exit codes: 0 done, 1 the build stopped, 2 bad arguments, 3 the sample CT could not be copied.
-const string Usage = "Usage: build-sites --snapshot <file> --naming default --data-dir <dir> --out <dir> | generate-rts --sites <dir> --images <dir> --out <dir> [--template-rs <file>] | inventory --in <dir> --out <dir>";
+// Exit codes: 0 done, 1 the build stopped (realism: an error is not allowlisted), 2 bad arguments, 3 the sample CT could not be copied.
+const string Usage = "Usage: build-sites --snapshot <file> --naming default --data-dir <dir> --out <dir> | generate-rts --sites <dir> --images <dir> --out <dir> [--template-rs <file>] | inventory --in <dir> --out <dir> | realism --in <dir> --out <dir> [--allowlist <file>]";
 
 if (args.Length == 0)
 {
@@ -24,6 +25,7 @@ try
         "build-sites" => BuildSitesCommand.Run(rest),
         "generate-rts" => GenerateRtsCommand.Run(rest),
         "inventory" => InventoryCommand.Run(rest),
+        "realism" => RealismCommand.Run(rest),
         _ => throw new UsageException("Unknown command '" + args[0] + "'."),
     };
 }

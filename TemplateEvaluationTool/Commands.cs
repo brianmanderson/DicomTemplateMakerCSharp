@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using DicomTemplateMakerGUI.DicomTemplateServices;
 using DicomTemplateMakerGUI.Services;
 using DicomTemplateMakerGUI.Shell;
+using DicomTemplateMakerGUI.Validation;
 using FellowOakDicom;
 using Newtonsoft.Json.Linq;
 using TemplateSync.Model;
@@ -232,6 +233,190 @@ namespace TemplateEvaluationTool
             }
 
             return candidate;
+        }
+    }
+
+    /// <summary>
+    /// <c>realism</c>: runs the TPS-realism rules (<see cref="RtRealismChecker"/>) on every RT Structure Set under
+    /// <c>--in</c>, the cross-file rules over all of them together, and writes realism.json (every finding) and
+    /// realism.md. Errors must be covered by a <c>"tool": "realism"</c> entry of <c>--allowlist</c>; warnings are
+    /// reported only. Exits 1 when an error is not allowlisted or no RT was found.
+    /// </summary>
+    internal static class RealismCommand
+    {
+        public const string JsonFileName = "realism.json";
+        public const string MarkdownFileName = "realism.md";
+
+        public static int Run(IReadOnlyList<string> args)
+        {
+            var options = new Options(args, "in", "out", "allowlist");
+            string root = RunContext.RepositoryRoot();
+            string inDir = RunContext.SafeFolder(options.Required("in"), "in");
+            string? allowlistPath = options.Optional("allowlist") is string a ? Path.GetFullPath(a) : null;
+            if (allowlistPath != null && !File.Exists(allowlistPath))
+            {
+                throw new UsageException("--allowlist " + allowlistPath + " does not exist.");
+            }
+
+            string outDir = RunContext.EmptyOutputFolder(options.Required("out"), "out");
+            IReadOnlyList<RealismAllowEntry> allowlist = allowlistPath == null ? Array.Empty<RealismAllowEntry>() : RealismAllowEntry.Load(allowlistPath);
+
+            var rts = new List<(string Name, DicomDataset Rt)>();
+            var rtFiles = new JArray();
+            foreach (string path in Directory.EnumerateFiles(inDir, "*.dcm", SearchOption.AllDirectories).OrderBy(f => f, StringComparer.Ordinal))
+            {
+                DicomFile file = DicomFile.Open(path, FileReadOption.ReadAll);
+                if (file.Dataset.GetSingleValueOrDefault(DicomTag.Modality, string.Empty) != "RTSTRUCT")
+                {
+                    continue;
+                }
+
+                string name = Path.GetRelativePath(inDir, path).Replace('\\', '/');
+                rts.Add((name, file.Dataset));
+                rtFiles.Add(new JObject { ["path"] = name, ["sha256"] = RunContext.Sha256(path) });
+            }
+
+            var findings = new List<(string File, RealismFinding Finding)>();
+            foreach ((string name, DicomDataset rt) in rts)
+            {
+                findings.AddRange(RtRealismChecker.Check(rt).Select(f => (name, f)));
+            }
+
+            findings.AddRange(RtRealismChecker.CheckSet(rts));
+            findings = findings.OrderBy(f => f.File, StringComparer.Ordinal).ThenBy(f => RuleOrder(f.Finding.RuleId)).ToList();
+            var rows = findings.Select(f => (f.File, f.Finding, Allowed: f.Finding.Severity == RealismSeverity.Error ? allowlist.FirstOrDefault(e => e.Matches(f.Finding)) : null)).ToList();
+            int unallowed = rows.Count(r => r.Finding.Severity == RealismSeverity.Error && r.Allowed == null);
+            bool passed = rts.Count > 0 && unallowed == 0;
+
+            RunContext.WriteJson(Path.Combine(outDir, JsonFileName), new JObject
+            {
+                ["files"] = rts.Count,
+                ["allowlist"] = allowlistPath == null ? null : RunContext.DisplayPath(allowlistPath, root),
+                ["errors"] = rows.Count(r => r.Finding.Severity == RealismSeverity.Error),
+                ["allowlistedErrors"] = rows.Count(r => r.Allowed != null),
+                ["unallowedErrors"] = unallowed,
+                ["warnings"] = rows.Count(r => r.Finding.Severity == RealismSeverity.Warning),
+                ["passed"] = passed,
+                ["findings"] = new JArray(rows.Select(r =>
+                {
+                    var row = new JObject
+                    {
+                        ["file"] = r.File,
+                        ["rule"] = r.Finding.RuleId,
+                        ["severity"] = r.Finding.Severity.ToString().ToLowerInvariant(),
+                        ["message"] = r.Finding.Message,
+                    };
+                    if (r.Allowed != null)
+                    {
+                        row["allowlistedAs"] = r.Allowed.Id;
+                    }
+
+                    return (object)row;
+                }).ToArray()),
+            });
+
+            string markdown = Markdown(rts.Count, allowlistPath == null ? null : RunContext.DisplayPath(allowlistPath, root), rows, passed);
+            RunContext.WriteText(Path.Combine(outDir, MarkdownFileName), markdown);
+            var inputs = new List<JObject> { new JObject { ["role"] = "rt", ["path"] = RunContext.DisplayPath(inDir, root), ["files"] = rtFiles } };
+            if (allowlistPath != null)
+            {
+                inputs.Add(RunContext.Input("allowlist", allowlistPath, root));
+            }
+
+            RunContext.WriteManifest(outDir, "realism", args, inputs, root);
+            Console.Write(markdown);
+            if (rts.Count == 0)
+            {
+                Console.Error.WriteLine("No RT Structure Set files under " + inDir + ".");
+            }
+
+            return passed ? 0 : 1;
+        }
+
+        private static string Markdown(int fileCount, string? allowlist, IReadOnlyList<(string File, RealismFinding Finding, RealismAllowEntry? Allowed)> rows, bool passed)
+        {
+            var text = new StringBuilder();
+            text.Append("# TPS-realism report\n\n");
+            text.Append($"Files: {fileCount} RT Structure Set(s). Allowlist: {(allowlist == null ? "none" : "`" + allowlist + "`")}. ");
+            text.Append($"Gate: every error must be allowlisted; warnings are reported only. Result: **{(passed ? "PASS" : "FAIL")}**.\n\n");
+            text.Append("| Rule | Checks | Errors | Allowlisted | Warnings |\n|---|---|---|---|---|\n");
+            foreach ((string rule, string checks) in RtRealismChecker.Rules.OrderBy(r => RuleOrder(r.Key)))
+            {
+                var ofRule = rows.Where(r => r.Finding.RuleId == rule).ToList();
+                text.Append($"| {rule} | {checks} | {ofRule.Count(r => r.Finding.Severity == RealismSeverity.Error)} | {ofRule.Count(r => r.Allowed != null)} | {ofRule.Count(r => r.Finding.Severity == RealismSeverity.Warning)} |\n");
+            }
+
+            AppendSection(text, "Errors not in the allowlist", rows.Where(r => r.Finding.Severity == RealismSeverity.Error && r.Allowed == null).Select(r => $"`{r.Finding.RuleId}` {r.File}: {r.Finding.Message}"));
+            AppendSection(text, "Allowlisted errors", Grouped(rows.Where(r => r.Allowed != null), r => $"`{r.Finding.RuleId}` {r.Allowed!.Id}"));
+            AppendSection(text, "Warnings (not gated)", Grouped(rows.Where(r => r.Finding.Severity == RealismSeverity.Warning), r => $"`{r.Finding.RuleId}`"));
+            return text.ToString();
+        }
+
+        /// <summary>One line per distinct message: how often it occurs and in how many files.</summary>
+        private static IEnumerable<string> Grouped(IEnumerable<(string File, RealismFinding Finding, RealismAllowEntry? Allowed)> rows, Func<(string File, RealismFinding Finding, RealismAllowEntry? Allowed), string> prefix)
+            => rows.GroupBy(r => (Prefix: prefix(r), r.Finding.RuleId, r.Finding.Message))
+                .OrderBy(g => RuleOrder(g.Key.RuleId)).ThenBy(g => g.Key.Message, StringComparer.Ordinal)
+                .Select(g => $"{g.Key.Prefix} x{g.Count()} in {g.Select(r => r.File).Distinct(StringComparer.Ordinal).Count()} file(s): {g.Key.Message}");
+
+        private static void AppendSection(StringBuilder text, string title, IEnumerable<string> lines)
+        {
+            text.Append("\n## ").Append(title).Append("\n\n");
+            bool any = false;
+            foreach (string line in lines)
+            {
+                text.Append("- ").Append(line).Append('\n');
+                any = true;
+            }
+
+            if (!any)
+            {
+                text.Append("none\n");
+            }
+        }
+
+        /// <summary>RR2 before RR10.</summary>
+        private static int RuleOrder(string rule)
+            => rule.StartsWith("RR", StringComparison.Ordinal) && int.TryParse(rule.AsSpan(2), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out int n) ? n : int.MaxValue;
+    }
+
+    /// <summary>
+    /// A <c>"tool": "realism"</c> entry of docs/evidence/validator-allowlist.json: an error of rule <c>rule</c> whose
+    /// message matches the regular expression <c>pattern</c> is accepted, for the reason the gap <c>id</c> names.
+    /// Entries for other tools (the standard validators) are skipped.
+    /// </summary>
+    internal sealed class RealismAllowEntry
+    {
+        public const string Tool = "realism";
+
+        private readonly Regex pattern;
+
+        private RealismAllowEntry(string rule, string pattern, string id)
+        {
+            Rule = rule;
+            Id = id;
+            this.pattern = new Regex(pattern, RegexOptions.CultureInvariant);
+        }
+
+        public string Rule { get; }
+
+        public string Id { get; }
+
+        public bool Matches(RealismFinding finding) => finding.RuleId == Rule && pattern.IsMatch(finding.Message);
+
+        public static IReadOnlyList<RealismAllowEntry> Load(string path)
+        {
+            JToken data = JToken.Parse(File.ReadAllText(path, Encoding.UTF8));
+            JToken entries = data is JObject obj ? obj["entries"] ?? new JArray() : data;
+            var result = new List<RealismAllowEntry>();
+            foreach (JObject entry in entries.OfType<JObject>().Where(e => (string?)e["tool"] == Tool))
+            {
+                string rule = (string?)entry["rule"] ?? throw new UsageException("A realism allowlist entry has no \"rule\".");
+                string pattern = (string?)entry["pattern"] ?? throw new UsageException("A realism allowlist entry has no \"pattern\".");
+                string id = (string?)entry["id"] ?? throw new UsageException("A realism allowlist entry has no \"id\".");
+                result.Add(new RealismAllowEntry(rule, pattern, id));
+            }
+
+            return result;
         }
     }
 }

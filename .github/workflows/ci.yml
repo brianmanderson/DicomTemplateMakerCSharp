@@ -49,8 +49,9 @@ jobs:
 
   # Independent DICOM validation of the RT Structure Sets the program generates: builds the 53 TG-263 sites
   # from the frozen snapshot, writes one RT per site on the bundled sample CT, then runs dciodvfy
-  # (dicom3tools) and validate_iods (dicom-validator). Errors must be covered by
-  # docs/evidence/validator-allowlist.json; warnings are reported in the uploaded artifact.
+  # (dicom3tools) and validate_iods (dicom-validator), and the TPS-realism rules of the evaluation tool's realism
+  # command. Errors must be covered by docs/evidence/validator-allowlist.json; warnings are reported in the uploaded
+  # artifact.
   dicom-validation:
     name: DICOM validation
     runs-on: ubuntu-latest
@@ -72,6 +73,7 @@ jobs:
         run: dotnet build TemplateEvaluationTool -c Release
 
       - name: Generate the RT Structure Sets
+        id: generate
         run: |
           dotnet run --project TemplateEvaluationTool -c Release --no-build -- build-sites \
             --snapshot TemplateSync.Tests/TestData/TG263.2026-09-30.json --naming default \
@@ -89,12 +91,23 @@ jobs:
           python -I tools/dicom-validation/validate_rts.py --rt-dir "$RUNNER_TEMP/eval/rt" \
             --out "$RUNNER_TEMP/eval/validators" --allowlist docs/evidence/validator-allowlist.json
 
+      # What planning systems require beyond the standard (RtRealismChecker, rules RR1-RR10). Runs even when the
+      # standard validators fail, so both reports are in the artifact. Errors must be covered by a "realism" entry of
+      # the allowlist; warnings are reported in realism.md.
+      - name: Realism check
+        if: (success() || failure()) && steps.generate.outcome == 'success'
+        run: |
+          dotnet run --project TemplateEvaluationTool -c Release --no-build -- realism \
+            --in "$RUNNER_TEMP/eval/rt" --out "$RUNNER_TEMP/eval/realism" --allowlist docs/evidence/validator-allowlist.json
+
       - name: Upload validation reports
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: dicom-validation-reports
-          path: ${{ runner.temp }}/eval/validators
+          path: |
+            ${{ runner.temp }}/eval/validators
+            ${{ runner.temp }}/eval/realism
           if-no-files-found: warn
 
   release:
