@@ -172,7 +172,7 @@ namespace DicomTemplateMakerGUI.Windows
 
                 HashSet<OntologyCodeClass> before = new HashSet<OntologyCodeClass>(library, ReferenceEqualityComparer.Instance);
                 TemplateMaker reader = new TemplateMaker { Ontologies = library };
-                if (!RtStructureSetFile.TryInterpret(reader, dicom_file, out string? error))
+                if (!RtStructureSetFile.TryInterpret(reader, dicom_file, out string? error, out IReadOnlyList<string> skipped))
                 {
                     logger.LogWarning("Could not add codes from {File}: {Error}", dicom_file, error);
                     MessageBox.Show(this, error ?? "The file could not be read.", title, MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -186,6 +186,10 @@ namespace DicomTemplateMakerGUI.Windows
                 }
 
                 logger.LogInformation("Added {Count} code(s) from {File} to the ontology library (not saved yet).", added.Count, dicom_file);
+                foreach (string reason in skipped)
+                {
+                    logger.LogWarning("Skipped an ROI of {File}: {Reason}", dicom_file, reason);
+                }
                 if (added.Count > 0)
                 {
                     MarkChanged();
@@ -193,8 +197,9 @@ namespace DicomTemplateMakerGUI.Windows
 
                 RefreshView();
                 check_status();
-                MessageBox.Show(this, added.Count == 0 ? "The file's codes are all in the library already." : (added.Count == 1 ? "1 code was added." : added.Count + " codes were added.") + " Press Save to keep them.",
-                    title, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(this, (added.Count == 0 ? "The file's codes are all in the library already." : (added.Count == 1 ? "1 code was added." : added.Count + " codes were added.") + " Press Save to keep them.")
+                    + RtStructureSetFile.DescribeSkipped(skipped),
+                    title, MessageBoxButton.OK, skipped.Count == 0 ? MessageBoxImage.Information : MessageBoxImage.Warning);
             }
             catch (Exception ex)
             {

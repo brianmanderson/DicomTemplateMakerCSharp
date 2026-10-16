@@ -12,7 +12,11 @@ public sealed class RtStructureSetFileTests : IDisposable
 
     public void Dispose() => folder.Dispose();
 
-    private string WriteRt(string name, params (int Number, string Roi, string Color)[] rois)
+    private string WriteRt(string name, params (int Number, string Roi, string Color)[] rois) =>
+        WriteRt(name, rois.Select(r => (r.Number, r.Roi, r.Color, (string?)("Code" + r.Number))).ToArray());
+
+    /// <summary>An RT whose ROIs have a bare SCT code (value, scheme and meaning only) when <c>Code</c> is not null.</summary>
+    private string WriteRt(string name, params (int Number, string Roi, string Color, string? Code)[] rois)
     {
         var dataset = new DicomDataset
         {
@@ -22,11 +26,24 @@ public sealed class RtStructureSetFileTests : IDisposable
         };
         dataset.Add(new DicomSequence(DicomTag.StructureSetROISequence, rois.Select(r => new DicomDataset { { DicomTag.ROINumber, r.Number }, { DicomTag.ROIName, r.Roi } }).ToArray()));
         dataset.Add(new DicomSequence(DicomTag.ROIContourSequence, rois.Select(r => new DicomDataset { { DicomTag.ReferencedROINumber, r.Number }, { DicomTag.ROIDisplayColor, r.Color.Split('\\') } }).ToArray()));
-        dataset.Add(new DicomSequence(DicomTag.RTROIObservationsSequence, rois.Select(r => new DicomDataset
+        dataset.Add(new DicomSequence(DicomTag.RTROIObservationsSequence, rois.Select(r =>
         {
-            { DicomTag.ObservationNumber, r.Number },
-            { DicomTag.ReferencedROINumber, r.Number },
-            { DicomTag.RTROIInterpretedType, "ORGAN" },
+            var observation = new DicomDataset
+            {
+                { DicomTag.ObservationNumber, r.Number },
+                { DicomTag.ReferencedROINumber, r.Number },
+                { DicomTag.RTROIInterpretedType, "ORGAN" },
+            };
+            if (r.Code != null)
+            {
+                observation.Add(new DicomSequence(DicomTag.RTROIIdentificationCodeSequence, new DicomDataset
+                {
+                    { DicomTag.CodeValue, r.Code },
+                    { DicomTag.CodingSchemeDesignator, "SCT" },
+                    { DicomTag.CodeMeaning, r.Roi },
+                }));
+            }
+            return observation;
         }).ToArray()));
         string path = Path.Combine(folder.Path, name);
         new DicomFile(dataset).Save(path);
@@ -44,6 +61,63 @@ public sealed class RtStructureSetFileTests : IDisposable
 
         Assert.Null(error);
         Assert.Equal(new[] { "Brain", "Lung" }, maker.ROIs.Select(r => r.ROIName));
+        Assert.Equal(new (string, string?, string?, string?)[] { ("Brain", "Code1", "SCT", null), ("Lung", "Code2", "SCT", null) },
+            maker.ROIs.Select(r => (r.Ontology_Class!.CodeMeaning, r.Ontology_Class.CodeValue, r.Ontology_Class.Scheme, r.Ontology_Class.ContextIdentifier)));
+    }
+
+    [Fact]
+    public void An_roi_without_a_code_is_skipped_with_the_reason()
+    {
+        string rt = WriteRt("rt.dcm", (1, "Brain", "255\\0\\0", "12738006"), (2, "Ring", "0\\255\\0", null));
+        var maker = new TemplateMaker();
+
+        Assert.True(RtStructureSetFile.TryInterpret(maker, rt, out string? error, out IReadOnlyList<string> skipped));
+
+        Assert.Null(error);
+        Assert.Equal(new[] { "Brain" }, maker.ROIs.Select(r => r.ROIName));
+        string reason = Assert.Single(skipped);
+        Assert.StartsWith("Ring (ROI number 2): ", reason, StringComparison.Ordinal);
+        Assert.Contains("no RT ROI Identification Code", reason, StringComparison.Ordinal);
+        Assert.Contains("Ring (ROI number 2)", RtStructureSetFile.DescribeSkipped(skipped), StringComparison.Ordinal);
+        Assert.Equal(string.Empty, RtStructureSetFile.DescribeSkipped(Array.Empty<string>()));
+    }
+
+    [Fact]
+    public void An_rt_without_a_readable_roi_is_reported_with_the_reasons()
+    {
+        string rt = WriteRt("rt.dcm", (1, "Ring", "255\\0\\0", null), (2, "Couch", "0\\255\\0", null));
+        var maker = new TemplateMaker();
+        var existing = new ROIClass(1, 2, 3, "Heart", "ORGAN", new OntologyCodeClass("Heart", "7088", "FMA"));
+        maker.ROIs.Add(existing);
+
+        Assert.False(RtStructureSetFile.TryInterpret(maker, rt, out string? error, out IReadOnlyList<string> skipped));
+
+        Assert.StartsWith("No ROI of the RT Structure Set " + rt + " could be read:", error, StringComparison.Ordinal);
+        Assert.Contains("Ring (ROI number 1)", error, StringComparison.Ordinal);
+        Assert.Contains("Couch (ROI number 2)", error, StringComparison.Ordinal);
+        Assert.Contains("Nothing was added", error, StringComparison.Ordinal);
+        Assert.Equal(2, skipped.Count);
+        Assert.Equal(new[] { existing }, maker.ROIs);
+        Assert.Empty(maker.Ontologies);
+    }
+
+    [Fact]
+    public void A_null_reference_while_reading_is_reported_and_leaves_the_template_unchanged()
+    {
+        // A null entry in the ontology list makes the code lookup throw NullReferenceException; it used to escape TryInterpret.
+        string rt = WriteRt("rt.dcm", (1, "Brain", "255\\0\\0"));
+        var maker = new TemplateMaker();
+        var heart = new OntologyCodeClass("Heart", "7088", "FMA");
+        maker.Ontologies.Add(heart);
+        maker.Ontologies.Add(null!);
+
+        Assert.False(RtStructureSetFile.TryInterpret(maker, rt, out string? error));
+
+        Assert.StartsWith("The RT Structure Set " + rt + " could not be read: an attribute that is needed is missing", error, StringComparison.Ordinal);
+        Assert.Contains(nameof(NullReferenceException), error, StringComparison.Ordinal);
+        Assert.Contains("Nothing was added", error, StringComparison.Ordinal);
+        Assert.Empty(maker.ROIs);
+        Assert.Equal(new[] { heart, null }, maker.Ontologies);
     }
 
     [Fact]
