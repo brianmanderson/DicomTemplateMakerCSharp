@@ -1,0 +1,12 @@
+{
+  "description": "Validator errors that CI accepts because a known gap in the generated RT Structure Sets explains them. Each id refers to the conformance gaps C1-C13 of the overhaul plan. Entries may only be removed, never added, without a review that names the gap they cover.",
+  "entries": [
+    {
+      "tool": "validate_iods",
+      "pattern": "Tag \\(3006,0085\\) \\(ROI Observation Label\\) is unexpected",
+      "id": "C9",
+      "reason": "ROIObservationLabel is retired; RtStructureBuilder still writes it (truncated to 16 characters) until the provenance step of the overhaul removes it.",
+      "added": "2026-10-16"
+    }
+  ]
+}

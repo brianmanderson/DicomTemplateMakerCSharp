@@ -1,0 +1,27 @@
+Warning - </ReferringPhysicianName(0008,0090)[1]> - Value dubious for this VR [PN] = <Unknown> - Retired Person Name form
+Warning - </PatientName(0010,0010)[1]> - Value dubious for this VR [PN] = <MASKED> - Retired Person Name form
+Warning - </RTROIObservationsSequence(3006,0080)[1]/ROIInterpreter(3006,00a6)[1]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form
+Warning - </RTROIObservationsSequence(3006,0080)[2]/ROIInterpreter(3006,00a6)[1]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form
+Warning - </RTROIObservationsSequence(3006,0080)[3]/ROIInterpreter(3006,00a6)[1]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form
+Warning - </RTROIObservationsSequence(3006,0080)[4]/ROIInterpreter(3006,00a6)[1]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form
+Warning - </RTROIObservationsSequence(3006,0080)[5]/ROIInterpreter(3006,00a6)[1]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form
+Warning - </RTROIObservationsSequence(3006,0080)[6]/ROIInterpreter(3006,00a6)[1]> - Value dubious for this VR [PN] = <Brian_Mark_Anderson> - Retired Person Name form
+RTStructureSet
+Warning - </RTROIObservationsSequence(3006,0080)[1]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResource(0008,0105)[1]> - Unrecognized defined term = <99VMS>
+Warning - </RTROIObservationsSequence(3006,0080)[1]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceUID(0008,0118)[1]> - Unrecognized defined term = <1.2.246.352.7.1.1>
+Warning - </RTROIObservationsSequence(3006,0080)[1]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceName(0008,0122)[1]> - Unrecognized defined term = <Varian Medical Systems>
+Warning - </RTROIObservationsSequence(3006,0080)[2]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResource(0008,0105)[1]> - Unrecognized defined term = <99VMS>
+Warning - </RTROIObservationsSequence(3006,0080)[2]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceUID(0008,0118)[1]> - Unrecognized defined term = <1.2.246.352.7.1.1>
+Warning - </RTROIObservationsSequence(3006,0080)[2]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceName(0008,0122)[1]> - Unrecognized defined term = <Varian Medical Systems>
+Warning - </RTROIObservationsSequence(3006,0080)[3]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResource(0008,0105)[1]> - Unrecognized defined term = <99VMS>
+Warning - </RTROIObservationsSequence(3006,0080)[3]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceUID(0008,0118)[1]> - Unrecognized defined term = <1.2.246.352.7.1.1>
+Warning - </RTROIObservationsSequence(3006,0080)[3]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceName(0008,0122)[1]> - Unrecognized defined term = <Varian Medical Systems>
+Warning - </RTROIObservationsSequence(3006,0080)[4]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResource(0008,0105)[1]> - Unrecognized defined term = <99VMS>
+Warning - </RTROIObservationsSequence(3006,0080)[4]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceUID(0008,0118)[1]> - Unrecognized defined term = <1.2.246.352.7.1.1>
+Warning - </RTROIObservationsSequence(3006,0080)[4]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceName(0008,0122)[1]> - Unrecognized defined term = <Varian Medical Systems>
+Warning - </RTROIObservationsSequence(3006,0080)[5]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResource(0008,0105)[1]> - Unrecognized defined term = <99VMS>
+Warning - </RTROIObservationsSequence(3006,0080)[5]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceUID(0008,0118)[1]> - Unrecognized defined term = <1.2.246.352.7.1.1>
+Warning - </RTROIObservationsSequence(3006,0080)[5]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceName(0008,0122)[1]> - Unrecognized defined term = <Varian Medical Systems>
+Warning - </RTROIObservationsSequence(3006,0080)[6]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResource(0008,0105)[1]> - Unrecognized defined term = <99VMS>
+Warning - </RTROIObservationsSequence(3006,0080)[6]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceUID(0008,0118)[1]> - Unrecognized defined term = <1.2.246.352.7.1.1>
+Warning - </RTROIObservationsSequence(3006,0080)[6]/RTROIIdentificationCodeSequence(3006,0086)[1]/MappingResourceName(0008,0122)[1]> - Unrecognized defined term = <Varian Medical Systems>

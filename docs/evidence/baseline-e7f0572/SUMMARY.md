@@ -196,3 +196,15 @@ The eight sites with no Consider ROIs are exactly the protocol's Recommend-only 
   lines as the inventory (plus its two separator lines). Its output contains the patient name and was not kept.
 - `dcmdump +L` (protocol 1.3) was not run: DCMTK is not installed here. Left for the validator stage (P1.7,
   P2.3), which installs pinned tools in CI.
+
+## Validators (plan P1.7)
+
+`validators/` holds the reports of `tools/dicom-validation/validate_rts.py` over the same 53 RTs, regenerated
+on 2026-10-16 from the frozen snapshot (`dicom3tools` 20260927, `dicom-validator` 0.9.0): `summary.md`,
+`findings.json`, the per-file `dciodvfy -new` output and the `validate_iods` output for edition 2025b (gated)
+and the current edition. Result: `dciodvfy` reports no errors; `validate_iods` reports one error per RT, the
+retired `ROIObservationLabel` (gap C9), which `docs/evidence/validator-allowlist.json` accepts until the
+provenance step removes it. The warnings map to C1 (Varian context attributes on SNOMED codes), C4
+(`ROIInterpreter` in the retired person-name form) and the sample CT's own `PatientName` and
+`ReferringPhysicianName` values (plan P0.2). Patient-identifying values are masked in every report. The CI job
+`dicom-validation` (`.github/workflows/ci.yml`) repeats this on every push and pull request.

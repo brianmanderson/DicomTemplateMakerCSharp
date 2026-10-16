@@ -1,0 +1,584 @@
+Using DICOM edition 2025b
+Validating DICOM file _Miscellaneous_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_1Level_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_2Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_3Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_4Levels_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_Basic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_CW_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_Details_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file _Targets_RNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Anal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Bladder_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Liver_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Pancreas_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Paraaortic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_ProstBed_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Rectum_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_RenalAdrenal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_RetroperitonealSpace_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Spleen_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file AbdPelv_Stomach_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Brachy_Breast_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Brachy_Endobronch_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Brachy_Gyn_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Brachy_Ocular_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Brachy_Prostate_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Brachy_Skin_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file CNS_Brain_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file CNS_Cervical_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file CNS_Craniospinal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file CNS_Lumbar_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file CNS_Sacral_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file CNS_Thoracic_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Extremities_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_Face_Parotid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_LX_HPX_Thyroid_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_Nasopharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_Neck_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_Orbit_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_Oropharynx_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file H&N_Sinonasal_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_AxillaSCN_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_BreastPBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_BreastRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_BreastWBI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_CWRNI_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_Esoph_GEJ_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_Esoph_S_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_Esoph_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_Lung_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
+Validating DICOM file Thorax_Mediastinum_Thymus_UID1.2.826.0.1.3680043.2.1125.1.75064541463040.2005072610175534453.dcm
+SOP class is "1.2.840.10008.5.1.4.1.1.481.3" (RT Structure Set IOD)
+
+Errors
+======
+
+Module "RT ROI Observations":
+(3006,0080) (RT ROI Observations Sequence):
+  Tag (3006,0085) (ROI Observation Label) is unexpected
+
+======
