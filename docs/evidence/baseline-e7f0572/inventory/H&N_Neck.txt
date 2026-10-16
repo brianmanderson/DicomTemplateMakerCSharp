@@ -1,0 +1,866 @@
+(0002,0000) FileMetaInformationGroupLength UL 1 4 <DERIVED>
+(0002,0001) FileMetaInformationVersion OB 1 2 0001
+(0002,0002) MediaStorageSOPClassUID UI 1 30 1.2.840.10008.5.1.4.1.1.481.3 (RT Structure Set Storage)
+(0002,0003) MediaStorageSOPInstanceUID UI 1 * UID#1
+(0002,0010) TransferSyntaxUID UI 1 18 1.2.840.10008.1.2 (Implicit VR Little Endian: Default Transfer Syntax for DICOM)
+(0002,0012) ImplementationClassUID UI 1 * <MASKED>
+(0002,0013) ImplementationVersionName SH 1 * <MASKED>
+(0008,0005) SpecificCharacterSet CS 1 10 ISO_IR 100
+(0008,0012) InstanceCreationDate DA 1 * <DATE>
+(0008,0013) InstanceCreationTime TM 1 * <TIME>
+(0008,0016) SOPClassUID UI 1 30 1.2.840.10008.5.1.4.1.1.481.3 (RT Structure Set Storage)
+(0008,0018) SOPInstanceUID UI 1 * UID#1
+(0008,0020) StudyDate DA 1 * <DATE>
+(0008,0021) SeriesDate DA 1 * <DATE>
+(0008,0030) StudyTime TM 1 * <TIME>
+(0008,0031) SeriesTime TM 1 * <TIME>
+(0008,0050) AccessionNumber SH 1 2 1
+(0008,0060) Modality CS 1 8 RTSTRUCT
+(0008,0070) Manufacturer LO 1 14 UCSD Residency
+(0008,0090) ReferringPhysicianName PN 1 * <MASKED>
+(0008,1030) StudyDescription LO 1 18 Visible Human Male
+(0008,103E) SeriesDescription LO 1 10 Anonymized
+(0008,1070) OperatorsName PN 0 0
+(0008,1090) ManufacturerModelName LO 1 20 Universal_RT_Creator
+(0010,0010) PatientName PN 1 * <MASKED>
+(0010,0020) PatientID LO 1 * <MASKED>
+(0010,0030) PatientBirthDate DA 1 * <MASKED>
+(0010,0040) PatientSex CS 1 * <MASKED>
+(0018,1020) SoftwareVersions LO 1 28 Hello_from_Brian_M_Anderson
+(0020,000D) StudyInstanceUID UI 1 * UID#2
+(0020,000E) SeriesInstanceUID UI 1 * UID#3
+(0020,0010) StudyID SH 1 2 1
+(0020,0011) SeriesNumber IS 1 2 1
+(0020,0013) InstanceNumber IS 1 2 1
+(0020,0052) FrameOfReferenceUID UI 1 * UID#4
+(0020,1040) PositionReferenceIndicator LO 0 0
+(3006,0002) StructureSetLabel SH 1 8 H&N_Neck
+(3006,0008) StructureSetDate DA 1 * <DATE>
+(3006,0009) StructureSetTime TM 1 * <TIME>
+(3006,0010) ReferencedFrameOfReferenceSequence SQ 1 -
+  (FFFE,E000) Item 1
+    (0020,0052) FrameOfReferenceUID UI 1 * UID#4
+    (3006,0012) RTReferencedStudySequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,1150) ReferencedSOPClassUID UI 1 24 1.2.840.10008.3.1.2.3.1 (Detached Study Management SOP Class (Retired))
+        (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#2
+        (3006,0014) RTReferencedSeriesSequence SQ 1 -
+          (FFFE,E000) Item 1
+            (0020,000E) SeriesInstanceUID UI 1 * UID#5
+            (3006,0016) ContourImageSequence SQ 4 -
+              (FFFE,E000) Item 1
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#6
+              (FFFE,E000) Item 2
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#7
+              (FFFE,E000) Item 3
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#8
+              (FFFE,E000) Item 4
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#9
+(3006,0020) StructureSetROISequence SQ 32 -
+  (FFFE,E000) Item 1
+    (3006,0022) ROINumber IS 1 2 1
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 14 BrachialPlex_L
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 2
+    (3006,0022) ROINumber IS 1 2 2
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 14 BrachialPlex_R
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 3
+    (3006,0022) ROINumber IS 1 2 3
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 4 GTV
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 4
+    (3006,0022) ROINumber IS 1 2 4
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 4 CTV
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 5
+    (3006,0022) ROINumber IS 1 2 5
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 4 GTVn
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 6
+    (3006,0022) ROINumber IS 1 2 6
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 CTV_Low
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 7
+    (3006,0022) ROINumber IS 1 2 7
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 PTV_Low
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 8
+    (3006,0022) ROINumber IS 1 2 8
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 CTV_Mid
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 9
+    (3006,0022) ROINumber IS 1 2 9
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 PTV_Mid
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 10
+    (3006,0022) ROINumber IS 1 2 10
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 CTV_High
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 11
+    (3006,0022) ROINumber IS 1 2 11
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 PTV_High
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 12
+    (3006,0022) ROINumber IS 1 2 12
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 Cochlea_R
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 13
+    (3006,0022) ROINumber IS 1 2 13
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 SpinalCord
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 14
+    (3006,0022) ROINumber IS 1 2 14
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 Cochlea_L
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 15
+    (3006,0022) ROINumber IS 1 2 15
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 12 Oral_Cavity
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 16
+    (3006,0022) ROINumber IS 1 2 16
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 4 Lips
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 17
+    (3006,0022) ROINumber IS 1 2 17
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 Parotid_L
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 18
+    (3006,0022) ROINumber IS 1 2 18
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 Parotid_R
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 19
+    (3006,0022) ROINumber IS 1 2 19
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 8 Parotids
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 20
+    (3006,0022) ROINumber IS 1 2 20
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 Esophagus
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 21
+    (3006,0022) ROINumber IS 1 2 21
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 10 Brainstem
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 22
+    (3006,0022) ROINumber IS 1 2 22
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 6 Larynx
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 23
+    (3006,0022) ROINumber IS 1 2 23
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 14 Submand_Glnd_L
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 24
+    (3006,0022) ROINumber IS 1 2 24
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 14 Submand_Glnd_R
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 25
+    (3006,0022) ROINumber IS 1 2 25
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 12 Thyroid_Glnd
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 26
+    (3006,0022) ROINumber IS 1 2 26
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 4 BODY
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 27
+    (3006,0022) ROINumber IS 1 2 27
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 14 Constrict_Musc
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 28
+    (3006,0022) ROINumber IS 1 2 28
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 4 PTV
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 29
+    (3006,0022) ROINumber IS 1 2 29
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 14 Mandible_Bone
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 30
+    (3006,0022) ROINumber IS 1 2 30
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 6 GTVsb
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 31
+    (3006,0022) ROINumber IS 1 2 31
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 6 CTVsb
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+  (FFFE,E000) Item 32
+    (3006,0022) ROINumber IS 1 2 32
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#4
+    (3006,0026) ROIName LO 1 12 SpinalCanal
+    (3006,0036) ROIGenerationAlgorithm CS 1 14 SEMIAUTOMATIC
+(3006,0039) ROIContourSequence SQ 32 -
+  (FFFE,E000) Item 1
+    (3006,002A) ROIDisplayColor IS 3 10 0\119\170
+    (3006,0084) ReferencedROINumber IS 1 2 1
+  (FFFE,E000) Item 2
+    (3006,002A) ROIDisplayColor IS 3 12 100\255\233
+    (3006,0084) ReferencedROINumber IS 1 2 2
+  (FFFE,E000) Item 3
+    (3006,002A) ROIDisplayColor IS 3 10 125\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 3
+  (FFFE,E000) Item 4
+    (3006,002A) ROIDisplayColor IS 3 8 255\0\0
+    (3006,0084) ReferencedROINumber IS 1 2 4
+  (FFFE,E000) Item 5
+    (3006,002A) ROIDisplayColor IS 3 10 125\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 5
+  (FFFE,E000) Item 6
+    (3006,002A) ROIDisplayColor IS 3 10 255\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 6
+  (FFFE,E000) Item 7
+    (3006,002A) ROIDisplayColor IS 3 10 255\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 7
+  (FFFE,E000) Item 8
+    (3006,002A) ROIDisplayColor IS 3 8 6\82\255
+    (3006,0084) ReferencedROINumber IS 1 2 8
+  (FFFE,E000) Item 9
+    (3006,002A) ROIDisplayColor IS 3 8 6\82\255
+    (3006,0084) ReferencedROINumber IS 1 2 9
+  (FFFE,E000) Item 10
+    (3006,002A) ROIDisplayColor IS 3 8 255\0\0
+    (3006,0084) ReferencedROINumber IS 1 2 10
+  (FFFE,E000) Item 11
+    (3006,002A) ROIDisplayColor IS 3 8 255\0\0
+    (3006,0084) ReferencedROINumber IS 1 2 11
+  (FFFE,E000) Item 12
+    (3006,002A) ROIDisplayColor IS 3 10 165\42\42
+    (3006,0084) ReferencedROINumber IS 1 2 12
+  (FFFE,E000) Item 13
+    (3006,002A) ROIDisplayColor IS 3 10 125\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 13
+  (FFFE,E000) Item 14
+    (3006,002A) ROIDisplayColor IS 3 10 164\164\0
+    (3006,0084) ReferencedROINumber IS 1 2 14
+  (FFFE,E000) Item 15
+    (3006,002A) ROIDisplayColor IS 3 12 240\230\140
+    (3006,0084) ReferencedROINumber IS 1 2 15
+  (FFFE,E000) Item 16
+    (3006,002A) ROIDisplayColor IS 3 10 255\0\255
+    (3006,0084) ReferencedROINumber IS 1 2 16
+  (FFFE,E000) Item 17
+    (3006,002A) ROIDisplayColor IS 3 12 200\180\255
+    (3006,0084) ReferencedROINumber IS 1 2 17
+  (FFFE,E000) Item 18
+    (3006,002A) ROIDisplayColor IS 3 10 0\127\255
+    (3006,0084) ReferencedROINumber IS 1 2 18
+  (FFFE,E000) Item 19
+    (3006,002A) ROIDisplayColor IS 3 10 233\67\67
+    (3006,0084) ReferencedROINumber IS 1 2 19
+  (FFFE,E000) Item 20
+    (3006,002A) ROIDisplayColor IS 3 10 255\165\0
+    (3006,0084) ReferencedROINumber IS 1 2 20
+  (FFFE,E000) Item 21
+    (3006,002A) ROIDisplayColor IS 3 10 255\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 21
+  (FFFE,E000) Item 22
+    (3006,002A) ROIDisplayColor IS 3 12 255\255\187
+    (3006,0084) ReferencedROINumber IS 1 2 22
+  (FFFE,E000) Item 23
+    (3006,002A) ROIDisplayColor IS 3 10 125\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 23
+  (FFFE,E000) Item 24
+    (3006,002A) ROIDisplayColor IS 3 12 138\255\173
+    (3006,0084) ReferencedROINumber IS 1 2 24
+  (FFFE,E000) Item 25
+    (3006,002A) ROIDisplayColor IS 3 10 34\255\233
+    (3006,0084) ReferencedROINumber IS 1 2 25
+  (FFFE,E000) Item 26
+    (3006,002A) ROIDisplayColor IS 3 8 0\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 26
+  (FFFE,E000) Item 27
+    (3006,002A) ROIDisplayColor IS 3 10 128\0\255
+    (3006,0084) ReferencedROINumber IS 1 2 27
+  (FFFE,E000) Item 28
+    (3006,002A) ROIDisplayColor IS 3 8 255\0\0
+    (3006,0084) ReferencedROINumber IS 1 2 28
+  (FFFE,E000) Item 29
+    (3006,002A) ROIDisplayColor IS 3 10 255\165\0
+    (3006,0084) ReferencedROINumber IS 1 2 29
+  (FFFE,E000) Item 30
+    (3006,002A) ROIDisplayColor IS 3 10 125\255\0
+    (3006,0084) ReferencedROINumber IS 1 2 30
+  (FFFE,E000) Item 31
+    (3006,002A) ROIDisplayColor IS 3 8 255\0\0
+    (3006,0084) ReferencedROINumber IS 1 2 31
+  (FFFE,E000) Item 32
+    (3006,002A) ROIDisplayColor IS 3 12 138\255\173
+    (3006,0084) ReferencedROINumber IS 1 2 32
+(3006,0080) RTROIObservationsSequence SQ 32 -
+  (FFFE,E000) Item 1
+    (3006,0082) ObservationNumber IS 1 2 1
+    (3006,0084) ReferencedROINumber IS 1 2 1
+    (3006,0085) ROIObservationLabel SH 1 14 BrachialPlex_L
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 723375004
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 14 BrachialPlex_L
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 2
+    (3006,0082) ObservationNumber IS 1 2 2
+    (3006,0084) ReferencedROINumber IS 1 2 2
+    (3006,0085) ROIObservationLabel SH 1 14 BrachialPlex_R
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 723374000
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 14 BrachialPlex_R
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 3
+    (3006,0082) ObservationNumber IS 1 2 3
+    (3006,0084) ReferencedROINumber IS 1 2 3
+    (3006,0085) ROIObservationLabel SH 1 4 GTV
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228791009
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 4 GTV
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 GTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 4
+    (3006,0082) ObservationNumber IS 1 2 4
+    (3006,0084) ReferencedROINumber IS 1 2 4
+    (3006,0085) ROIObservationLabel SH 1 4 CTV
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228792002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 4 CTV
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 CTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 5
+    (3006,0082) ObservationNumber IS 1 2 5
+    (3006,0084) ReferencedROINumber IS 1 2 5
+    (3006,0085) ROIObservationLabel SH 1 4 GTVn
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228791009
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 4 GTVn
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 GTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 6
+    (3006,0082) ObservationNumber IS 1 2 6
+    (3006,0084) ReferencedROINumber IS 1 2 6
+    (3006,0085) ROIObservationLabel SH 1 8 CTV_Low
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228792002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 CTV_Low
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 CTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 7
+    (3006,0082) ObservationNumber IS 1 2 7
+    (3006,0084) ReferencedROINumber IS 1 2 7
+    (3006,0085) ROIObservationLabel SH 1 8 PTV_Low
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228793007
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 PTV_Low
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 PTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 8
+    (3006,0082) ObservationNumber IS 1 2 8
+    (3006,0084) ReferencedROINumber IS 1 2 8
+    (3006,0085) ROIObservationLabel SH 1 8 CTV_Mid
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228792002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 CTV_Mid
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 CTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 9
+    (3006,0082) ObservationNumber IS 1 2 9
+    (3006,0084) ReferencedROINumber IS 1 2 9
+    (3006,0085) ROIObservationLabel SH 1 8 PTV_Mid
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228793007
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 PTV_Mid
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 PTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 10
+    (3006,0082) ObservationNumber IS 1 2 10
+    (3006,0084) ReferencedROINumber IS 1 2 10
+    (3006,0085) ROIObservationLabel SH 1 8 CTV_High
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228792002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 CTV_High
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 CTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 11
+    (3006,0082) ObservationNumber IS 1 2 11
+    (3006,0084) ReferencedROINumber IS 1 2 11
+    (3006,0085) ROIObservationLabel SH 1 8 PTV_High
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228793007
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 PTV_High
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 PTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 12
+    (3006,0082) ObservationNumber IS 1 2 12
+    (3006,0084) ReferencedROINumber IS 1 2 12
+    (3006,0085) ROIObservationLabel SH 1 10 Cochlea_R
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 772065000
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 Cochlea_R
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 13
+    (3006,0082) ObservationNumber IS 1 2 13
+    (3006,0084) ReferencedROINumber IS 1 2 13
+    (3006,0085) ROIObservationLabel SH 1 10 SpinalCord
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 2748008
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 SpinalCord
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 14
+    (3006,0082) ObservationNumber IS 1 2 14
+    (3006,0084) ReferencedROINumber IS 1 2 14
+    (3006,0085) ROIObservationLabel SH 1 10 Cochlea_L
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 772064001
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 Cochlea_L
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 15
+    (3006,0082) ObservationNumber IS 1 2 15
+    (3006,0084) ReferencedROINumber IS 1 2 15
+    (3006,0085) ROIObservationLabel SH 1 12 Oral_Cavity
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 74262004
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 12 Oral_Cavity
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 16
+    (3006,0082) ObservationNumber IS 1 2 16
+    (3006,0084) ReferencedROINumber IS 1 2 16
+    (3006,0085) ROIObservationLabel SH 1 4 Lips
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 81083006
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 4 Lips
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 17
+    (3006,0082) ObservationNumber IS 1 2 17
+    (3006,0084) ReferencedROINumber IS 1 2 17
+    (3006,0085) ROIObservationLabel SH 1 10 Parotid_L
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 44178003
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 Parotid_L
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 18
+    (3006,0082) ObservationNumber IS 1 2 18
+    (3006,0084) ReferencedROINumber IS 1 2 18
+    (3006,0085) ROIObservationLabel SH 1 10 Parotid_R
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 85706002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 Parotid_R
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 19
+    (3006,0082) ObservationNumber IS 1 2 19
+    (3006,0084) ReferencedROINumber IS 1 2 19
+    (3006,0085) ROIObservationLabel SH 1 8 Parotids
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 45289007
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 8 Parotids
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 20
+    (3006,0082) ObservationNumber IS 1 2 20
+    (3006,0084) ReferencedROINumber IS 1 2 20
+    (3006,0085) ROIObservationLabel SH 1 10 Esophagus
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 32849002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 Esophagus
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 21
+    (3006,0082) ObservationNumber IS 1 2 21
+    (3006,0084) ReferencedROINumber IS 1 2 21
+    (3006,0085) ROIObservationLabel SH 1 10 Brainstem
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 15926001
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 10 Brainstem
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 22
+    (3006,0082) ObservationNumber IS 1 2 22
+    (3006,0084) ReferencedROINumber IS 1 2 22
+    (3006,0085) ROIObservationLabel SH 1 6 Larynx
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 4596009
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 6 Larynx
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 23
+    (3006,0082) ObservationNumber IS 1 2 23
+    (3006,0084) ReferencedROINumber IS 1 2 23
+    (3006,0085) ROIObservationLabel SH 1 14 Submand_Glnd_L
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 48065005
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 14 Submand_Glnd_L
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 24
+    (3006,0082) ObservationNumber IS 1 2 24
+    (3006,0084) ReferencedROINumber IS 1 2 24
+    (3006,0085) ROIObservationLabel SH 1 14 Submand_Glnd_R
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 91590006
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 14 Submand_Glnd_R
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 25
+    (3006,0082) ObservationNumber IS 1 2 25
+    (3006,0084) ReferencedROINumber IS 1 2 25
+    (3006,0085) ROIObservationLabel SH 1 12 Thyroid_Glnd
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 69748006
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 12 Thyroid_Glnd
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 26
+    (3006,0082) ObservationNumber IS 1 2 26
+    (3006,0084) ReferencedROINumber IS 1 2 26
+    (3006,0085) ROIObservationLabel SH 1 4 BODY
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 261188006
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 4 BODY
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 8 EXTERNAL
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 27
+    (3006,0082) ObservationNumber IS 1 2 27
+    (3006,0084) ReferencedROINumber IS 1 2 27
+    (3006,0085) ROIObservationLabel SH 1 14 Constrict_Musc
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 4866005
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 14 Constrict_Musc
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 28
+    (3006,0082) ObservationNumber IS 1 2 28
+    (3006,0084) ReferencedROINumber IS 1 2 28
+    (3006,0085) ROIObservationLabel SH 1 4 PTV
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228793007
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 4 PTV
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 PTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 29
+    (3006,0082) ObservationNumber IS 1 2 29
+    (3006,0084) ReferencedROINumber IS 1 2 29
+    (3006,0085) ROIObservationLabel SH 1 14 Mandible_Bone
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 91609006
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 14 Mandible_Bone
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 30
+    (3006,0082) ObservationNumber IS 1 2 30
+    (3006,0084) ReferencedROINumber IS 1 2 30
+    (3006,0085) ROIObservationLabel SH 1 6 GTVsb
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228791009
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 6 GTVsb
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 GTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 31
+    (3006,0082) ObservationNumber IS 1 2 31
+    (3006,0084) ReferencedROINumber IS 1 2 31
+    (3006,0085) ROIObservationLabel SH 1 6 CTVsb
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 10 228792002
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 6 CTVsb
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 4 CTV
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+  (FFFE,E000) Item 32
+    (3006,0082) ObservationNumber IS 1 2 32
+    (3006,0084) ReferencedROINumber IS 1 2 32
+    (3006,0085) ROIObservationLabel SH 1 12 SpinalCanal
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 8 61853006
+        (0008,0102) CodingSchemeDesignator SH 1 4 SCT
+        (0008,0104) CodeMeaning LO 1 12 SpinalCanal
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#10
+        (0008,0118) MappingResourceUID UI 1 * UID#11
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 1 20 Brian_Mark_Anderson
+(300E,0002) ApprovalStatus CS 1 10 UNAPPROVED

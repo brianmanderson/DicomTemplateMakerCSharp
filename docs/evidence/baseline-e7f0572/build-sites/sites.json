@@ -1,0 +1,542 @@
+{
+  "naming": {
+    "Language": "English/Ingles/Anglais",
+    "LateralityFirst": false,
+    "LanguageVisible": true,
+    "LateralityVisible": true
+  },
+  "siteCount": 53,
+  "builtCount": 53,
+  "sites": [
+    {
+      "site": "AbdPelv_Anal",
+      "built": true,
+      "indexRois": 22,
+      "recommendRois": 11,
+      "considerRois": 11,
+      "builtRois": 22,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Bladder",
+      "built": true,
+      "indexRois": 25,
+      "recommendRois": 9,
+      "considerRois": 16,
+      "builtRois": 25,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Gyn",
+      "built": true,
+      "indexRois": 19,
+      "recommendRois": 7,
+      "considerRois": 12,
+      "builtRois": 19,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Liver",
+      "built": true,
+      "indexRois": 33,
+      "recommendRois": 13,
+      "considerRois": 20,
+      "builtRois": 33,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Pancreas",
+      "built": true,
+      "indexRois": 27,
+      "recommendRois": 13,
+      "considerRois": 14,
+      "builtRois": 27,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Paraaortic",
+      "built": true,
+      "indexRois": 23,
+      "recommendRois": 9,
+      "considerRois": 14,
+      "builtRois": 23,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_ProstBed",
+      "built": true,
+      "indexRois": 23,
+      "recommendRois": 10,
+      "considerRois": 13,
+      "builtRois": 23,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Prostate",
+      "built": true,
+      "indexRois": 25,
+      "recommendRois": 11,
+      "considerRois": 14,
+      "builtRois": 25,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Rectum",
+      "built": true,
+      "indexRois": 21,
+      "recommendRois": 8,
+      "considerRois": 13,
+      "builtRois": 21,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_RenalAdrenal",
+      "built": true,
+      "indexRois": 25,
+      "recommendRois": 11,
+      "considerRois": 14,
+      "builtRois": 25,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_RetroperitonealSpace",
+      "built": true,
+      "indexRois": 22,
+      "recommendRois": 11,
+      "considerRois": 11,
+      "builtRois": 22,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Spleen",
+      "built": true,
+      "indexRois": 24,
+      "recommendRois": 9,
+      "considerRois": 15,
+      "builtRois": 24,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "AbdPelv_Stomach",
+      "built": true,
+      "indexRois": 28,
+      "recommendRois": 15,
+      "considerRois": 13,
+      "builtRois": 28,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Brachy_Breast",
+      "built": true,
+      "indexRois": 22,
+      "recommendRois": 22,
+      "considerRois": 0,
+      "builtRois": 22,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Brachy_Endobronch",
+      "built": true,
+      "indexRois": 9,
+      "recommendRois": 9,
+      "considerRois": 0,
+      "builtRois": 9,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Brachy_Gyn",
+      "built": true,
+      "indexRois": 24,
+      "recommendRois": 22,
+      "considerRois": 2,
+      "builtRois": 24,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Brachy_Ocular",
+      "built": true,
+      "indexRois": 22,
+      "recommendRois": 22,
+      "considerRois": 0,
+      "builtRois": 22,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Brachy_Prostate",
+      "built": true,
+      "indexRois": 29,
+      "recommendRois": 29,
+      "considerRois": 0,
+      "builtRois": 29,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Brachy_Skin",
+      "built": true,
+      "indexRois": 10,
+      "recommendRois": 10,
+      "considerRois": 0,
+      "builtRois": 10,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "CNS_Brain",
+      "built": true,
+      "indexRois": 34,
+      "recommendRois": 14,
+      "considerRois": 20,
+      "builtRois": 34,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "CNS_Cervical",
+      "built": true,
+      "indexRois": 18,
+      "recommendRois": 4,
+      "considerRois": 14,
+      "builtRois": 18,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "CNS_Craniospinal",
+      "built": true,
+      "indexRois": 36,
+      "recommendRois": 22,
+      "considerRois": 14,
+      "builtRois": 36,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "CNS_Lumbar",
+      "built": true,
+      "indexRois": 11,
+      "recommendRois": 6,
+      "considerRois": 5,
+      "builtRois": 11,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "CNS_Sacral",
+      "built": true,
+      "indexRois": 12,
+      "recommendRois": 2,
+      "considerRois": 10,
+      "builtRois": 12,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "CNS_Thoracic",
+      "built": true,
+      "indexRois": 14,
+      "recommendRois": 7,
+      "considerRois": 7,
+      "builtRois": 14,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Extremities",
+      "built": true,
+      "indexRois": 19,
+      "recommendRois": 6,
+      "considerRois": 13,
+      "builtRois": 19,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_Face_Parotid",
+      "built": true,
+      "indexRois": 35,
+      "recommendRois": 14,
+      "considerRois": 21,
+      "builtRois": 35,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_LX_HPX_Thyroid",
+      "built": true,
+      "indexRois": 35,
+      "recommendRois": 16,
+      "considerRois": 19,
+      "builtRois": 35,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_Nasopharynx",
+      "built": true,
+      "indexRois": 42,
+      "recommendRois": 29,
+      "considerRois": 13,
+      "builtRois": 42,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_Neck",
+      "built": true,
+      "indexRois": 32,
+      "recommendRois": 12,
+      "considerRois": 20,
+      "builtRois": 32,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_Orbit",
+      "built": true,
+      "indexRois": 31,
+      "recommendRois": 15,
+      "considerRois": 16,
+      "builtRois": 31,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_Oropharynx",
+      "built": true,
+      "indexRois": 40,
+      "recommendRois": 16,
+      "considerRois": 24,
+      "builtRois": 40,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "H&N_Sinonasal",
+      "built": true,
+      "indexRois": 33,
+      "recommendRois": 18,
+      "considerRois": 15,
+      "builtRois": 33,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_AxillaSCN",
+      "built": true,
+      "indexRois": 18,
+      "recommendRois": 7,
+      "considerRois": 11,
+      "builtRois": 18,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_BreastPBI",
+      "built": true,
+      "indexRois": 12,
+      "recommendRois": 12,
+      "considerRois": 0,
+      "builtRois": 12,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_BreastRNI",
+      "built": true,
+      "indexRois": 28,
+      "recommendRois": 22,
+      "considerRois": 6,
+      "builtRois": 28,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_BreastWBI",
+      "built": true,
+      "indexRois": 15,
+      "recommendRois": 15,
+      "considerRois": 0,
+      "builtRois": 15,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_CWRNI",
+      "built": true,
+      "indexRois": 26,
+      "recommendRois": 17,
+      "considerRois": 9,
+      "builtRois": 26,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_Esoph",
+      "built": true,
+      "indexRois": 25,
+      "recommendRois": 11,
+      "considerRois": 14,
+      "builtRois": 25,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_Esoph_GEJ",
+      "built": true,
+      "indexRois": 25,
+      "recommendRois": 16,
+      "considerRois": 9,
+      "builtRois": 25,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_Esoph_S",
+      "built": true,
+      "indexRois": 29,
+      "recommendRois": 5,
+      "considerRois": 24,
+      "builtRois": 29,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_Lung",
+      "built": true,
+      "indexRois": 28,
+      "recommendRois": 12,
+      "considerRois": 16,
+      "builtRois": 28,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "Thorax_Mediastinum_Thymus",
+      "built": true,
+      "indexRois": 23,
+      "recommendRois": 11,
+      "considerRois": 12,
+      "builtRois": 23,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Miscellaneous",
+      "built": true,
+      "indexRois": 8,
+      "recommendRois": 1,
+      "considerRois": 7,
+      "builtRois": 8,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_1Level",
+      "built": true,
+      "indexRois": 8,
+      "recommendRois": 3,
+      "considerRois": 5,
+      "builtRois": 8,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_2Levels",
+      "built": true,
+      "indexRois": 10,
+      "recommendRois": 5,
+      "considerRois": 5,
+      "builtRois": 10,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_3Levels",
+      "built": true,
+      "indexRois": 12,
+      "recommendRois": 7,
+      "considerRois": 5,
+      "builtRois": 12,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_4Levels",
+      "built": true,
+      "indexRois": 14,
+      "recommendRois": 9,
+      "considerRois": 5,
+      "builtRois": 14,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_Basic",
+      "built": true,
+      "indexRois": 17,
+      "recommendRois": 3,
+      "considerRois": 14,
+      "builtRois": 17,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_Breast",
+      "built": true,
+      "indexRois": 13,
+      "recommendRois": 7,
+      "considerRois": 6,
+      "builtRois": 13,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_CW",
+      "built": true,
+      "indexRois": 13,
+      "recommendRois": 4,
+      "considerRois": 9,
+      "builtRois": 13,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_Details",
+      "built": true,
+      "indexRois": 23,
+      "recommendRois": 3,
+      "considerRois": 20,
+      "builtRois": 23,
+      "warnings": 0,
+      "incompleteCodes": 0
+    },
+    {
+      "site": "_Targets_RNI",
+      "built": true,
+      "indexRois": 6,
+      "recommendRois": 6,
+      "considerRois": 0,
+      "builtRois": 6,
+      "warnings": 0,
+      "incompleteCodes": 0
+    }
+  ]
+}

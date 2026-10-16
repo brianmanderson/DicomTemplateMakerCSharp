@@ -505,6 +505,78 @@ public sealed class OnlineTemplatesViewModelTests : IDisposable
         Assert.Empty(dialogs.Shown);
     }
 
+    /// <summary>
+    /// SHA-256 of the published snapshot at b185504 (TemplateSnapshots/TG263.json, 2026-09-30) as committed, with LF
+    /// line endings (177,534 bytes). A Windows checkout with core.autocrlf has CRLF (184,255 bytes, SHA-256 059cd49e...),
+    /// so the file is hashed with its line endings normalised.
+    /// </summary>
+    private const string SnapshotSha256 = "94d0fbf4d6d7548fc5810050f04ec864c7af129766918c6511b9ffe3faa86d71";
+
+    /// <summary>The characterised sites and the hash of each one's All_ROIs.json at e7f0572 (see <see cref="RoisFileHash"/>).</summary>
+    internal static readonly IReadOnlyDictionary<string, string> CharacterisedSites = new Dictionary<string, string>
+    {
+        ["AbdPelv_Anal"] = "781ffd4cc4b9a15ef349d6c5bd3ba4cb265f50c19b71347f5b29b098a589dfe1",
+        ["H&N_Nasopharynx"] = "c9b006d0b0fcece9b1546898022cae42fe6ae2c14a601f91de6e261b69ce47c8",
+        ["Thorax_BreastRNI"] = "b82bf43c8388e77aaf9df19bdcef42ed3c29331820c2b08b42a67b9d9a74b30c",
+    };
+
+    /// <summary>
+    /// The frozen copy of that snapshot once it exists (plan P1.3), else the published snapshot itself; either
+    /// way the hash is checked, so a refreshed snapshot fails as such rather than as a changed template.
+    /// </summary>
+    internal static string SnapshotPath()
+    {
+        string frozen = Templates.RepositoryFile("TemplateSync.Tests", "TestData", "TG263.2026-09-30.json");
+        string path = File.Exists(frozen) ? frozen : Templates.RepositoryFile("TemplateSnapshots", "TG263.json");
+        Assert.Equal(SnapshotSha256, Sha256(WithLfLineEndings(File.ReadAllBytes(path))));
+        return path;
+    }
+
+    internal static string Sha256(byte[] bytes) => Convert.ToHexStringLower(System.Security.Cryptography.SHA256.HashData(bytes));
+
+    /// <summary>The bytes with every CR LF pair replaced by LF, as Git stores a text file.</summary>
+    private static byte[] WithLfLineEndings(byte[] bytes)
+    {
+        var result = new List<byte>(bytes.Length);
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            if (bytes[i] != 13 || i + 1 >= bytes.Length || bytes[i + 1] != 10)
+            {
+                result.Add(bytes[i]);
+            }
+        }
+
+        return result.ToArray();
+    }
+
+    /// <summary>SHA-256 of a template's All_ROIs.json with line endings normalised (the JSON is written with the platform's newline).</summary>
+    internal static string RoisFileHash(string templateFolder)
+        => Sha256(System.Text.Encoding.UTF8.GetBytes(File.ReadAllText(Path.Combine(templateFolder, "All_ROIs.json")).Replace("\r\n", "\n", StringComparison.Ordinal)));
+
+    /// <summary>
+    /// Characterisation of e7f0572 (plan P1.1): three snapshot sites built through the window with the default
+    /// naming choice give exactly the All_ROIs.json files of <see cref="CharacterisedSites"/>.
+    /// </summary>
+    [Fact]
+    public async Task Snapshot_sites_built_with_the_default_naming_choice_match_the_e7f0572_characterisation()
+    {
+        TableSnapshot snapshot = SnapshotStore.Parse(File.ReadAllText(SnapshotPath()));
+        catalog.AddSource(new FakeTableSource(TemplateSourceCatalog.SharedSourceName, writable: false, snapshot));
+        OnlineTemplatesViewModel vm = CreateViewModel();
+        await vm.StartAsync();
+        foreach (string site in CharacterisedSites.Keys)
+        {
+            Row(vm, site).IsSelected = true;
+        }
+
+        dialogs.Answers.Enqueue(true);
+        await vm.BuildCommand.ExecuteAsync(null);
+
+        var actual = CharacterisedSites.Keys.ToDictionary(site => site, site => RoisFileHash(Path.Combine(folder.Path, site)));
+        Assert.Equal(CharacterisedSites, actual);
+        Assert.Equal(1, closeRequests);
+    }
+
     [Theory]
     [InlineData(0, "just now")]
     [InlineData(59, "just now")]

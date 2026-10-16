@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Internal evaluation tool (plan P1.1, decision D11): builds snapshot sites, writes test RTs on a sample
+    CT and inventories them, with a manifest per run. Not part of the release zip and makes no network calls.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DicomTemplateMaker.Presentation\DicomTemplateMaker.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="TemplateEvaluationTool.Tests" />
+  </ItemGroup>
+
+</Project>
