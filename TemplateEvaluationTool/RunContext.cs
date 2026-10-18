@@ -17,17 +17,34 @@ namespace TemplateEvaluationTool
         }
     }
 
-    /// <summary>Parses <c>--name value</c> pairs and refuses names the command does not know.</summary>
+    /// <summary>
+    /// Parses <c>--name value</c> pairs and value-less <c>--flag</c>s, and refuses names the command does not know. A
+    /// name given more than once keeps its last value for <see cref="Required"/> and <see cref="Optional"/>;
+    /// <see cref="All"/> returns every value.
+    /// </summary>
     internal sealed class Options
     {
-        private readonly Dictionary<string, string> values = new Dictionary<string, string>(StringComparer.Ordinal);
+        private readonly Dictionary<string, List<string>> values = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        private readonly HashSet<string> flagsSet = new HashSet<string>(StringComparer.Ordinal);
 
         public Options(IReadOnlyList<string> args, params string[] known)
+            : this(args, Array.Empty<string>(), known)
         {
-            for (int i = 0; i < args.Count; i += 2)
+        }
+
+        public Options(IReadOnlyList<string> args, IReadOnlyCollection<string> flags, params string[] known)
+        {
+            for (int i = 0; i < args.Count; i++)
             {
                 string name = args[i];
-                if (!name.StartsWith("--", StringComparison.Ordinal) || !known.Contains(name.Substring(2)))
+                string key = name.StartsWith("--", StringComparison.Ordinal) ? name.Substring(2) : string.Empty;
+                if (flags.Contains(key))
+                {
+                    flagsSet.Add(key);
+                    continue;
+                }
+
+                if (!known.Contains(key))
                 {
                     throw new UsageException("Unknown option '" + name + "'.");
                 }
@@ -37,14 +54,23 @@ namespace TemplateEvaluationTool
                     throw new UsageException("Option '" + name + "' needs a value.");
                 }
 
-                values[name.Substring(2)] = args[i + 1];
+                if (!values.TryGetValue(key, out List<string>? list))
+                {
+                    values[key] = list = new List<string>();
+                }
+
+                list.Add(args[++i]);
             }
         }
 
         public string Required(string name)
-            => values.TryGetValue(name, out string? value) && !string.IsNullOrWhiteSpace(value) ? value : throw new UsageException("--" + name + " is required.");
+            => Optional(name) is string value && !string.IsNullOrWhiteSpace(value) ? value : throw new UsageException("--" + name + " is required.");
 
-        public string? Optional(string name) => values.TryGetValue(name, out string? value) ? value : null;
+        public string? Optional(string name) => values.TryGetValue(name, out List<string>? list) ? list[list.Count - 1] : null;
+
+        public IReadOnlyList<string> All(string name) => values.TryGetValue(name, out List<string>? list) ? list : Array.Empty<string>();
+
+        public bool Flag(string name) => flagsSet.Contains(name);
     }
 
     /// <summary>Reports on the calling thread, so console lines keep their order.</summary>

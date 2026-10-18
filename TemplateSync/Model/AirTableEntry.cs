@@ -42,6 +42,17 @@ namespace TemplateSync.Model
             nameof(DVH_Color), nameof(DVH_Style), nameof(DVH_Width), nameof(DVH_Type_Index), nameof(DVH_ContourStyle),
         };
 
+        /// <summary>
+        /// The reversed-language columns are spelled two ways in the real TG-263 tables (TG_263SpanishR in one,
+        /// TG_263RSpanish in the other). Property name to the other spelling; both are read, and a write uses the
+        /// spelling the target table has (see <see cref="ColumnName"/>).
+        /// </summary>
+        public static readonly IReadOnlyDictionary<string, string> AlternateColumnNames = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [nameof(TG_263SpanishR)] = "TG_263RSpanish",
+            [nameof(TG_263FrenchR)] = "TG_263RFrench",
+        };
+
         /// <summary>Columns holding lists (Airtable multiple-select fields).</summary>
         public static readonly IReadOnlyCollection<string> ListFieldNames = new HashSet<string>(StringComparer.Ordinal)
         {
@@ -162,6 +173,29 @@ namespace TemplateSync.Model
             }
         }
 
+        /// <summary>The property name of a table column: an alternate spelling maps to its property, any other name to itself.</summary>
+        public static string PropertyNameOf(string column)
+        {
+            foreach (KeyValuePair<string, string> alias in AlternateColumnNames)
+            {
+                if (string.Equals(alias.Value, column, StringComparison.Ordinal))
+                {
+                    return alias.Key;
+                }
+            }
+
+            return column;
+        }
+
+        /// <summary>
+        /// The column a property is written to: the spelling recorded in <paramref name="columnNames"/> (property name
+        /// to table column, as learned from the table), otherwise the property name itself.
+        /// </summary>
+        public static string ColumnName(string property, IReadOnlyDictionary<string, string>? columnNames)
+        {
+            return columnNames != null && columnNames.TryGetValue(property, out string? column) ? column : property;
+        }
+
         /// <summary>
         /// Parses the display colour. "RGB" ("r,g,b") wins; otherwise the first "Colors_RGB" option
         /// ("Name:r,g,b"). Returns false when neither parses.
@@ -202,9 +236,27 @@ namespace TemplateSync.Model
                 && byte.TryParse(parts[2].Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out b);
         }
 
+        /// <summary>A mapped column's value under its property name or, for a reversed-language column, its other spelling.</summary>
+        private static JToken? Lookup(JObject fields, string name)
+        {
+            if (fields.TryGetValue(name, StringComparison.Ordinal, out JToken? token) && token != null && token.Type != JTokenType.Null)
+            {
+                return token;
+            }
+
+            if (AlternateColumnNames.TryGetValue(name, out string? alternate)
+                && fields.TryGetValue(alternate, StringComparison.Ordinal, out token) && token != null && token.Type != JTokenType.Null)
+            {
+                return token;
+            }
+
+            return null;
+        }
+
         internal static string? Scalar(JObject fields, string name, string? fallback)
         {
-            if (!fields.TryGetValue(name, StringComparison.Ordinal, out JToken? token) || token == null || token.Type == JTokenType.Null)
+            JToken? token = Lookup(fields, name);
+            if (token == null)
             {
                 return fallback;
             }
@@ -233,7 +285,8 @@ namespace TemplateSync.Model
 
         internal static List<string>? List(JObject fields, string name)
         {
-            if (!fields.TryGetValue(name, StringComparison.Ordinal, out JToken? token) || token == null || token.Type == JTokenType.Null)
+            JToken? token = Lookup(fields, name);
+            if (token == null)
             {
                 return null;
             }

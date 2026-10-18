@@ -43,6 +43,7 @@ namespace TemplateSync.Sync
         private readonly IClock _clock;
         private readonly SemaphoreSlim _gate = new SemaphoreSlim(1, 1);
         private bool _cacheLoaded;
+        private bool _schemaChecked;
 
         public AirtableTableSource(AirtableSourceDefinition definition, IAirtableApi api, SnapshotStore store, SyncSettings? settings = null, IClock? clock = null)
         {
@@ -109,6 +110,7 @@ namespace TemplateSync.Sync
                     throw new AirtableException("Nothing was written because the table could not be refreshed first: " + (refreshed.Warning ?? "no data"));
                 }
 
+                int schemaCalls = await LearnColumnNamesAsync(templates, progress, cancellationToken).ConfigureAwait(false);
                 bool fullRefreshUsed = false;
                 foreach (TemplateWrite template in templates)
                 {
@@ -117,7 +119,7 @@ namespace TemplateSync.Sync
                         WriteResult result = await WriteOneAsync(template, !fullRefreshUsed, () => fullRefreshUsed = true, progress, cancellationToken).ConfigureAwait(false);
                         if (results.Count == 0)
                         {
-                            result.ApiCalls += refreshed.ApiCalls;
+                            result.ApiCalls += refreshed.ApiCalls + schemaCalls;
                         }
 
                         results.Add(result);
@@ -129,6 +131,60 @@ namespace TemplateSync.Sync
                 }
 
                 return results;
+            }
+            finally
+            {
+                _gate.Release();
+            }
+        }
+
+        /// <summary>
+        /// What <see cref="WriteTemplatesAsync"/> would send, computed from the local cache only (an empty table when
+        /// there is none): no refresh, no schema lookup, no request of any kind. Sites are planned in order and each
+        /// sees the records the earlier ones would create or change, as in a real session.
+        /// </summary>
+        public async Task<IReadOnlyList<WritePreview>> PreviewWritesAsync(IReadOnlyList<TemplateWrite> templates, CancellationToken cancellationToken)
+        {
+            if (templates == null)
+            {
+                throw new ArgumentNullException(nameof(templates));
+            }
+
+            await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                await LoadCoreAsync(LoadMode.CacheOnly, keepColumnState: true, null, cancellationToken).ConfigureAwait(false);
+                bool fromCache = Current != null;
+                TableSnapshot table = Current?.Clone() ?? new TableSnapshot();
+                var missing = new HashSet<string>(table.MissingFields ?? new List<string>(), StringComparer.Ordinal);
+                RequireTemplateColumns(missing);
+                var previews = new List<WritePreview>();
+                int created = 0;
+                foreach (TemplateWrite template in templates)
+                {
+                    WritePlan plan = WritePlanner.Plan(template.Site, template.Rois, table.Records, missing, table.ColumnNames);
+                    var preview = new WritePreview(template.Site, plan, fromCache);
+                    preview.Warnings.AddRange(plan.Warnings);
+                    preview.Warnings.AddRange(MissingColumnWarnings(missing));
+                    previews.Add(preview);
+
+                    foreach (JObject fields in plan.Creates)
+                    {
+                        created++;
+                        table.Records.Add(new AirtableRecord { Id = "dryRun" + created.ToString(System.Globalization.CultureInfo.InvariantCulture), Fields = (JObject)fields.DeepClone() });
+                    }
+
+                    foreach (RecordUpdate update in plan.Updates)
+                    {
+                        AirtableRecord record = table.Records.First(r => string.Equals(r.Id, update.Id, StringComparison.Ordinal));
+                        foreach (JProperty field in update.Fields.Properties())
+                        {
+                            record.Fields[field.Name] = field.Value.DeepClone();
+                        }
+                    }
+                }
+
+                return previews;
             }
             finally
             {
@@ -156,16 +212,14 @@ namespace TemplateSync.Sync
                 }
 
                 var missing = new HashSet<string>(snapshot.MissingFields ?? new List<string>(), StringComparer.Ordinal);
+                var columnNames = new Dictionary<string, string>(snapshot.ColumnNames ?? new Dictionary<string, string>(), StringComparer.Ordinal);
                 RequireTemplateColumns(missing);
-                WritePlan plan = WritePlanner.Plan(template.Site, template.Rois, snapshot.Records, missing);
+                WritePlan plan = WritePlanner.Plan(template.Site, template.Rois, snapshot.Records, missing, columnNames);
                 result.Unchanged = Math.Max(0, plan.Unchanged - writtenBeforeRetry);
                 if (attempt == 0)
                 {
                     result.Warnings.AddRange(plan.Warnings);
-                    foreach (string column in missing.OrderBy(m => m, StringComparer.Ordinal))
-                    {
-                        result.Warnings.Add($"{Name} has no '{column}' column, so that value was not written.");
-                    }
+                    result.Warnings.AddRange(MissingColumnWarnings(missing));
                 }
 
                 if (plan.IsEmpty)
@@ -183,6 +237,7 @@ namespace TemplateSync.Sync
                         IReadOnlyList<AirtableRecord> created = await SendWithFieldRecoveryAsync(
                             batch,
                             missing,
+                            columnNames,
                             b => _api.CreateRecordsAsync(Definition.BaseId, Definition.TableId, b, true, cancellationToken),
                             f => f,
                             (f, fields) => fields,
@@ -199,6 +254,7 @@ namespace TemplateSync.Sync
                         IReadOnlyList<AirtableRecord> updated = await SendWithFieldRecoveryAsync(
                             batch,
                             missing,
+                            columnNames,
                             b => _api.UpdateRecordsAsync(Definition.BaseId, Definition.TableId, b, true, cancellationToken),
                             u => u.Fields,
                             (u, fields) => new RecordUpdate(u.Id, fields),
@@ -239,6 +295,7 @@ namespace TemplateSync.Sync
                     if (ReferenceEquals(snapshot, Current))
                     {
                         snapshot.MissingFields = missing.Count == 0 ? null : missing.OrderBy(m => m, StringComparer.Ordinal).ToList();
+                        snapshot.ColumnNames = columnNames.Count == 0 ? null : columnNames;
                         string? saveProblem = TrySave(snapshot);
                         if (saveProblem != null)
                         {
@@ -261,6 +318,102 @@ namespace TemplateSync.Sync
             {
                 throw new AirtableException($"{Name} has no {string.Join(", ", absent.Select(a => "'" + a + "'"))} column, which templates need. Nothing was written. Add the column(s) in Airtable, then press Full refresh.");
             }
+        }
+
+        private IEnumerable<string> MissingColumnWarnings(IEnumerable<string> missing)
+        {
+            return missing.OrderBy(m => m, StringComparer.Ordinal).Select(column => $"{Name} has no {DescribeColumn(column)} column, so that value was not written.");
+        }
+
+        /// <summary>'TG_263SpanishR' (or 'TG_263RSpanish') for a reversed-language column, otherwise the quoted name.</summary>
+        private static string DescribeColumn(string column)
+        {
+            return AirTableEntry.AlternateColumnNames.TryGetValue(column, out string? alternate) ? $"'{column}' (or '{alternate}')" : $"'{column}'";
+        }
+
+        /// <summary>
+        /// Before a write that sets a reversed-language column whose spelling in this table is not known yet, asks
+        /// Airtable for the table schema once (one API call, at most once per source). The schema gives the spelling
+        /// and every mapped column the table lacks. A token without schema.bases:read gets 403 (or 404): the spelling
+        /// stays unknown and is learned from Airtable's unknown-field error while writing. Returns the calls spent.
+        /// </summary>
+        private async Task<int> LearnColumnNamesAsync(IReadOnlyList<TemplateWrite> templates, IProgress<string>? progress, CancellationToken cancellationToken)
+        {
+            TableSnapshot? snapshot = Current;
+            if (snapshot == null || _schemaChecked)
+            {
+                return 0;
+            }
+
+            var missing = new HashSet<string>(snapshot.MissingFields ?? new List<string>(), StringComparer.Ordinal);
+            bool needed = AirTableEntry.AlternateColumnNames.Keys.Any(column =>
+                !missing.Contains(column)
+                && (snapshot.ColumnNames == null || !snapshot.ColumnNames.ContainsKey(column))
+                && templates.Any(t => t.Rois.Any(roi => roi.Desired.GetField(column) is string)));
+            if (!needed)
+            {
+                return 0;
+            }
+
+            _schemaChecked = true;
+            IReadOnlyList<AirtableTableSchema> tables;
+            try
+            {
+                tables = await _api.ListTablesAsync(Definition.BaseId, cancellationToken).ConfigureAwait(false);
+            }
+            catch (AirtableException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Forbidden || ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                progress?.Report($"The token cannot read the schema of {Name} (HTTP {(int)ex.StatusCode!.Value}); column spellings are learned while writing.");
+                return 1;
+            }
+
+            AirtableTableSchema? table = tables.FirstOrDefault(t => string.Equals(t.Id, Definition.TableId, StringComparison.Ordinal))
+                ?? tables.FirstOrDefault(t => string.Equals(t.Name, Definition.TableId, StringComparison.Ordinal));
+            if (table == null)
+            {
+                progress?.Report($"The schema of base {Definition.BaseId} does not list table {Definition.TableId}; column spellings are learned while writing.");
+                return 1;
+            }
+
+            ApplySchema(snapshot, table);
+            string? saveProblem = TrySave(snapshot);
+            if (saveProblem != null)
+            {
+                progress?.Report(saveProblem);
+            }
+
+            return 1;
+        }
+
+        /// <summary>Records the spelling of each reversed-language column and every mapped column the table does not have.</summary>
+        internal static void ApplySchema(TableSnapshot snapshot, AirtableTableSchema table)
+        {
+            var columns = new HashSet<string>(table.Fields.Select(f => f.Name), StringComparer.Ordinal);
+            var missing = new HashSet<string>(snapshot.MissingFields ?? new List<string>(), StringComparer.Ordinal);
+            var columnNames = new Dictionary<string, string>(snapshot.ColumnNames ?? new Dictionary<string, string>(), StringComparer.Ordinal);
+            foreach (string property in AirTableEntry.FieldNames)
+            {
+                bool hasAlternate = AirTableEntry.AlternateColumnNames.TryGetValue(property, out string? alternate);
+                if (columns.Contains(property))
+                {
+                    if (hasAlternate)
+                    {
+                        columnNames[property] = property;
+                    }
+                }
+                else if (hasAlternate && columns.Contains(alternate!))
+                {
+                    columnNames[property] = alternate!;
+                }
+                else
+                {
+                    missing.Add(property);
+                    columnNames.Remove(property);
+                }
+            }
+
+            snapshot.MissingFields = missing.Count == 0 ? null : missing.OrderBy(m => m, StringComparer.Ordinal).ToList();
+            snapshot.ColumnNames = columnNames.Count == 0 ? null : columnNames;
         }
 
         private static bool IsMissingRecord(AirtableException ex)
@@ -325,6 +478,7 @@ namespace TemplateSync.Sync
                     Definition.TableId,
                     delta ? previous!.SyncCursorUtc!.Value - _settings.DeltaSafetyMargin : (DateTimeOffset?)null,
                     knownMissing,
+                    previous?.ColumnNames,
                     filterDisabled,
                     null,
                     _clock,
@@ -347,6 +501,8 @@ namespace TemplateSync.Sync
             }
             else
             {
+                // Spellings are facts about the table and survive full downloads; missing columns are re-learned.
+                next.ColumnNames = previous?.ColumnNames == null ? null : new Dictionary<string, string>(previous.ColumnNames, StringComparer.Ordinal);
                 next.Records = fetched.Records.ToList();
                 next.LastFullRefreshUtc = _clock.UtcNow;
                 changed = next.Records.Count;
@@ -369,57 +525,106 @@ namespace TemplateSync.Sync
             return new TableLoadResult(next, LoadOrigin.Network, null, fetched.ApiCalls, delta, changed, saveProblem);
         }
 
+        /// <summary>
+        /// Sends one batch. When Airtable reports an unknown column, a reversed-language column written under its
+        /// property name is resent under its other spelling (once); any other unknown column is dropped and the batch
+        /// resent. Both outcomes are kept for the rest of the session and saved with the cache.
+        /// </summary>
         private async Task<IReadOnlyList<AirtableRecord>> SendWithFieldRecoveryAsync<T>(
             List<T> batch,
             HashSet<string> missing,
+            Dictionary<string, string> columnNames,
             Func<List<T>, Task<IReadOnlyList<AirtableRecord>>> send,
             Func<T, JObject> fieldsOf,
             Func<T, JObject, T> withFields,
             WriteResult result,
             IProgress<string>? progress)
         {
-            List<T> current = StripMissing(batch, missing, fieldsOf, withFields);
+            List<T> current = Prepare(batch, missing, columnNames, fieldsOf, withFields);
             for (int attempt = 0; ; attempt++)
             {
                 try
                 {
                     result.ApiCalls++;
-                    return await send(current).ConfigureAwait(false);
+                    IReadOnlyList<AirtableRecord> sent = await send(current).ConfigureAwait(false);
+                    NoteAcceptedSpellings(current, columnNames, fieldsOf);
+                    return sent;
                 }
-                catch (AirtableException ex) when (ex.ErrorType == TableFetcher.UnknownFieldErrorType && attempt < AirTableEntry.FieldNames.Count)
+                catch (AirtableException ex) when (ex.ErrorType == TableFetcher.UnknownFieldErrorType && attempt < AirTableEntry.FieldNames.Count + AirTableEntry.AlternateColumnNames.Count)
                 {
                     string? unknown = TableFetcher.ParseUnknownField(ex.ApiMessage ?? ex.Message);
-                    if (unknown == null || missing.Contains(unknown) || !current.Any(item => fieldsOf(item).ContainsKey(unknown)))
+                    if (unknown == null || missing.Contains(AirTableEntry.PropertyNameOf(unknown)) || !current.Any(item => fieldsOf(item).ContainsKey(unknown)))
                     {
                         throw;
                     }
 
-                    missing.Add(unknown);
-                    RequireTemplateColumns(missing);
-                    result.Warnings.Add($"{Name} has no '{unknown}' column, so that value was not written.");
-                    progress?.Report($"{Name} has no '{unknown}' column; writing without it.");
-                    current = StripMissing(current, missing, fieldsOf, withFields);
+                    string property = AirTableEntry.PropertyNameOf(unknown);
+                    if (unknown == property && !columnNames.ContainsKey(property) && AirTableEntry.AlternateColumnNames.TryGetValue(property, out string? alternate))
+                    {
+                        columnNames[property] = alternate;
+                        progress?.Report($"{Name} has no '{unknown}' column; writing it as '{alternate}'.");
+                    }
+                    else
+                    {
+                        missing.Add(property);
+                        columnNames.Remove(property);
+                        RequireTemplateColumns(missing);
+                        result.Warnings.Add($"{Name} has no {DescribeColumn(property)} column, so that value was not written.");
+                        progress?.Report($"{Name} has no '{unknown}' column; writing without it.");
+                    }
+
+                    current = Prepare(current, missing, columnNames, fieldsOf, withFields);
                 }
             }
         }
 
-        private static List<T> StripMissing<T>(List<T> batch, HashSet<string> missing, Func<T, JObject> fieldsOf, Func<T, JObject, T> withFields)
+        /// <summary>Drops columns the table lacks and writes each reversed-language column under the table's spelling.</summary>
+        private static List<T> Prepare<T>(List<T> batch, HashSet<string> missing, IReadOnlyDictionary<string, string> columnNames, Func<T, JObject> fieldsOf, Func<T, JObject, T> withFields)
         {
-            if (missing.Count == 0)
+            bool needed = batch.Any(item => fieldsOf(item).Properties().Any(p =>
+            {
+                string property = AirTableEntry.PropertyNameOf(p.Name);
+                return missing.Contains(property) || AirTableEntry.ColumnName(property, columnNames) != p.Name;
+            }));
+            if (!needed)
             {
                 return batch;
             }
 
             return batch.Select(item =>
             {
-                JObject fields = (JObject)fieldsOf(item).DeepClone();
-                foreach (string name in missing)
+                var fields = new JObject();
+                foreach (JProperty field in fieldsOf(item).Properties())
                 {
-                    fields.Remove(name);
+                    string property = AirTableEntry.PropertyNameOf(field.Name);
+                    if (!missing.Contains(property))
+                    {
+                        fields[AirTableEntry.ColumnName(property, columnNames)] = field.Value.DeepClone();
+                    }
                 }
 
                 return withFields(item, fields);
             }).ToList();
+        }
+
+        /// <summary>A reversed-language column Airtable accepted is spelled that way in this table.</summary>
+        private static void NoteAcceptedSpellings<T>(List<T> sent, Dictionary<string, string> columnNames, Func<T, JObject> fieldsOf)
+        {
+            foreach (KeyValuePair<string, string> alias in AirTableEntry.AlternateColumnNames)
+            {
+                if (columnNames.ContainsKey(alias.Key))
+                {
+                    continue;
+                }
+
+                foreach (string spelling in new[] { alias.Key, alias.Value })
+                {
+                    if (sent.Any(item => fieldsOf(item).ContainsKey(spelling)))
+                    {
+                        columnNames[alias.Key] = spelling;
+                    }
+                }
+            }
         }
 
         internal static IEnumerable<List<T>> Chunk<T>(IReadOnlyList<T> items)

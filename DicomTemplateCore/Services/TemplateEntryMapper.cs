@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using DicomTemplateMakerGUI.DicomTemplateServices;
 using ROIOntologyClass;
 using TemplateSync.Model;
+using TemplateSync.Sync;
 
 namespace DicomTemplateMakerGUI.Services
 {
@@ -131,6 +133,21 @@ namespace DicomTemplateMakerGUI.Services
                 report(TemplateEntryProblem.UnreadableRecord, entry.Structure + ": skipped because the record could not be read (" + ex.Message + ").");
                 return null;
             }
+        }
+
+        /// <summary>
+        /// One site's write: every ROI's published values (<see cref="ToDesiredEntry"/>), and its Include flag choosing
+        /// Template_Recommend or Template_Consider. The windows and the evaluation tool's write-airtable command both
+        /// build their writes here, so they cannot send different records for the same template.
+        /// </summary>
+        public static TemplateWrite ToTemplateWrite(string site, IEnumerable<ROIClass> rois)
+        {
+            if (rois == null)
+            {
+                throw new ArgumentNullException(nameof(rois));
+            }
+
+            return new TemplateWrite(site, rois.Select(roi => new LocalRoi(ToDesiredEntry(roi), roi.Include)).ToList());
         }
 
         /// <summary>The values an ROI publishes to Airtable. Site lists are filled in by the write planner.</summary>

@@ -42,6 +42,7 @@ namespace TemplateSync.Sync
             string tableId,
             DateTimeOffset? modifiedAfterUtc,
             IEnumerable<string>? knownMissingFields,
+            IReadOnlyDictionary<string, string>? columnNames,
             bool fieldsFilterDisabled,
             IReadOnlyList<string>? sortFields,
             IClock clock,
@@ -59,7 +60,7 @@ namespace TemplateSync.Sync
             {
                 List<string>? fields = result.FieldsFilterDisabled
                     ? null
-                    : AirTableEntry.FieldNames.Where(f => !result.MissingFields.Contains(f)).ToList();
+                    : AirTableEntry.FieldNames.Where(f => !result.MissingFields.Contains(f)).Select(f => AirTableEntry.ColumnName(f, columnNames)).ToList();
                 var request = new ListRecordsRequest(baseId, tableId)
                 {
                     Fields = fields,

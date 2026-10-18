@@ -46,6 +46,8 @@ namespace TemplateSync.Model
     /// added to Template_Recommend (included ROIs) or Template_Consider (optional ROIs) and removed
     /// from the other list, keeping every other site. Unlike the old code, only fields whose value
     /// actually changes are sent, unchanged records cost nothing, and the "Id" column is never written.
+    /// Remote values are read under either spelling of a reversed-language column; fields are written under the
+    /// spelling in <c>columnNames</c> (property name when absent). <c>excludedFields</c> holds property names.
     /// </summary>
     public static class WritePlanner
     {
@@ -53,7 +55,7 @@ namespace TemplateSync.Model
         private const string Consider = nameof(AirTableEntry.Template_Consider);
         private const string Colors = nameof(AirTableEntry.Colors_RGB);
 
-        public static WritePlan Plan(string site, IEnumerable<LocalRoi> rois, IEnumerable<AirtableRecord> remoteRecords, ICollection<string>? excludedFields = null)
+        public static WritePlan Plan(string site, IEnumerable<LocalRoi> rois, IEnumerable<AirtableRecord> remoteRecords, ICollection<string>? excludedFields = null, IReadOnlyDictionary<string, string>? columnNames = null)
         {
             if (string.IsNullOrWhiteSpace(site))
             {
@@ -90,7 +92,7 @@ namespace TemplateSync.Model
 
                 if (remoteByStructure.TryGetValue(structure!, out AirtableRecord? remote))
                 {
-                    JObject changes = BuildUpdateFields(site, roi, remote.Fields, excluded);
+                    JObject changes = BuildUpdateFields(site, roi, remote.Fields, excluded, columnNames);
                     if (changes.Count > 0)
                     {
                         plan.Updates.Add(new RecordUpdate(remote.Id, changes));
@@ -102,14 +104,14 @@ namespace TemplateSync.Model
                 }
                 else
                 {
-                    plan.Creates.Add(BuildCreateFields(site, roi, excluded));
+                    plan.Creates.Add(BuildCreateFields(site, roi, excluded, columnNames));
                 }
             }
 
             return plan;
         }
 
-        internal static JObject BuildCreateFields(string site, LocalRoi roi, ICollection<string> excluded)
+        internal static JObject BuildCreateFields(string site, LocalRoi roi, ICollection<string> excluded, IReadOnlyDictionary<string, string>? columnNames = null)
         {
             var fields = new JObject();
             foreach (string name in AirTableEntry.FieldNames)
@@ -143,14 +145,14 @@ namespace TemplateSync.Model
                 }
                 else if (roi.Desired.GetField(name) is string value)
                 {
-                    fields[name] = value;
+                    fields[AirTableEntry.ColumnName(name, columnNames)] = value;
                 }
             }
 
             return fields;
         }
 
-        internal static JObject BuildUpdateFields(string site, LocalRoi roi, JObject remote, ICollection<string> excluded)
+        internal static JObject BuildUpdateFields(string site, LocalRoi roi, JObject remote, ICollection<string> excluded, IReadOnlyDictionary<string, string>? columnNames = null)
         {
             var changes = new JObject();
             foreach (string name in AirTableEntry.FieldNames)
@@ -197,7 +199,7 @@ namespace TemplateSync.Model
                     string? current = AirTableEntry.Scalar(remote, name, null);
                     if (!string.Equals(current, value, StringComparison.Ordinal))
                     {
-                        changes[name] = value;
+                        changes[AirTableEntry.ColumnName(name, columnNames)] = value;
                     }
                 }
             }

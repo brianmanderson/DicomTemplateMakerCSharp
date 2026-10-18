@@ -17,4 +17,11 @@
     <ProjectReference Include="..\TemplateEvaluationTool\TemplateEvaluationTool.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The scripted HTTP handler and clock of the TemplateSync tests: write-airtable is tested without any network. -->
+    <Compile Include="..\TemplateSync.Tests\Fakes\FakeHttpHandler.cs" Link="Fakes\FakeHttpHandler.cs" />
+    <Compile Include="..\TemplateSync.Tests\Fakes\AirtableJson.cs" Link="Fakes\AirtableJson.cs" />
+    <Compile Include="..\TemplateSync.Tests\Fakes\FakeClock.cs" Link="Fakes\FakeClock.cs" />
+  </ItemGroup>
+
 </Project>

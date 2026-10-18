@@ -96,6 +96,32 @@ namespace TemplateSync.Airtable
         public JObject Fields { get; }
     }
 
+    /// <summary>One table of a base as the metadata API describes it. Only the members the application uses.</summary>
+    public sealed class AirtableTableSchema
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; } = string.Empty;
+
+        [JsonProperty("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonProperty("fields")]
+        public List<AirtableFieldSchema> Fields { get; set; } = new List<AirtableFieldSchema>();
+    }
+
+    public sealed class AirtableFieldSchema
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; } = string.Empty;
+
+        [JsonProperty("name")]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>Airtable's field type, e.g. singleLineText, singleSelect, multipleSelects.</summary>
+        [JsonProperty("type")]
+        public string? Type { get; set; }
+    }
+
     public static class AirtableLimits
     {
         /// <summary>Maximum records per list page.</summary>

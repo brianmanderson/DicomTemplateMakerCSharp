@@ -102,6 +102,26 @@ namespace TemplateSync.Sync
         public List<string> Warnings { get; } = new List<string>();
     }
 
+    /// <summary>One site of a dry run: the creates and updates a write would send, planned from the local cache.</summary>
+    public sealed class WritePreview
+    {
+        public WritePreview(string site, Model.WritePlan plan, bool fromCache)
+        {
+            Site = site;
+            Plan = plan;
+            FromCache = fromCache;
+        }
+
+        public string Site { get; }
+
+        public Model.WritePlan Plan { get; }
+
+        /// <summary>False when there was no local cache and the plan assumed an empty table.</summary>
+        public bool FromCache { get; }
+
+        public List<string> Warnings { get; } = new List<string>();
+    }
+
     /// <summary>A multi-template write stopped part-way. Completed templates are listed; nothing is lost.</summary>
     public sealed class AirtableWriteException : Airtable.AirtableException
     {
