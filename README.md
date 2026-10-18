@@ -2,6 +2,9 @@
 
 Windows tools for building and applying DICOM RT Structure Set templates in radiation oncology contouring workflows. Define a structure template once — ROI names, colors, DICOM interpreted types, and FMA/SNOMED ontology codes — then generate pre-populated RT Structure Set files onto DICOM image series, so contouring starts from a standardized structure list instead of an empty one.
 
+**Program download:** grab the compiled build from the [Releases](../../releases) section.
+**Video walkthroughs:** [Our DICOM Playlist](https://www.youtube.com/playlist?list=PLudf8Cfe-LuctPJTTfgb2tDBUvyR-ZOQu) on YouTube.
+
 ## Intended use
 
 The program writes RT Structure Sets that contain ROI definitions (names, colours, interpreted types and
@@ -17,9 +20,6 @@ research and workflow software: it is not a medical device and is not validated 
   clinical patient database.
 - **Sample data.** The bundled sample CT (`DicomTemplateMakerGUI/SmallCT`) carries a fictitious test patient,
   `ZZTEST^TG263TEMPLATE`, and test RTs generated on it inherit that patient.
-
-**Program download:** grab the compiled build from the [Releases](../../releases) section.
-**Video walkthroughs:** [Our DICOM Playlist](https://www.youtube.com/playlist?list=PLudf8Cfe-LuctPJTTfgb2tDBUvyR-ZOQu) on YouTube.
 
 ## Components
 
