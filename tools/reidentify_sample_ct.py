@@ -13,18 +13,23 @@ What it changes in every slice:
 - ``PatientIdentityRemoved`` (0012,0062) = ``YES`` (added)
 - ``DeidentificationMethod`` (0012,0063) = ``DicomTemplateMakerCSharp tools/reidentify_sample_ct.py`` (added)
 - ``ReferringPhysicianName`` (0008,0090) present and empty
+- ``SeriesDescription`` (0008,103E) = ``Sample CT`` (it named an institution's residency template)
+- ``InstitutionName`` (0008,0080) = ``Brian Anderson Fictional Hospital``, a fictitious institution
+- ``InstitutionAddress`` (0008,0081) removed (it was the GDCM sample-data web page, which describes no institution)
 - ``StudyInstanceUID``, ``SeriesInstanceUID`` and ``FrameOfReferenceUID``: one new ``2.25.`` UID each, shared by
   all four slices (one study, one series, one frame of reference, as before)
 - ``SOPInstanceUID``: a new, distinct ``2.25.`` UID per slice, with File Meta ``MediaStorageSOPInstanceUID``
   equal to it
 
 Everything else is kept as it was: ``PatientSex``, pixel data, geometry, study/instance dates and times,
-``StudyDescription``, ``SeriesDescription``, the other file meta elements and the transfer syntax.
+``StudyDescription``, ``Manufacturer`` (``GDCM``), the other file meta elements and the transfer syntax. The slices
+have no private attributes and no station name, device serial number, operator or other person name.
 
 The new UIDs are UUID-derived (``2.25.`` followed by the UUID as a decimal integer, PS3.5 B.2). They are derived
 with UUID version 5 from a fixed namespace and the role of the UID, so the script is re-runnable: running it
-again on the rewritten files leaves them byte-identical. Before writing, it checks that the previous name and ID
-appear in no written file (the values are read from the files and never printed).
+again on the rewritten files leaves them byte-identical. Before writing, it checks that the previous name, ID,
+series description and institution name and address appear in no written file (the values are read from the
+files and never printed).
 
 Run from the repository root with ``python -I tools/reidentify_sample_ct.py``.
 """
@@ -45,6 +50,8 @@ SLICES = ["vhm.1001.dcm", "vhm.1002.dcm", "vhm.1003.dcm", "vhm.1004.dcm"]
 PATIENT_NAME = "ZZTEST^TG263TEMPLATE"
 PATIENT_ID = "ZZTEST-0001"
 DEIDENTIFICATION_METHOD = "DicomTemplateMakerCSharp tools/reidentify_sample_ct.py"
+SERIES_DESCRIPTION = "Sample CT"
+INSTITUTION_NAME = "Brian Anderson Fictional Hospital"
 
 # Fixed namespace for this script's UIDs, so every run derives the same values.
 UID_NAMESPACE = uuid.uuid5(uuid.NAMESPACE_URL, "https://github.com/brianmanderson/DicomTemplateMakerCSharp/SmallCT")
@@ -73,6 +80,10 @@ def reidentify(ds: Dataset, sop_instance_uid: str) -> None:
     ds.PatientIdentityRemoved = "YES"
     ds.DeidentificationMethod = DEIDENTIFICATION_METHOD
     ds.ReferringPhysicianName = ""
+    ds.SeriesDescription = SERIES_DESCRIPTION
+    ds.InstitutionName = INSTITUTION_NAME
+    if "InstitutionAddress" in ds:
+        del ds.InstitutionAddress
     ds.StudyInstanceUID = STUDY_UID
     ds.SeriesInstanceUID = SERIES_UID
     ds.FrameOfReferenceUID = FRAME_OF_REFERENCE_UID
@@ -93,6 +104,11 @@ def main() -> int:
                 v.encode("latin-1").lower() for v in (raw_name, raw_name.replace("^", " ")) if v.strip())
         if ds.PatientID != PATIENT_ID and ds.PatientID.strip():
             previous_identity.add(ds.PatientID.encode("latin-1").lower())
+        for keyword, new_value in (("SeriesDescription", SERIES_DESCRIPTION), ("InstitutionName", INSTITUTION_NAME),
+                                   ("InstitutionAddress", None)):
+            old_value = str(ds.get(keyword, "")).strip()
+            if old_value and old_value != new_value:
+                previous_identity.add(old_value.encode("latin-1").lower())
 
     written: dict[Path, bytes] = {}
     for path, ds in originals.items():
