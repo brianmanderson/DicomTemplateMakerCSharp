@@ -126,6 +126,26 @@ namespace TemplateSync.Airtable
             return SendWriteAsync(baseId, table, Patch, payload, retryAmbiguousFailures: true, cancellationToken);
         }
 
+        public async Task<IReadOnlyList<AirtableTableSchema>> ListTablesAsync(string baseId, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(baseId))
+            {
+                throw new ArgumentException("A base id is required.", nameof(baseId));
+            }
+
+            var uri = new Uri(_options.BaseAddress, "meta/bases/" + Uri.EscapeDataString(baseId) + "/tables");
+            return await SendAsync<IReadOnlyList<AirtableTableSchema>>(
+                baseId,
+                retryAmbiguousFailures: true,
+                () => new HttpRequestMessage(HttpMethod.Get, uri),
+                (body, _) =>
+                {
+                    var parsed = JsonConvert.DeserializeObject<TablesResponse>(body, Json.Settings) ?? new TablesResponse();
+                    return parsed.Tables ?? new List<AirtableTableSchema>();
+                },
+                cancellationToken).ConfigureAwait(false);
+        }
+
         internal Uri BuildListUri(ListRecordsRequest request)
         {
             var query = new List<string>
@@ -360,6 +380,12 @@ namespace TemplateSync.Airtable
             {
                 errorMessage = body.Length > 300 ? body.Substring(0, 300) : body;
             }
+        }
+
+        private sealed class TablesResponse
+        {
+            [JsonProperty("tables")]
+            public List<AirtableTableSchema>? Tables { get; set; }
         }
 
         private sealed class ListResponse

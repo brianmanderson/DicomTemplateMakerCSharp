@@ -32,7 +32,7 @@ namespace TemplateSync.Sync
             CancellationToken cancellationToken)
         {
             IClock time = clock ?? SystemClock.Instance;
-            FetchResult fetched = await TableFetcher.FetchAsync(api, baseId, tableId, null, null, fieldsFilterDisabled: true, sortFields, time, progress, cancellationToken).ConfigureAwait(false);
+            FetchResult fetched = await TableFetcher.FetchAsync(api, baseId, tableId, null, null, null, fieldsFilterDisabled: true, sortFields, time, progress, cancellationToken).ConfigureAwait(false);
             return new TableSnapshot
             {
                 SourceName = sourceName,
@@ -53,7 +53,11 @@ namespace TemplateSync.Sync
 
         private static readonly HashSet<string> Published = new HashSet<string>(Model.AirTableEntry.FieldNames, StringComparer.Ordinal);
 
-        /// <summary>Keeps only the mapped template columns (never anything else a table might hold) and sorts them.</summary>
+        /// <summary>
+        /// Keeps only the mapped template columns (never anything else a table might hold) and sorts them. Columns are
+        /// matched by property name only: the other spelling of a reversed-language column (TG_263RSpanish,
+        /// TG_263RFrench) is left out as before, so the published snapshot does not change for the same table.
+        /// </summary>
         private static AirtableRecord Normalize(AirtableRecord record)
         {
             var sorted = new JObject();

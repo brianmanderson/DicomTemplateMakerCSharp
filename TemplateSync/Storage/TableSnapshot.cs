@@ -57,13 +57,21 @@ namespace TemplateSync.Storage
         [JsonProperty("fieldsFilterDisabled", Order = 11, DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool FieldsFilterDisabled { get; set; }
 
-        [JsonProperty("records", Order = 12)]
+        /// <summary>
+        /// Property name to column name for the reversed-language columns whose spelling in this table is known
+        /// (from the table schema or from a write Airtable accepted or refused). Absent: write the property name.
+        /// </summary>
+        [JsonProperty("columnNames", Order = 12)]
+        public Dictionary<string, string>? ColumnNames { get; set; }
+
+        [JsonProperty("records", Order = 13)]
         public List<AirtableRecord> Records { get; set; } = new List<AirtableRecord>();
 
         public TableSnapshot Clone()
         {
             var copy = (TableSnapshot)MemberwiseClone();
             copy.MissingFields = MissingFields == null ? null : new List<string>(MissingFields);
+            copy.ColumnNames = ColumnNames == null ? null : new Dictionary<string, string>(ColumnNames, StringComparer.Ordinal);
             copy.Records = Records.ConvertAll(r => r.Clone());
             return copy;
         }

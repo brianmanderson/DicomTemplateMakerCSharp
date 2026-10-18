@@ -229,7 +229,7 @@ public sealed class TableExporterTests
     /// Plan step P2.9: an all-columns export of the table behind the frozen snapshot writes that snapshot byte for
     /// byte. The response is built from the snapshot the way Airtable returns the live table (no live call is made):
     /// fields in a different order, plus the unmapped columns the table has (the autonumber <c>Record</c>, <c>FMAID</c>,
-    /// a primary-field style <c>Name</c>), three pages of 100.
+    /// a primary-field style <c>Name</c>, the other spelling of the reversed-language columns), three pages of 100.
     /// </summary>
     [Fact]
     public async Task Export_of_an_all_columns_response_writes_the_frozen_snapshot_byte_for_byte()
@@ -244,6 +244,15 @@ public sealed class TableExporterTests
                 if (field.Name == "SchemeCode")
                 {
                     fields["FMAID"] = "88";
+                }
+                else if (field.Name == "TG_263Spanish")
+                {
+                    // The source table spells the reversed-language columns TG_263RSpanish / TG_263RFrench (plan P2.8).
+                    fields["TG_263RSpanish"] = "R_" + (string?)field.Value;
+                }
+                else if (field.Name == "TG_263French")
+                {
+                    fields["TG_263RFrench"] = "R_" + (string?)field.Value;
                 }
             }
 

@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 namespace TemplateSync.Airtable
 {
     /// <summary>
-    /// The three Airtable Web API operations the application needs. Every call is exactly one
+    /// The Airtable Web API operations the application needs. Every call is exactly one
     /// HTTP request (plus bounded retries), so callers can reason about API-call cost.
     /// </summary>
     public interface IAirtableApi
@@ -19,5 +19,11 @@ namespace TemplateSync.Airtable
 
         /// <summary>PATCH up to 10 existing records in one request. Only the supplied fields change.</summary>
         Task<IReadOnlyList<AirtableRecord>> UpdateRecordsAsync(string baseId, string table, IReadOnlyList<RecordUpdate> updates, bool typecast, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// GET the schema of every table in a base (/v0/meta/bases/{baseId}/tables). Needs the schema.bases:read scope;
+        /// a token without it gets an <see cref="AirtableAuthException"/> (403).
+        /// </summary>
+        Task<IReadOnlyList<AirtableTableSchema>> ListTablesAsync(string baseId, CancellationToken cancellationToken);
     }
 }

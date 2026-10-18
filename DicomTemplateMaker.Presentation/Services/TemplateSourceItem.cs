@@ -91,6 +91,30 @@ namespace DicomTemplateMakerGUI.Services
         /// <summary>Writes several templates with a single refresh of the table first.</summary>
         public async Task<IReadOnlyList<WriteResult>> WriteTemplatesAsync(IEnumerable<KeyValuePair<string, IEnumerable<ROIClass>>> templates, IProgress<string>? progress, CancellationToken cancellationToken)
         {
+            AirtableTableSource table = WritableTable();
+            List<TemplateWrite> writes = ToWrites(templates);
+            try
+            {
+                return await table.WriteTemplatesAsync(writes, progress, cancellationToken);
+            }
+            finally
+            {
+                Rebuild();
+                StatusText = Describe(null);
+            }
+        }
+
+        /// <summary>
+        /// The creates and updates <see cref="WriteTemplatesAsync"/> would send for the same templates, planned from the
+        /// local cache without any request (see <see cref="AirtableTableSource.PreviewWritesAsync"/>).
+        /// </summary>
+        public Task<IReadOnlyList<WritePreview>> PreviewWritesAsync(IEnumerable<KeyValuePair<string, IEnumerable<ROIClass>>> templates, CancellationToken cancellationToken)
+        {
+            return WritableTable().PreviewWritesAsync(ToWrites(templates), cancellationToken);
+        }
+
+        private AirtableTableSource WritableTable()
+        {
             var unavailable = Source as UnavailableAirtableSource;
             if (unavailable != null)
             {
@@ -103,18 +127,12 @@ namespace DicomTemplateMakerGUI.Services
                 throw new InvalidOperationException(Name + " is read-only.");
             }
 
-            List<TemplateWrite> writes = templates
-                .Select(t => new TemplateWrite(t.Key, t.Value.Select(roi => new LocalRoi(TemplateEntryMapper.ToDesiredEntry(roi), roi.Include)).ToList()))
-                .ToList();
-            try
-            {
-                return await table.WriteTemplatesAsync(writes, progress, cancellationToken);
-            }
-            finally
-            {
-                Rebuild();
-                StatusText = Describe(null);
-            }
+            return table;
+        }
+
+        private static List<TemplateWrite> ToWrites(IEnumerable<KeyValuePair<string, IEnumerable<ROIClass>>> templates)
+        {
+            return templates.Select(t => TemplateEntryMapper.ToTemplateWrite(t.Key, t.Value)).ToList();
         }
 
         private void Rebuild()
