@@ -5,6 +5,22 @@ Windows tools for building and applying DICOM RT Structure Set templates in radi
 **Program download:** grab the compiled build from the [Releases](../../releases) section.
 **Video walkthroughs:** [Our DICOM Playlist](https://www.youtube.com/playlist?list=PLudf8Cfe-LuctPJTTfgb2tDBUvyR-ZOQu) on YouTube.
 
+## Intended use
+
+The program writes RT Structure Sets that contain ROI definitions (names, colours, interpreted types and
+identification codes) and no contours. They are meant as a starting structure list for contouring. This is
+research and workflow software: it is not a medical device and is not validated for clinical use.
+
+- **What has been checked (as of 2026-10-18).** In CI, the RT Structure Sets generated for the bundled TG-263
+  sites are checked with the independent DICOM validators `dciodvfy` and `dicom-validator` (known errors are
+  listed in [`docs/evidence/validator-allowlist.json`](docs/evidence/validator-allowlist.json)) and sent to and
+  read back from an Orthanc DICOM server. See [`docs/evidence/`](docs/evidence/).
+- **What has not.** No import into a commercial treatment-planning system has been verified.
+- **Where to try it.** Import generated files for evaluation only into test or research databases, never into a
+  clinical patient database.
+- **Sample data.** The bundled sample CT (`DicomTemplateMakerGUI/SmallCT`) carries a fictitious test patient,
+  `ZZTEST^TG263TEMPLATE`, and test RTs generated on it inherit that patient.
+
 ## Components
 
 | Project | What it is |

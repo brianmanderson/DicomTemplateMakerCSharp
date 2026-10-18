@@ -1,0 +1,530 @@
+(0002,0000) FileMetaInformationGroupLength UL 1 4 <DERIVED>
+(0002,0001) FileMetaInformationVersion OB 1 2 0001
+(0002,0002) MediaStorageSOPClassUID UI 1 30 1.2.840.10008.5.1.4.1.1.481.3 (RT Structure Set Storage)
+(0002,0003) MediaStorageSOPInstanceUID UI 1 * UID#1
+(0002,0010) TransferSyntaxUID UI 1 18 1.2.840.10008.1.2 (Implicit VR Little Endian: Default Transfer Syntax for DICOM)
+(0002,0012) ImplementationClassUID UI 1 * <MASKED>
+(0002,0013) ImplementationVersionName SH 1 * <MASKED>
+(0008,0005) SpecificCharacterSet CS 1 10 ISO_IR 192
+(0008,0012) InstanceCreationDate DA 1 * <DATE>
+(0008,0013) InstanceCreationTime TM 1 * <TIME>
+(0008,0016) SOPClassUID UI 1 30 1.2.840.10008.5.1.4.1.1.481.3 (RT Structure Set Storage)
+(0008,0018) SOPInstanceUID UI 1 * UID#1
+(0008,0020) StudyDate DA 1 * <DATE>
+(0008,0021) SeriesDate DA 1 * <DATE>
+(0008,0030) StudyTime TM 1 * <TIME>
+(0008,0031) SeriesTime TM 1 * <TIME>
+(0008,0050) AccessionNumber SH 0 0
+(0008,0060) Modality CS 1 8 RTSTRUCT
+(0008,0070) Manufacturer LO 1 22 Varian Medical Systems
+(0008,0080) InstitutionName LO 1 * <MASKED>
+(0008,0081) InstitutionAddress ST 1 * <MASKED>
+(0008,0090) ReferringPhysicianName PN 0 0
+(0008,0110) CodingSchemeIdentificationSequence SQ 1 -
+  (FFFE,E000) Item 1
+    (0008,0102) CodingSchemeDesignator SH 1 4 FMA
+    (0008,010C) CodingSchemeUID UI 1 * UID#2
+(0008,0123) ContextGroupIdentificationSequence SQ 1 -
+  (FFFE,E000) Item 1
+    (0008,0105) MappingResource CS 1 6 99VMS
+    (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+    (0008,010F) ContextIdentifier CS 1 6 VMS011
+    (0008,0117) ContextUID UI 1 * UID#3
+(0008,0124) MappingResourceIdentificationSequence SQ 1 -
+  (FFFE,E000) Item 1
+    (0008,0105) MappingResource CS 1 6 99VMS
+    (0008,0118) MappingResourceUID UI 1 * UID#4
+    (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+(0008,1010) StationName SH 1 * <MASKED>
+(0008,1030) StudyDescription LO 1 4 LUNG
+(0008,103E) SeriesDescription LO 1 10 Contouring
+(0008,1070) OperatorsName PN 1 * <MASKED>
+(0008,1090) ManufacturerModelName LO 1 8 ARIA RTM
+(0010,0010) PatientName PN 1 * <MASKED>
+(0010,0020) PatientID LO 1 * <MASKED>
+(0010,0030) PatientBirthDate DA 0 0
+(0010,0040) PatientSex CS 0 0
+(0018,1000) DeviceSerialNumber LO 1 * <MASKED>
+(0018,1020) SoftwareVersions LO 1 10 16.1.137.0
+(0020,000D) StudyInstanceUID UI 1 * UID#5
+(0020,000E) SeriesInstanceUID UI 1 * UID#6
+(0020,0010) StudyID SH 1 10 ANON398831
+(0020,0011) SeriesNumber IS 1 2 0
+(0020,0052) FrameOfReferenceUID UI 1 * UID#7
+(0020,1040) PositionReferenceIndicator LO 0 0
+(3006,0002) StructureSetLabel SH 1 4 Test
+(3006,0008) StructureSetDate DA 1 * <DATE>
+(3006,0009) StructureSetTime TM 1 * <TIME>
+(3006,0010) ReferencedFrameOfReferenceSequence SQ 1 -
+  (FFFE,E000) Item 1
+    (0020,0052) FrameOfReferenceUID UI 1 * UID#7
+    (3006,0012) RTReferencedStudySequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,1150) ReferencedSOPClassUID UI 1 30 1.2.840.10008.5.1.4.1.1.481.3 (RT Structure Set Storage)
+        (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#5
+        (3006,0014) RTReferencedSeriesSequence SQ 1 -
+          (FFFE,E000) Item 1
+            (0020,000E) SeriesInstanceUID UI 1 * UID#8
+            (3006,0016) ContourImageSequence SQ 136 -
+              (FFFE,E000) Item 1
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#9
+              (FFFE,E000) Item 2
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#10
+              (FFFE,E000) Item 3
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#11
+              (FFFE,E000) Item 4
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#12
+              (FFFE,E000) Item 5
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#13
+              (FFFE,E000) Item 6
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#14
+              (FFFE,E000) Item 7
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#15
+              (FFFE,E000) Item 8
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#16
+              (FFFE,E000) Item 9
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#17
+              (FFFE,E000) Item 10
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#18
+              (FFFE,E000) Item 11
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#19
+              (FFFE,E000) Item 12
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#20
+              (FFFE,E000) Item 13
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#21
+              (FFFE,E000) Item 14
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#22
+              (FFFE,E000) Item 15
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#23
+              (FFFE,E000) Item 16
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#24
+              (FFFE,E000) Item 17
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#25
+              (FFFE,E000) Item 18
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#26
+              (FFFE,E000) Item 19
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#27
+              (FFFE,E000) Item 20
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#28
+              (FFFE,E000) Item 21
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#29
+              (FFFE,E000) Item 22
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#30
+              (FFFE,E000) Item 23
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#31
+              (FFFE,E000) Item 24
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#32
+              (FFFE,E000) Item 25
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#33
+              (FFFE,E000) Item 26
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#34
+              (FFFE,E000) Item 27
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#35
+              (FFFE,E000) Item 28
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#36
+              (FFFE,E000) Item 29
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#37
+              (FFFE,E000) Item 30
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#38
+              (FFFE,E000) Item 31
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#39
+              (FFFE,E000) Item 32
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#40
+              (FFFE,E000) Item 33
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#41
+              (FFFE,E000) Item 34
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#42
+              (FFFE,E000) Item 35
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#43
+              (FFFE,E000) Item 36
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#44
+              (FFFE,E000) Item 37
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#45
+              (FFFE,E000) Item 38
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#46
+              (FFFE,E000) Item 39
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#47
+              (FFFE,E000) Item 40
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#48
+              (FFFE,E000) Item 41
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#49
+              (FFFE,E000) Item 42
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#50
+              (FFFE,E000) Item 43
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#51
+              (FFFE,E000) Item 44
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#52
+              (FFFE,E000) Item 45
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#53
+              (FFFE,E000) Item 46
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#54
+              (FFFE,E000) Item 47
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#55
+              (FFFE,E000) Item 48
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#56
+              (FFFE,E000) Item 49
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#57
+              (FFFE,E000) Item 50
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#58
+              (FFFE,E000) Item 51
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#59
+              (FFFE,E000) Item 52
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#60
+              (FFFE,E000) Item 53
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#61
+              (FFFE,E000) Item 54
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#62
+              (FFFE,E000) Item 55
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#63
+              (FFFE,E000) Item 56
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#64
+              (FFFE,E000) Item 57
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#65
+              (FFFE,E000) Item 58
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#66
+              (FFFE,E000) Item 59
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#67
+              (FFFE,E000) Item 60
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#68
+              (FFFE,E000) Item 61
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#69
+              (FFFE,E000) Item 62
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#70
+              (FFFE,E000) Item 63
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#71
+              (FFFE,E000) Item 64
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#72
+              (FFFE,E000) Item 65
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#73
+              (FFFE,E000) Item 66
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#74
+              (FFFE,E000) Item 67
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#75
+              (FFFE,E000) Item 68
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#76
+              (FFFE,E000) Item 69
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#77
+              (FFFE,E000) Item 70
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#78
+              (FFFE,E000) Item 71
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#79
+              (FFFE,E000) Item 72
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#80
+              (FFFE,E000) Item 73
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#81
+              (FFFE,E000) Item 74
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#82
+              (FFFE,E000) Item 75
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#83
+              (FFFE,E000) Item 76
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#84
+              (FFFE,E000) Item 77
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#85
+              (FFFE,E000) Item 78
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#86
+              (FFFE,E000) Item 79
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#87
+              (FFFE,E000) Item 80
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#88
+              (FFFE,E000) Item 81
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#89
+              (FFFE,E000) Item 82
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#90
+              (FFFE,E000) Item 83
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#91
+              (FFFE,E000) Item 84
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#92
+              (FFFE,E000) Item 85
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#93
+              (FFFE,E000) Item 86
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#94
+              (FFFE,E000) Item 87
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#95
+              (FFFE,E000) Item 88
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#96
+              (FFFE,E000) Item 89
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#97
+              (FFFE,E000) Item 90
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#98
+              (FFFE,E000) Item 91
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#99
+              (FFFE,E000) Item 92
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#100
+              (FFFE,E000) Item 93
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#101
+              (FFFE,E000) Item 94
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#102
+              (FFFE,E000) Item 95
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#103
+              (FFFE,E000) Item 96
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#104
+              (FFFE,E000) Item 97
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#105
+              (FFFE,E000) Item 98
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#106
+              (FFFE,E000) Item 99
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#107
+              (FFFE,E000) Item 100
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#108
+              (FFFE,E000) Item 101
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#109
+              (FFFE,E000) Item 102
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#110
+              (FFFE,E000) Item 103
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#111
+              (FFFE,E000) Item 104
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#112
+              (FFFE,E000) Item 105
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#113
+              (FFFE,E000) Item 106
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#114
+              (FFFE,E000) Item 107
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#115
+              (FFFE,E000) Item 108
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#116
+              (FFFE,E000) Item 109
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#117
+              (FFFE,E000) Item 110
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#118
+              (FFFE,E000) Item 111
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#119
+              (FFFE,E000) Item 112
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#120
+              (FFFE,E000) Item 113
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#121
+              (FFFE,E000) Item 114
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#122
+              (FFFE,E000) Item 115
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#123
+              (FFFE,E000) Item 116
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#124
+              (FFFE,E000) Item 117
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#125
+              (FFFE,E000) Item 118
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#126
+              (FFFE,E000) Item 119
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#127
+              (FFFE,E000) Item 120
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#128
+              (FFFE,E000) Item 121
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#129
+              (FFFE,E000) Item 122
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#130
+              (FFFE,E000) Item 123
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#131
+              (FFFE,E000) Item 124
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#132
+              (FFFE,E000) Item 125
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#133
+              (FFFE,E000) Item 126
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#134
+              (FFFE,E000) Item 127
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#135
+              (FFFE,E000) Item 128
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#136
+              (FFFE,E000) Item 129
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#137
+              (FFFE,E000) Item 130
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#138
+              (FFFE,E000) Item 131
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#139
+              (FFFE,E000) Item 132
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#140
+              (FFFE,E000) Item 133
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#141
+              (FFFE,E000) Item 134
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#142
+              (FFFE,E000) Item 135
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#143
+              (FFFE,E000) Item 136
+                (0008,1150) ReferencedSOPClassUID UI 1 26 1.2.840.10008.5.1.4.1.1.2 (CT Image Storage)
+                (0008,1155) ReferencedSOPInstanceUID UI 1 * UID#144
+(3006,0020) StructureSetROISequence SQ 2 -
+  (FFFE,E000) Item 1
+    (3006,0022) ROINumber IS 1 2 15
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#7
+    (3006,0026) ROIName LO 1 6 Eye_R
+    (3006,0036) ROIGenerationAlgorithm CS 1 6 MANUAL
+  (FFFE,E000) Item 2
+    (3006,0022) ROINumber IS 1 2 14
+    (3006,0024) ReferencedFrameOfReferenceUID UI 1 * UID#7
+    (3006,0026) ROIName LO 1 6 Eye_L
+    (3006,0036) ROIGenerationAlgorithm CS 1 6 MANUAL
+(3006,0039) ROIContourSequence SQ 2 -
+  (FFFE,E000) Item 1
+    (3006,002A) ROIDisplayColor IS 3 10 0\255\255
+    (3006,0084) ReferencedROINumber IS 1 2 15
+  (FFFE,E000) Item 2
+    (3006,002A) ROIDisplayColor IS 3 10 10\10\250
+    (3006,0084) ReferencedROINumber IS 1 2 14
+(3006,0080) RTROIObservationsSequence SQ 2 -
+  (FFFE,E000) Item 1
+    (3006,0082) ObservationNumber IS 1 2 0
+    (3006,0084) ReferencedROINumber IS 1 2 15
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 6 12514
+        (0008,0102) CodingSchemeDesignator SH 1 4 FMA
+        (0008,0103) CodingSchemeVersion SH 1 4 3.2
+        (0008,0104) CodeMeaning LO 1 14 Right eyeball
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#3
+        (0008,0118) MappingResourceUID UI 1 * UID#4
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 0 0
+  (FFFE,E000) Item 2
+    (3006,0082) ObservationNumber IS 1 2 0
+    (3006,0084) ReferencedROINumber IS 1 2 14
+    (3006,0086) RTROIIdentificationCodeSequence SQ 1 -
+      (FFFE,E000) Item 1
+        (0008,0100) CodeValue SH 1 6 12515
+        (0008,0102) CodingSchemeDesignator SH 1 4 FMA
+        (0008,0103) CodingSchemeVersion SH 1 4 3.2
+        (0008,0104) CodeMeaning LO 1 12 Left eyeball
+        (0008,0105) MappingResource CS 1 6 99VMS
+        (0008,0106) ContextGroupVersion DT 1 * <DATETIME>
+        (0008,010F) ContextIdentifier CS 1 6 VMS011
+        (0008,0117) ContextUID UI 1 * UID#3
+        (0008,0118) MappingResourceUID UI 1 * UID#4
+        (0008,0122) MappingResourceName LO 1 22 Varian Medical Systems
+    (3006,00A4) RTROIInterpretedType CS 1 6 ORGAN
+    (3006,00A6) ROIInterpreter PN 0 0
+(300E,0002) ApprovalStatus CS 1 10 UNAPPROVED
