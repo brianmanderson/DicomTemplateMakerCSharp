@@ -238,3 +238,17 @@ Eye_Origin_R, Fid, Hi HU), allowlisted as decision D1b (pending). The warnings a
 retired `ROIObservationLabel` (gap C9) and for the Varian context attributes on SNOMED codes (gap C1), and RR6
 for `PTV_ChestWall_Eval` (18 characters, over the TG-263 limit of 16) in two RTs. No other rule finds anything.
 No group 0010 value appears in the report.
+
+## Nomenclature (plan P1.8)
+
+`nomenclature/` holds the report of `tools/nomenclature/check_tg263_names.py` over the frozen snapshot
+`TemplateSync.Tests/TestData/TG263.2026-09-30.json`, run on 2026-10-18 against the AAPM TG-263 worksheet
+`TG263_Nomenclature_Worksheet_20170815.xls` (downloaded at run time and not stored here; SHA-256
+`5ff0b9e2ebf578793f6fa8f59c2357b3feb61fdc0f87171e9103a0495d93d150`, 1,754,624 bytes, Last-Modified 2018-03-02).
+Of the 246 `Structure` names, 96 match a worksheet primary name exactly, 3 match ignoring case only (`BODY`,
+`GallBladder`, `SpinalCord_PRVXX`) and 147 are unmatched (95 of them GTV/CTV/PTV targets, which the worksheet
+covers by pattern rules rather than by name); `TG_263` matches 115/2/129 and `TG_263R` 115/1/130 against the
+reverse-order names, and a worksheet FMAID is available for 101 records. The rule checks find 12 records: 7 names
+over 16 characters, the duplicate `_TS_CTVsb` (2 records), the space in `Hi HU` and the two U+02C6 names, and no
+target-prefix, helper-prefix or laterality violations (36 helper-prefixed targets such as `_TS_CTV` are exempt and
+listed).
