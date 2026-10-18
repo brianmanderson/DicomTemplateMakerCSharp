@@ -27,6 +27,14 @@ it at `e35c5f3`, from sites built from the frozen snapshot `TemplateSync.Tests/T
 changed (`ReferringPhysicianName` and `PatientBirthDate` are now empty, `PatientIdentityRemoved` `YES` and
 `DeidentificationMethod` are new); `run-report.json` and every other inventory line are unchanged.
 
+On 2026-10-18 the same script also gave the slices a neutral `SeriesDescription` (`Sample CT`; it named an
+institution's residency template), the fictitious `InstitutionName` `Brian Anderson Fictional Hospital`, and removed
+`InstitutionAddress` (the GDCM sample-data web page). A dump of every text attribute of the four slices found no
+private attributes, station name, device serial number or other person name. The RTs copy none of these three
+attributes (`RtStructureBuilder.Type2FromImage` and `OptionalFromImage`), so after regenerating at `aa7320a` the 53
+inventories, `run-report.json`, the validator reports and the realism report are unchanged; only the manifests
+changed (the CT hashes in `generate-rts/manifest.json`, the RT hashes in `inventory/` and `realism/`).
+
 **Why this is the behaviour of `e7f0572`.** Between `e7f0572` and `c96ce25` the RT generation code
 (`DicomTemplateCore`, `ROIOntologyClass`, `TemplateSync`) is unchanged except for a new overload in
 `TemplateEntryMapper` that reports each warning's kind with the same message. The site building moved from

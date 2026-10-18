@@ -37,6 +37,21 @@ public class SampleCtIdentityTests
     }
 
     [Fact]
+    public void Every_slice_names_a_fictitious_institution_and_a_neutral_series()
+    {
+        foreach (DicomFile file in Slices())
+        {
+            DicomDataset slice = file.Dataset;
+            Assert.Equal("Brian Anderson Fictional Hospital", slice.GetString(DicomTag.InstitutionName));
+            Assert.Equal("Sample CT", slice.GetString(DicomTag.SeriesDescription));
+            Assert.False(slice.Contains(DicomTag.InstitutionAddress));
+            Assert.False(slice.Contains(DicomTag.StationName));
+            Assert.False(slice.Contains(DicomTag.DeviceSerialNumber));
+            Assert.DoesNotContain(slice, item => item.Tag.IsPrivate);
+        }
+    }
+
+    [Fact]
     public void All_slices_share_one_study_series_and_frame_of_reference_with_distinct_instances()
     {
         List<DicomFile> slices = Slices();
