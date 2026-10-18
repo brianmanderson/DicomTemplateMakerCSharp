@@ -241,14 +241,7 @@ namespace TemplateSync.Credentials
 
             string temp = _path + ".tmp";
             File.WriteAllText(temp, JsonConvert.SerializeObject(connections, Json.IndentedSettings), Utf8NoBom);
-            if (File.Exists(_path))
-            {
-                File.Replace(temp, _path, null);
-            }
-            else
-            {
-                File.Move(temp, _path);
-            }
+            FileSwap.MoveOver(temp, _path);
         }
     }
 }

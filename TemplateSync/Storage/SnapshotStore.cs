@@ -104,7 +104,10 @@ namespace TemplateSync.Storage
             }
         }
 
-        /// <summary>Writes to a temporary file first and then swaps it in, so a crash never leaves a half-written cache.</summary>
+        /// <summary>
+        /// Writes to a temporary file first and then renames it over the target in one step (<see cref="FileSwap"/>), so
+        /// a crash never leaves a half-written cache and a briefly locked target does not fail the save.
+        /// </summary>
         public static void WriteFile(string path, TableSnapshot snapshot)
         {
             snapshot.RecordCount = snapshot.Records.Count;
@@ -117,14 +120,7 @@ namespace TemplateSync.Storage
             string json = Serialize(snapshot);
             string temp = path + ".tmp";
             File.WriteAllText(temp, json, Utf8NoBom);
-            if (File.Exists(path))
-            {
-                File.Replace(temp, path, null);
-            }
-            else
-            {
-                File.Move(temp, path);
-            }
+            FileSwap.MoveOver(temp, path);
         }
 
         /// <summary>Indented JSON with LF line endings on every OS, so the published file does not depend on where it was written.</summary>
