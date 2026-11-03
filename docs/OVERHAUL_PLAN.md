@@ -1,9 +1,13 @@
 # Overhaul and evaluation plan
 
-Status: plan only, nothing implemented. Written 2026-10-15 against `e7f0572` (main) from
+Written 2026-10-15 against `e7f0572` (main) from
 `docs/OVERHAUL_PLANNING_PROMPT.md`. Companions: `OVERHAUL_DECISIONS.md` (D1-D22, recommendations
 and answer blanks), `EVALUATION_PROTOCOL.md` (exact procedures), `OVERHAUL_CLAIMS.md` (every vendor and
 standards claim relied on, plus the re-check status of every appendix fact).
+
+Status (2026-11-03): pull requests 9 to 21 of this repository, merged 2026-10-16 to 2026-10-18,
+landed parts of P0, P1 and P2 on `main`; each pull request title names the plan steps it covers. The
+answer blanks in `OVERHAUL_DECISIONS.md` are not yet filled in.
 
 The request, in four goals: **G1** download the shared TG-263 template as DICOM; **G2** re-upload it to an
 Airtable base we control; **G3** test the DICOM; **G4a** a more robust way to make the Varian Eclipse
