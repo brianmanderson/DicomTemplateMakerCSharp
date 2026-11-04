@@ -4,6 +4,10 @@
 Usage:
     python -I tools/dicom-validation/validate_rts.py --rt-dir <folder> --out <folder>
         [--allowlist docs/evidence/validator-allowlist.json] [--edition 2025b] [--no-current]
+    Unit tests: python -I -m unittest discover -s tools/dicom-validation -p "test_*.py"
+
+The validators are looked up beside the running interpreter (a venv's Scripts or bin folder) before PATH,
+so a venv's python works without activating the venv.
 
 What it does (docs/EVALUATION_PROTOCOL.md section 3 of the overhaul plan):
   1. Runs `dciodvfy -new` on every RT (every *.dcm whose Modality is RTSTRUCT); all of its output is on
@@ -27,11 +31,14 @@ import argparse
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from collections import Counter, OrderedDict
 from pathlib import Path
 
+# Where pip puts console scripts relative to a base interpreter; in a venv they sit beside the interpreter itself.
+SCRIPTS_SUBDIR = "Scripts" if os.name == "nt" else "bin"
 PATIENT_TAG_RE = re.compile(r"\((0010,[0-9a-fA-F]{4})\)")
 INDEX_RE = re.compile(r"\[\d+\]")
 DCIODVFY_LINE_RE = re.compile(r"^(Error|Warning) - (.*)$")
@@ -83,17 +90,41 @@ def package_version(name: str) -> str:
         return f"(unavailable: {exc})"
 
 
+def tool_candidates(name: str, executable: str = sys.executable) -> list[str]:
+    """The paths beside the interpreter where pip installs the console script `name`, in search order."""
+    if not executable:
+        return []
+    here = Path(executable).parent
+    return [str(folder / file) for folder in (here, here / SCRIPTS_SUBDIR) for file in (name, name + ".exe")]
+
+
+def find_tool(name: str, executable: str = sys.executable, which=shutil.which, exists=os.path.isfile) -> str | None:
+    """Finds `name` beside the running interpreter first, so an unactivated venv's tools are used, then on PATH."""
+    for candidate in tool_candidates(name, executable):
+        if exists(candidate):
+            return candidate
+    return which(name)
+
+
+def missing_tool_problem(name: str, package: str, executable: str = sys.executable) -> str:
+    tried = ", ".join(tool_candidates(name, executable) + ["PATH"])
+    return f"{name} is not installed (pip install {package}); looked in {tried}"
+
+
 def run_dciodvfy(files: list[Path], out_dir: Path) -> tuple[list[dict], list[str]]:
     """Returns (findings, problems). Each finding: tool, severity, file, pattern, message, count."""
     out_dir.mkdir(parents=True, exist_ok=True)
     findings: list[dict] = []
     problems: list[str] = []
     exit_lines = []
+    dciodvfy = find_tool("dciodvfy")
+    if dciodvfy is None:
+        return findings, [missing_tool_problem("dciodvfy", "dicom3tools")]
     for path in files:
         try:
-            result = subprocess.run(["dciodvfy", "-new", str(path)], capture_output=True, text=True, timeout=300)
+            result = subprocess.run([dciodvfy, "-new", str(path)], capture_output=True, text=True, timeout=300)
         except FileNotFoundError:
-            problems.append("dciodvfy is not installed (pip install dicom3tools)")
+            problems.append(missing_tool_problem("dciodvfy", "dicom3tools"))
             return findings, problems
         except subprocess.TimeoutExpired:
             problems.append(f"dciodvfy timed out on {path.name}")
@@ -123,13 +154,16 @@ def mask_patient_values_in_text(text: str) -> str:
 
 def run_validate_iods(files: list[Path], edition: str, out_file: Path) -> tuple[list[dict], int | None, list[str]]:
     """Returns (findings, exit code, problems). Findings are errors (validate_iods prints errors only)."""
+    validate_iods = find_tool("validate_iods")
+    if validate_iods is None:
+        return [], None, [missing_tool_problem("validate_iods", "dicom-validator")]
     try:
         result = subprocess.run(
-            ["validate_iods", "--edition", edition] + [str(p) for p in files],
+            [validate_iods, "--edition", edition] + [str(p) for p in files],
             capture_output=True, text=True, timeout=1800,
         )
     except FileNotFoundError:
-        return [], None, ["validate_iods is not installed (pip install dicom-validator)"]
+        return [], None, [missing_tool_problem("validate_iods", "dicom-validator")]
     except subprocess.TimeoutExpired:
         return [], None, [f"validate_iods --edition {edition} timed out"]
     text = mask_patient_values_in_text(result.stdout + result.stderr)
