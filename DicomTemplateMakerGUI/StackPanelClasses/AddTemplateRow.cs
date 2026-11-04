@@ -45,11 +45,14 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             template_name = tm.TemplateName;
             AirTables = airTables;
             templateMaker = tm;
-            Label template_label = new Label();
-            template_label.Width = 250;
+            // A TextBlock, not string content: a Label would hide the first "_" of names such as "_Targets_RNI" (F-1).
+            TextBlock template_name_text = new TextBlock();
             Binding template_name_binding = new Binding("TemplateName");
             template_name_binding.Source = templateMaker;
-            template_label.SetBinding(Label.ContentProperty, template_name_binding);
+            template_name_text.SetBinding(TextBlock.TextProperty, template_name_binding);
+            Label template_label = new Label();
+            template_label.Width = 250;
+            template_label.Content = template_name_text;
             left_panel.Children.Add(template_label);
 
             rois_present_label = new Label();

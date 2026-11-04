@@ -52,6 +52,16 @@ namespace DicomTemplateMakerGUI.Shell
 
             return text.ToString().TrimEnd();
         }
+
+        /// <summary>
+        /// <paramref name="text"/> for the string content of a WPF Label or Button, which treats the first "_" as an
+        /// access-key marker and hides it. Doubling every underscore shows them all ("_Targets_RNI" stays "_Targets_RNI").
+        /// Prefer a TextBlock where the content can be one; use this only where a plain string must stay the content.
+        /// </summary>
+        public static string LabelText(string? text)
+        {
+            return string.IsNullOrEmpty(text) ? string.Empty : text.Replace("_", "__", StringComparison.Ordinal);
+        }
     }
 
     /// <summary>The template search in the main window.</summary>
