@@ -13,6 +13,15 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);packages\**;AirTables\**</DefaultItemExcludes>
   </PropertyGroup>
 
+  <!--
+    Release folder contents (dotnet publish only; a normal build is unchanged). The referenced libraries'
+    XML documentation is for IDEs, not users, so it stays out of the folder. Symbols are embedded in the
+    assemblies instead of separate .pdb files (set for every project in Directory.Build.props).
+  -->
+  <PropertyGroup Condition="'$(_IsPublishing)' == 'true'">
+    <PublishReferencesDocumentationFiles>false</PublishReferencesDocumentationFiles>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\DicomTemplateCore\DicomTemplateCore.csproj" />
     <ProjectReference Include="..\DicomTemplateMaker.Presentation\DicomTemplateMaker.Presentation.csproj" />
