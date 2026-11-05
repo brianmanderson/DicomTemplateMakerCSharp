@@ -1,6 +1,8 @@
 # Modernization plan
 
-Status: Phase 0 (audit) complete. This document records what the audit found, the API-call budget
+Status: phases 0, 1, 3 and 2 complete, in that order (see "Phase order" in section 2). The follow-on
+overhaul is tracked in [`OVERHAUL_PLAN.md`](OVERHAUL_PLAN.md) and [`STATUS.md`](STATUS.md).
+This document records what the audit found, the API-call budget
 before and after, the decisions taken, and the order of work. Evidence labels: **documented**
 (Airtable/GitHub/NuGet documentation), **measured** (observed in this repository, its history, or
 the live table metadata), **inferred** (reasoned, not observed), **unknown**.
@@ -78,6 +80,8 @@ CI export), plus deltas for people who maintain their own tables.
 ## 3. Work by phase
 
 ### Phase 1: Airtable access (shippable on .NET Framework 4.8)
+.NET Framework 4.8 and netstandard2.0 were the targets when Phase 1 shipped; Phase 3 later moved
+every project to .NET 10 (`net10.0`, the GUI `net10.0-windows`).
 - `TemplateSync` library (netstandard2.0): client with per-base throttle, bounded retries,
   quota/rate-limit distinction; list-only paging; cache with atomic writes; delta and full refresh;
   snapshot source; write planner and batching; encrypted connection store; settings file.
@@ -197,6 +201,8 @@ Measured in the code unless marked; ordered by risk to patients and data.
    so writing one template changes them for all sites (last writer wins). This is unchanged; should
    per-site overrides exist?
 3. Should the snapshot workflow open a pull request for review instead of committing to `main`?
+   Answered: yes. `.github/workflows/refresh-template-snapshot.yml` opens a pull request from
+   `snapshot-refresh/<branch>` and commits nothing to `main`.
 4. Which Airtable plan is the TG-263 workspace on, and what scopes does the leaked `patQ` token have?
 5. Template matching stays a case-insensitive substring test in both directions (only blank values
    stop matching), because existing templates depend on it. The reverse direction lets a short

@@ -2,7 +2,8 @@
 
 Windows tools for building and applying DICOM RT Structure Set templates in radiation oncology contouring workflows. Define a structure template once — ROI names, colors, DICOM interpreted types, and FMA/SNOMED ontology codes — then generate pre-populated RT Structure Set files onto DICOM image series, so contouring starts from a standardized structure list instead of an empty one.
 
-**Program download:** grab the compiled build from the [Releases](../../releases) section.
+**Program download:** the [Releases](../../releases) section. `v1.1.0` will be the first release built
+by the current release job; v1.0.0 to v1.0.4 are older builds (see [Releases](#releases)).
 **Video walkthroughs:** [Our DICOM Playlist](https://www.youtube.com/playlist?list=PLudf8Cfe-LuctPJTTfgb2tDBUvyR-ZOQu) on YouTube.
 
 ## Intended use
@@ -76,7 +77,9 @@ template folder defaults to the current folder; without `--once` it scans every 
 Ctrl+C. It exits with 0 on success (including a watch stopped with Ctrl+C); 1 when a `--once` or
 `--delete-generated` run hit errors or was stopped with Ctrl+C before it finished, or when the template
 RT file (`template_RS.dcm`, next to the program) is missing, in which case nothing is generated; and 2
-for bad arguments (an unknown option, more than one folder, or a folder that does not exist).
+for bad arguments (an unknown option, more than one folder, or a folder that does not exist). A `--once`
+run exits with 0 without writing an RT for a folder whose newest file is less than 10 seconds old (the
+settle rule above) and logs that folder as waiting, so a batch caller should wait or run it again.
 
 ## Where the program keeps its files
 
@@ -150,10 +153,10 @@ assets. Anyone who owns one of those tokens should revoke it in Airtable
 
 ## Requirements
 
-- **Using the program:** 64-bit Windows 10 or later. Release downloads are self-contained, so no
-  .NET runtime needs to be installed.
+- **Using the program:** 64-bit Windows 10 or later. From `v1.1.0` on, release downloads are
+  self-contained, so no .NET runtime needs to be installed.
 - **Building:** the .NET 10 SDK (see `global.json`). The whole solution, including the WPF app,
-  builds on Windows, Linux and macOS; the app itself runs only on Windows.
+  builds on Windows and Linux (what CI runs); macOS is untested. The app itself runs only on Windows.
 
 ## Building and testing
 
@@ -183,6 +186,9 @@ GitHub Actions (`.github/workflows/ci.yml`) builds and tests every push and pull
 and Linux and checks formatting. Pushing a tag such as `v1.1.0` also publishes a self-contained,
 single-file Windows x64 build to the GitHub release for that tag. Run the TG-263 snapshot workflow
 first so the release carries an offline copy of the shared templates.
+
+This release job has not published a release yet; `v1.1.0` will be the first. Releases v1.0.0 to
+v1.0.4 are older builds that it did not produce (see the [Security notice](#security-notice)).
 
 ## License
 
