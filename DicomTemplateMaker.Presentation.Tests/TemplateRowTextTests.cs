@@ -38,6 +38,33 @@ public sealed class TemplateRowTextTests
         Assert.Contains("DICOM requirements: none", text, StringComparison.Ordinal);
     }
 
+    [Fact]
+    public void The_list_is_ordered_by_name_ignoring_case()
+    {
+        TemplateMaker[] templates = new[] { "ZZ_PhaseE2", "CNS_Brain", "_Targets_RNI", "abdpelv_Prostate", "Abdomen" }
+            .Select(name => new TemplateMaker { TemplateName = name })
+            .ToArray();
+
+        List<TemplateMaker> ordered = TemplateRowText.Order(templates, template => template);
+
+        Assert.Equal(new[] { "_Targets_RNI", "Abdomen", "abdpelv_Prostate", "CNS_Brain", "ZZ_PhaseE2" }, ordered.Select(t => t.TemplateName));
+    }
+
+    [Fact]
+    public void A_template_renamed_in_its_editor_is_ordered_by_its_new_name()
+    {
+        TemplateMaker[] templates = new[] { "_Targets_RNI", "Abdomen", "AbdPelv_Prostate", "CNS_Brain", "ZZ_PhaseE2" }
+            .Select(name => new TemplateMaker { TemplateName = name })
+            .ToArray();
+        List<TemplateMaker> before = TemplateRowText.Order(templates, template => template);
+
+        // F-6: the editor renames the TemplateMaker the row holds; the row itself is not rebuilt.
+        templates[4].TemplateName = "AA_PhaseE";
+        List<TemplateMaker> after = TemplateRowText.Order(before, template => template);
+
+        Assert.Equal(new[] { "_Targets_RNI", "AA_PhaseE", "Abdomen", "AbdPelv_Prostate", "CNS_Brain" }, after.Select(t => t.TemplateName));
+    }
+
     [Theory]
     [InlineData("_Targets_RNI", "__Targets__RNI")]
     [InlineData("AbdPelv_Prostate", "AbdPelv__Prostate")]
