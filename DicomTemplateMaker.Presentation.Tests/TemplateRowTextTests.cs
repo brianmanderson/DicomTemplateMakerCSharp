@@ -39,6 +39,19 @@ public sealed class TemplateRowTextTests
     }
 
     [Theory]
+    [InlineData("_Targets_RNI", "__Targets__RNI")]
+    [InlineData("AbdPelv_Prostate", "AbdPelv__Prostate")]
+    [InlineData("CNS_Brain: wrote 1 of 2 change(s) to Clinic_Table…", "CNS__Brain: wrote 1 of 2 change(s) to Clinic__Table…")]
+    [InlineData("A__B", "A____B")]
+    [InlineData("Brain", "Brain")]
+    [InlineData("", "")]
+    [InlineData(null, "")]
+    public void Label_text_doubles_every_underscore_so_wpf_shows_them_all(string? name, string expected)
+    {
+        Assert.Equal(expected, TemplateRowText.LabelText(name));
+    }
+
+    [Theory]
     [InlineData("AbdPelv_Prostate", "prostate", true)]
     [InlineData("AbdPelv_Prostate", "PROSTATE", true)]
     [InlineData("AbdPelv_Prostate", "  pelv ", true)]
