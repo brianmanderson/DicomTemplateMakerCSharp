@@ -180,3 +180,8 @@ GitHub Actions (`.github/workflows/ci.yml`) builds and tests every push and pull
 and Linux and checks formatting. Pushing a tag such as `v1.1.0` also publishes a self-contained,
 single-file Windows x64 build to the GitHub release for that tag. Run the TG-263 snapshot workflow
 first so the release carries an offline copy of the shared templates.
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE). The release download carries a copy of the
+licence next to the program.
