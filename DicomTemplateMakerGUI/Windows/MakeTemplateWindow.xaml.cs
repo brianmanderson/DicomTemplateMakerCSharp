@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using DicomTemplateMakerGUI.Editors;
 using DicomTemplateMakerGUI.Services;
+using DicomTemplateMakerGUI.Shell;
 using DicomTemplateMakerGUI.StackPanelClasses;
 using Microsoft.Extensions.Logging;
 using ROIOntologyClass;
@@ -622,7 +623,8 @@ namespace DicomTemplateMakerGUI.Windows
                 busy = true;
                 EditorContent.IsEnabled = false;
                 WriteToAirTable_Button.Content = "Writing to Airtable…";
-                var progress = new Progress<string>(message => WriteToAirTable_Button.Content = message);
+                // Messages carry template and table names; doubled underscores keep the button from hiding one (F-1).
+                var progress = new Progress<string>(message => WriteToAirTable_Button.Content = TemplateRowText.LabelText(message));
                 logger.LogInformation("Writing template {Template} ({Count} ROIs) to Airtable table {Table}.", name, template_maker.ROIs.Count, table.Name);
                 WriteResult result = await table.WriteTemplateAsync(name, template_maker.ROIs.ToList(), progress, CancellationToken.None);
                 WriteToAirTable_Button.Content = "Wrote to Airtable";

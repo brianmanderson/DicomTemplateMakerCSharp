@@ -53,4 +53,9 @@
     <Content Include="..\TemplateSnapshots\TG263.json" Condition="Exists('..\TemplateSnapshots\TG263.json')" Link="TemplateSnapshots\TG263.json" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
 
+  <!-- The licence travels with the program, next to the exe, so every release download carries it. -->
+  <ItemGroup>
+    <Content Include="..\LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
 </Project>
