@@ -40,29 +40,75 @@ public sealed class SnapshotStoreSwapTests : IDisposable
         Assert.DoesNotContain("\r\n", System.Text.Encoding.UTF8.GetString(bytes), StringComparison.Ordinal);
     }
 
+    /// <summary>
+    /// The hold ends when the rename has been refused once, not after a delay. A release on a timer needs a free
+    /// thread-pool thread while the swap blocks one; on a busy runner it came after the retries were spent (F-7).
+    /// </summary>
     [Fact]
-    public async Task A_target_held_open_for_a_moment_is_replaced_once_it_is_released()
+    public void A_target_held_open_for_a_moment_is_replaced_once_it_is_released()
     {
         string path = _temp.File("table.json");
+        string temp = path + ".tmp";
         SnapshotStore.WriteFile(path, Snapshot("Old"));
-        FileStream holder = HoldWithoutDeleteSharing(path);
-        Task release = Task.Run(async () =>
+        File.WriteAllText(temp, SnapshotStore.Serialize(Snapshot("New")));
+        var refusals = new List<Exception>();
+        using FileStream holder = HoldWithoutDeleteSharing(path);
+
+        FileSwap.MoveOver(temp, path, (from, to) =>
         {
             try
             {
-                await Task.Delay(100, TestContext.Current.CancellationToken);
+                File.Move(from, to, overwrite: true);
             }
-            finally
+            catch (Exception ex)
             {
+                refusals.Add(ex);
                 holder.Dispose();
+                throw;
             }
-        }, TestContext.Current.CancellationToken);
-
-        SnapshotStore.WriteFile(path, Snapshot("New"));
-        await release;
+        });
 
         Assert.Equal("New", (string?)SnapshotStore.TryLoadFile(path)!.Records[0].Fields["Structure"]);
-        Assert.False(File.Exists(path + ".tmp"));
+        Assert.False(File.Exists(temp));
+        if (OperatingSystem.IsWindows())
+        {
+            Assert.NotEmpty(refusals);
+        }
+    }
+
+    [Theory]
+    [InlineData(typeof(IOException))]
+    [InlineData(typeof(UnauthorizedAccessException))]
+    public void A_refused_rename_is_retried_until_it_succeeds(Type refusal)
+    {
+        int attempts = 0;
+
+        FileSwap.MoveOver(_temp.File("table.json.tmp"), _temp.File("table.json"), (_, _) =>
+        {
+            if (++attempts < 3)
+            {
+                throw (Exception)Activator.CreateInstance(refusal)!;
+            }
+        });
+
+        Assert.Equal(3, attempts);
+    }
+
+    [Fact]
+    public void A_rename_denied_on_every_attempt_fails_after_the_last_retry_and_the_temporary_file_is_removed()
+    {
+        string temp = _temp.File("table.json.tmp");
+        File.WriteAllText(temp, "{}");
+        int attempts = 0;
+
+        Assert.Throws<UnauthorizedAccessException>(() => FileSwap.MoveOver(temp, _temp.File("table.json"), (_, _) =>
+        {
+            attempts++;
+            throw new UnauthorizedAccessException();
+        }));
+
+        Assert.Equal(FileSwap.RetryDelays.Length + 1, attempts);
+        Assert.False(File.Exists(temp));
     }
 
     [Fact]

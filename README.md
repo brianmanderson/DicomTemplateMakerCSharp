@@ -68,6 +68,9 @@ writes `<template>_UID<SeriesInstanceUID>.dcm` next to each matching image serie
   the template's monitored folders (or change its requirements) before starting the generator again.
 - **Copies of a template** ("Copy selected") get no monitored folders, so they write no RTs until
   folders are added in their editor.
+- **Run one copy of the program at a time.** The program does not yet stop a second copy from
+  starting. Two copies on the same template folder run two RT generators over the same monitored
+  folders and share one settings file, and in testing the second copy wrote nothing to the log.
 
 Command-line tool: `DicomTemplateMakerCSharp [template-folder] [--once] [--delete-generated]`. The
 template folder defaults to the current folder; without `--once` it scans every 3 seconds until
@@ -186,3 +189,8 @@ first so the release carries an offline copy of the shared templates.
 
 This release job has not published a release yet; `v1.1.0` will be the first. Releases v1.0.0 to
 v1.0.4 are older builds that it did not produce (see the [Security notice](#security-notice)).
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE). The release download carries a copy of the
+licence next to the program.
