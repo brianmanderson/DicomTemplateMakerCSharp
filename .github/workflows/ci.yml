@@ -148,7 +148,8 @@ jobs:
           global-json-file: global.json
 
       # Self-contained single-file build: users need no .NET runtime installed. Data files the program
-      # reads at run time (template_RS.dcm, SmallCT, the TG-263 snapshot, ...) sit next to the exe.
+      # reads at run time (template_RS.dcm, the four SmallCT\*.dcm slices, FMA_SNOMEDCT_Key.txt and the
+      # TG-263 snapshot) sit next to the exe. The step fails, listing every missing file, when any is absent.
       - name: Publish
         shell: pwsh
         run: |
@@ -156,8 +157,18 @@ jobs:
           dotnet publish DicomTemplateMakerGUI/DicomTemplateMakerGUI.csproj -c Release -r win-x64 --self-contained true `
             -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:Version=$version `
             -o publish/DicomTemplateMaker
+          $missing = @()
+          foreach ($file in 'template_RS.dcm', 'FMA_SNOMEDCT_Key.txt') {
+            if (-not (Test-Path (Join-Path publish/DicomTemplateMaker $file))) { $missing += $file }
+          }
+          $slices = @(Get-ChildItem publish/DicomTemplateMaker/SmallCT -Filter *.dcm -ErrorAction SilentlyContinue).Count
+          if ($slices -lt 4) { $missing += "SmallCT\*.dcm (found $slices of 4)" }
           if (-not (Test-Path publish/DicomTemplateMaker/TemplateSnapshots/TG263.json)) {
-            Write-Warning "TemplateSnapshots/TG263.json is missing: run the snapshot workflow before releasing so offline users get the shared templates."
+            $missing += "TemplateSnapshots/TG263.json: run the snapshot workflow before releasing so offline users get the shared templates."
+          }
+          if ($missing) {
+            Write-Error ("The release build is missing bundled data files:`n  " + ($missing -join "`n  "))
+            exit 1
           }
           Compress-Archive -Path publish/DicomTemplateMaker/* -DestinationPath "DicomTemplateMaker-${{ github.ref_name }}-win-x64.zip"
 
