@@ -15,4 +15,13 @@
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <!--
+    dotnet publish (the release) embeds symbols in each assembly instead of shipping .pdb files, so logged
+    exception stack traces keep their line numbers. Set for every project because the GUI's references are
+    rebuilt by its publish and would otherwise copy their own .pdb files. A normal build keeps .pdb files.
+  -->
+  <PropertyGroup Condition="'$(_IsPublishing)' == 'true'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
 </Project>
