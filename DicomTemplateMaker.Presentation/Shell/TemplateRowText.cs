@@ -9,6 +9,17 @@ namespace DicomTemplateMakerGUI.Shell
     /// <summary>Texts for a template's row in the main window.</summary>
     public static class TemplateRowText
     {
+        /// <summary>
+        /// The main window's order of <paramref name="rows"/>: by the current name of each row's template, ignoring case.
+        /// The name is read on every call, so a template renamed in its editor takes its new place (F-6).
+        /// </summary>
+        public static List<T> Order<T>(IEnumerable<T> rows, Func<T, TemplateMaker> template)
+        {
+            ArgumentNullException.ThrowIfNull(rows);
+            ArgumentNullException.ThrowIfNull(template);
+            return rows.OrderBy(row => template(row).TemplateName, StringComparer.CurrentCultureIgnoreCase).ToList();
+        }
+
         /// <summary>The row's tooltip: folder, ROI count, monitored folders, DICOM requirements and kept legacy files.</summary>
         public static string Tooltip(TemplateMaker template)
         {

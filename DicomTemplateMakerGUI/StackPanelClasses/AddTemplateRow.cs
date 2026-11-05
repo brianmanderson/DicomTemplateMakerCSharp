@@ -16,7 +16,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
     public class AddTemplateRow : StackPanel
     {
         private Label rois_present_label;
-        public string? template_name;
         public TemplateMaker templateMaker;
         private CheckBox selectCheckBox;
         public CheckBox SelectCheckBox
@@ -33,6 +32,8 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
         Brush lightred = new SolidColorBrush(Color.FromRgb(229, 51, 51));
         Brush lightgray = new SolidColorBrush(Color.FromRgb(221, 221, 221));
         public event PropertyChangedEventHandler? PropertyChanged;
+        /// <summary>Raised after the row's editor closes; the template may have been renamed there, so the list re-sorts (F-6).</summary>
+        public event EventHandler? EditorClosed;
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -42,7 +43,6 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             this.Orientation = Orientation.Horizontal;
             StackPanel left_panel = new StackPanel();
             left_panel.Orientation = Orientation.Vertical;
-            template_name = tm.TemplateName;
             AirTables = airTables;
             templateMaker = tm;
             Label template_label = new Label();
@@ -109,6 +109,7 @@ namespace DicomTemplateMakerGUI.StackPanelClasses
             template_window.Owner = Window.GetWindow(this);
             template_window.ShowDialog();
             Refresh();
+            EditorClosed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

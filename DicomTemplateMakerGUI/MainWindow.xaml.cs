@@ -387,6 +387,7 @@ namespace DicomTemplateMakerGUI
             {
                 var row = new AddTemplateRow(template, AirTables);
                 row.SelectCheckBox.IsChecked = selected.Contains(RowName(row));
+                row.EditorClosed += TemplateRow_EditorClosed;
                 rows.Add(row);
             }
 
@@ -431,7 +432,7 @@ namespace DicomTemplateMakerGUI
 
         private void DisplayRows()
         {
-            visible_template_rows = visible_template_rows.OrderBy(x => x.template_name, StringComparer.CurrentCultureIgnoreCase).ToList();
+            visible_template_rows = TemplateRowText.Order(visible_template_rows, row => row.templateMaker);
             TemplateStackPanel.Children.Clear();
             foreach (AddTemplateRow temp_row in visible_template_rows)
             {
@@ -450,6 +451,12 @@ namespace DicomTemplateMakerGUI
                 .Where(row => selectedOnly ? IsSelected(row) : TemplateSearch.Matches(row.templateMaker.TemplateName, SearchBox_TextBox.Text))
                 .ToList();
             DisplayRows();
+        }
+
+        /// <summary>A row's editor closed: the template may have a new name, so the search and the order apply to it again (F-6).</summary>
+        private void TemplateRow_EditorClosed(object? sender, EventArgs e)
+        {
+            UpdateText();
         }
 
         private static bool IsSelected(AddTemplateRow row)
