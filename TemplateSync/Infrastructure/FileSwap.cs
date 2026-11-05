@@ -21,13 +21,20 @@ namespace TemplateSync.Infrastructure
             TimeSpan.FromMilliseconds(80), TimeSpan.FromMilliseconds(160), TimeSpan.FromMilliseconds(320),
         };
 
-        public static void MoveOver(string temp, string target)
+        public static void MoveOver(string temp, string target) =>
+            MoveOver(temp, target, static (from, to) => File.Move(from, to, overwrite: true));
+
+        /// <summary>
+        /// <see cref="MoveOver(string, string)"/> with the rename passed in, so a test can refuse it with a chosen error
+        /// or act between a refused attempt and its retry instead of racing the retries with a timer.
+        /// </summary>
+        internal static void MoveOver(string temp, string target, Action<string, string> move)
         {
             for (int attempt = 0; ; attempt++)
             {
                 try
                 {
-                    File.Move(temp, target, overwrite: true);
+                    move(temp, target);
                     return;
                 }
                 catch (Exception ex) when ((ex is IOException || ex is UnauthorizedAccessException) && attempt < RetryDelays.Length)
