@@ -84,7 +84,11 @@ library merge (`OntologyCodeClass.cs:84`), value only in `TemplateMaker.cs:147, 
 `categorize_folder` re-points ROIs by value alone (A.2 item 1, re-checked). With 40 PTV names sharing
 228793007, (a) is the only answer under which matching by value is correct.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-03 (relayed by the project-manager session): **(a), the
+recommendation.** Identity = (scheme, value); Code Meaning from the concept; targets coded Segmented
+Property Category (130041, DCM, "RT Target") with the CID 9534 code as RT ROI Identification Code plus
+Therapeutic Role Category and Type; numeric `FMAID` as an Equivalent Code. P2.1's second half and P4.3
+are unblocked.
 
 **Changes.** Recommended: P2.1 branch (a) (fix in `TemplateEntryMapper` and the meaning table), P4.3,
 P7.1 identity rule (scheme, value); P1.8 adds a meaning-coverage report. Otherwise (b): P2.1 branch (b)
@@ -113,7 +117,10 @@ Note: the source `Structure` select also holds two options named `_TS_CTVsb` and
 **Rationale.** The baseline (P1.3) must pin the source as published; cleaning first would make the
 baseline describe a table nobody downloaded. Inventing codes is worse than omitting them.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** Pass through; report every defect as a build warning; sanitise per vendor at export;
+send the defect list to the base owners; for "88"/"99" omit the identification code and derive only the
+Segmented Property Category from the interpreted type.
 
 **Changes.** Recommended: P1.4 runs the invariants as warnings; P4.2 omits codes. Otherwise "clean
 first": P1.3 pins a cleaned snapshot and P1.4 turns the invariants into gates after the cleanup.
@@ -141,7 +148,11 @@ than `CodingSchemeUID` per item?
 **Rationale.** Context Identifier is Type 3 and the mapping attributes are 1C on it (claim S5); a
 Varian context group asserted on a SNOMED CT code is a false statement (A.4 C1).
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation with both qualifications.** Clear all six context attributes at mapping time for SCT
+and FMA codes not drawn from a named context group; keep `VMS011` only for Varian-dictionary codes
+and, until the P5.3 Eclipse import test, on FMA codes bound for Eclipse; write `CodingSchemeVersion`
+and one top-level Coding Scheme Identification Sequence.
 
 **Changes.** Recommended: P4.1 as written, sequenced after P2.2. Otherwise: P4.1 keeps the context
 attributes and only adds `CodingSchemeVersion`; P2.2 still lands; the A.4 C1 entry stays open in the
@@ -157,7 +168,9 @@ forms) stored per ROI and chosen at export. Today the choice renames `ROIName` i
 (`ROIClass.cs:768-824`, `OnlineTemplatesViewModel.cs:626-654`) and the original is not stored, which
 causes R7 (new records on re-upload).
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** The TG-263 `Structure` name is canonical; language and laterality forms are stored
+per ROI as variants chosen at export; P3.5 fixes R1 and R7; the P7.1 schema has `name` plus `variants`.
 
 **Changes.** Recommended: P3.5 fixes R7 and R1; P7.1 schema has `name` plus `variants`. Otherwise: the
 diff (P3.4) tolerates R7, and the evaluation uses only the default (non-renamed) choice.
@@ -176,7 +189,11 @@ ESAPI's 14 types (no OAR), Monaco's import list (claim O3). Replace `Editors/Int
 The source `Type` select offers 24 options: 21 DICOM terms plus `None`, `Control` and `CONTROL`
 (no OAR, TREATED_VOLUME or DEVICE); records use only 10 values, one of them "Control".
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** The 25 DICOM RT ROI Interpreted Type terms are canonical; the generator maps known
+aliases with a warning (`BODY` to EXTERNAL, `Organ` to ORGAN, `Control` to CONTROL, `None` to empty)
+and refuses anything else; per-vendor maps live with each exporter; one shared 25-term list replaces
+the editor's 22-term list.
 
 **Changes.** Recommended: P4.4 (map + refuse), P6.4 (Varian map). Otherwise "warn only": P4.4 writes
 unknown terms verbatim with a warning and the TPS matrix (P5.2) adds a fixture per unknown term.
@@ -198,7 +215,10 @@ optional ROIs", default off. Treat a missing `Include` key in legacy JSON as tru
 them changes what current users receive; a coded optional structure is more useful present than
 re-created by hand; contour-less ROIs are a normal TPS state (claim R2).
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** Keep writing Consider ROIs after the Recommend ROIs, each with ROI Description
+"optional (TG-263 Consider)"; add the per-template "omit optional ROIs" switch, default off; a legacy
+template without the `Include` key reads as true.
 
 **Changes.** Recommended: P4.8, P4.9. Otherwise "omit": P4.8 filters on `Include`; inventories (P4.10)
 lose the Consider ROIs; the TPS fixture "Include=false ROI" (P5.2) expects absence.
@@ -213,7 +233,10 @@ because `ToRoiWrapper` ignores them, `TemplateEntryMapper.cs:65-88`). In the can
 a `vendor.varian` block holding them plus `ContourStyle`, `DVHLine*`, `TypeIndex`; only the Varian
 exporter reads it.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** Read `DVH_Type_Index` and `DVH_ContourStyle` and carry them through unchanged now
+(fixes R6); in the P7.1 canonical model a `vendor.varian` block holds them with `ContourStyle`, the
+DVH line fields and `TypeIndex`, read only by the Varian exporter.
 
 **Changes.** Recommended: P3.5 (R6), P7.1. Otherwise "apply on read": P3.5 maps them onto `ROIClass`
 fields used by the Varian writer and no extension block is created.
@@ -243,8 +266,12 @@ get its own snapshot workflow?
   its plan (Free 1,000 calls/month vs Team 100,000, claim A2).
 - Lasting team base: no snapshot workflow until it is decided to be lasting.
 
-**Answer.** Canonical base ______; spelling ______; owner/plan of each base ______; target workspace
-and plan ______; Anderson 2024 base ______; share-link Copy base ______.
+**Answer.** Brian Anderson, 2026-11-03 (relayed by the project-manager session): **accept the
+recommendation, details to follow.** Canonical base `appYl68lenTOFqTDh`; spelling: the canonical
+base's (`TG_263RSpanish`, `TG_263RFrench`), the code reads both; owner/plan of each base: pending;
+target workspace and plan: a workspace the maintainers own that does not host the canonical base, name
+and plan pending; Anderson 2024 base: pending; share-link Copy base: pending. The pending facts are
+asked for when P0.5 or P3 is next; P1, P2 and P4 do not wait on them.
 
 **Changes.** Recommended: P0.5, P2.8, P3.1, quota table in `EVALUATION_PROTOCOL.md` section 2.5.
 Otherwise (`appzWlVKRp9TrrTUJ` canonical): the snapshot workflow (`refresh-template-snapshot.yml`)
@@ -263,7 +290,10 @@ sort (`AirtableTableSource.cs:329`); only `TableExporter` sorts (`--sort-field R
 `refresh-template-snapshot.yml:65`). Verified: the snapshot's first and last records are `Record` 1 and
 `Record` 325 in the live table, and `createdTime` is monotonic in the snapshot.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** Live reads send `sort[0][field]=Record` when the table has a `Record` autonumber,
+otherwise sort client-side by `createdTime` then record id; P2.10 lands and the P4.9 acceptance applies
+to live and snapshot builds.
 
 **Changes.** Recommended: P2.10, P4.9 acceptance. Otherwise: P4.9 acceptance applies to snapshot
 builds only and live builds are documented as unordered.
@@ -279,7 +309,10 @@ current site from the opposite list (Recommend vs Consider) of a written ROI. No
 (`IAirtableApi` has list, create and update only). No per-site overrides; warn in the dry run when a
 write changes a scalar column of a record that other sites list.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** Writes stay additive; the dry run lists remote-only ROIs and sites for a human to
+prune; no per-site overrides, and the dry run warns when a write changes a scalar column of a record
+other sites list. P3.5 tolerates R8 and fixes R10; P3.9 shows the dry run.
 
 **Changes.** Recommended: P3.5 (R8 tolerated, R10 fixed), P3.9 dry run. Otherwise "sync": a new
 `WritePlanner` removal branch, a delete endpoint, and an idempotency acceptance that also checks
@@ -293,7 +326,9 @@ removals; the driver gains a confirmation for deletes.
 claim A6); the template-folder path is the product write path and is what G2 evaluates. Revisit only
 if a lasting team base must be kept in step with the public one.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** No record-level copier now; "Duplicate base" is the faithful copy; P3.8 is skipped
+and R9 is tolerated in the round-trip diff.
 
 **Changes.** Recommended: P3.8 is skipped; R9 is tolerated in the diff. Otherwise: P3.8 builds
 `TemplateEvaluationTool copy-table` (raw `GET` of every field, batched creates with `typecast`), with
@@ -306,7 +341,8 @@ its own diff that expects zero differences except record ids and `Record` values
 **Recommendation.** Both: leg (a) first (no code dependency), leg (b) after P2.2 makes `interpret_RT`
 tolerant. Leg (b) is what proves the DICOM from WS1 carries the template.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **both, the
+recommendation.** Leg (a) first (P3.3), leg (b) after it (P3.7); `WriteToAirTable.py` is retired.
 
 **Changes.** Recommended: P3.3 and P3.7. Otherwise only one of them; `WriteToAirTable.py` is retired in
 either case.
@@ -324,7 +360,10 @@ test (`TemplateSourceCatalog.cs:156-169`, one record, token as entered) adds `GE
 `WritePlan.RequestCount` (`WritePlanner.cs:35-38`, used only by tests today) and creates/updates per
 site.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept all
+three.** (a) `AIRTABLE_PAT` overrides only the connection named in a second variable; (b) the
+connection test adds the `whoami` scopes and a column check; (c) both windows show the dry run
+(`RequestCount`, creates and updates per site) before the first request, with one shared warning cap.
 
 **Changes.** Recommended: P3.9. Otherwise: P3.9 records the current behaviour only and the protocol's
 clean-state rule (unset `AIRTABLE_PAT`) stays mandatory.
@@ -335,7 +374,9 @@ clean-state rule (unset `AIRTABLE_PAT`) stays mandatory.
 `TemplateSnapshotTool`, in the solution and CI but not in the release zip (`ci.yml` publishes only the
 GUI). Promote commands to the product CLI after P7 if wanted.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **keep internal,
+the recommendation.** `TemplateEvaluationTool` stays an internal console project in the solution and
+CI, not in the release zip; promotion to the product command line is possible after P7.
 
 **Changes.** Recommended: P1.1. Otherwise (product): P1.1 adds the commands to
 `DicomTemplateMakerCSharp`, the release job packages it, and the README documents them.
@@ -359,7 +400,12 @@ RayStation exports SEMIAUTOMATIC, claim R5). "Not for clinical
 use" belongs only in evaluation fixtures (P5.2): the runner's purpose is to put these RTs on real
 planning series (README line 3), so a blanket marker would be false in production.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (relayed by the project-manager session): **accept the
+recommendation.** `Manufacturer` and `ManufacturerModelName` "DicomTemplateMaker"; `SoftwareVersions` =
+version plus git SHA; `ROIInterpreter` empty; `SeriesDescription` "TG-263 template: <name>";
+`StructureSetName` = template name; `StructureSetDescription` naming template and source;
+`ApprovalStatus UNAPPROVED` deliberate; `ROIGenerationAlgorithm MANUAL`; no clinical-use marker in
+production RTs.
 
 **Changes.** Recommended: P4.5. Otherwise: P4.5 uses the maintainers' strings; the inventory diff
 (P4.10) is the review point either way.
@@ -372,7 +418,10 @@ unchanged" behaviour and the CLI's "template missing" error; both become obsolet
 (RayStation export, Implicit VR LE, ISO_IR 100, `Manufacturer "RaySearch Laboratories"`,
 `StructureSetLabel "RS: Unapproved"`, one ROI) is then removed from the package.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (in the project-manager session): **build from scratch, the
+recommendation.** Each module is written deliberately against the P1.6 baseline inventory, the transfer
+syntax as D14 chooses; `template_RS.dcm` leaves the package, and with it the "template file unchanged"
+behaviour and the command line's "template missing" error.
 
 **Changes.** Recommended: P4.6. Otherwise "curated seed": P4.6 rewrites `template_RS.dcm` to a
 minimal reviewed seed (inventory committed beside it) and adds a test that fails when the seed gains
@@ -389,7 +438,12 @@ party reports Eclipse 18.1 truncating a 22-character label and rejecting an empt
 reject a template set whose labels collide (the legacy `AbdPelv_Prostate_Intact`/`_Postop` pair) with
 a message naming both; full name in `StructureSetName`.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (in the project-manager session): **accept the
+recommendation.** Implicit VR Little Endian is the default, Explicit VR Little Endian an option; names
+over 16 characters warn at build and are refused by the Eclipse exporter unless an alias under 17
+characters exists; names that duplicate ignoring case and trailing spaces are refused at generation;
+`StructureSetLabel` is the first 16 characters and colliding labels are rejected with a message naming
+both; the full name goes in `StructureSetName`.
 
 **Changes.** Recommended: P4.6, P4.7. Otherwise: the chosen syntax and policies replace these in
 P4.6/P4.7 and in the realism checker (P2.4).
@@ -405,7 +459,10 @@ imports, and what test-patient identity convention does each site require?
 cheapest additional system. Identity: `ZZTEST^TG263TEMPLATE`, `PatientID` with a site-reserved test
 prefix, unless a site convention exists.
 
-**Answer.** Systems/versions ______; operators ______; identity convention per site ______.
+**Answer.** Brian Anderson, 2026-11-03 (relayed by the project-manager session): **Eclipse test
+database first, the recommendation.** Systems/versions: a test or research Eclipse/ARIA database first,
+RayStation and a ProKnow sandbox if available; versions pending. Operators: pending. Identity
+convention per site: `ZZTEST^TG263TEMPLATE` / `ZZTEST-0001` (the P0.2 identity).
 
 **Changes.** Every P5 step; P0.2 uses the site convention when given.
 
@@ -419,7 +476,10 @@ to the prompt: the Varian System Server 18.0 and 18.1 DICOM conformance statemen
 from the vendor's interoperability page, claim V11), so read them in P6.1 rather than requesting them;
 take a fresh template export from our Eclipse before changing the writer.
 
-**Answer.** Versions ______; statement read ______; fresh export ______.
+**Answer.** Brian Anderson, 2026-11-04 (in the project-manager session): **accept the recommendation,
+versions pending.** Target Version 1.2 with 1.1 selectable; P6.1 reads the public Varian System Server
+18.0/18.1 conformance statements; a fresh template export from our Eclipse comes before the writer
+changes. Versions in clinical use: pending; statement read: not yet (P6.1); fresh export: pending.
 
 **Changes.** P6.1, P6.3, P6.4. If only 1.1 systems are in scope: P6.4 keeps 1.1 as default.
 
@@ -437,7 +497,11 @@ tool: it rewrites templates globally, keeps the Varian context attributes, and `
 forbids one value in two schemes (`OntologyEntryRules.cs:37-41`, broader than stated: any duplicate
 value is rejected).
 
-**Answer.** Active dictionaries ______; SRT populated ______; choice ______.
+**Answer.** Brian Anderson, 2026-11-04 (in the project-manager session): **accept the recommendation,
+facts pending.** No `StructureCode` for SCT-coded ROIs in Eclipse XML until P6.2 and P6.3 are done;
+then FMA from the numeric `FMAID` values present in the active FMA dictionary; SRT only with a populated
+SRT dictionary and a sourced crosswalk, never a designator swap; `FMA_SNOMEDCT_Key.txt` stays an editor
+tool. Active dictionaries: pending; SRT populated: pending (both from the P6.2 export).
 
 **Changes.** P6.2-P6.4. Otherwise "crosswalk": P6.2 sources and commits an SCT→SRT table with its
 provenance. Otherwise "via key file": P6.4 uses `FMAID_SNOMED_OntologyClass` per export, not per
@@ -454,7 +518,11 @@ vendors: RTSTRUCT only. Outreach owner: a maintainer to name. The vendor-neutral
 TG-263 report cites is DICOM Supplement 196 "Segmentation Creation Template", a 2016 working-group
 draft that was never finalised (claim S11): nothing to adopt.
 
-**Answer.** Strategy ______; vendors ______; outreach owner ______.
+**Answer.** Brian Anderson, 2026-11-04 (in the project-manager session): **accept the recommendation,
+outreach owner pending.** Strategy: fix the Varian writer in place now (P6), canonical model and
+exporters (P7.1) once two non-Varian exporters are approved, RTSTRUCT with empty ROIs the universal
+carrier. Vendors: Varian XML and an ESAPI apply-template script; ProKnow CSV after a sandbox confirms
+the format; a RayStation script if P5.4 has access; RTSTRUCT only for the rest. Outreach owner: pending.
 
 **Changes.** P6, P7. Otherwise "rebuild now": P7.1 moves before P6.4 and the Varian writer is rewritten
 behind it. Otherwise "keep and add": P6.4 shrinks to the defects that block imports.
@@ -465,7 +533,10 @@ behind it. Otherwise "keep and add": P6.4 shrinks to the defects that block impo
 are wanted, delete the rest of the 2019-2022 pipeline with D21. If in scope later, start from a
 protocol exported by our Eclipse (Protocol 1.10-1.12), not `Clinical Protocol Template.xml` (1.9).
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-04 (in the project-manager session): **in scope, in a later phase**
+(differs from the recommendation, so the "Otherwise" branch applies). A new phase after P6, with its own
+fresh protocol export from our Eclipse and its own corpus; P6.7 does not delete the Clinical Protocol
+pipeline.
 
 **Changes.** P6.7. Otherwise: a new phase after P6 with its own fresh export and corpus.
 
@@ -482,7 +553,10 @@ protocol exported by our Eclipse (Protocol 1.10-1.12), not `Clinical Protocol Te
 | Varian share settings window | Keep deferred until P6 lands |
 | Template matching semantics | Keep two-way substring; add exact-match precedence and tests ("H&N" vs "H&N Planning CT" still matches) |
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-05 (in the project-manager session): **accept the recommendation.**
+"(no code)" is done in P4.2; template matching keeps the two-way substring and gains exact-match
+precedence with tests; the rename item stays deferred and is documented in the README; the header
+cache, on-disk change detection and the Varian share settings window (until P6 lands) stay deferred.
 
 ### D21. Legacy files, licence, third-party files
 
@@ -500,7 +574,15 @@ protocol exported by our Eclipse (Protocol 1.10-1.12), not `Clinical Protocol Te
 | Snapshot workflow | Open a pull request instead of pushing to `main` |
 | `FMA_SNOMEDCT_Key.txt` Google Sheet | Maintainers to name the owner; stop regenerating until D17 is answered |
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-05 (in the project-manager session): **Apache-2.0; the files as
+recommended, except that the `Xaml_Maker` protocol files stay.** Licence Apache-2.0 (P0.4, before
+`v1.1.0`). `Paper/` to a release asset or separate repository, then deleted; the nine root Python
+scripts deleted; `AirTableRecords/` archived; `Test_Base_key.txt` and `Test_Table_key.txt` deleted;
+`ontology.pkl` and `FMAID To SNOMED_Updated.xlsx` deleted once nothing needs them; no unlicensed or
+copyleft third-party file committed; the snapshot workflow's pull request stays (done since P1.4).
+Because D19 puts the Clinical Protocol XML in scope for a later phase, the `Xaml_Maker` notebooks,
+`.py`, `.docx` and `.xlsx` files are kept until that phase decides what it reuses. Owner of the
+`FMA_SNOMEDCT_Key.txt` Google Sheet: pending.
 
 **Changes.** P0.3, P0.4, P1.8, P6.1, P6.7, hygiene backlog.
 
@@ -510,7 +592,9 @@ protocol exported by our Eclipse (Protocol 1.10-1.12), not `Clinical Protocol Te
 (`RTCleaner.cs:24-33`), only empties Contour Image Sequences and keeps patient identity and UIDs; the
 GUI's "Add ROIs from an RT Structure file" covers the use case once P2.2 lands.
 
-**Answer.** ______
+**Answer.** Brian Anderson, 2026-11-05 (in the project-manager session): **retire, the
+recommendation.** P4.12 removes `CleaningRTStructureCsharp`; "Add ROIs from an RT Structure file"
+covers the use case.
 
 **Changes.** P4.12. Otherwise: P4.12 adds null checks, new SOP Instance UIDs and tests, and states in
 its help text that it is not a de-identifier.
