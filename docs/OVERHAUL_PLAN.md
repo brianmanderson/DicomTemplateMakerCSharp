@@ -5,9 +5,37 @@ Written 2026-10-15 against `e7f0572` (main) from
 and answer blanks), `EVALUATION_PROTOCOL.md` (exact procedures), `OVERHAUL_CLAIMS.md` (every vendor and
 standards claim relied on, plus the re-check status of every appendix fact).
 
-Status (2026-11-03): pull requests 9 to 21 of this repository, merged 2026-10-16 to 2026-10-18,
-landed parts of P0, P1 and P2 on `main`; each pull request title names the plan steps it covers. The
-answer blanks in `OVERHAUL_DECISIONS.md` are not yet filled in.
+Status (2026-11-05; `main` at `de002b7`): pull requests 9 to 21, merged 2026-10-16 to 2026-10-18, landed P0.2,
+P0.3, P0.6, P1.2-P1.8 and P2.2-P2.9 in full, P1.1 without its `export-table`, `diff-tables` and `fixtures`
+commands, P2.1's guard (its second half now follows D1), and the RR1-RR10 half of P2.4. Pull request 29
+(2026-11-05) landed P0.4 (Apache-2.0 `LICENSE`). P0.7 is done apart from the clean-VM install: the
+publish rehearsal passed at `1.1.0-rc.3`, and a missing snapshot fails the release job (pull request 26).
+P0.5, P1.9, P2.10 and everything from P3 on are not started.
+Decisions (updated 2026-11-05): all twenty-five answer blanks in `OVERHAUL_DECISIONS.md` are filled
+by Brian Anderson (2026-11-03 to 2026-11-05). Every answer accepts the recommendation except D19:
+the Clinical Protocol XML is in scope, in a later phase after P6. Facts still pending: the D7 workspace
+details, the D15 versions and operators, the D16 Eclipse versions, the D17 dictionaries, the D18
+outreach owner and the D21 key-sheet owner. P0.1 was closed by maintainer decision (no revocation).
+No step from P3 on has started. Every P4 step may now be scheduled; P3, P5 and P6.2-P6.4 wait on the
+pending facts.
+
+Release `v1.1.0` is not a plan step but the release that follows this work. Its status:
+
+- These pull requests are merged:
+  - the fixes for the QA findings F-1 to F-7 (23-27, 30, 31);
+  - the README note on O-6 (28);
+  - the licence (29).
+- The release-candidate pass at `de002b7` is green: gate, baseline, validators, publish rehearsal and
+  Windows checks.
+- Left before the tag: the snapshot workflow run, the clean-VM install, and the user's push of the
+  tag.
+
+Where the details are:
+
+- Per-step evidence and the release-readiness list: `docs/STATUS.md`.
+- The gate, baseline reproduction, validators, tools, publish rehearsal and Windows checks of
+  2026-11-03/04, and the release-candidate recheck of 2026-11-05: `docs/WORKFLOW_TEST_REPORT.md`.
+- The system drawing: `docs/ARCHITECTURE.md`.
 
 The request, in four goals: **G1** download the shared TG-263 template as DICOM; **G2** re-upload it to an
 Airtable base we control; **G3** test the DICOM; **G4a** a more robust way to make the Varian Eclipse
